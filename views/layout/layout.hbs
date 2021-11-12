@@ -1,0 +1,851 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <style>
+        label.error {
+            color: red !important;
+        }
+    </style>
+    {{#if admin}}
+
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+    <link rel="stylesheet" href="/admin/css/custom-styles.css" type="text/css">
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
+
+    
+    {{else}}
+    {{#if otp}}
+    <link rel="stylesheet" href="/css/otp.css" type="text/css">
+    {{/if}}
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- CSS ================================================== -->
+    <link href="/stylesheets/timber.scss2fc5.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="/stylesheets/preloader30d1.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="/stylesheets/bootstrap.minc79f.css" rel="stylesheet" type="text/css"
+        media="all" />
+    <link href="/stylesheets/magnific-popup5b32.css" rel="stylesheet" type="text/css"
+        media="all" />
+    <link href="/stylesheets/meanmenu.minbc44.css" rel="stylesheet" type="text/css"
+        media="all" />
+    <link href="/stylesheets/jquery-uife68.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="/stylesheets/animated737.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="/stylesheets/owl.carousel.min22a5.css" rel="stylesheet" type="text/css"
+        media="all" />
+    <link href="/stylesheets/slinky.min9251.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="/stylesheets/slick0782.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="/stylesheets/ionicons.minb771.css" rel="stylesheet" type="text/css"
+        media="all" />
+    <link href="/stylesheets/bundlec3c7.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="/stylesheets/style060d.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="/stylesheets/customcd1b.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="/stylesheets/responsivecaca.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="/stylesheets/custom-responsivee203.css" rel="stylesheet" type="text/css"
+        media="all" />
+    <link href="/stylesheets/skin-theme19f0.css" rel="stylesheet" type="text/css" media="all" />
+    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+
+    {{/if}}
+
+    <title>Watchin E-Commerce</title>
+
+</head>
+
+<body>
+    {{#if admin}}
+    <div class="page-wrapper chiller-theme toggled">
+        {{>admin-header}}
+        <main class="page-content">
+            <div class="container-fluid">
+
+
+                {{{body}}}
+
+            </div>
+        </main>
+    </div>
+    {{else }}
+    {{#if login}}
+    {{>login-header}}
+    {{{body}}}
+    {{else }}
+    {{>user-header}}
+    {{{body}}}
+    {{/if}}
+    {{/if}}
+
+    {{#if users}}
+    {{>user-footer}}
+    {{/if}}
+
+
+
+
+
+    {{#if admin}}
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.js"
+        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <script type="text/javascript" charset="utf8"
+        src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#adminTable').DataTable();
+        });
+        $('#adminTable tbody tr').each(function (idx) {
+            $(this).children("td:eq(0)").html(idx + 1);
+        });
+    </script>
+
+
+
+
+
+
+
+    <script>
+        $(document).ready(function () { 
+            $('#add-prod').validate({
+                rules: {
+                    name: {
+                        required: true,
+                        minlength: 4
+                    },
+                    description: {
+                        required: true,
+                        minlength: 4
+                    },
+                    price: {
+                        required: true
+
+                    },
+                    stock: {
+                        required: true
+                    },
+                    image1: {
+                        required: true
+                    },
+                    image2: {
+                        required: true
+                    },
+                    image3: {
+                        required: true
+                    },
+                    image4: {
+                        required: true
+                    },
+                    category:{
+                        required:true
+                    }
+
+
+                }
+            })
+
+        })
+
+    </script>
+    <script>
+        function viewMainImage(event) {
+            document.getElementById('imgView').src = URL.createObjectURL(event.target.files[0])
+            let file = event.target.files[0].name
+            let extension = file.split('.').pop()
+            if (extension == 'jpeg' || extension == 'png' || extension == 'jpg') {
+                $('#imgView').show()
+                $('#sub').show()
+                $('#errMsg').hide()
+
+            }
+            else {
+                $('#sub').hide()
+                $('#errMsg').show()
+            }
+        }
+
+        function viewImage1(event) {
+            document.getElementById('imgView1').src = URL.createObjectURL(event.target.files[0])
+            let file = event.target.files[0].name
+            let extension = file.split('.').pop()
+            if (extension == 'jpeg' || extension == 'png' || extension == 'jpg') {
+                $('#imgView1').show()
+                $('#sub').show()
+                $('#errMsg').hide()
+
+            }
+            else {
+                $('#sub').hide()
+                $('#errMsg').show()
+            }
+        }
+        function viewImage2(event) {
+            document.getElementById('imgView2').src = URL.createObjectURL(event.target.files[0])
+            let file = event.target.files[0].name
+            let extension = file.split('.').pop()
+            if (extension == 'jpeg' || extension == 'png' || extension == 'jpg') {
+                $('#imgView2').show()
+                $('#sub').show()
+                $('#errMsg').hide()
+            }
+            else {
+                $('#sub').hide()
+                $('#errMsg').show()
+            }
+        }
+        function viewImage3(event) {
+            document.getElementById('imgView3').src = URL.createObjectURL(event.target.files[0])
+            let file = event.target.files[0].name
+            let extension = file.split('.').pop()
+            if (extension == 'jpeg' || extension == 'png' || extension == 'jpg') {
+                $('#imgView3').show()
+                $('#sub').show()
+                $('#errMsg').hide()
+            }
+            else {
+                $('#sub').hide()
+                $('#errMsg').show()
+            }
+        }
+    </script>
+    <script>
+        jQuery(function ($) {
+
+            $(".sidebar-dropdown > a").click(function () {
+                $(".sidebar-submenu").slideUp(200);
+                if (
+                    $(this)
+                        .parent()
+                        .hasClass("active")
+                ) {
+                    $(".sidebar-dropdown").removeClass("active");
+                    $(this)
+                        .parent()
+                        .removeClass("active");
+                } else {
+                    $(".sidebar-dropdown").removeClass("active");
+                    $(this)
+                        .next(".sidebar-submenu")
+                        .slideDown(200);
+                    $(this)
+                        .parent()
+                        .addClass("active");
+                }
+            });
+
+            $("#close-sidebar").click(function () {
+                $(".page-wrapper").removeClass("toggled");
+            });
+            $("#show-sidebar").click(function () {
+                $(".page-wrapper").addClass("toggled");
+            });
+
+
+
+
+        });
+    </script>
+
+    {{else}}
+
+    {{#if otp}}
+    <script src="/js/otp.js"></script>
+    {{/if}}
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <script src="../ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="javascripts/modernizr-2.8.3.min3774.js?v=17472752542221191523"></script>
+
+
+    <script src="/javascripts/jquery-1.12.0.min1853.js"></script>
+    <script src="/javascripts/popper97a2.js"></script>
+    <script src="/javascripts/bootstrap.min9c20.js"></script>
+    <script src="/javascripts/jquery.magnific-popup.min440a.js"></script>
+    <script src="/javascripts/isotope.pkgd.min17e2.js"></script>
+    <script src="/javascripts/imagesloaded.pkgd.min9519.js"></script>
+    <script src="/javascripts/jquery.counterup.min921d.js"></script>
+    <script src="/javascripts/waypoints.min0bf0.js"></script>
+    <script src="/javascripts/slinky.mindba1.js"></script>
+    <script src="/javascripts/ajax-mailf4d5.js"></script>
+    <script src="/javascripts/owl.carousel.min29bc.js"></script>
+    <script src="/javascripts/plugins2810.js"></script>
+    <script src="/javascripts/jquery.elevatezoom2746.js"></script>
+    <script src="/javascripts/jquery.parallax-1.1.3af8e.js"></script>
+    <script src="/javascripts/jquery.matchHeightf621.js"></script>
+    <!-- Ajax Cart js -->
+
+    <script
+        src="j/avascripts/option_selection-fe6b72c2bbdd3369ac0bfefe8648e3c889efca213baefd4cfb0dd9363563831f.js"></script>
+    <script src="/javascripts/api.jquery-e94e010e92e659b566dbc436fdfe5242764380e00398907a14955ba301a4749f.js"></script>
+    <script src="/javascripts/cart.apibf35.js?v=17438701452047261962"></script>
+    <script src="/javascripts/themed240.js?v=3952815461228766799"></script>
+    <script
+        src="/javascripts/shopify_common-8ea6ac3faf357236a97f5de749df4da6e8436ca107bc3a4ee805cbf08bc47392.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.js"></script>
+
+
+
+    {{!-- Form Validtions --}}
+    <script>
+        $(document).ready(function () {
+            $('#adminLogin').validate({
+                rules: {
+                    email: {
+                        required: true,
+                        email: true
+                    },
+                    password: {
+                        minlength: 4,
+                        required: true
+                    }
+
+
+
+                }
+            })
+
+        })
+        $(document).ready(function () {
+            $('#userLogin').validate({
+                rules: {
+                    mobileNo: {
+                        required: true,
+                        number: true,
+                        minlength: 10,
+                        maxlength: 10,
+                    },
+                    password: {
+                        minlength: 4,
+                        required: true
+                    },
+                    otp:{
+                        minlength:6,
+                        maxlength:6,
+                        required:true,
+                        number:true
+                    }
+
+
+
+                }
+            })
+
+        })
+
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#signup').validate({
+                rules: {
+                    firstName: {
+                        required: true,
+                        minlength: 4,
+                        maxlength: 20
+
+                    },
+                    lastName: {
+                        required: true,
+                        minlength: 4,
+                        maxlength: 15
+
+                    },
+                    mobileNo: {
+                        required: true,
+                        number: true,
+                        minlength: 10,
+                        maxlength: 10,
+                    },
+                    email:{
+                        required:true,
+                        email:true
+                    },
+                    password: {
+                        minlength: 4,
+                        required: true
+                    }
+
+
+
+                }
+            })
+
+        })
+    </script>
+
+
+    {{!-- slider starts --}}
+    <script>
+        $('.slider-active').owlCarousel({
+            loop: true,
+            nav: true,
+            autoplay: false,
+            autoplayTimeout: 5000,
+            animateOut: 'fadeOut',
+            animateIn: 'fadeIn',
+            item: 1,
+            navText: ['<i class="ion-ios-arrow-left"></i>', '<i class="ion-ios-arrow-right"></i>'],
+            responsive: {
+                0: {
+                    items: 1
+                },
+                768: {
+                    items: 1
+                },
+                1000: {
+                    items: 1
+                }
+            }
+        })
+    </script>
+    <script>
+        /* product slider active */
+        $('.product-slider-active').owlCarousel({
+            loop: true,
+            nav: false,
+            item: 4,
+            responsive: {
+                0: {
+                    items: 1
+                },
+                768: {
+                    items: 2
+                },
+                992: {
+                    items: 3
+                },
+                1000: {
+                    items: 4
+                },
+                1200: {
+                    items: 4
+                }
+            }
+        })
+    </script>
+
+    {{!-- Toggle --}}
+    <script>
+        $(document).ready(function () {
+            $(".cur_toggle").click(function () {
+                $(".cur_drop").slideToggle(500);
+            });
+        });
+    </script>
+    <script>
+        // grab an element
+        var myElement = document.querySelector(".intelligent-header");
+        // construct an instance of Headroom, passing the element
+        var headroom = new Headroom(myElement);
+        // initialise
+        headroom.init();
+    </script>
+    <div class="modal fade" id="quickViewModal" tabindex="-1" tabindex="-1" role="dialog">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span class="ion-android-close" aria-hidden="true"></span>
+        </button>
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+
+                    <div class="qwick-view-left">
+                        <div class="quick-view-learg-img">
+                            <div class="quick-view-tab-content tab-content">
+                                <div class="product-main-image__item">
+                                    <div class="img_box_1"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="qwick-view-right">
+                        <div class="qwick-view-content">
+                            <h3 class="product_title">FROM_JS</h3>
+                            <div class="price product-info__price price-part">
+                                <span class="new price-box__new">jsprice</span>
+                                <span class="old main">jsprice </span>
+                            </div>
+
+                            <div class="small-product-des quick-desc">
+                                <div class="divider divider--xs product-info__divider"></div>
+                                <div class="product-info__description product-des">FROM_JS</div>
+                            </div>
+
+
+                            <form id="add-item-qv" action="https://watchin-1.myshopify.com/cart/add" method="post">
+                                <div class="quick-view-select variants"></div>
+                                <div class="quickview-plus-minus wrapper">
+                                    <div class="cart-plus-minus">
+                                        <input type="text" value="01" name="quantity" class="cart-plus-minus-box">
+                                    </div>
+                                    <div class="quickview-btn-cart">
+                                        <a class="btn-hover-black addtocartqv" href="#">add to cart</a>
+                                    </div>
+
+                                    <div class="quickview-btn-wishlist rhs_qcv">
+
+                                        <a href="account/login.html" title="Wishlist"
+                                            class="btn-hover list-btn-wishlist animate-left">
+                                            <i class="ion-ios-heart-outline"></i>
+                                        </a>
+
+
+                                    </div>
+                                </div>
+                                <script>
+                                    jQuery('.addtocartqv').click(function (e) {
+                                        e.preventDefault();
+                                        Shopify.addItemFromFormStart('add-item-qv', jQuery(this).attr('id'));
+                                    });
+                                </script>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <div class="quickViewModal_info" style="display: none;">
+        <div class="button">Add to Cart</div>
+        <div class="button_added"><i class="ion-checkmark-round"></i></div>
+        <div class="button_error"><span class="icon icon-shopping_basket"></span> Limit Products</div>
+        <div class="button_wait"><i class="ion-ios-loop-strong animated rotateIn infinite"></i></div>
+    </div>
+
+
+
+
+    {{!--
+    <script>
+        var mainImage = '';
+        jQuery(function ($) {
+
+            quiqview = function (product_handle) {
+                Shopify.getProduct(product_handle);
+            }
+            Shopify.onProduct = function (product) {
+                $('.viewfullinfo').attr('href', product.url);
+
+                var _parent = '#quickViewModal';
+                $(_parent + ' .product_title').text(product.title);
+                $(_parent + ' .product_dec').html(product.description);
+
+                $(_parent + ' .rating').empty();
+                $(_parent + ' .rating').append("<span class=\"shopify-product-reviews-badge\" data-id=\"" + product.id + "\"></span>");
+
+
+                //check variants
+                var variant = '';
+
+                for (i = 0; i < product.variants.length; i++) {
+                    if (product.variants[i].inventory_quantity > 0) {
+                        variant = product.variants[i];
+                        break;
+                    }
+                }
+
+                if (variant == '') {
+                    for (i = 0; i < product.variants.length; i++) {
+                        if (product.variants[i].inventory_policy == "continue") {
+                            variant = product.variants[i];
+                            break;
+                        }
+                    }
+                    if (variant == '') {
+                        variant = product.variants[0];
+                    }
+                }
+
+                mainImage = product.featured_image;
+                var shopifyimgurl = variant.featured_image ? variant.featured_image.src : product.featured_image;
+                var imgurl = "<img class=\"full-width\" alt=\"\" src = \"" + shopifyimgurl + "\" >";
+                jQuery(_parent + ' .product-main-image__item .img_box_1').empty();
+                jQuery(_parent + ' .product-main-image__item .img_box_1').append(imgurl);
+                jQuery(_parent + ' .product-main-image__item .img_box_2').empty();
+                jQuery(_parent + ' .product-main-image__item .img_box_2').append(imgurl);
+
+                var desc = product.description;
+                if (desc.indexOf("[short_description]") >= 0) {
+                    desc = desc.split("[short_description]");
+                    desc = desc[1].split("[/short_description]");
+                    $(_parent + ' .product-des').show();
+                    $(_parent + ' .product-des').html(desc[0]);
+                }
+                else {
+                    $(_parent + ' .small-product-des').hide();
+                }
+
+                //set variants property
+                var inv_qua = variant.inventory_quantity;
+                //price
+                if (variant.price < variant.compare_at_price) {
+                    $('.price-part .main').addClass('amount');
+                    $('.price-part .price-box__new').show();
+                    changePriceValue('.price-part .main', variant.compare_at_price);
+                    changePriceValue('.price-part .price-box__new', variant.price);
+                }
+                else {
+                    $('.price-part .price-box__new').hide();
+                    $('.price-part .main').removeClass('amount');
+                    changePriceValue('.price-part .main', variant.price);
+                }
+
+                // Variants select
+                if (product.variants.length > 1) {
+                    var variants_margin = product.options.length == 2 ? 'variants_margin' : '';
+
+                    var select = '<select id="product-select-qv" name="id">';
+                    var selected = 'selected';
+                    for (i = 0; i < product.variants.length; i++) {
+                        var _var = product.variants[i];
+                        if (_var.available) {
+                            select += '<option value="' + _var.id + '"' + selected + '>' + _var.title + ' - ' + Shopify.formatMoney(_var.price, "<span class=money>${{amount}}</span>") + '</option>'
+                            selected = '';
+                        }
+                    }
+                    select += '</select>';
+
+                    var variant_select = '<div class="variants_selects ' + variants_margin + '">';
+                    variant_select += select;
+                    variant_select += '</div><div class="divider divider--sm"></div>';
+                    select = variant_select;
+                }
+                else {
+                    var select = '<input type="hidden" name="id" value="' + product.variants[0].id + '" />';
+                }
+                $('.variants').empty();
+                $('.variants').html(select);
+
+                //parametres
+                setParametresText(_parent + ' .product-sku', variant.sku);
+                if (jQuery(_parent + ' .product-sku').length) {
+                    var $ava = jQuery(_parent + " .product-info__availabilitu");
+                    if (variant.sku != "") {
+                        if ($ava.hasClass('pull-left')) { $ava.removeClass('pull-left') }
+                    } else {
+                        if (!$ava.hasClass('pull-left')) { $ava.addClass('pull-left') }
+                    }
+                }
+
+                //quantity
+                var out_of_stock = false;
+                if (variant.inventory_management) {
+                    if (inv_qua > 0) {
+                        $(_parent + ' .product-availability').text(inv_qua + " In Stock");
+                    }
+                    else {
+                        out_of_stock = true;
+                        $(_parent + ' .product-availability').text("In Stock");
+                    }
+                }
+                else {
+                    $(_parent + ' .product-availability').text("Many in stock");
+                }
+
+                // button
+                if (!out_of_stock || variant.inventory_policy == "continue") {
+                    $('.product-available').show();
+                    $('.product-disable').hide();
+                    $('.addtocartqv').attr('id', product.id);
+                }
+                else {
+                    $('.product-available').hide();
+                    $('.product-disable').show();
+                }
+
+                if (product.available && product.variants.length > 1) {
+                    new Shopify.OptionSelectors("product-select-qv", { product: product, onVariantSelected: selectCallbackQv, enableHistoryState: true });
+
+                    if ($('#quickViewModal .variants_selects .selector-wrapper').length > 0) {
+                        $.each(jQuery('#quickViewModal .variants_selects .selector-wrapper'), function (index) {
+                            $(this).find('label').text(product.options[index].name);
+                        });
+                    }
+                }
+                else {
+                    jQuery('.currency .active').trigger('click');
+                }
+                selectGrid(_parent);
+
+                if ($(".spr-badge").length > 0) {
+                    $.getScript(window.location.protocol + "//productreviews.shopifycdn.com/assets/v4/spr.js");
+                }
+
+                if ($(".selector-wrapper label").length) {
+                    $(".selector-wrapper label").each(function (index) {
+                        $(this).text(jQuery(this).text() + ":");
+                    });
+                }
+
+                $(_parent).modal('show');
+
+                if (!('ontouchstart' in window) &&
+                    !navigator.msMaxTouchPoints &&
+                    !navigator.userAgent.toLowerCase().match(/windows phone os 7/i)) return false;
+
+                $j('body').css("top", -$j('body').scrollTop());
+                $j('body').addClass("no-scroll");
+                $j('.close').click(function () {
+                    var top = parseInt($j('body').css("top").replace("px", "")) * -1;
+                    $j('body').removeAttr("style");
+                    $j('body').removeClass("no-scroll");
+                    $j('body').scrollTop(top);
+                });
+            }
+
+            function setParametresText(obj, value) {
+                if (value != '') {
+                    $(obj).parent().show();
+                    $(obj).text(value);
+                }
+                else {
+                    $(obj).parent().hide();
+                }
+            }
+
+            function changePriceValue(cell, value) {
+                $(cell).html(Shopify.formatMoney(value, "<span class=money>${{amount}}</span>"));
+            };
+
+        });
+
+
+
+        var selectCallbackQv = function (variant, selector) {
+
+            var _parent = '#quickViewModal';
+            var _parentprice = _parent + ' .price-part';
+            if (!variant) {
+                jQuery(_parent + " .price-box").hide();
+                jQuery(_parent + " .qwt").hide();
+                jQuery(_parent + " .control-console").hide();
+                jQuery(_parent + ' .addtocartqv').attr('disabled', 'disabled');
+                jQuery(_parent + ' .addtocartqv').text('Unavailable');
+                return false;
+            }
+
+            jQuery(_parent + " .price-box").show();
+            jQuery(_parent + " .qwt").show();
+            jQuery(_parent + " .control-console").show();
+
+            if (variant.price < variant.compare_at_price) {
+                jQuery(_parentprice + ' .main').addClass('price-box__old');
+                jQuery(_parentprice + ' .price-box__new').show();
+                changePriceValue(_parentprice + ' .main', variant.compare_at_price);
+                changePriceValue(_parentprice + ' .price-box__new', variant.price);
+            } else {
+                jQuery(_parentprice + ' .price-box__new').hide();
+                jQuery(_parentprice + ' .main').removeClass('price-box__old');
+                changePriceValue(_parentprice + ' .main', variant.price);
+            }
+
+            newVariantTextDataQv(_parent + ' .product-sku', variant.sku);
+
+            if (jQuery(_parent + ' .product-sku').length) {
+                var $ava = jQuery(_parent + " .product-info__availabilitu");
+                if (variant.sku != "") {
+                    if ($ava.hasClass('pull-left')) { $ava.removeClass('pull-left') }
+                } else {
+                    if (!$ava.hasClass('pull-left')) { $ava.addClass('pull-left') }
+                }
+            }
+
+            if (variant.available) {
+                if (variant.inventory_management == null) {
+                    jQuery(_parent + " .product-availability").text("Many in stock");
+                } else {
+                    jQuery(_parent + " .product-availability").text(" Many in stock");
+                }
+            } else {
+                jQuery(_parent + " .product-availability").text("Sold Out");
+            }
+
+            var shopifyimgurl = variant.featured_image ? variant.featured_image.src : mainImage;
+            var imgurl = "<img class=\"full-width\" alt=\"\" src = \"" + shopifyimgurl + "\" >";
+            if (jQuery(_parent + ' .product-main-image__item .img_box_1').children().length > 0) {
+                var detach = jQuery(_parent + ' .product-main-image__item .img_box_1 img').detach();
+                jQuery(_parent + ' .product-main-image__item .img_box_2').empty();
+                jQuery(_parent + ' .product-main-image__item .img_box_2').append(detach);
+            }
+            jQuery(_parent + ' .product-main-image__item .img_box_1').empty();
+            jQuery(_parent + ' .product-main-image__item .img_box_1').append(imgurl);
+
+            if (variant && variant.available) {
+                jQuery(_parent + ' .addtocartqv').removeAttr('disabled');
+                jQuery(_parent + ' .addtocartqv').html('Add to Cart');
+                jQuery(_parent + " .control-console").show();
+            } else {
+                jQuery(_parent + ' .addtocartqv').attr('disabled', 'disabled');
+                jQuery(_parent + ' .addtocartqv').text('Unavailable');
+                jQuery(_parent + " .control-console").hide();
+            }
+
+            jQuery('.currency .active').trigger('click');
+        };
+
+        function changePriceValue(cell, value) {
+            jQuery(cell).html(Shopify.formatMoney(value, "<span class=money>${{amount}}</span>"));
+        };
+
+        function newVariantTextDataQv(obj, value) {
+            if (value != '') {
+                jQuery(obj).parent().show();
+                jQuery(obj).text(value);
+            }
+            else {
+                jQuery(obj).parent().hide();
+            }
+        };
+
+
+        function selectGrid(_parent) {
+            setTimeout(timeout, 5);
+            function timeout() {
+                if (jQuery(_parent + " .selector-wrapper").length > 2) {
+                    jQuery(_parent + " .single-option-selector").addClass("select--wd");
+                } else if (jQuery(_parent + " .selector-wrapper").length == 1) {
+                    jQuery(_parent + " .single-option-selector").before("<label></label>");
+                    jQuery(_parent + " .single-option-selector").addClass("select--wd");
+                }
+            }
+        };
+
+    </script> --}}
+
+    {{/if}}
+</body>
+
+</html>

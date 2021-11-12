@@ -1,0 +1,749 @@
+<main role="main">
+    <!-- BEGIN Slider -->
+    <div id="shopify-section-1514880862152" class="shopify-section">
+        <div class="slider-area">
+            <div class="slider-active owl-carousel">
+                <div class="single-slider single-slider-hm1 bg-img"
+                    style="background-image: url(images/watchImages/Banner1.jpg)">
+                    <div class="container">
+                        <div class="slider-content slider-content-style-1 slider-animated-1">
+
+                            <p class="animated" style="color: #ffffff;">Exclusive Offer - 30% Off This Week
+                                <span></span>
+                            </p>
+                            <h2 class="animated" style="color: #ffffff;">Laurrent Ferrier</h2>
+
+                            <div>
+                                <p class="animated" style="color: #ffffff;">Maison LAURENT FERRIER celebrates its 10th
+                                    anniversary with the release of a classical watch featuring a timeless dial and case
+                                    ensemble.</p>
+                            </div>
+                            <a class="btn-hover slider-btn-style animated" href="collections/all.html">Shop Now</a>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="single-slider single-slider-hm1 bg-img"
+                    style="background-image: url(images/watchImages/Banner2.jpg)">
+                    <div class="container">
+                        <div class="slider-content slider-content-style-1 slider-animated-1">
+
+                            <p class="animated" style="color: #ffffff;">Exclusive Offer - 10% Off This Week
+                                <span></span>
+                            </p>
+
+                            <h2 class="animated" style="color: #ffffff;">Breguet Watches</h2>
+                            <div>
+                                <p class="animated" style="color: #ffffff;">U-Boat watches are a lot like classic
+                                    American Muscle
+                                    cars – expect for the American part that is.</p>
+                            </div>
+
+                            <a class="btn-hover slider-btn-style animated" href="collections/all.html">Shop Now</a>
+
+                        </div>
+                    </div>
+                </div>
+                {{!-- <div class="single-slider single-slider-hm1 bg-img"
+                    style="background-image: url(images/watchImages/BannerFossil.jpg)">
+                    <div class="container">
+                        <div class="slider-content slider-content-style-1 slider-animated-1">
+
+                            <p class="animated" style="color: #ffffff;">Exclusive Offer - 30% Off This Week
+                                <span></span>
+                            </p>
+
+
+
+                            <h2 class="animated" style="color: #ffffff;">Laurrent Ferrier</h2>
+
+
+
+                            <div>
+                                <p class="animated" style="color: #ffffff;">Maison LAURENT FERRIER celebrates its 10th
+                                    anniversary with the release of a classical watch featuring a timeless dial and case
+                                    ensemble.</p>
+                            </div>
+
+
+
+                            <a class="btn-hover slider-btn-style animated" href="collections/all.html">Shop Now</a>
+
+                        </div>
+                    </div>
+                </div> --}}
+
+            </div>
+        </div>
+
+
+        <style>
+            .slider-btn-style {
+                border: 2px solid #ffffff;
+                color: #ffffff;
+            }
+
+            .slider-content-style-1>h3 span {
+                color: #a8741a;
+            }
+
+            .slider-btn-style:hover {
+                border: 2px solid #a8741a;
+                color: #ffffff;
+            }
+        </style>
+
+
+    </div>
+
+    {{!-- Product Section --}}
+
+    <div id="shopify-section-1515045233374" class="shopify-section">
+        <div class="product-area neha_prod_area">
+            <div class="container">
+                <div class="product-style">
+                    <div class="product-tab-list mb-45 nav product-menu-mrg" role="tablist">
+
+                        <a class="active" href="#featured" data-toggle="tab" role="tab">
+                            <h4>Featured </h4>
+                        </a>
+
+                        <a class="" href="#best-sale" data-toggle="tab" role="tab">
+                            <h4>Best Sale </h4>
+                        </a>
+
+
+                        <a class="" href="#on-sale" data-toggle="tab" role="tab">
+                            <h4>On Sale </h4>
+                        </a>
+
+
+                        <a class="" href="#new-arrival" data-toggle="tab" role="tab">
+                            <h4>New Arrival </h4>
+                        </a>
+
+                    </div>
+
+                    {{!-- Categories --}}
+
+                    <div class="tab-content jump">
+
+                        {{!-- Featured --}}
+                        {{#each products}}
+                        <div class="tab-pane active show" id="featured" role="tabpanel">
+                            <div class="row rhs_match_height">
+                                <div class="product-slider-active owl-carousel">
+
+
+                                    <div class="col-lg-4 col-md- col-sm-12">
+
+
+                                        <div class="single-product mb-35">
+                                            <div class="product-img">
+                                                <a href="">
+                                                    <img src="/productImages/{{this._id}}a.jpg" alt="">
+                                                </a>
+
+
+                                                <span>Sale!</span>
+
+
+                                                <div class="product-action">
+
+                                                    <a class="animate-left" href="" title="Wishlist">
+                                                        <i class="ion-ios-heart-outline"></i>
+                                                    </a>
+
+                                                    {{!-- <a title="Quick View" data-toggle="modal"
+                                                        data-target="#exampleModal" class="animate-right"
+                                                        href="javascript:void(0);"
+                                                        onclick="quiqview('estado-de-desarrollo')"><i
+                                                            class="ion-ios-eye-outline"></i></a> --}}
+                                                </div>
+                                            </div>
+
+                                            <div class="product-content">
+                                                <div class="product-title-price">
+                                                    <div class="product-title">
+                                                        <h4><a href="">{{this.name}}</a></h4>
+                                                    </div>
+                                                </div>
+
+                                                <div class="product-cart-categori">
+
+                                                    <div class="product-cart">
+                                                        <span>{{this.category}}</span>
+                                                    </div>
+
+                                                    <div class="product-price">
+
+                                                        <span><del><span class=money>₹{{this.price}}</span></del></span>
+
+                                                        <span class="price--sale"><span
+                                                                class=money>₹{{this.price}}</span></span>
+                                                    </div>
+
+
+                                                    <div class="product-categori">
+
+                                                        <a href="" class="add_cart cart-item" title="Add to Cart">
+                                                            <i class="ion-bag"></i>
+                                                            <i
+                                                                class="ion-ios-loop-strong animated rotateIn infinite"></i>
+                                                            <i class="ion-android-done"></i> Add to Cart
+                                                        </a>
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {{/each}}
+
+                        {{!-- Best sale --}}
+                        {{#each products}}
+                        <div class="tab-pane " id="best-sale" role="tabpanel">
+                            <div class="row rhs_match_height">
+                                <div class="product-slider-active owl-carousel">
+
+
+                                    <div class="col-lg-4 col-md- col-sm-12">
+
+                                        <div class="single-product mb-35">
+                                            <div class="product-img">
+                                                <a href="">
+                                                    <img src="/productImages/{{this._id}}a.jpg" alt="">
+                                                </a>
+
+
+                                                <span>Sale!</span>
+
+
+                                                <div class="product-action">
+
+                                                    <a class="animate-left" href="account/login.html" title="Wishlist">
+                                                        <i class="ion-ios-heart-outline"></i>
+                                                    </a>
+
+                                                    <a title="Quick View" data-toggle="modal"
+                                                        data-target="#exampleModal" class="animate-right"
+                                                        href="javascript:void(0);" onclick="quiqview('adquiera-mas')"><i
+                                                            class="ion-ios-eye-outline"></i></a>
+                                                </div>
+                                            </div>
+
+                                            <div class="product-content">
+                                                <div class="product-title-price">
+                                                    <div class="product-title">
+                                                        <h4><a href="">{{this.name}}</a></h4>
+                                                    </div>
+                                                </div>
+
+                                                <div class="product-cart-categori">
+
+                                                    <div class="product-cart">
+                                                        <span>{{this.category}}</span>
+                                                    </div>
+
+                                                    <div class="product-price">
+
+                                                        <span><del><span class=money>₹{{this.price}}</span></del></span>
+
+                                                        <span class="price--sale"><span
+                                                                class=money>₹{{this.price}}</span></span>
+                                                    </div>
+
+
+                                                    <div class="product-categori">
+
+                                                        <a href="javascript:void(0);"
+                                                            onclick="Shopify.addItem(12220284895321, 1); return false;"
+                                                            class="add_cart cart-item" title="Add to Cart">
+                                                            <i class="ion-bag"></i>
+                                                            <i
+                                                                class="ion-ios-loop-strong animated rotateIn infinite"></i>
+                                                            <i class="ion-android-done"></i> Add to Cart
+                                                        </a>
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {{/each}}
+                        {{!-- On sale --}}
+
+                        <div class="tab-pane " id="on-sale" role="tabpanel">
+                            <div class="row rhs_match_height">
+                                <div class="product-slider-active owl-carousel">
+
+
+                                    <div class="col-lg-4 col-md- col-sm-12">
+
+                                        <div class="single-product mb-35">
+                                            <div class="product-img">
+                                                <a href="products/estado-de-desarrollo.html">
+                                                    <img src="../cdn.shopify.com/s/files/1/0012/9266/4921/products/8_506b891f-7fc2-47bc-8d45-0c5b8b404b1c_large4109.jpg?v=1531545492"
+                                                        alt="">
+                                                </a>
+
+
+                                                <span>Sale!</span>
+
+
+                                                <div class="product-action">
+
+                                                    <a class="animate-left" href="account/login.html" title="Wishlist">
+                                                        <i class="ion-ios-heart-outline"></i>
+                                                    </a>
+
+                                                    <a title="Quick View" data-toggle="modal"
+                                                        data-target="#exampleModal" class="animate-right"
+                                                        href="javascript:void(0);"
+                                                        onclick="quiqview('estado-de-desarrollo')"><i
+                                                            class="ion-ios-eye-outline"></i></a>
+                                                </div>
+                                            </div>
+
+                                            <div class="product-content">
+                                                <div class="product-title-price">
+                                                    <div class="product-title">
+                                                        <h4><a href="products/estado-de-desarrollo.html">Estado De
+                                                                Desarrollo</a></h4>
+                                                    </div>
+                                                </div>
+
+                                                <div class="product-cart-categori">
+
+                                                    <div class="product-cart">
+                                                        <span>Automatic Watch</span>
+                                                    </div>
+
+
+
+
+                                                    <div class="product-price">
+
+                                                        <span><del><span class=money>$600.00</span></del></span>
+
+                                                        <span class="price--sale"><span
+                                                                class=money>$336.00</span></span>
+                                                    </div>
+
+
+                                                    <div class="product-categori">
+
+                                                        <a href="javascript:void(0);"
+                                                            onclick="Shopify.addItem(12220293087321, 1); return false;"
+                                                            class="add_cart cart-item" title="Add to Cart">
+                                                            <i class="ion-bag"></i>
+                                                            <i
+                                                                class="ion-ios-loop-strong animated rotateIn infinite"></i>
+                                                            <i class="ion-android-done"></i> Add to Cart
+                                                        </a>
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        {{!-- New arrival --}}
+
+                        <div class="tab-pane " id="new-arrival" role="tabpanel">
+                            <div class="row rhs_match_height">
+                                <div class="product-slider-active owl-carousel">
+
+
+                                    <div class="col-lg-4 col-md- col-sm-12">
+
+
+                                        <div class="single-product mb-35">
+                                            <div class="product-img">
+                                                <a href="products/adquiera-mas.html">
+                                                    <img src="../cdn.shopify.com/s/files/1/0012/9266/4921/products/1_large8526.jpg?v=1531545383"
+                                                        alt="">
+                                                </a>
+
+
+                                                <span>Sale!</span>
+
+
+                                                <div class="product-action">
+
+                                                    <a class="animate-left" href="account/login.html" title="Wishlist">
+                                                        <i class="ion-ios-heart-outline"></i>
+                                                    </a>
+
+                                                    <a title="Quick View" data-toggle="modal"
+                                                        data-target="#exampleModal" class="animate-right"
+                                                        href="javascript:void(0);" onclick="quiqview('adquiera-mas')"><i
+                                                            class="ion-ios-eye-outline"></i></a>
+                                                </div>
+                                            </div>
+
+                                            <div class="product-content">
+                                                <div class="product-title-price">
+                                                    <div class="product-title">
+                                                        <h4><a href="products/adquiera-mas.html">Adquiera Mas</a></h4>
+                                                    </div>
+                                                </div>
+
+                                                <div class="product-cart-categori">
+
+                                                    <div class="product-cart">
+                                                        <span>Automatic Watch</span>
+                                                    </div>
+
+
+
+
+                                                    <div class="product-price">
+
+                                                        <span><del><span class=money>$180.00</span></del></span>
+
+                                                        <span class="price--sale"><span
+                                                                class=money>$100.00</span></span>
+                                                    </div>
+
+
+                                                    <div class="product-categori">
+
+                                                        <a href="javascript:void(0);"
+                                                            onclick="Shopify.addItem(12220284895321, 1); return false;"
+                                                            class="add_cart cart-item" title="Add to Cart">
+                                                            <i class="ion-bag"></i>
+                                                            <i
+                                                                class="ion-ios-loop-strong animated rotateIn infinite"></i>
+                                                            <i class="ion-android-done"></i> Add to Cart
+                                                        </a>
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+        <style>
+            .product-area.neha_prod_area {
+                padding-top: 95px;
+                padding-bottom: 60px;
+                background-color: #fff;
+            }
+        </style>
+
+
+    </div>
+    <div id="shopify-section-1516765776550" class="shopify-section">
+        <div class="shop-limited-area bg-img neha_shp_lma"
+            style="background-image: url(images/watchImages/watch_storeb986.png?v=1531548696)" data-overlay="3">
+            <div class="container">
+                <div class="shop-limited-content text-center">
+
+                    <span style="color: #fff; font-size: 16px;">Sale Off 20% All Products</span>
+
+
+
+                    <h2 class="mb-40" style="color: #fff; font-size: 58px;">New Trending Collection</h2>
+
+
+
+                    <p style="color: #fff; font-size: 16px;">We Believe That Good Design Is Always In Season</p>
+
+
+
+                    <a class="btn-hover limited-btn mt-50" href="collections/all.html">SHOP NOW</a>
+
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+        <style>
+            .shop-limited-area.bg-img.neha_shp_lma {
+                margin-top: 0px;
+                padding-top: 88px;
+                padding-bottom: 100px;
+
+
+            }
+
+            .limited-btn {
+                background-color: #f4f4f4;
+                color: #353535;
+                font-size: 14px;
+            }
+
+            .limited-btn:hover {
+                color: #fff;
+            }
+
+            .btn-hover::before {
+                background: #a8741a none repeat scroll 0 0;
+            }
+        </style>
+
+
+    </div>
+    <div id="shopify-section-1515049125358" class="shopify-section">
+        <div class="product-collection-area neha_pcak">
+            <div class="container">
+
+                <div class="section-title mb-55 text-center">
+
+                    <h2>SELECT YOUR WATCH</h2>
+
+
+
+                    <p>WATCHIN the world largest and old watch store, we can serve you<br>most special and signature
+                        wine any
+                        time any where</p>
+
+                </div>
+
+
+
+                <div class="row">
+                    <div class="rhs_product_tab rhs_match_height">
+
+                        {{#each products}}
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-xs-12">
+
+
+                            <div class="single-product mb-35">
+                                <div class="product-img">
+                                    <a href="">
+                                        <img src="/productImages/{{this._id}}a.jpg" alt="">
+                                    </a>
+
+
+
+                                    <div class="product-action">
+
+                                        <a class="animate-left" href="account/login.html" title="Wishlist">
+                                            <i class="ion-ios-heart-outline"></i>
+                                        </a>
+
+                                        <a title="Quick View" data-toggle="modal" data-target="#exampleModal"
+                                            class="animate-right" href="javascript:void(0);"
+                                            onclick="quiqview('predefinidos-cuando')"><i
+                                                class="ion-ios-eye-outline"></i></a>
+                                    </div>
+                                </div>
+
+                                <div class="product-content">
+                                    <div class="product-title-price">
+                                        <div class="product-title">
+                                            <h4><a href="products/predefinidos-cuando.html">{{this.name}}</a></h4>
+                                        </div>
+                                    </div>
+
+                                    <div class="product-cart-categori">
+
+                                        <div class="product-cart">
+                                            <span>{{this.categor}}</span>
+                                        </div>
+
+
+
+
+                                        <div class="product-price">
+
+                                            <span><del><span class=money>$190.00</span></del></span>
+
+                                            <span class="price--sale"><span class=money>$110.00</span></span>
+                                        </div>
+
+
+                                        <div class="product-categori">
+
+                                            <a href="javascript:void(0);"
+                                                onclick="Shopify.addItem(12220279062617, 1); return false;"
+                                                class="add_cart cart-item" title="Add to Cart">
+                                                <i class="ion-bag"></i>
+                                                <i class="ion-ios-loop-strong animated rotateIn infinite"></i>
+                                                <i class="ion-android-done"></i> Add to Cart
+                                            </a>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {{/each}}
+
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <style>
+            .product-collection-area.neha_pcak {
+                padding-top: 90px;
+                padding-bottom: 0px;
+                background-color: rgba(0, 0, 0, 0);
+            }
+        </style>
+
+
+    </div>
+    <div id="shopify-section-1515486477161" class="shopify-section">
+        <div class="shop-limited-area bg-img" style="background-image: url(images/watchImages/c15afb.png)">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 col-md-7 ml-auto">
+                        <div class="coundown-auto text-center shop-limited-content">
+
+                            <span style="color: #fff; font-size: 24px;">HURRY UP!</span>
+
+
+
+                            <h2 class="mb-10" style="color: #fff; font-size: 50px;">Hot Deal! Sale 20% Off</h2>
+
+
+
+                            <p style="color: #fff; font-size: 16px;">WATCHIN the most latgest watch store in the wold
+                                can serve
+                                you latest<br> qulity of motorcycle also you can sell here your motorcycle it quo to</p>
+
+
+
+                            <div class="timer">
+                                <div data-countdown="2019/12/31"></div>
+                            </div>
+
+
+
+                            <a class="mt-20" href="collections/all.html">SHOP NOW</a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <style>
+            .shop-limited-area.bg-img {
+                margin-top: 60px;
+                padding-top: 90px;
+                padding-bottom: 105px;
+                background-color: #fff;
+            }
+
+            .timer span,
+            .timer span p {
+                color: #fff;
+            }
+
+            .coundown-auto>a {
+                background-color: #f4f4f4;
+                color: #353535;
+                display: inline-block;
+            }
+
+            .coundown-auto>a:hover {
+                color: #fff;
+                background: #a8741a none repeat scroll 0 0;
+            }
+        </style>
+
+
+    </div>
+
+    <div id="shopify-section-1515479967873" class="shopify-section">
+        <div class="brand-logo neha_brand">
+            <div class="container p-0">
+                <div class="brand-logo-active owl-carousel">
+
+                    <div class="single-logo">
+
+                        <img src="../cdn.shopify.com/s/files/1/0012/9266/4921/files/1899a.png?v=1531559829" alt="">
+
+                    </div>
+
+                    <div class="single-logo">
+
+                        <img src="../cdn.shopify.com/s/files/1/0012/9266/4921/files/25d35.png?v=1531559836" alt="">
+
+                    </div>
+
+                    <div class="single-logo">
+
+                        <img src="../cdn.shopify.com/s/files/1/0012/9266/4921/files/3a36d.png?v=1531559842" alt="">
+
+                    </div>
+
+                    <div class="single-logo">
+
+                        <img src="../cdn.shopify.com/s/files/1/0012/9266/4921/files/4d1e0.png?v=1531559857" alt="">
+
+                    </div>
+
+                    <div class="single-logo">
+
+                        <img src="../cdn.shopify.com/s/files/1/0012/9266/4921/files/1_4cb7c46c-7579-4a85-8289-0a8ee3dd415bfc7f.png?v=1531559866"
+                            alt="">
+
+                    </div>
+
+                </div>
+
+
+            </div>
+        </div>
+
+
+
+        <style>
+            .brand-logo.neha_brand {
+                padding-top: 60px;
+                padding-bottom: 40px;
+                background-color: rgba(0, 0, 0, 0);
+            }
+        </style>
+
+
+    </div><!-- END content_for_index -->
+</main>

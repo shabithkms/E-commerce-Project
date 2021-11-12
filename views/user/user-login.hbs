@@ -1,0 +1,99 @@
+<div class="register-area ptb-100 shop-limited-area bg-img ml-35 mr-35">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-12 col-lg-6 col-xl-6 ml-auto mr-auto">
+                <div class="login">
+                    <div class="login-form-container">
+
+                        <div class="note form-success" id="ResetSuccess" style="display:none;">
+                            We&#39;ve sent you an email with a link to update your password.
+                        </div>
+
+
+
+
+
+                        <div id="CustomerLoginForm" class="login-form">
+                            <form method="post" action="/login" id="userLogin" accept-charset="UTF-8">
+                                {{!-- <input type="hidden" name="form_type" value="customer_login" /><input
+                                    type="hidden" name="utf8" value="✓" /> --}}
+
+
+                                <input type="tel" name="mobileNo" id="CustomerNo" class="input-full"
+                                    placeholder="Enter your number" autocorrect="off" autocapitalize="off" maxlength="10" autofocus>
+
+                                <input type="password" value="" name="password" id="CustomerPassword" class="input-full"
+                                    placeholder="Password">
+
+
+                                <div class="button-box">
+                                    {{#if loginErr}}
+                                    <h6 class="font pb-3" style="color: red;">invalid Password</h6>
+                                    {{/if}}
+                                    {{#if noUser}}
+                                    <h6 class="font pb-3" style="color: red;">invalid User</h6>
+                                    {{/if}}
+                                    {{#if blockErr}}
+                                    <h6 class="font pb-3" style="color: red;">You are Blocked By admin</h6>
+                                    {{/if}}
+                                    {{#if otpErr}}
+                                    <h6 class="font pb-3" style="color: red;">Server is Busy</h6>
+                                    {{/if}}
+                                    <div class="row">
+                                        <div class="login-toggle-btn ml-3">
+
+                                            <a href="/signup">Already have an account?</a>
+
+                                        </div>
+                                        <div class="login-toggle-btn ml-auto mr-3">
+                                            <a href="" id="RecoverPassword">Forgot your password?</a>
+
+
+                                        </div>
+                                    </div>
+
+                                    
+
+
+                                    <button type="submit" class="default-btn floatright">Sign In</button>
+                                </div>
+                            </form>
+                        </div>
+
+
+
+
+
+
+                        <div id="RecoverPasswordForm" class="login-form" style="display: none;">
+                            <h2>Reset your password</h2>
+                            <p>We will send you an email to reset your password.</p>
+
+                            <form method="post" action="" accept-charset="UTF-8">
+                                <input type="hidden" name="form_type" value="recover_customer_password" /><input
+                                    type="hidden" name="utf8" value="✓" />
+
+
+
+                                <input type="email" value="" name="email" id="RecoverEmail" class="input-full"
+                                    placeholder="Email" autocorrect="off" autocapitalize="off">
+                                <div class="button-box">
+                                    <input type="submit" class="default-btn rhs_input" value="Submit">
+                                    <button type="button" id="HideRecoverPasswordLink"
+                                        class="rhs_cancel mt-35">Cancel</button>
+                                </div>
+                            </form>
+                        </div>
+
+
+
+
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

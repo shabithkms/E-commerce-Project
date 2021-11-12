@@ -1,0 +1,92 @@
+{{!-- <div class="register-area ptb-100 shop-limited-area bg-img ml-35 mr-35">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-12 col-lg-6 col-xl-6 ml-auto mr-auto">
+                <div class="login">
+                    <div class="login-form-container">
+
+                        <div class="note form-success" id="ResetSuccess" style="display:none;">
+                            We&#39;ve sent you an email with a link to update your password.
+                        </div>
+
+
+
+
+
+                        <div id="CustomerLoginForm" class="login-form">
+                            <form method="post" action="/login/otp" id="userLogin" accept-charset="UTF-8">
+
+
+
+                                <input type="tel" name="otp" id="otpNo" class="input-full" placeholder="Enter your OTP"
+                                    autocorrect="off" autocapitalize="off" maxlength="6" autofocus>
+
+
+
+
+                                <div class="button-box">
+                                    {{#if loginErr}}
+                                    <h6 class="font pb-3" style="color: red;">invalid Password</h6>
+                                    {{/if}}
+                                    {{#if noUser}}
+                                    <h6 class="font pb-3" style="color: red;">invalid OTP</h6>
+                                    {{/if}}
+
+                                    <div class="row">
+
+                                        <div class="login-toggle-btn ml-auto mr-3">
+                                            <a href="/login/resendOtp" id="RecoverPassword">Resend OTP</a>
+
+
+                                        </div>
+                                    </div>
+
+
+
+
+                                    <button type="submit" class="default-btn floatright">Verify</button>
+                                </div>
+                            </form>
+                        </div>
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> --}}
+
+
+
+<div class="container height-100 d-flex justify-content-center align-items-center">
+    <div class="position-relative">
+        <form action="/login/otp" method="post">
+            <div class="card p-2 text-center">
+                <h6>Please enter the one time password <br> to verify your account</h6>
+                <div> <span>A code has been sent to</span> <small>*******9897</small> </div>
+                <div id="otp" class="inputs d-flex flex-row justify-content-center mt-2"> <input
+                        class="m-2 text-center form-control rounded" name="otp1" type="text" id="first" maxlength="1" />
+                    <input class="m-2 text-center form-control rounded" name="otp2" type="text" id="second"
+                        maxlength="1" /> <input class="m-2 text-center form-control rounded" name="otp3" type="text"
+                        id="third" maxlength="1" /> <input class="m-2 text-center form-control rounded" name="otp4"
+                        type="text" id="fourth" maxlength="1" /> <input class="m-2 text-center form-control rounded"
+                        name="otp5" type="text" id="fifth" maxlength="1" /> <input
+                        class="m-2 text-center form-control rounded" name="otp6" type="text" id="sixth" maxlength="1" />
+                </div>
+                <div class="mt-4">
+                    {{#if otpErr}}
+                    <h6 class="font pb-3" style="color: red;">Server is Busy</h6>
+                    {{/if}}
+                    <button type="submit" class="btn btn-danger px-4 validate">Verify</button>
+                </div>
+            </div>
+            <div class="card-2">
+                <div class="content d-flex justify-content-center align-items-center"> <span>Didn't get the code</span>
+                    <a href="/login/resendOtp" class="text-decoration-none ms-3">Resend</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

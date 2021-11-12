@@ -1,0 +1,92 @@
+<style>
+    label.error {
+        color: red !important ;
+    }
+</style>
+<div class="register-area ptb-100 shop-limited-area bg-img ml-35 mr-35 ">
+    <div class="container h-100">
+        <div class="row">
+            <div class="col-md-12 col-12 col-lg-6 col-xl-6 ml-auto mr-auto">
+                <div class="login">
+                    <div class="login-form-container">
+                        <div class="text-center">
+                            <h3 class=" pb-4">Admin Login</h3>
+                        </div>
+
+                        <div class="note form-success" id="ResetSuccess" style="display:none;">
+                            We&#39;ve sent you an email with a link to update your password.
+                        </div>
+
+
+
+
+
+                        <div id="CustomerLoginForm" class="login-form">
+                            <form method="post" action="/admin/login" id="adminLogin">
+
+
+
+                                <input type="email" name="email" id="CustomerNo" class="input-full"
+                                    placeholder="Enter your email" autocorrect="off" autocapitalize="off" autofocus>
+
+                                <input type="password" value="" name="password" id="CustomerPassword" class="input-full"
+                                    placeholder="Password">
+
+
+                                <div class="button-box justify-content-cnte">
+
+
+
+                                    {{#if loginErr}}
+                                    <h6 class="font pb-3" style="color: red;">invalid Password</h6>
+                                    {{/if}}
+                                    {{#if noAdmin}}
+                                    <h6 class="font pb-3" style="color: red;">Inavlid Email</h6>
+                                    {{/if}}
+                                    {{#if blockErr}}
+                                    <h6 class="font pb-3" style="color: red;">You are Blocked By admin</h6>
+                                    {{/if}}
+
+
+                                    <button type="submit" class="default-btn floatright">Sign In</button>
+                                </div>
+                            </form>
+                        </div>
+
+
+
+
+
+
+                        <div id="RecoverPasswordForm" class="login-form" style="display: none;">
+                            <h2>Reset your password</h2>
+                            <p>We will send you an email to reset your password.</p>
+
+                            <form method="post" action="" accept-charset="UTF-8">
+                                <input type="hidden" name="form_type" value="recover_customer_password" /><input
+                                    type="hidden" name="utf8" value="✓" />
+
+
+
+                                <input type="email" value="" name="email" id="RecoverEmail" class="input-full"
+                                    placeholder="Email" autocorrect="off" autocapitalize="off">
+                                <div class="button-box">
+                                    <input type="submit" class="default-btn rhs_input" value="Submit">
+                                    <button type="button" id="HideRecoverPasswordLink"
+                                        class="rhs_cancel mt-35">Cancel</button>
+                                </div>
+                            </form>
+                        </div>
+
+
+
+
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
