@@ -29,11 +29,11 @@
                                 <input type="text" class="form-control" id="inputDescription" name="description">
                             </div>
                         </div>
-                        
+
 
 
                         <div class="form-row  pb-3 ">
-                            <div class="form-group mt-2 col-md-4 ml-2" >
+                            <div class="form-group mt-2 col-md-4 ml-2">
                                 <label for="exampleFormControlFile1">Select brand Logo</label>
                                 <img src="" style="width:100px;height:100px;display:none" id="imgView"
                                     style="display: none;"><br><br>
@@ -41,12 +41,14 @@
                                     style="width: 250px;" accept="image/*" onchange="viewMainImage(event)" required>
                             </div>
 
-                           
+
                         </div>
                         <p class="text-warning text-center" style="display: none;" id="errMsg">Only Image is
                             Accepted</p>
 
-
+                        {{#if brandExist}}
+                        <h6 class="font pb-3" style="color: red;">This brand is already exist</h6>
+                        {{/if}}
                         <input type="submit" value="ADD" id='sub' class="btn  btn-primary mt-4">
                     </form>
                 </div>

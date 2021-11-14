@@ -5,8 +5,22 @@ const adminHelpers = require('../helpers/admin-helper');
 const productHelpers = require('../helpers/product-helper');
 var db = require('../config/connection')
 var collection = require('../config/collection');
+var fs=require('fs')
 
-/* GET home page. */
+const verifyAdminLogin = (req, res, next) => {
+  res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
+  if (req.session.adminLoggedIn) {
+    
+    next()
+  } else {
+    res.redirect('/admin/login')
+  }
+}
+
+
+//Home
+
+
 router.get('/', function (req, res, next) {
   if (req.session.adminLoggedIn) {
     res.render('admin/dashboard', { admin: true });
@@ -51,32 +65,33 @@ router.post('/login', (req, res) => {
     }
   })
 })
+
 // User Section
 
 
-router.get('/users', (req, res) => {
+router.get('/users',verifyAdminLogin, (req, res) => {
 
   res.render('admin/all-users', { admin: true })
 })
 
 // Product Section
 
-router.get('/products', function (req, res, next) {
+router.get('/products',verifyAdminLogin, function (req, res, next) {
   productHelpers.getAllProducts().then((products) => {
     res.render('admin/view-products', { admin: true, products });
   })
 
 });
 
-router.get('/add-product', async function (req, res, next) {
+router.get('/add-product',verifyAdminLogin, async function (req, res, next) {
   let categories = await adminHelpers.getAllCategory()
   let brands = await adminHelpers.getAllBrands()
-  
+
   res.render('admin/add-product', { admin: true, categories, brands });
 });
 
-router.post('/add-product', async function (req, res, next) {
-  
+router.post('/add-product',verifyAdminLogin, async function (req, res, next) {
+
   productHelpers.addProduct(req.body).then((id) => {
 
     let image1 = req.files.image1
@@ -93,28 +108,28 @@ router.post('/add-product', async function (req, res, next) {
   })
 });
 
-router.get('/edit-product/:id',async (req, res) => {
+router.get('/edit-product/:id',verifyAdminLogin, async (req, res) => {
   let id = req.params.id
   let categories = await adminHelpers.getAllCategory()
   let brands = await adminHelpers.getAllBrands()
   productHelpers.getProductDetails(id).then((product) => {
     console.log(product);
-    res.render('admin/edit-product',{admin:true,categories, brands,product})
+    res.render('admin/edit-product', { admin: true, categories, brands, product })
   })
 })
 
-router.post('/edit-product/:id',async (req, res) => {
+router.post('/edit-product/:id',verifyAdminLogin, async (req, res) => {
   let id = req.params.id
-  
-  productHelpers.updateProduct(id,req.body).then((response) => {
-    
+
+  productHelpers.updateProduct(id, req.body).then((response) => {
+
     res.redirect('/admin/products')
     if (req.files.image1) {
       let image1 = req.files.image1
       image1.mv('public/productImages/' + id + 'a.jpg')
     }
     if (req.files.image2) {
-      let image2= req.files.image2
+      let image2 = req.files.image2
       image2.mv('public/productImages/' + id + 'b.jpg')
     }
     if (req.files.image3) {
@@ -122,32 +137,39 @@ router.post('/edit-product/:id',async (req, res) => {
       image1.mv('public/productImages/' + id + 'c.jpg')
     }
     if (req.files.image4) {
-      let image4= req.files.image4
+      let image4 = req.files.image4
       image4.mv('public/productImages/' + id + 'd.jpg')
     }
   })
 })
 
-router.get('/delete-product/:id',(req,res)=>{
+router.get('/delete-product/:id',verifyAdminLogin, (req, res) => {
   let id = req.params.id
-  productHelpers.deleteProduct(id).then((response)=>{
+  productHelpers.deleteProduct(id).then((response) => {
+    
+    console.log(id,"Id in deelete");
+    fs.unlinkSync('public/productImages/' + id + 'a.jpg')
+    fs.unlinkSync('public/productImages/' + id + 'b.jpg')
+    fs.unlinkSync('public/productImages/' + id + 'c.jpg')
+    fs.unlinkSync('public/productImages/' + id + 'd.jpg')
     res.redirect('/admin/products')
   })
 })
-
+ 
 
 //Brand Section
 
-router.get('/view-brands', async function (req, res, next) {
+router.get('/view-brands',verifyAdminLogin, async function (req, res, next) {
   let brands = await adminHelpers.getAllBrands()
   res.render('admin/view-brands', { admin: true, brands });
 });
 
-router.get('/add-brands', function (req, res, next) {
-  res.render('admin/add-brands', { admin: true });
+router.get('/add-brands',verifyAdminLogin, function (req, res, next) {
+  res.render('admin/add-brands', { admin: true, "brandExist": req.session.brandExist });
+  req.session.brandExist = false
 });
 
-router.post('/add-brands', function (req, res) {
+router.post('/add-brands',verifyAdminLogin, function (req, res) {
 
   adminHelpers.addBrands(req.body).then((id) => {
     let image = req.files.logo
@@ -159,18 +181,24 @@ router.post('/add-brands', function (req, res) {
       }
 
     })
+  }).catch((err) => {
+    if (err.code == 11000) {
+      req.session.brandExist = true
+      res.redirect('/admin/add-brands')
+    }
+
   })
 });
 
-router.get('/edit-brand/:id', function (req, res, next) {
+router.get('/edit-brand/:id',verifyAdminLogin, function (req, res, next) {
   let id = req.params.id
   adminHelpers.getBrandDetails(id).then((brand) => {
-    res.render('admin/edit-brand', { admin: true, brand });
+    res.render('admin/edit-brand', { admin: true, brand, "brandExist": req.session.brandExist });
   })
 });
 
 
-router.post('/edit-brand/:id', async (req, res) => {
+router.post('/edit-brand/:id',verifyAdminLogin, async (req, res) => {
   let id = req.params.id
   adminHelpers.updateBrand(id, req.body).then((response) => {
     res.redirect('/admin/view-brands')
@@ -180,12 +208,19 @@ router.post('/edit-brand/:id', async (req, res) => {
     }
 
   })
+  // .catch((err)=>{
+  //   if(err.code==11000){
+  //     req.session.brandExist=true
+  //     res.redirect('/admin/edit-brand/id')
+  //   }
+  // })
 
 })
 
-router.get('/delete-brand/:id', (req, res) => {
+router.get('/delete-brand/:id',verifyAdminLogin, (req, res) => {
   let id = req.params.id
   adminHelpers.deleteBrand(id).then((response) => {
+    fs.unlinkSync('public/brandLogos/' + id + '.jpg')
     res.redirect('/admin/view-brands')
   })
 })
@@ -193,7 +228,7 @@ router.get('/delete-brand/:id', (req, res) => {
 
 //Categories
 
-router.get('/categories', function (req, res, next) {
+router.get('/categories',verifyAdminLogin, function (req, res, next) {
   adminHelpers.getAllCategory().then((categories) => {
 
     res.render('admin/view-categories', { admin: true, categories });
@@ -201,28 +236,33 @@ router.get('/categories', function (req, res, next) {
 
 });
 
-router.get('/add-category', function (req, res, next) {
+router.get('/add-category',verifyAdminLogin, function (req, res, next) {
 
-  res.render('admin/add-category', { admin: true });
+  res.render('admin/add-category', { admin: true, "categoryExist": req.session.categoryExist });
+  req.session.categoryExist = false
 });
 
 
-router.post('/add-category', function (req, res, next) {
+router.post('/add-category',verifyAdminLogin, function (req, res, next) {  
   adminHelpers.addCategory(req.body).then((response) => {
-
+    res.redirect('/admin/categories');
+  }).catch((err) => {
+    console.log(err, "exist");
+    req.session.categoryExist = true
+    res.redirect('/admin/add-category')
   })
 
-  res.redirect('/admin/categories');
+
 });
 
-router.get('/edit-category/:id', function (req, res, next) {
+router.get('/edit-category/:id',verifyAdminLogin, function (req, res, next) {
   let id = req.params.id
   adminHelpers.getCategoryDetails(id).then((category) => {
     res.render('admin/edit-category', { admin: true, category });
   })
 });
 
-router.post('/edit-category/:id', async (req, res) => {
+router.post('/edit-category/:id',verifyAdminLogin, async (req, res) => {
   let id = req.params.id
   adminHelpers.updateCategory(id, req.body).then((response) => {
     res.redirect('/admin/categories')
@@ -231,7 +271,7 @@ router.post('/edit-category/:id', async (req, res) => {
 
 })
 
-router.get('/delete-category/:id', (req, res) => {
+router.get('/delete-category/:id',verifyAdminLogin, (req, res) => {
   let id = req.params.id
   adminHelpers.deleteCategory(id).then((response) => {
     res.redirect('/admin/categories')

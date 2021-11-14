@@ -28,6 +28,7 @@
 
                                 <label for="brand">Brand</label>
 
+
                                 <select name="brand" class="custom-select p-2">
                                     <option value="empty" selected>Choose a Brand</option>
 
@@ -35,6 +36,9 @@
                                     <option value="{{this.brand}}">{{this.brand}}</option>
                                     {{/each}}
                                 </select>
+                                {{!-- {{#each brands}}
+                                <input type="text" style="display: none;" name="brandId" value="{{this._id}}">
+                                {{/each}} --}}
                                 {{#if catErrPro}}
                                 <p class="text-center text-danger">{{catErrPro}}</p>
                                 {{/if}}
@@ -59,6 +63,9 @@
                                     <option value="{{this.category}}">{{this.category}}</option>
                                     {{/each}}
                                 </select>
+                                {{!-- {{#each categories}}
+                                <input type="text" style="display: none;" name="categoryId" value="{{this._id}}">
+                                {{/each}} --}}
                                 {{#if catErrPro}}
                                 <p class="text-center text-danger">{{catErrPro}}</p>
                                 {{/if}}

@@ -13,7 +13,7 @@
                         <h3>Add <strong>New Category</strong></h3>
 
                     </div>
-                    <form action="/admin/add-category" method="POST"  id="add-prod">
+                    <form action="/admin/add-category" method="POST" id="add-prod">
 
 
                         <div class="form-row">
@@ -23,12 +23,14 @@
                             </div>
 
 
-                            
+
                         </div>
-                        
 
 
-                        
+
+                        {{#if categoryExist}}
+                        <h6 class="font pb-3" style="color: red;">This category is already exist</h6>
+                        {{/if}}
 
 
                         <input type="submit" value="ADD" id='sub' class="btn  btn-primary mt-4">

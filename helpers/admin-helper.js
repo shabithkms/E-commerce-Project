@@ -43,9 +43,12 @@ module.exports = {
             db.get().collection(collection.CATEGORY_COLLECTION).insertOne(data).then((response) => {
                 // console.log(response);
                 resolve(response)
+            }).catch((err) => {
+                console.log(err, "admh");
+                reject(err)
             })
-        })
 
+        })
     },
     getAllCategory: () => {
         return new Promise(async (resolve, reject) => {
@@ -70,14 +73,14 @@ module.exports = {
                     $set: {
                         category: newData.category
                     }
-                }).then((response)=>{
+                }).then((response) => {
                     resolve(response)
                 })
         })
     },
-    deleteCategory:(id)=>{
-        return new Promise((resolve,reject)=>{
-            db.get().collection(collection.CATEGORY_COLLECTION).deleteOne({_id:objectId(id)}).then((response)=>{
+    deleteCategory: (id) => {
+        return new Promise((resolve, reject) => {
+            db.get().collection(collection.CATEGORY_COLLECTION).deleteOne({ _id: objectId(id) }).then((response) => {
                 resolve(response)
             })
         })
@@ -86,6 +89,9 @@ module.exports = {
         return new Promise((resolve, reject) => {
             db.get().collection(collection.BRAND_COLLECTION).insertOne(data).then((response) => {
                 resolve(response.insertedId.toString())
+            }).catch((err)=>{
+                reject(err)
+                console.log(err);
             })
         })
     },
@@ -97,30 +103,33 @@ module.exports = {
             // console.log(brands, "b");
         })
     },
-    getBrandDetails:(id)=>{
-        return new Promise((resolve, reject)=>{
-            db.get().collection(collection.BRAND_COLLECTION).findOne({_id:objectId(id)}).then((brand)=>{
+    getBrandDetails: (id) => {
+        return new Promise((resolve, reject) => {
+            db.get().collection(collection.BRAND_COLLECTION).findOne({ _id: objectId(id) }).then((brand) => {
                 resolve(brand)
                 // console.log(brand);
             })
         })
     },
-    updateBrand:(id,newData)=>{
-        return new Promise((resolve,reject)=>{
-            db.get().collection(collection.BRAND_COLLECTION).updateOne({_id:objectId(id)},
-            {
-                $set:{
-                    brand:newData.brand,
-                    description:newData.description
-                }
-            }).then((response)=>{
-                resolve(response)
-            })
+    updateBrand: (id, newData) => {
+        return new Promise((resolve, reject) => {
+            db.get().collection(collection.BRAND_COLLECTION).updateOne({ _id: objectId(id) },
+                {
+                    $set: {
+                        brand: newData.brand,
+                        description: newData.description
+                    }
+                }).then((response) => {
+                    resolve(response)
+                }).catch((err)=>{
+                    console.log(err);
+                    reject(err)
+                })
         })
     },
-    deleteBrand:(id)=>{
-        return new Promise((resolve,reject)=>{
-            db.get().collection(collection.BRAND_COLLECTION).deleteOne({_id:objectId(id)}).then((response)=>{
+    deleteBrand: (id) => {
+        return new Promise((resolve, reject) => {
+            db.get().collection(collection.BRAND_COLLECTION).deleteOne({ _id: objectId(id) }).then((response) => {
                 resolve(response)
             })
         })

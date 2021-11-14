@@ -22,8 +22,11 @@
     <link rel="stylesheet" href="/stylesheets/style.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
 
-    
+
     {{else}}
+    {{#if login}}
+
+    {{/if}}
     {{#if otp}}
     <link rel="stylesheet" href="/css/otp.css" type="text/css">
     {{/if}}
@@ -33,26 +36,20 @@
     <!-- CSS ================================================== -->
     <link href="/stylesheets/timber.scss2fc5.css" rel="stylesheet" type="text/css" media="all" />
     <link href="/stylesheets/preloader30d1.css" rel="stylesheet" type="text/css" media="all" />
-    <link href="/stylesheets/bootstrap.minc79f.css" rel="stylesheet" type="text/css"
-        media="all" />
-    <link href="/stylesheets/magnific-popup5b32.css" rel="stylesheet" type="text/css"
-        media="all" />
-    <link href="/stylesheets/meanmenu.minbc44.css" rel="stylesheet" type="text/css"
-        media="all" />
+    <link href="/stylesheets/bootstrap.minc79f.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="/stylesheets/magnific-popup5b32.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="/stylesheets/meanmenu.minbc44.css" rel="stylesheet" type="text/css" media="all" />
     <link href="/stylesheets/jquery-uife68.css" rel="stylesheet" type="text/css" media="all" />
     <link href="/stylesheets/animated737.css" rel="stylesheet" type="text/css" media="all" />
-    <link href="/stylesheets/owl.carousel.min22a5.css" rel="stylesheet" type="text/css"
-        media="all" />
+    <link href="/stylesheets/owl.carousel.min22a5.css" rel="stylesheet" type="text/css" media="all" />
     <link href="/stylesheets/slinky.min9251.css" rel="stylesheet" type="text/css" media="all" />
     <link href="/stylesheets/slick0782.css" rel="stylesheet" type="text/css" media="all" />
-    <link href="/stylesheets/ionicons.minb771.css" rel="stylesheet" type="text/css"
-        media="all" />
+    <link href="/stylesheets/ionicons.minb771.css" rel="stylesheet" type="text/css" media="all" />
     <link href="/stylesheets/bundlec3c7.css" rel="stylesheet" type="text/css" media="all" />
     <link href="/stylesheets/style060d.css" rel="stylesheet" type="text/css" media="all" />
     <link href="/stylesheets/customcd1b.css" rel="stylesheet" type="text/css" media="all" />
     <link href="/stylesheets/responsivecaca.css" rel="stylesheet" type="text/css" media="all" />
-    <link href="/stylesheets/custom-responsivee203.css" rel="stylesheet" type="text/css"
-        media="all" />
+    <link href="/stylesheets/custom-responsivee203.css" rel="stylesheet" type="text/css" media="all" />
     <link href="/stylesheets/skin-theme19f0.css" rel="stylesheet" type="text/css" media="all" />
     <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
 
@@ -66,18 +63,21 @@
     {{#if admin}}
     <div class="page-wrapper chiller-theme toggled">
         {{>admin-header}}
-        <main class="page-content">
-            <div class="container-fluid">
+        <main class="page-content ">
+            <div class="container-fluid ">
+                <div class="">
 
 
-                {{{body}}}
+
+                    {{{body}}}
+                </div>
 
             </div>
         </main>
     </div>
     {{else }}
     {{#if login}}
-    {{>login-header}}
+    {{!-- {{>login-header}} --}}
     {{{body}}}
     {{else }}
     {{>user-header}}
@@ -126,7 +126,7 @@
 
 
     <script>
-        $(document).ready(function () { 
+        $(document).ready(function () {
             $('#add-prod').validate({
                 rules: {
                     name: {
@@ -156,8 +156,8 @@
                     image4: {
                         required: true
                     },
-                    category:{
-                        required:true
+                    category: {
+                        required: true
                     }
 
 
@@ -270,6 +270,7 @@
 
     {{#if otp}}
     <script src="/js/otp.js"></script>
+    <script src="/js/timer.js"></script>
     {{/if}}
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -347,11 +348,11 @@
                         minlength: 4,
                         required: true
                     },
-                    otp:{
-                        minlength:6,
-                        maxlength:6,
-                        required:true,
-                        number:true
+                    otp: {
+                        minlength: 6,
+                        maxlength: 6,
+                        required: true,
+                        number: true
                     }
 
 
@@ -384,9 +385,9 @@
                         minlength: 10,
                         maxlength: 10,
                     },
-                    email:{
-                        required:true,
-                        email:true
+                    email: {
+                        required: true,
+                        email: true
                     },
                     password: {
                         minlength: 4,
@@ -395,6 +396,34 @@
 
 
 
+                },
+                messages: {
+                    firstname: {
+                        required: "Enter your firstname",
+                        minlength: jQuery.format("Enter at least {0} characters"),
+                        maxlength: jQuery.format("Enter maximum {0} characters")
+
+                    } 
+                    lastname: {
+                        required: "Enter your lastname",
+                        minlength: jQuery.format("Enter at least {0} characters"),
+                        maxlength: jQuery.format("Enter maximum {0} characters")
+
+                    },
+                    mobileNo: {
+                        required: "Enter your mobile number",
+                        nnumber:"Enter a valid number",
+                        minlength: jQuery.format("Enter at least {0} numbers"),
+                        maxlength: jQuery.format("Enter maximum {0} characters")
+                    },
+                    email:{
+                        required:"Enter your Email",
+                        email:"Enter a valid Email"
+                    },
+                    password:{
+                        required:"Enter a password",
+                        minlength:"Password must be in 4-20 characters"
+                    }
                 }
             })
 

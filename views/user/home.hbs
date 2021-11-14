@@ -132,11 +132,11 @@
                         {{!-- Featured --}}
                         {{#each products}}
                         <div class="tab-pane active show" id="featured" role="tabpanel">
-                            <div class="row rhs_match_height">
-                                <div class="product-slider-active owl-carousel">
+                            {{!-- <div class="row rhs_match_height"> --}}
+                                {{!-- <div class="product-slider-active owl-carousel"> --}}
 
 
-                                    <div class="col-lg-4 col-md- col-sm-12">
+                                    <div class="col-lg-3  col-sm-12">
 
 
                                         <div class="single-product mb-35">
@@ -146,7 +146,7 @@
                                                 </a>
 
 
-                                                <span>Sale!</span>
+                                                {{!-- <span>Sale!</span> --}}
 
 
                                                 <div class="product-action">
@@ -200,80 +200,73 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
+                                    {{!--
+                                </div> --}}
+                                {{!-- </div> --}}
                         </div>
                         {{/each}}
 
                         {{!-- Best sale --}}
                         {{#each products}}
                         <div class="tab-pane " id="best-sale" role="tabpanel">
-                            <div class="row rhs_match_height">
-                                <div class="product-slider-active owl-carousel">
+                            <div class="col-lg-4 col-md- col-sm-12">
 
 
-                                    <div class="col-lg-4 col-md- col-sm-12">
+                                <div class="single-product mb-35">
+                                    <div class="product-img">
+                                        <a href="">
+                                            <img src="/productImages/{{this._id}}a.jpg" alt="">
+                                        </a>
 
-                                        <div class="single-product mb-35">
-                                            <div class="product-img">
-                                                <a href="">
-                                                    <img src="/productImages/{{this._id}}a.jpg" alt="">
+
+                                        <span>Sale!</span>
+
+
+                                        <div class="product-action">
+
+                                            <a class="animate-left" href="" title="Wishlist">
+                                                <i class="ion-ios-heart-outline"></i>
+                                            </a>
+
+                                            {{!-- <a title="Quick View" data-toggle="modal" data-target="#exampleModal"
+                                                class="animate-right" href="javascript:void(0);"
+                                                onclick="quiqview('estado-de-desarrollo')"><i
+                                                    class="ion-ios-eye-outline"></i></a> --}}
+                                        </div>
+                                    </div>
+
+                                    <div class="product-content">
+                                        <div class="product-title-price">
+                                            <div class="product-title">
+                                                <h4><a href="">{{this.name}}</a></h4>
+                                            </div>
+                                        </div>
+
+                                        <div class="product-cart-categori">
+
+                                            <div class="product-cart">
+                                                <span>{{this.category}}</span>
+                                            </div>
+
+                                            <div class="product-price">
+
+                                                <span><del><span class=money>₹{{this.price}}</span></del></span>
+
+                                                <span class="price--sale"><span
+                                                        class=money>₹{{this.price}}</span></span>
+                                            </div>
+
+
+                                            <div class="product-categori">
+
+                                                <a href="" class="add_cart cart-item" title="Add to Cart">
+                                                    <i class="ion-bag"></i>
+                                                    <i class="ion-ios-loop-strong animated rotateIn infinite"></i>
+                                                    <i class="ion-android-done"></i> Add to Cart
                                                 </a>
 
-
-                                                <span>Sale!</span>
-
-
-                                                <div class="product-action">
-
-                                                    <a class="animate-left" href="account/login.html" title="Wishlist">
-                                                        <i class="ion-ios-heart-outline"></i>
-                                                    </a>
-
-                                                    <a title="Quick View" data-toggle="modal"
-                                                        data-target="#exampleModal" class="animate-right"
-                                                        href="javascript:void(0);" onclick="quiqview('adquiera-mas')"><i
-                                                            class="ion-ios-eye-outline"></i></a>
-                                                </div>
                                             </div>
 
-                                            <div class="product-content">
-                                                <div class="product-title-price">
-                                                    <div class="product-title">
-                                                        <h4><a href="">{{this.name}}</a></h4>
-                                                    </div>
-                                                </div>
-
-                                                <div class="product-cart-categori">
-
-                                                    <div class="product-cart">
-                                                        <span>{{this.category}}</span>
-                                                    </div>
-
-                                                    <div class="product-price">
-
-                                                        <span><del><span class=money>₹{{this.price}}</span></del></span>
-
-                                                        <span class="price--sale"><span
-                                                                class=money>₹{{this.price}}</span></span>
-                                                    </div>
-
-
-                                                    <div class="product-categori">
-
-                                                        <a href="javascript:void(0);"
-                                                            onclick="Shopify.addItem(12220284895321, 1); return false;"
-                                                            class="add_cart cart-item" title="Add to Cart">
-                                                            <i class="ion-bag"></i>
-                                                            <i
-                                                                class="ion-ios-loop-strong animated rotateIn infinite"></i>
-                                                            <i class="ion-android-done"></i> Add to Cart
-                                                        </a>
-
-                                                    </div>
-
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -283,163 +276,132 @@
                         {{!-- On sale --}}
 
                         <div class="tab-pane " id="on-sale" role="tabpanel">
-                            <div class="row rhs_match_height">
-                                <div class="product-slider-active owl-carousel">
+                            <div class="col-lg-4  col-sm-12">
 
 
-                                    <div class="col-lg-4 col-md- col-sm-12">
-
-                                        <div class="single-product mb-35">
-                                            <div class="product-img">
-                                                <a href="products/estado-de-desarrollo.html">
-                                                    <img src="../cdn.shopify.com/s/files/1/0012/9266/4921/products/8_506b891f-7fc2-47bc-8d45-0c5b8b404b1c_large4109.jpg?v=1531545492"
-                                                        alt="">
-                                                </a>
+                                <div class="single-product mb-35">
+                                    <div class="product-img">
+                                        <a href="">
+                                            <img src="/productImages/{{this._id}}a.jpg" alt="">
+                                        </a>
 
 
-                                                <span>Sale!</span>
+                                        <span>Sale!</span>
 
 
-                                                <div class="product-action">
+                                        <div class="product-action">
 
-                                                    <a class="animate-left" href="account/login.html" title="Wishlist">
-                                                        <i class="ion-ios-heart-outline"></i>
-                                                    </a>
+                                            <a class="animate-left" href="" title="Wishlist">
+                                                <i class="ion-ios-heart-outline"></i>
+                                            </a>
 
-                                                    <a title="Quick View" data-toggle="modal"
-                                                        data-target="#exampleModal" class="animate-right"
-                                                        href="javascript:void(0);"
-                                                        onclick="quiqview('estado-de-desarrollo')"><i
-                                                            class="ion-ios-eye-outline"></i></a>
-                                                </div>
-                                            </div>
-
-                                            <div class="product-content">
-                                                <div class="product-title-price">
-                                                    <div class="product-title">
-                                                        <h4><a href="products/estado-de-desarrollo.html">Estado De
-                                                                Desarrollo</a></h4>
-                                                    </div>
-                                                </div>
-
-                                                <div class="product-cart-categori">
-
-                                                    <div class="product-cart">
-                                                        <span>Automatic Watch</span>
-                                                    </div>
-
-
-
-
-                                                    <div class="product-price">
-
-                                                        <span><del><span class=money>$600.00</span></del></span>
-
-                                                        <span class="price--sale"><span
-                                                                class=money>$336.00</span></span>
-                                                    </div>
-
-
-                                                    <div class="product-categori">
-
-                                                        <a href="javascript:void(0);"
-                                                            onclick="Shopify.addItem(12220293087321, 1); return false;"
-                                                            class="add_cart cart-item" title="Add to Cart">
-                                                            <i class="ion-bag"></i>
-                                                            <i
-                                                                class="ion-ios-loop-strong animated rotateIn infinite"></i>
-                                                            <i class="ion-android-done"></i> Add to Cart
-                                                        </a>
-
-                                                    </div>
-
-                                                </div>
-                                            </div>
+                                            {{!-- <a title="Quick View" data-toggle="modal" data-target="#exampleModal"
+                                                class="animate-right" href="javascript:void(0);"
+                                                onclick="quiqview('estado-de-desarrollo')"><i
+                                                    class="ion-ios-eye-outline"></i></a> --}}
                                         </div>
                                     </div>
 
+                                    <div class="product-content">
+                                        <div class="product-title-price">
+                                            <div class="product-title">
+                                                <h4><a href="">{{this.name}}</a></h4>
+                                            </div>
+                                        </div>
+
+                                        <div class="product-cart-categori">
+
+                                            <div class="product-cart">
+                                                <span>{{this.category}}</span>
+                                            </div>
+
+                                            <div class="product-price">
+
+                                                <span><del><span class=money>₹{{this.price}}</span></del></span>
+
+                                                <span class="price--sale"><span
+                                                        class=money>₹{{this.price}}</span></span>
+                                            </div>
+
+
+                                            <div class="product-categori">
+
+                                                <a href="" class="add_cart cart-item" title="Add to Cart">
+                                                    <i class="ion-bag"></i>
+                                                    <i class="ion-ios-loop-strong animated rotateIn infinite"></i>
+                                                    <i class="ion-android-done"></i> Add to Cart
+                                                </a>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         {{!-- New arrival --}}
 
                         <div class="tab-pane " id="new-arrival" role="tabpanel">
-                            <div class="row rhs_match_height">
-                                <div class="product-slider-active owl-carousel">
+                            <div class="col-lg-3 col-md- col-sm-12">
 
 
-                                    <div class="col-lg-4 col-md- col-sm-12">
+                                <div class="single-product mb-35">
+                                    <div class="product-img">
+                                        <a href="">
+                                            <img src="/productImages/{{this._id}}a.jpg" alt="">
+                                        </a>
 
 
-                                        <div class="single-product mb-35">
-                                            <div class="product-img">
-                                                <a href="products/adquiera-mas.html">
-                                                    <img src="../cdn.shopify.com/s/files/1/0012/9266/4921/products/1_large8526.jpg?v=1531545383"
-                                                        alt="">
-                                                </a>
+                                        <span>Sale!</span>
 
 
-                                                <span>Sale!</span>
+                                        <div class="product-action">
 
+                                            <a class="animate-left" href="" title="Wishlist">
+                                                <i class="ion-ios-heart-outline"></i>
+                                            </a>
 
-                                                <div class="product-action">
-
-                                                    <a class="animate-left" href="account/login.html" title="Wishlist">
-                                                        <i class="ion-ios-heart-outline"></i>
-                                                    </a>
-
-                                                    <a title="Quick View" data-toggle="modal"
-                                                        data-target="#exampleModal" class="animate-right"
-                                                        href="javascript:void(0);" onclick="quiqview('adquiera-mas')"><i
-                                                            class="ion-ios-eye-outline"></i></a>
-                                                </div>
-                                            </div>
-
-                                            <div class="product-content">
-                                                <div class="product-title-price">
-                                                    <div class="product-title">
-                                                        <h4><a href="products/adquiera-mas.html">Adquiera Mas</a></h4>
-                                                    </div>
-                                                </div>
-
-                                                <div class="product-cart-categori">
-
-                                                    <div class="product-cart">
-                                                        <span>Automatic Watch</span>
-                                                    </div>
-
-
-
-
-                                                    <div class="product-price">
-
-                                                        <span><del><span class=money>$180.00</span></del></span>
-
-                                                        <span class="price--sale"><span
-                                                                class=money>$100.00</span></span>
-                                                    </div>
-
-
-                                                    <div class="product-categori">
-
-                                                        <a href="javascript:void(0);"
-                                                            onclick="Shopify.addItem(12220284895321, 1); return false;"
-                                                            class="add_cart cart-item" title="Add to Cart">
-                                                            <i class="ion-bag"></i>
-                                                            <i
-                                                                class="ion-ios-loop-strong animated rotateIn infinite"></i>
-                                                            <i class="ion-android-done"></i> Add to Cart
-                                                        </a>
-
-                                                    </div>
-
-                                                </div>
-                                            </div>
+                                            {{!-- <a title="Quick View" data-toggle="modal" data-target="#exampleModal"
+                                                class="animate-right" href="javascript:void(0);"
+                                                onclick="quiqview('estado-de-desarrollo')"><i
+                                                    class="ion-ios-eye-outline"></i></a> --}}
                                         </div>
                                     </div>
 
+                                    <div class="product-content">
+                                        <div class="product-title-price">
+                                            <div class="product-title">
+                                                <h4><a href="">{{this.name}}</a></h4>
+                                            </div>
+                                        </div>
+
+                                        <div class="product-cart-categori">
+
+                                            <div class="product-cart">
+                                                <span>{{this.category}}</span>
+                                            </div>
+
+                                            <div class="product-price">
+
+                                                <span><del><span class=money>₹{{this.price}}</span></del></span>
+
+                                                <span class="price--sale"><span
+                                                        class=money>₹{{this.price}}</span></span>
+                                            </div>
 
 
+                                            <div class="product-categori">
+
+                                                <a href="" class="add_cart cart-item" title="Add to Cart">
+                                                    <i class="ion-bag"></i>
+                                                    <i class="ion-ios-loop-strong animated rotateIn infinite"></i>
+                                                    <i class="ion-android-done"></i> Add to Cart
+                                                </a>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -589,9 +551,7 @@
 
                                         <div class="product-categori">
 
-                                            <a href="javascript:void(0);"
-                                                onclick="Shopify.addItem(12220279062617, 1); return false;"
-                                                class="add_cart cart-item" title="Add to Cart">
+                                            <a href="" onclick="" class="add_cart cart-item" title="Add to Cart">
                                                 <i class="ion-bag"></i>
                                                 <i class="ion-ios-loop-strong animated rotateIn infinite"></i>
                                                 <i class="ion-android-done"></i> Add to Cart

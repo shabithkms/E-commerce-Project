@@ -8,7 +8,9 @@
                         <div class="note form-success" id="ResetSuccess" style="display:none;">
                             We&#39;ve sent you an email with a link to update your password.
                         </div>
-
+                        <div class="text-center mb-5">
+                            <h2>User Login</h2>
+                        </div>
 
 
 
@@ -20,7 +22,8 @@
 
 
                                 <input type="tel" name="mobileNo" id="CustomerNo" class="input-full"
-                                    placeholder="Enter your number" autocorrect="off" autocapitalize="off" maxlength="10" autofocus>
+                                    placeholder="Enter your number" autocorrect="off" autocapitalize="off"
+                                    maxlength="10" autofocus>
 
                                 <input type="password" value="" name="password" id="CustomerPassword" class="input-full"
                                     placeholder="Password">
@@ -46,16 +49,28 @@
 
                                         </div>
                                         <div class="login-toggle-btn ml-auto mr-3">
-                                            <a href="" id="RecoverPassword">Forgot your password?</a>
+                                            <a href="/forgetPassword" id="RecoverPassword">Forgot your password?</a>
 
 
                                         </div>
                                     </div>
 
-                                    
 
 
-                                    <button type="submit" class="default-btn floatright">Sign In</button>
+                                    <div class="row">
+                                        <div>
+                                            
+                                                <button type="submit" class="default-btn ml-3">Sign In</button>
+                                            
+
+                                        </div>
+                                        <div class="ml-auto mr-4 mt-2">
+                                            <a href="/loginOtp" class=" ml-1" style="margin-top: 1em !important;">Login
+                                                with OTP</a>
+                                        </div>
+                                    </div>
+
+
                                 </div>
                             </form>
                         </div>

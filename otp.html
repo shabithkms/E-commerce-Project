@@ -1,0 +1,62 @@
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Otp-Verification</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/OTP/Styleotp.css" />
+</head>
+
+<body>
+    <div class="d-flex justify-content-center align-items-center continer">
+        <div class="card py-5 px-3 " style=" width: 75em;margin-top: 15rem;height:50em ">
+            <h1 class="m-0 text-center ">OTP verification</h1><br>
+            <span class="mobile-text text-center"><b>Enter the code we just sent on your phone</b>
+                {{!-- <b class="text-color">+91 09899619282</b> --}}
+            </span><br>
+            <div class="d-flex flex-row mt-5 justify-content-center">
+                <input type="text" style="height: 50px;width:50px" class="form-control" autofocus="" />
+                <input type="text" style="height: 50px;width:50px" class="form-control" />
+                <input type="text" style="height: 50px;width:50px" class="form-control" />
+                <input type="text" style="height: 50px;width:50px" class="form-control" />
+            </div>
+            <div class="text-center mt-5">
+                <span class="d-block mobile-text" id="countdown"></span>
+            </div>
+            <div class="text-center mt-5">
+                <span class="d-block mobile-text" id="resend"></span>
+            </div>
+            <div class="log-btn text-center" style="height: 20px;;">
+
+                <input type="submit" style="font-size:3rem" value="Verify" class="btn btn-primary">
+            </div>
+        </div>
+    </div>
+    <script>
+        let timerOn = true;
+        function timer(remaining) {
+            var m = Math.floor(remaining / 60);
+            var s = remaining % 60;
+            m = m < 10 ? "0" + m : m;
+            s = s < 10 ? "0" + s : s;
+            document.getElementById("countdown").innerHTML = `Time left: ${m} : ${s}`;
+            remaining -= 1;
+            if (remaining >= 0 && timerOn) {
+                setTimeout(function () {
+                    timer(remaining);
+                }, 1000);
+                document.getElementById("resend").innerHTML = `
+    `;
+                return;
+            }
+            if (!timerOn) {
+                return;
+            }
+            document.getElementById("resend").innerHTML = `Don't receive the code? 
+  <span class="font-weight-bold text-color cursor" onclick="timer(60)"><a href="Resend
+  </span>`;
+        }
+        timer(60);
+
+    </script>
+</body>

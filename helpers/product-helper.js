@@ -9,6 +9,7 @@ module.exports = {
 
     addProduct: (proData) => {
         return new Promise((resolve, reject) => {
+            console.log(proData);
             db.get().collection(collection.PRODUCT_COLLECTION).insertOne(proData).then((response) => {
                 resolve(response.insertedId.toString())
                 

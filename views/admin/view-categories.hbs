@@ -2,14 +2,15 @@
     <li class="pr-3"><a href="/admin" style="text-decoration: none;">Home</a></li>
     <li class="active">Categories</li>
 </ol>
-<table class="table" id="adminTable">
+
+<table class="table " id="adminTable">
     <div class="row">
         <div class="col-md-6 mb-3">
             <a href="/admin/add-category" class="btn btn-primary ml-auto" style="margin-top: 20px;">Add New
                 Category</a>
         </div>
     </div>
-    <thead>
+    <thead class="">
         <tr>
             <th scope="col">No</th>
             <th scope="col">Category Name</th>
@@ -24,8 +25,11 @@
             <td scope="row"></td>
             <td>{{this.category}}</td>
             <td><a href="/admin/edit-category/{{this._id}}" class="btn btn-primary">Edit</a>
-            <a href="/admin/delete-category/{{this._id}}" onclick="return confirm('Are you want to delete {{this.category}}?')" class="btn-danger btn ml-1">Delete</a></td>
-            
+                <a href="/admin/delete-category/{{this._id}}"
+                    onclick="return confirm('Are you want to delete {{this.category}}?')"
+                    class="btn-danger btn ml-1">Delete</a>
+            </td>
+
         </tr>
         {{/each}}
 
