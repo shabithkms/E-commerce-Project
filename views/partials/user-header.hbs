@@ -98,8 +98,7 @@
 
 
                                         <li class="megamenuu image-menu">
-                                            <a href="/"><img
-                                                    src="images/watchImages/curren.jpg" alt="" /></a>
+                                            <a href="/"><img src="images/watchImages/curren.jpg" alt="" /></a>
                                         </li>
 
 
@@ -162,7 +161,8 @@
 
 
 
-                                        <li class="submenus"><a href="pages/size-chart.html">Size Chart</a></li>
+                                        {{!-- <li class="submenus"><a href="pages/size-chart.html">Size Chart</a></li>
+                                        --}}
 
 
                                     </ul>
@@ -183,11 +183,19 @@
                                 </button>
                             </div>
                             <div class="header-cart common-style">
-                                <button class="sidebar-trigger relative">
+                                <button class=" relative">
                                     <span class="ion-bag"></span>
                                     <span class="mini_cart_count bigcounter">0</span>
                                 </button>
                             </div>
+                            <div class="header-sidebar common-style">
+                                <button class="header-navbar-active">
+                                    <span class="ion-profile"></span>
+                                </button>
+
+
+                            </div>
+
                             <div class="header-sidebar common-style">
                                 <button class="header-navbar-active">
                                     <span class="ion-navicon"></span>
@@ -195,12 +203,32 @@
                             </div>
                         </div>
                     </div>
+
+
+                    {{!-- MObile menu --}}
+
                     <div class="mobile-menu-area d-md-block col-md-12 col-lg-12 col-12 d-lg-none d-xl-none">
                         <div class="mobile-menu">
                             <nav id="mobile-menu-active" class="d-none">
                                 <ul class="menu-overflow">
 
+                                    <li><a href="pages/shipping-policy.html">Account</a>
+                                        <ul>
+                                            {{#if user}}
+                                            <li><a href="/logout">Logout</a></li>
+                                            <li><a href="/profile">My Account</a></li>
+                                            <li><a href="/cart">My Cart</a></li>
+                                            <li><a href="/wishlist">Wishlist</a></li>
+                                            <li><a href="/checkout">Checkout</a></li>
+                                            {{else}}
+                                            <li><a href="/login">Log In</a></li>
+                                            <li><a href="/signup">Register</a></li>
+                                            {{/if}}
 
+
+
+                                        </ul>
+                                    </li>
 
                                     <li><a href="/">Home</a>
 
@@ -235,7 +263,6 @@
 
 
 
-
                                     <li><a href="pages/shipping-policy.html">Pages</a>
                                         <ul>
 
@@ -249,6 +276,7 @@
 
                                         </ul>
                                     </li>
+
 
 
                                 </ul>

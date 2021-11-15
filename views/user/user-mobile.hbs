@@ -4,7 +4,9 @@
             <div class="card p-2 text-center">
 
 
-
+                {{#if noUser}}
+                <p class="font pb-3" style="color: red;">invalid User</p>
+                {{/if}}
                 <div id="CustomerLoginForm" class="login-form">
 
 
@@ -20,9 +22,7 @@
                         {{#if loginErr}}
                         <h6 class="font pb-3" style="color: red;">invalid Password</h6>
                         {{/if}}
-                        {{#if noUser}}
-                        <h6 class="font pb-3" style="color: red;">invalid User</h6>
-                        {{/if}}
+
                         {{#if blockErr}}
                         <h6 class="font pb-3" style="color: red;">You are Blocked By admin</h6>
                         {{/if}}
@@ -39,7 +39,8 @@
 
                     <div class="content d-flex justify-content-center align-items-center">
 
-                        <a href="/login" class="text-decoration-none ms-3 mt-3" style="font-size: 12px;">Back to login</a>
+                        <a href="/login" class="text-decoration-none ms-3 mt-3" style="font-size: 12px;">Back to
+                            login</a>
                     </div>
                 </div>
 

@@ -5,12 +5,13 @@ const adminHelpers = require('../helpers/admin-helper');
 const productHelpers = require('../helpers/product-helper');
 var db = require('../config/connection')
 var collection = require('../config/collection');
-var fs=require('fs')
+var fs = require('fs')
+var swal = require('sweetalert')
 
 const verifyAdminLogin = (req, res, next) => {
   res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
   if (req.session.adminLoggedIn) {
-    
+
     next()
   } else {
     res.redirect('/admin/login')
@@ -29,6 +30,7 @@ router.get('/', function (req, res, next) {
   }
 
 });
+//LOgin
 
 router.get('/login', function (req, res, next) {
   if (req.session.adminLoggedIn) {
@@ -41,8 +43,9 @@ router.get('/login', function (req, res, next) {
 
 });
 
+
 router.post('/login', (req, res) => {
-  // console.log(req.body,"hjhdjhkwj");
+
   adminHelpers.doAdminLogin(req.body).then((response) => {
 
     let status = response.status
@@ -69,28 +72,29 @@ router.post('/login', (req, res) => {
 // User Section
 
 
-router.get('/users',verifyAdminLogin, (req, res) => {
+router.get('/users', verifyAdminLogin, (req, res) => {
 
   res.render('admin/all-users', { admin: true })
 })
 
 // Product Section
 
-router.get('/products',verifyAdminLogin, function (req, res, next) {
+router.get('/products', verifyAdminLogin, function (req, res, next) {
   productHelpers.getAllProducts().then((products) => {
     res.render('admin/view-products', { admin: true, products });
   })
 
 });
 
-router.get('/add-product',verifyAdminLogin, async function (req, res, next) {
+router.get('/add-product', verifyAdminLogin, async function (req, res, next) {
   let categories = await adminHelpers.getAllCategory()
   let brands = await adminHelpers.getAllBrands()
 
-  res.render('admin/add-product', { admin: true, categories, brands });
+  res.render('admin/add-product', { "productExist": req.session.productExist, admin: true, categories, brands });
+  req.session.productExist = false
 });
 
-router.post('/add-product',verifyAdminLogin, async function (req, res, next) {
+router.post('/add-product', verifyAdminLogin, async function (req, res, next) {
 
   productHelpers.addProduct(req.body).then((id) => {
 
@@ -105,10 +109,16 @@ router.post('/add-product',verifyAdminLogin, async function (req, res, next) {
     res.redirect('/admin/products')
 
 
+  }).catch((err) => {
+    if (err.code == 11000) {
+      req.session.productExist = true
+      res.redirect('/admin/add-product')
+    }
+
   })
 });
 
-router.get('/edit-product/:id',verifyAdminLogin, async (req, res) => {
+router.get('/edit-product/:id', verifyAdminLogin, async (req, res) => {
   let id = req.params.id
   let categories = await adminHelpers.getAllCategory()
   let brands = await adminHelpers.getAllBrands()
@@ -118,7 +128,7 @@ router.get('/edit-product/:id',verifyAdminLogin, async (req, res) => {
   })
 })
 
-router.post('/edit-product/:id',verifyAdminLogin, async (req, res) => {
+router.post('/edit-product/:id', verifyAdminLogin, async (req, res) => {
   let id = req.params.id
 
   productHelpers.updateProduct(id, req.body).then((response) => {
@@ -143,11 +153,11 @@ router.post('/edit-product/:id',verifyAdminLogin, async (req, res) => {
   })
 })
 
-router.get('/delete-product/:id',verifyAdminLogin, (req, res) => {
+router.get('/delete-product/:id', verifyAdminLogin, (req, res) => {
   let id = req.params.id
   productHelpers.deleteProduct(id).then((response) => {
-    
-    console.log(id,"Id in deelete");
+
+    console.log(id, "Id in deelete");
     fs.unlinkSync('public/productImages/' + id + 'a.jpg')
     fs.unlinkSync('public/productImages/' + id + 'b.jpg')
     fs.unlinkSync('public/productImages/' + id + 'c.jpg')
@@ -155,21 +165,21 @@ router.get('/delete-product/:id',verifyAdminLogin, (req, res) => {
     res.redirect('/admin/products')
   })
 })
- 
+
 
 //Brand Section
 
-router.get('/view-brands',verifyAdminLogin, async function (req, res, next) {
+router.get('/view-brands', verifyAdminLogin, async function (req, res, next) {
   let brands = await adminHelpers.getAllBrands()
   res.render('admin/view-brands', { admin: true, brands });
 });
 
-router.get('/add-brands',verifyAdminLogin, function (req, res, next) {
+router.get('/add-brands', verifyAdminLogin, function (req, res, next) {
   res.render('admin/add-brands', { admin: true, "brandExist": req.session.brandExist });
   req.session.brandExist = false
 });
 
-router.post('/add-brands',verifyAdminLogin, function (req, res) {
+router.post('/add-brands', verifyAdminLogin, function (req, res) {
 
   adminHelpers.addBrands(req.body).then((id) => {
     let image = req.files.logo
@@ -190,7 +200,7 @@ router.post('/add-brands',verifyAdminLogin, function (req, res) {
   })
 });
 
-router.get('/edit-brand/:id',verifyAdminLogin, function (req, res, next) {
+router.get('/edit-brand/:id', verifyAdminLogin, function (req, res, next) {
   let id = req.params.id
   adminHelpers.getBrandDetails(id).then((brand) => {
     res.render('admin/edit-brand', { admin: true, brand, "brandExist": req.session.brandExist });
@@ -198,7 +208,7 @@ router.get('/edit-brand/:id',verifyAdminLogin, function (req, res, next) {
 });
 
 
-router.post('/edit-brand/:id',verifyAdminLogin, async (req, res) => {
+router.post('/edit-brand/:id', verifyAdminLogin, async (req, res) => {
   let id = req.params.id
   adminHelpers.updateBrand(id, req.body).then((response) => {
     res.redirect('/admin/view-brands')
@@ -217,7 +227,7 @@ router.post('/edit-brand/:id',verifyAdminLogin, async (req, res) => {
 
 })
 
-router.get('/delete-brand/:id',verifyAdminLogin, (req, res) => {
+router.get('/delete-brand/:id', verifyAdminLogin, (req, res) => {
   let id = req.params.id
   adminHelpers.deleteBrand(id).then((response) => {
     fs.unlinkSync('public/brandLogos/' + id + '.jpg')
@@ -228,7 +238,7 @@ router.get('/delete-brand/:id',verifyAdminLogin, (req, res) => {
 
 //Categories
 
-router.get('/categories',verifyAdminLogin, function (req, res, next) {
+router.get('/categories', verifyAdminLogin, function (req, res, next) {
   adminHelpers.getAllCategory().then((categories) => {
 
     res.render('admin/view-categories', { admin: true, categories });
@@ -236,14 +246,14 @@ router.get('/categories',verifyAdminLogin, function (req, res, next) {
 
 });
 
-router.get('/add-category',verifyAdminLogin, function (req, res, next) {
+router.get('/add-category', verifyAdminLogin, function (req, res, next) {
 
   res.render('admin/add-category', { admin: true, "categoryExist": req.session.categoryExist });
   req.session.categoryExist = false
 });
 
 
-router.post('/add-category',verifyAdminLogin, function (req, res, next) {  
+router.post('/add-category', verifyAdminLogin, function (req, res, next) {
   adminHelpers.addCategory(req.body).then((response) => {
     res.redirect('/admin/categories');
   }).catch((err) => {
@@ -255,14 +265,14 @@ router.post('/add-category',verifyAdminLogin, function (req, res, next) {
 
 });
 
-router.get('/edit-category/:id',verifyAdminLogin, function (req, res, next) {
+router.get('/edit-category/:id', verifyAdminLogin, function (req, res, next) {
   let id = req.params.id
   adminHelpers.getCategoryDetails(id).then((category) => {
     res.render('admin/edit-category', { admin: true, category });
   })
 });
 
-router.post('/edit-category/:id',verifyAdminLogin, async (req, res) => {
+router.post('/edit-category/:id', verifyAdminLogin, async (req, res) => {
   let id = req.params.id
   adminHelpers.updateCategory(id, req.body).then((response) => {
     res.redirect('/admin/categories')
@@ -271,7 +281,7 @@ router.post('/edit-category/:id',verifyAdminLogin, async (req, res) => {
 
 })
 
-router.get('/delete-category/:id',verifyAdminLogin, (req, res) => {
+router.get('/delete-category/:id', verifyAdminLogin, (req, res) => {
   let id = req.params.id
   adminHelpers.deleteCategory(id).then((response) => {
     res.redirect('/admin/categories')

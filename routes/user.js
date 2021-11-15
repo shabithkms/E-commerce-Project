@@ -153,28 +153,50 @@ router.post('/login', (req, res) => {
 //Login with OTP
 
 router.get('/loginOtp', (req, res) => {
-  res.render('user/user-mobile', { otp: true })
+  if(req.session.userLoggedIn){
+    res.redirect('/')
+  }else{
+    if(req.session.loginHalf){
+      res.render('user/user-mobile', { otp: true, login: true, "noUser": req.session.noUserMobile })
+    req.session.noUserMobile = false
+    }else{
+      res.redirect('/login')
+    }
+    
+  }
+  
 })
 
 router.post('/loginOtp', (req, res) => {
-  console.log(req.body);
-  client.verify
-    .services(serviceSID)
-    .verifications.create({
-      to: `+91${req.body.mobileNo}`,
-      channel: "sms"
-    }).then((resp) => {
-      console.log(resp.to);
-      req.session.number = resp.to
+  let No = req.body.mobileNo
+  let no = `+91${No}`
+  userHelper.getUserdetails(no).then((user) => {
+    if (user) {
+      console.log(req.body);
+      client.verify
+        .services(serviceSID)
+        .verifications.create({
+          to: `+91${req.body.mobileNo}`,
+          channel: "sms"
+        }).then((resp) => {
+          console.log(resp.to);
+          req.session.number = resp.to
 
 
-      req.session.loginHalf = true
-      res.redirect('/login/otp')
-    }).catch((err) => {
-      console.log(err, "err");
-      req.session.otpErr = true
-      res.redirect('/login/otp')
-    })
+          req.session.loginHalf = true
+          res.redirect('/login/otp')
+        }).catch((err) => {
+          console.log(err, "err");
+          req.session.otpErr = true
+          res.redirect('/login/otp')
+        })
+    } else {
+      req.session.noUserMobile = true
+      res.redirect('/loginOtp')
+    }
+
+  })
+
 })
 
 
@@ -183,10 +205,10 @@ router.post('/loginOtp', (req, res) => {
 
 router.get('/login/otp', (req, res) => {
   if (req.session.userLoggedIn) {
-    
-      res.redirect('/')
-    
-    
+
+    res.redirect('/')
+
+
   } else {
     if (req.session.loginHalf) {
       res.render('user/user-otp', { otp: true, login: true, "invalidOtp": req.session.invalidOtp, "otpErr": req.session.otpErr })
@@ -234,7 +256,7 @@ router.post('/login/otp', (req, res) => {
       if (err.code == 60200) {
         req.session.invalidOtp = true
         res.redirect('/login/otp')
-      } else if(err.code==60203) {
+      } else if (err.code == 60203) {
         req.session.maxOtp = true
         res.redirect('/login/otp')
       }
@@ -267,40 +289,114 @@ router.get('/login/resend-otp', (req, res) => {
 
 })
 
-//Forget Password
-
-router.get('/forgetPassword', (req, res) => {
-  res.render('user/user-changePassword', { otp: true, login: true })
-
-})
-
-router.post('/forgetPassword', (req, res) => {
+router.get('/signup/resend-otp', (req, res) => {
+  console.log("ressend");
+  console.log(req.session.number, "reser");
+  let number = req.session.number
   client.verify
     .services(serviceSID)
     .verifications.create({
-      to: `+91${req.body.mobileNo}`,
+      to: `${number}`,
       channel: "sms"
-    }).then((resp) => {
-      console.log(resp.to);
-      req.session.number = resp.to
+    }).then((response) => {
+      console.log(response, "rse");
+      req.session.user = response.user
+      req.session.resend = true
+      res.redirect('/signup/otp')
+    }).catch((err) => {
+      console.log(err, "err");
+      req.session.otpErr = true
+      res.redirect('/signup')
+    })
+
+})
 
 
-      req.session.loginHalf = true
+router.get('/forget/resend-otp', (req, res) => {
+  console.log("ressend");
+  console.log(req.session.number, "reser");
+  let number = req.session.number
+  client.verify
+    .services(serviceSID)
+    .verifications.create({
+      to: `${number}`,
+      channel: "sms"
+    }).then((response) => {
+      console.log(response, "rse");
+      req.session.user = response.user
+      req.session.resend = true
       res.redirect('/forgetPasswordOtp')
     }).catch((err) => {
       console.log(err, "err");
       req.session.otpErr = true
-      res.redirect('/login/otp')
+      res.redirect('/forgetPassword')
     })
+
 })
 
-router.get('/forgetPasswordOtp',(req,res)=>{
-  res.render('user/user-setPasswordOtp', { otp: true, login: true, "invalidOtp": req.session.invalidOtp, "otpErr": req.session.otpErr })
-  req.session.otpErr = false
-  req.session.invalidOtp = false
+//Forget Password
+
+router.get('/forgetPassword', (req, res) => {
+  if (req.session.userLoggedIn) {
+    res.redirect('/')
+  } else {
+
+    res.render('user/user-changePassword', { otp: true, login: true, "noUser": req.session.noUserMobile })
+    req.session.noUserMobile = false
+  }
+
+
 })
 
-router.post('/forgetPasswordOtp',(req,res)=>{
+router.post('/forgetPassword', (req, res) => {
+  let no = req.body.mobileNo
+  let No = `+91${no}`
+  userHelper.getUserdetails(No).then((user) => {
+    if (user) {
+      client.verify
+        .services(serviceSID)
+        .verifications.create({
+          to: `+91${req.body.mobileNo}`,
+          channel: "sms"
+        }).then((resp) => {
+          console.log(resp.to);
+          req.session.number = resp.to
+
+
+          req.session.loginHalf = true
+          res.redirect('/forgetPasswordOtp')
+        }).catch((err) => {
+          req.session.loginHalf = false 
+          console.log(err, "err");
+          req.session.otpErr = true
+          res.redirect('/login/otp')
+        })
+    } else {
+      req.session.noUserMobile = true
+      res.redirect('/forgetPassword')
+    }
+
+  })
+
+})
+
+router.get('/forgetPasswordOtp', (req, res) => {
+  if (req.session.userLoggedIn) {
+    res.redirect('/')
+  } else {
+    if(req.session.loginHalf){
+      res.render('user/user-setPasswordOtp', { otp: true, login: true, "invalidOtp": req.session.invalidOtp, "otpErr": req.session.otpErr })
+      req.session.otpErr = false
+      req.session.invalidOtp = false
+    }else{
+      res.redirect('/login')
+    }
+    
+  }
+
+})
+
+router.post('/forgetPasswordOtp', (req, res) => {
   let a = Object.values(req.body.otp)
   let b = a.join('')
   console.log(b, "new");
@@ -314,6 +410,7 @@ router.post('/forgetPasswordOtp',(req,res)=>{
       if (response.valid) {
         console.log(number, "num");
         userHelper.getUserdetails(number).then((user) => {
+          req.session.halfPassword = true
           console.log(user, "otpiser");
           req.session.loginHalf = false
           req.session.user = user
@@ -332,7 +429,7 @@ router.post('/forgetPasswordOtp',(req,res)=>{
       if (err.code == 60200) {
         req.session.invalidOtp = true
         res.redirect('/forgetPasswordOtp')
-      } else if(err.code==60203) {
+      } else if (err.code == 60203) {
         req.session.maxOtp = true
         res.redirect('/forgetPasswordOtp')
       }
@@ -340,27 +437,36 @@ router.post('/forgetPasswordOtp',(req,res)=>{
     })
 })
 
-router.get('/setPassword',(req,res)=>{
-  res.render('user/user-setPassword',{login:true,otp:true,"notSame":req.session.notSame})
-  req.session.notSame=false 
+router.get('/setPassword', (req, res) => {
+  if (req.session.userLoggedIn) {
+    res.redirect('/')
+  } else {
+    if (req.session.halfPassword) {
+      res.render('user/user-setPassword', { login: true, otp: true, "notSame": req.session.notSame })
+      req.session.notSame = false
+    } else {
+      res.redirect('/login')
+    }
+  }
+
 })
 
-router.post('/setPassword',async (req,res)=>{
+router.post('/setPassword', async (req, res) => {
   console.log(req.body);
-  let p1=req.body.password1
-  let p2=req.body.password2
-  console.log(req.session.number,"set");
-  let mobileNo=req.session.number
-  let user=await userHelper.getUserdetails(mobileNo)
-  
-  if(p1===p2){
-    userHelper.setPassword(mobileNo,req.body,user).then((response)=>{
-      req.session.userLoggedIn=false
-      req.session.user=null
+  let p1 = req.body.password1
+  let p2 = req.body.password2
+  console.log(req.session.number, "set");
+  let mobileNo = req.session.number
+  let user = await userHelper.getUserdetails(mobileNo)
+
+  if (p1 === p2) {
+    userHelper.setPassword(mobileNo, req.body, user).then((response) => {
+      req.session.userLoggedIn = false
+      req.session.user = null
       res.redirect('/login')
     })
-  }else{
-    req.session.notSame=true
+  } else {
+    req.session.notSame = true
     res.redirect('/setPassword')
   }
 })
@@ -384,31 +490,94 @@ router.get('/signup', (req, res) => {
 
 
 router.post('/signup', (req, res) => {
+  let No = req.body.mobileNo
+  let mobileNo = `+91${No}`
 
-  userHelper.doSignUp(req.body).then((user) => {
-    client.verify
-      .services(serviceSID)
-      .verifications.create({
-        to: `+91${req.body.mobileNo}`,
-        channel: "sms"
-      }).then((resp) => {
-        console.log(resp.to);
-        req.session.number = resp.to
-        req.session.loginHalf = true
-        res.redirect('/login/otp')
-      }).catch((err) => {
-        // console.log(err, "err");
-      })
-
-  }).catch((err) => {
-    // console.log("in catch");
-    // console.log(err.code,"exist");
-    if (err.code == 11000) {
+  userHelper.getUserdetails(mobileNo).then((user) => {
+    console.log(user, "in signup");
+    if (user) {
       req.session.mobileNoExist = true
       res.redirect('/signup')
+    } else {
+      req.session.signUpUser = req.body
+      console.log("signup", req.session.signUpUser);
+      client.verify
+        .services(serviceSID)
+        .verifications.create({
+          to: `+91${req.body.mobileNo}`,
+          channel: "sms"
+        }).then((resp) => {
+          console.log(resp.to);
+          req.session.number = resp.to
+          req.session.loginHalf = true
+          res.redirect('/signup/otp')
+        }).catch((err) => {
+          // console.log(err, "err");
+        })
     }
-
   })
+
+})
+
+router.get('/signup/otp', (req, res) => {
+  if(req.session.userLoggedIn){
+    res.redirect('/')
+  }else{
+    if(req.session.loginHalf){
+      res.render('user/user-signUpOtp', { "maxOtp": req.session.maxOtp, login: true, otp: true, "invalidOtp": req.session.invalidOtp, })
+      req.session.maxOtp = false
+      req.session.invalidOtp = false
+    }else{
+      res.redirect('/signup')
+    }
+  }
+  
+})
+
+router.post('/signup/otp', (req, res) => {
+  let userData = req.session.signUpUser
+  console.log("signup otp", userData);
+  let a = Object.values(req.body.otp)
+  let b = a.join('')
+  console.log(b, "new");
+  let number = `+91${userData.mobileNo}`
+  client.verify
+    .services(serviceSID)
+    .verificationChecks.create({
+      to: number,
+      code: b
+    }).then((response) => {
+      if (response.valid) {
+        console.log(number, "num");
+        userHelper.doSignUp(userData).then((response) => {
+          console.log(response, "otpiser");
+          req.session.loginHalf = false
+          req.session.user = userData
+          req.session.userLoggedIn = true
+          res.redirect('/')
+        }).catch((err) => {
+          console.log("Error in signup", err);
+        })
+
+      } else {
+        console.log("error");
+        req.session.invalidOtp = true
+        res.redirect('/signup/otp')
+      }
+
+    }).catch((err) => {
+      console.log(err, "err");
+      if (err.code == 60200) {
+        req.session.invalidOtp = true
+        res.redirect('/signup/otp')
+      } else if (err.code == 60203) {
+        req.session.maxOtp = true
+        res.redirect('/signup/otp')
+      }
+
+    })
+
+
 })
 
 //Cart

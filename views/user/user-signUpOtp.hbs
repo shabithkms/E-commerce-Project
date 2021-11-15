@@ -1,0 +1,49 @@
+<div class="container height-100 d-flex justify-content-center align-items-center">
+    <div class="position-relative">
+        <form action="/signup/otp" method="post">
+            <div class="card p-2 text-center" style="height: fit-content;">
+                <h6>Please enter the one time password <br> to verify your account</h6>
+
+                {{!-- <div> <span>A code has been sent to</span> <small>*******9897</small> </div> --}}
+
+                <div id="otp" class="inputs d-flex flex-row justify-content-center mt-2">
+
+                    <input type="text" style="display: none;" value="" name="mobiileNo">
+                    <input class="m-2 text-center form-control rounded" name="otp" type="text" id="first"
+                        maxlength="1" />
+                    <input class="m-2 text-center form-control rounded" name="otp" type="text" id="second"
+                        maxlength="1" /> <input class="m-2 text-center form-control rounded" name="otp" type="text"
+                        id="third" maxlength="1" /> <input class="m-2 text-center form-control rounded" name="otp"
+                        type="text" id="fourth" maxlength="1" /> <input class="m-2 text-center form-control rounded"
+                        name="otp" type="text" id="fifth" maxlength="1" /> <input
+                        class="m-2 text-center form-control rounded" name="otp" type="text" id="sixth" maxlength="1" />
+                </div>
+                <div class="text-center mt-3">
+                    <span class="d-block mobile-text" id="countdown"></span>
+                </div>
+                <div class="text-center mt-3">
+                    <a href="/signup/resend-otp">
+                        <span class="d-block mobile-text" id="resend"></span>
+                    </a>
+
+                </div>
+                <div class="mt-4">
+                    {{#if otpErr}}
+                    <h6 class="font pb-3" style="color: red;">Server is Busy</h6>
+                    {{/if}}
+                    {{#if maxOtp}}
+                    <h6 class="font pb-3" style="color: red;">Server is Busy</h6>
+                    {{/if}}
+                    {{#if invalidOtp}}
+                    <h6 class="font pb-3" style="color: red;">Invalid OTP</h6>
+                    {{/if}}
+                    <button type="submit" class="btn mb-3   validate">Verify</button>
+                </div>
+            </div>
+            <div class="content d-flex justify-content-center align-items-center">
+
+                <a href="/login" class="text-decoration-none ms-3 mt-3" style="font-size: 12px;">Back to login</a>
+            </div>
+        </form>
+    </div>
+</div>

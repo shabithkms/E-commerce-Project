@@ -50,6 +50,18 @@ module.exports = {
 
         })
     },
+    addSubCategory: (data) => {
+        return new Promise((resolve, reject) => {
+            db.get().collection(collection.SUBCATEGORY_COLLECTION).insertOne(data).then((response) => {
+                // console.log(response);
+                resolve(response)
+            }).catch((err) => {
+                
+                reject(err)
+            })
+
+        })
+    },
     getAllCategory: () => {
         return new Promise(async (resolve, reject) => {
             let categories = await db.get().collection(collection.CATEGORY_COLLECTION).find().toArray()

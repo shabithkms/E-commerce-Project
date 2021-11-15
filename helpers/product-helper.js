@@ -13,6 +13,8 @@ module.exports = {
             db.get().collection(collection.PRODUCT_COLLECTION).insertOne(proData).then((response) => {
                 resolve(response.insertedId.toString())
                 
+            }).catch((err)=>{
+                reject(err)
             })
         })
 

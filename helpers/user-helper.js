@@ -7,7 +7,10 @@ module.exports = {
 
     doSignUp: (userData) => {
         return new Promise(async (resolve, reject) => {
-            console.log(userData);
+
+
+            // console.log(userData);
+            
             userData.password = await bcrypt.hash(userData.password, 10)
             user = {
                 firstname: userData.firstName,
@@ -56,8 +59,15 @@ module.exports = {
     getUserdetails: (No) => {
         return new Promise(async (resolve, reject) => {
             let user = await db.get().collection(collection.USER_COLLECTION).findOne({ mobileNo: No })
-            resolve(user)
+            if(user){
+                resolve(user)
+                console.log(user,"grt");
+            }else{
+                console.log("else");
+                resolve(false)
+            }
         })
+        
 
     },
     setPassword: (No, data,user) => {

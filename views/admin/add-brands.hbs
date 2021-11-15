@@ -14,9 +14,13 @@
 
                     </div>
                     <form action="/admin/add-brands" method="POST" enctype="multipart/form-data"
-                        style="padding-top: 40px;" id="add-prod">
+                        style="padding-top: 40px;" id="add-brand">
 
-
+                        {{#if brandExist}}
+                        <div class="alert alert-danger col-md-6" role="alert">
+                            This Brand is already exist!
+                        </div>
+                        {{/if}}
                         <div class="form-row">
                             <div class="form-group col-md-5">
                                 <label for="inputName">Brand Name</label>
@@ -46,9 +50,8 @@
                         <p class="text-warning text-center" style="display: none;" id="errMsg">Only Image is
                             Accepted</p>
 
-                        {{#if brandExist}}
-                        <h6 class="font pb-3" style="color: red;">This brand is already exist</h6>
-                        {{/if}}
+
+
                         <input type="submit" value="ADD" id='sub' class="btn  btn-primary mt-4">
                     </form>
                 </div>

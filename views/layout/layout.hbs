@@ -21,6 +21,8 @@
     <link rel="stylesheet" href="/admin/css/custom-styles.css" type="text/css">
     <link rel="stylesheet" href="/stylesheets/style.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
+    <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@7.12.15/dist/sweetalert2.min.css'>
+    </link>
 
 
     {{else}}
@@ -98,8 +100,8 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.js"
-        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
@@ -119,54 +121,141 @@
         });
     </script>
 
+    <script src="/js/adminValidations.js"></script>
+    {{!--
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> --}}
+
+
+    {{!--
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.12.15/dist/sweetalert2.all.min.js"></script> --}}
 
 
 
+    {{!--
+    <script>
+        document.getElementById('delete').onclick = function (e) {
+            e.preventDefault()
+            swal({
+                title: "Are you sure?",
+                text: "Once deleted, you will not be able to recover this imaginary file!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        swal("Poof! Your imaginary file has been deleted!", {
+                            icon: "success",
+                        });
 
+                    } else {
+                        swal("Your imaginary file is safe!");
+                    }
+                });
+            location.href = self.attr('href')
+        };
+
+
+    </script> --}}
+
+    {{!--
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> --}}
+
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
     <script>
-        $(document).ready(function () {
-            $('#add-prod').validate({
-                rules: {
-                    name: {
-                        required: true,
-                        minlength: 4
-                    },
-                    description: {
-                        required: true,
-                        minlength: 4
-                    },
-                    price: {
-                        required: true
-
-                    },
-                    stock: {
-                        required: true
-                    },
-                    image1: {
-                        required: true
-                    },
-                    image2: {
-                        required: true
-                    },
-                    image3: {
-                        required: true
-                    },
-                    image4: {
-                        required: true
-                    },
-                    category: {
-                        required: true
-                    }
-
-
+        function deleteproduct(event) {
+            event.preventDefault();
+            var link = event.currentTarget.href;
+            var name = event.currentTarget.name;
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "Do you want to delete " + name,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire(
+                        'Deleted!',
+                        'Brand has been deleted.',
+                        'success'
+                    )
+                    window.location = link;
+                }
+                else {
+                    return false;
                 }
             })
+        }
+        function deleteBrand(event) {
+            event.preventDefault();
+            var link = event.currentTarget.href;
+            var name = event.currentTarget.name;
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "Do you want to delete " + name,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire(
+                        'Deleted!',
+                        'Brand has been deleted.',
+                        'success'
+                    )
+                    window.location = link;
+                }
+                else {
+                    return false;
+                }
+            })
+        }
 
-        })
+        function deleteCategory(event) {
+            event.preventDefault();
+            var link = event.currentTarget.href;
+            var name = event.currentTarget.name;
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "Do you want to delete " + name,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire(
+                        'Deleted!',
+                        'Brand has been deleted.',
+                        'success'
+                    )
+                    window.location = link;
+                }
+                else {
+                    return false;
+                }
+            })
+        }
+
+
 
     </script>
+
+
+
+
+
+
+
+
     <script>
         function viewMainImage(event) {
             document.getElementById('imgView').src = URL.createObjectURL(event.target.files[0])
@@ -313,54 +402,13 @@
         src="/javascripts/shopify_common-8ea6ac3faf357236a97f5de749df4da6e8436ca107bc3a4ee805cbf08bc47392.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.js"></script>
 
+    <script src="/js/adminValidations.js"></script>
+
 
 
     {{!-- Form Validtions --}}
     <script>
-        $(document).ready(function () {
-            $('#adminLogin').validate({
-                rules: {
-                    email: {
-                        required: true,
-                        email: true
-                    },
-                    password: {
-                        minlength: 4,
-                        required: true
-                    }
 
-
-
-                }
-            })
-
-        })
-        $(document).ready(function () {
-            $('#userLogin').validate({
-                rules: {
-                    mobileNo: {
-                        required: true,
-                        number: true,
-                        minlength: 10,
-                        maxlength: 10,
-                    },
-                    password: {
-                        minlength: 4,
-                        required: true
-                    },
-                    otp: {
-                        minlength: 6,
-                        maxlength: 6,
-                        required: true,
-                        number: true
-                    }
-
-
-
-                }
-            })
-
-        })
 
     </script>
     <script>
@@ -391,111 +439,136 @@
                     },
                     password: {
                         minlength: 4,
-                        required: true
+                        required: true,
+
                     }
 
 
 
                 },
                 messages: {
-                    firstname: {
+                    firstName: {
                         required: "Enter your firstname",
-                        minlength: jQuery.format("Enter at least {0} characters"),
-                        maxlength: jQuery.format("Enter maximum {0} characters")
+                        minlength: "Enter at least 4 characters",
+                        maxlength: "Enter maximumm 20 caharacters"
 
-                    } 
-                    lastname: {
+                    },
+                    lastName: {
                         required: "Enter your lastname",
-                        minlength: jQuery.format("Enter at least {0} characters"),
-                        maxlength: jQuery.format("Enter maximum {0} characters")
+                        minlength: "Enter minimum 4 characters",
+                        maxlength: "Enter maximum 15 characters"
 
                     },
                     mobileNo: {
                         required: "Enter your mobile number",
-                        nnumber:"Enter a valid number",
-                        minlength: jQuery.format("Enter at least {0} numbers"),
-                        maxlength: jQuery.format("Enter maximum {0} characters")
+                        nnumber: "Enter a valid number",
+                        minlength: "Enter 10 numbers"
                     },
-                    email:{
-                        required:"Enter your Email",
-                        email:"Enter a valid Email"
+                    email: {
+                        required: "Enter your Email",
+                        email: "Enter a valid Email"
                     },
-                    password:{
-                        required:"Enter a password",
-                        minlength:"Password must be in 4-20 characters"
+                    password: {
+                        required: "Enter a password",
+                        minlength: "Password must be in 4-20 characters"
                     }
                 }
             })
 
         })
+
+
+        $(document).ready(function () {
+            $('#setPassword').validate({
+                rules: {
+                    password1: {
+                        required: true,
+                        minlength: 4,
+                        maxlength: 20
+
+                    },
+                    password2: {
+                        required: true,
+                        minlength: 4,
+                        maxlength: 20,
+                        equalTo: "#password1"
+
+
+                    }
+
+
+
+                }
+
+            })
     </script>
 
 
     {{!-- slider starts --}}
     <script>
-        $('.slider-active').owlCarousel({
-            loop: true,
-            nav: true,
-            autoplay: false,
-            autoplayTimeout: 5000,
-            animateOut: 'fadeOut',
-            animateIn: 'fadeIn',
-            item: 1,
-            navText: ['<i class="ion-ios-arrow-left"></i>', '<i class="ion-ios-arrow-right"></i>'],
-            responsive: {
-                0: {
-                    items: 1
-                },
-                768: {
-                    items: 1
-                },
-                1000: {
-                    items: 1
-                }
-            }
-        })
+                $('.slider-active').owlCarousel({
+                    loop: true,
+                    nav: true,
+                    autoplay: false,
+                    autoplayTimeout: 5000,
+                    animateOut: 'fadeOut',
+                    animateIn: 'fadeIn',
+                    item: 1,
+                    navText: ['<i class="ion-ios-arrow-left"></i>', '<i class="ion-ios-arrow-right"></i>'],
+                    responsive: {
+                        0: {
+                            items: 1
+                        },
+                        768: {
+                            items: 1
+                        },
+                        1000: {
+                            items: 1
+                        }
+                    }
+                })
     </script>
     <script>
-        /* product slider active */
-        $('.product-slider-active').owlCarousel({
-            loop: true,
-            nav: false,
-            item: 4,
-            responsive: {
-                0: {
-                    items: 1
-                },
-                768: {
-                    items: 2
-                },
-                992: {
-                    items: 3
-                },
-                1000: {
-                    items: 4
-                },
-                1200: {
-                    items: 4
-                }
-            }
-        })
+                /* product slider active */
+                $('.product-slider-active').owlCarousel({
+                    loop: true,
+                    nav: false,
+                    item: 4,
+                    responsive: {
+                        0: {
+                            items: 1
+                        },
+                        768: {
+                            items: 2
+                        },
+                        992: {
+                            items: 3
+                        },
+                        1000: {
+                            items: 4
+                        },
+                        1200: {
+                            items: 4
+                        }
+                    }
+                })
     </script>
 
     {{!-- Toggle --}}
     <script>
-        $(document).ready(function () {
-            $(".cur_toggle").click(function () {
-                $(".cur_drop").slideToggle(500);
-            });
-        });
+                $(document).ready(function () {
+                    $(".cur_toggle").click(function () {
+                        $(".cur_drop").slideToggle(500);
+                    });
+                });
     </script>
     <script>
-        // grab an element
-        var myElement = document.querySelector(".intelligent-header");
-        // construct an instance of Headroom, passing the element
-        var headroom = new Headroom(myElement);
-        // initialise
-        headroom.init();
+                // grab an element
+                var myElement = document.querySelector(".intelligent-header");
+                // construct an instance of Headroom, passing the element
+                var headroom = new Headroom(myElement);
+                // initialise
+                headroom.init();
     </script>
     <div class="modal fade" id="quickViewModal" tabindex="-1" tabindex="-1" role="dialog">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -550,10 +623,10 @@
                                     </div>
                                 </div>
                                 <script>
-                                    jQuery('.addtocartqv').click(function (e) {
-                                        e.preventDefault();
-                                        Shopify.addItemFromFormStart('add-item-qv', jQuery(this).attr('id'));
-                                    });
+                jQuery('.addtocartqv').click(function (e) {
+                    e.preventDefault();
+                    Shopify.addItemFromFormStart('add-item-qv', jQuery(this).attr('id'));
+                });
                                 </script>
                             </form>
                         </div>
@@ -579,298 +652,298 @@
 
     {{!--
     <script>
-        var mainImage = '';
-        jQuery(function ($) {
+                var mainImage = '';
+                jQuery(function ($) {
 
-            quiqview = function (product_handle) {
-                Shopify.getProduct(product_handle);
-            }
-            Shopify.onProduct = function (product) {
-                $('.viewfullinfo').attr('href', product.url);
-
-                var _parent = '#quickViewModal';
-                $(_parent + ' .product_title').text(product.title);
-                $(_parent + ' .product_dec').html(product.description);
-
-                $(_parent + ' .rating').empty();
-                $(_parent + ' .rating').append("<span class=\"shopify-product-reviews-badge\" data-id=\"" + product.id + "\"></span>");
-
-
-                //check variants
-                var variant = '';
-
-                for (i = 0; i < product.variants.length; i++) {
-                    if (product.variants[i].inventory_quantity > 0) {
-                        variant = product.variants[i];
-                        break;
+                    quiqview = function (product_handle) {
+                        Shopify.getProduct(product_handle);
                     }
-                }
+                    Shopify.onProduct = function (product) {
+                        $('.viewfullinfo').attr('href', product.url);
 
-                if (variant == '') {
-                    for (i = 0; i < product.variants.length; i++) {
-                        if (product.variants[i].inventory_policy == "continue") {
-                            variant = product.variants[i];
-                            break;
+                        var _parent = '#quickViewModal';
+                        $(_parent + ' .product_title').text(product.title);
+                        $(_parent + ' .product_dec').html(product.description);
+
+                        $(_parent + ' .rating').empty();
+                        $(_parent + ' .rating').append("<span class=\"shopify-product-reviews-badge\" data-id=\"" + product.id + "\"></span>");
+
+
+                        //check variants
+                        var variant = '';
+
+                        for (i = 0; i < product.variants.length; i++) {
+                            if (product.variants[i].inventory_quantity > 0) {
+                                variant = product.variants[i];
+                                break;
+                            }
                         }
-                    }
-                    if (variant == '') {
-                        variant = product.variants[0];
-                    }
-                }
 
-                mainImage = product.featured_image;
-                var shopifyimgurl = variant.featured_image ? variant.featured_image.src : product.featured_image;
-                var imgurl = "<img class=\"full-width\" alt=\"\" src = \"" + shopifyimgurl + "\" >";
-                jQuery(_parent + ' .product-main-image__item .img_box_1').empty();
-                jQuery(_parent + ' .product-main-image__item .img_box_1').append(imgurl);
-                jQuery(_parent + ' .product-main-image__item .img_box_2').empty();
-                jQuery(_parent + ' .product-main-image__item .img_box_2').append(imgurl);
-
-                var desc = product.description;
-                if (desc.indexOf("[short_description]") >= 0) {
-                    desc = desc.split("[short_description]");
-                    desc = desc[1].split("[/short_description]");
-                    $(_parent + ' .product-des').show();
-                    $(_parent + ' .product-des').html(desc[0]);
-                }
-                else {
-                    $(_parent + ' .small-product-des').hide();
-                }
-
-                //set variants property
-                var inv_qua = variant.inventory_quantity;
-                //price
-                if (variant.price < variant.compare_at_price) {
-                    $('.price-part .main').addClass('amount');
-                    $('.price-part .price-box__new').show();
-                    changePriceValue('.price-part .main', variant.compare_at_price);
-                    changePriceValue('.price-part .price-box__new', variant.price);
-                }
-                else {
-                    $('.price-part .price-box__new').hide();
-                    $('.price-part .main').removeClass('amount');
-                    changePriceValue('.price-part .main', variant.price);
-                }
-
-                // Variants select
-                if (product.variants.length > 1) {
-                    var variants_margin = product.options.length == 2 ? 'variants_margin' : '';
-
-                    var select = '<select id="product-select-qv" name="id">';
-                    var selected = 'selected';
-                    for (i = 0; i < product.variants.length; i++) {
-                        var _var = product.variants[i];
-                        if (_var.available) {
-                            select += '<option value="' + _var.id + '"' + selected + '>' + _var.title + ' - ' + Shopify.formatMoney(_var.price, "<span class=money>${{amount}}</span>") + '</option>'
-                            selected = '';
+                        if (variant == '') {
+                            for (i = 0; i < product.variants.length; i++) {
+                                if (product.variants[i].inventory_policy == "continue") {
+                                    variant = product.variants[i];
+                                    break;
+                                }
+                            }
+                            if (variant == '') {
+                                variant = product.variants[0];
+                            }
                         }
-                    }
-                    select += '</select>';
 
-                    var variant_select = '<div class="variants_selects ' + variants_margin + '">';
-                    variant_select += select;
-                    variant_select += '</div><div class="divider divider--sm"></div>';
-                    select = variant_select;
-                }
-                else {
-                    var select = '<input type="hidden" name="id" value="' + product.variants[0].id + '" />';
-                }
-                $('.variants').empty();
-                $('.variants').html(select);
+                        mainImage = product.featured_image;
+                        var shopifyimgurl = variant.featured_image ? variant.featured_image.src : product.featured_image;
+                        var imgurl = "<img class=\"full-width\" alt=\"\" src = \"" + shopifyimgurl + "\" >";
+                        jQuery(_parent + ' .product-main-image__item .img_box_1').empty();
+                        jQuery(_parent + ' .product-main-image__item .img_box_1').append(imgurl);
+                        jQuery(_parent + ' .product-main-image__item .img_box_2').empty();
+                        jQuery(_parent + ' .product-main-image__item .img_box_2').append(imgurl);
 
-                //parametres
-                setParametresText(_parent + ' .product-sku', variant.sku);
-                if (jQuery(_parent + ' .product-sku').length) {
-                    var $ava = jQuery(_parent + " .product-info__availabilitu");
-                    if (variant.sku != "") {
-                        if ($ava.hasClass('pull-left')) { $ava.removeClass('pull-left') }
-                    } else {
-                        if (!$ava.hasClass('pull-left')) { $ava.addClass('pull-left') }
-                    }
-                }
+                        var desc = product.description;
+                        if (desc.indexOf("[short_description]") >= 0) {
+                            desc = desc.split("[short_description]");
+                            desc = desc[1].split("[/short_description]");
+                            $(_parent + ' .product-des').show();
+                            $(_parent + ' .product-des').html(desc[0]);
+                        }
+                        else {
+                            $(_parent + ' .small-product-des').hide();
+                        }
 
-                //quantity
-                var out_of_stock = false;
-                if (variant.inventory_management) {
-                    if (inv_qua > 0) {
-                        $(_parent + ' .product-availability').text(inv_qua + " In Stock");
-                    }
-                    else {
-                        out_of_stock = true;
-                        $(_parent + ' .product-availability').text("In Stock");
-                    }
-                }
-                else {
-                    $(_parent + ' .product-availability').text("Many in stock");
-                }
+                        //set variants property
+                        var inv_qua = variant.inventory_quantity;
+                        //price
+                        if (variant.price < variant.compare_at_price) {
+                            $('.price-part .main').addClass('amount');
+                            $('.price-part .price-box__new').show();
+                            changePriceValue('.price-part .main', variant.compare_at_price);
+                            changePriceValue('.price-part .price-box__new', variant.price);
+                        }
+                        else {
+                            $('.price-part .price-box__new').hide();
+                            $('.price-part .main').removeClass('amount');
+                            changePriceValue('.price-part .main', variant.price);
+                        }
 
-                // button
-                if (!out_of_stock || variant.inventory_policy == "continue") {
-                    $('.product-available').show();
-                    $('.product-disable').hide();
-                    $('.addtocartqv').attr('id', product.id);
-                }
-                else {
-                    $('.product-available').hide();
-                    $('.product-disable').show();
-                }
+                        // Variants select
+                        if (product.variants.length > 1) {
+                            var variants_margin = product.options.length == 2 ? 'variants_margin' : '';
 
-                if (product.available && product.variants.length > 1) {
-                    new Shopify.OptionSelectors("product-select-qv", { product: product, onVariantSelected: selectCallbackQv, enableHistoryState: true });
+                            var select = '<select id="product-select-qv" name="id">';
+                            var selected = 'selected';
+                            for (i = 0; i < product.variants.length; i++) {
+                                var _var = product.variants[i];
+                                if (_var.available) {
+                                    select += '<option value="' + _var.id + '"' + selected + '>' + _var.title + ' - ' + Shopify.formatMoney(_var.price, "<span class=money>${{amount}}</span>") + '</option>'
+                                    selected = '';
+                                }
+                            }
+                            select += '</select>';
 
-                    if ($('#quickViewModal .variants_selects .selector-wrapper').length > 0) {
-                        $.each(jQuery('#quickViewModal .variants_selects .selector-wrapper'), function (index) {
-                            $(this).find('label').text(product.options[index].name);
+                            var variant_select = '<div class="variants_selects ' + variants_margin + '">';
+                            variant_select += select;
+                            variant_select += '</div><div class="divider divider--sm"></div>';
+                            select = variant_select;
+                        }
+                        else {
+                            var select = '<input type="hidden" name="id" value="' + product.variants[0].id + '" />';
+                        }
+                        $('.variants').empty();
+                        $('.variants').html(select);
+
+                        //parametres
+                        setParametresText(_parent + ' .product-sku', variant.sku);
+                        if (jQuery(_parent + ' .product-sku').length) {
+                            var $ava = jQuery(_parent + " .product-info__availabilitu");
+                            if (variant.sku != "") {
+                                if ($ava.hasClass('pull-left')) { $ava.removeClass('pull-left') }
+                            } else {
+                                if (!$ava.hasClass('pull-left')) { $ava.addClass('pull-left') }
+                            }
+                        }
+
+                        //quantity
+                        var out_of_stock = false;
+                        if (variant.inventory_management) {
+                            if (inv_qua > 0) {
+                                $(_parent + ' .product-availability').text(inv_qua + " In Stock");
+                            }
+                            else {
+                                out_of_stock = true;
+                                $(_parent + ' .product-availability').text("In Stock");
+                            }
+                        }
+                        else {
+                            $(_parent + ' .product-availability').text("Many in stock");
+                        }
+
+                        // button
+                        if (!out_of_stock || variant.inventory_policy == "continue") {
+                            $('.product-available').show();
+                            $('.product-disable').hide();
+                            $('.addtocartqv').attr('id', product.id);
+                        }
+                        else {
+                            $('.product-available').hide();
+                            $('.product-disable').show();
+                        }
+
+                        if (product.available && product.variants.length > 1) {
+                            new Shopify.OptionSelectors("product-select-qv", { product: product, onVariantSelected: selectCallbackQv, enableHistoryState: true });
+
+                            if ($('#quickViewModal .variants_selects .selector-wrapper').length > 0) {
+                                $.each(jQuery('#quickViewModal .variants_selects .selector-wrapper'), function (index) {
+                                    $(this).find('label').text(product.options[index].name);
+                                });
+                            }
+                        }
+                        else {
+                            jQuery('.currency .active').trigger('click');
+                        }
+                        selectGrid(_parent);
+
+                        if ($(".spr-badge").length > 0) {
+                            $.getScript(window.location.protocol + "//productreviews.shopifycdn.com/assets/v4/spr.js");
+                        }
+
+                        if ($(".selector-wrapper label").length) {
+                            $(".selector-wrapper label").each(function (index) {
+                                $(this).text(jQuery(this).text() + ":");
+                            });
+                        }
+
+                        $(_parent).modal('show');
+
+                        if (!('ontouchstart' in window) &&
+                            !navigator.msMaxTouchPoints &&
+                            !navigator.userAgent.toLowerCase().match(/windows phone os 7/i)) return false;
+
+                        $j('body').css("top", -$j('body').scrollTop());
+                        $j('body').addClass("no-scroll");
+                        $j('.close').click(function () {
+                            var top = parseInt($j('body').css("top").replace("px", "")) * -1;
+                            $j('body').removeAttr("style");
+                            $j('body').removeClass("no-scroll");
+                            $j('body').scrollTop(top);
                         });
                     }
-                }
-                else {
-                    jQuery('.currency .active').trigger('click');
-                }
-                selectGrid(_parent);
 
-                if ($(".spr-badge").length > 0) {
-                    $.getScript(window.location.protocol + "//productreviews.shopifycdn.com/assets/v4/spr.js");
-                }
+                    function setParametresText(obj, value) {
+                        if (value != '') {
+                            $(obj).parent().show();
+                            $(obj).text(value);
+                        }
+                        else {
+                            $(obj).parent().hide();
+                        }
+                    }
 
-                if ($(".selector-wrapper label").length) {
-                    $(".selector-wrapper label").each(function (index) {
-                        $(this).text(jQuery(this).text() + ":");
-                    });
-                }
+                    function changePriceValue(cell, value) {
+                        $(cell).html(Shopify.formatMoney(value, "<span class=money>${{amount}}</span>"));
+                    };
 
-                $(_parent).modal('show');
-
-                if (!('ontouchstart' in window) &&
-                    !navigator.msMaxTouchPoints &&
-                    !navigator.userAgent.toLowerCase().match(/windows phone os 7/i)) return false;
-
-                $j('body').css("top", -$j('body').scrollTop());
-                $j('body').addClass("no-scroll");
-                $j('.close').click(function () {
-                    var top = parseInt($j('body').css("top").replace("px", "")) * -1;
-                    $j('body').removeAttr("style");
-                    $j('body').removeClass("no-scroll");
-                    $j('body').scrollTop(top);
                 });
-            }
-
-            function setParametresText(obj, value) {
-                if (value != '') {
-                    $(obj).parent().show();
-                    $(obj).text(value);
-                }
-                else {
-                    $(obj).parent().hide();
-                }
-            }
-
-            function changePriceValue(cell, value) {
-                $(cell).html(Shopify.formatMoney(value, "<span class=money>${{amount}}</span>"));
-            };
-
-        });
 
 
 
-        var selectCallbackQv = function (variant, selector) {
+                var selectCallbackQv = function (variant, selector) {
 
-            var _parent = '#quickViewModal';
-            var _parentprice = _parent + ' .price-part';
-            if (!variant) {
-                jQuery(_parent + " .price-box").hide();
-                jQuery(_parent + " .qwt").hide();
-                jQuery(_parent + " .control-console").hide();
-                jQuery(_parent + ' .addtocartqv').attr('disabled', 'disabled');
-                jQuery(_parent + ' .addtocartqv').text('Unavailable');
-                return false;
-            }
+                    var _parent = '#quickViewModal';
+                    var _parentprice = _parent + ' .price-part';
+                    if (!variant) {
+                        jQuery(_parent + " .price-box").hide();
+                        jQuery(_parent + " .qwt").hide();
+                        jQuery(_parent + " .control-console").hide();
+                        jQuery(_parent + ' .addtocartqv').attr('disabled', 'disabled');
+                        jQuery(_parent + ' .addtocartqv').text('Unavailable');
+                        return false;
+                    }
 
-            jQuery(_parent + " .price-box").show();
-            jQuery(_parent + " .qwt").show();
-            jQuery(_parent + " .control-console").show();
+                    jQuery(_parent + " .price-box").show();
+                    jQuery(_parent + " .qwt").show();
+                    jQuery(_parent + " .control-console").show();
 
-            if (variant.price < variant.compare_at_price) {
-                jQuery(_parentprice + ' .main').addClass('price-box__old');
-                jQuery(_parentprice + ' .price-box__new').show();
-                changePriceValue(_parentprice + ' .main', variant.compare_at_price);
-                changePriceValue(_parentprice + ' .price-box__new', variant.price);
-            } else {
-                jQuery(_parentprice + ' .price-box__new').hide();
-                jQuery(_parentprice + ' .main').removeClass('price-box__old');
-                changePriceValue(_parentprice + ' .main', variant.price);
-            }
+                    if (variant.price < variant.compare_at_price) {
+                        jQuery(_parentprice + ' .main').addClass('price-box__old');
+                        jQuery(_parentprice + ' .price-box__new').show();
+                        changePriceValue(_parentprice + ' .main', variant.compare_at_price);
+                        changePriceValue(_parentprice + ' .price-box__new', variant.price);
+                    } else {
+                        jQuery(_parentprice + ' .price-box__new').hide();
+                        jQuery(_parentprice + ' .main').removeClass('price-box__old');
+                        changePriceValue(_parentprice + ' .main', variant.price);
+                    }
 
-            newVariantTextDataQv(_parent + ' .product-sku', variant.sku);
+                    newVariantTextDataQv(_parent + ' .product-sku', variant.sku);
 
-            if (jQuery(_parent + ' .product-sku').length) {
-                var $ava = jQuery(_parent + " .product-info__availabilitu");
-                if (variant.sku != "") {
-                    if ($ava.hasClass('pull-left')) { $ava.removeClass('pull-left') }
-                } else {
-                    if (!$ava.hasClass('pull-left')) { $ava.addClass('pull-left') }
-                }
-            }
+                    if (jQuery(_parent + ' .product-sku').length) {
+                        var $ava = jQuery(_parent + " .product-info__availabilitu");
+                        if (variant.sku != "") {
+                            if ($ava.hasClass('pull-left')) { $ava.removeClass('pull-left') }
+                        } else {
+                            if (!$ava.hasClass('pull-left')) { $ava.addClass('pull-left') }
+                        }
+                    }
 
-            if (variant.available) {
-                if (variant.inventory_management == null) {
-                    jQuery(_parent + " .product-availability").text("Many in stock");
-                } else {
-                    jQuery(_parent + " .product-availability").text(" Many in stock");
-                }
-            } else {
-                jQuery(_parent + " .product-availability").text("Sold Out");
-            }
+                    if (variant.available) {
+                        if (variant.inventory_management == null) {
+                            jQuery(_parent + " .product-availability").text("Many in stock");
+                        } else {
+                            jQuery(_parent + " .product-availability").text(" Many in stock");
+                        }
+                    } else {
+                        jQuery(_parent + " .product-availability").text("Sold Out");
+                    }
 
-            var shopifyimgurl = variant.featured_image ? variant.featured_image.src : mainImage;
-            var imgurl = "<img class=\"full-width\" alt=\"\" src = \"" + shopifyimgurl + "\" >";
-            if (jQuery(_parent + ' .product-main-image__item .img_box_1').children().length > 0) {
-                var detach = jQuery(_parent + ' .product-main-image__item .img_box_1 img').detach();
-                jQuery(_parent + ' .product-main-image__item .img_box_2').empty();
-                jQuery(_parent + ' .product-main-image__item .img_box_2').append(detach);
-            }
-            jQuery(_parent + ' .product-main-image__item .img_box_1').empty();
-            jQuery(_parent + ' .product-main-image__item .img_box_1').append(imgurl);
+                    var shopifyimgurl = variant.featured_image ? variant.featured_image.src : mainImage;
+                    var imgurl = "<img class=\"full-width\" alt=\"\" src = \"" + shopifyimgurl + "\" >";
+                    if (jQuery(_parent + ' .product-main-image__item .img_box_1').children().length > 0) {
+                        var detach = jQuery(_parent + ' .product-main-image__item .img_box_1 img').detach();
+                        jQuery(_parent + ' .product-main-image__item .img_box_2').empty();
+                        jQuery(_parent + ' .product-main-image__item .img_box_2').append(detach);
+                    }
+                    jQuery(_parent + ' .product-main-image__item .img_box_1').empty();
+                    jQuery(_parent + ' .product-main-image__item .img_box_1').append(imgurl);
 
-            if (variant && variant.available) {
-                jQuery(_parent + ' .addtocartqv').removeAttr('disabled');
-                jQuery(_parent + ' .addtocartqv').html('Add to Cart');
-                jQuery(_parent + " .control-console").show();
-            } else {
-                jQuery(_parent + ' .addtocartqv').attr('disabled', 'disabled');
-                jQuery(_parent + ' .addtocartqv').text('Unavailable');
-                jQuery(_parent + " .control-console").hide();
-            }
+                    if (variant && variant.available) {
+                        jQuery(_parent + ' .addtocartqv').removeAttr('disabled');
+                        jQuery(_parent + ' .addtocartqv').html('Add to Cart');
+                        jQuery(_parent + " .control-console").show();
+                    } else {
+                        jQuery(_parent + ' .addtocartqv').attr('disabled', 'disabled');
+                        jQuery(_parent + ' .addtocartqv').text('Unavailable');
+                        jQuery(_parent + " .control-console").hide();
+                    }
 
-            jQuery('.currency .active').trigger('click');
-        };
+                    jQuery('.currency .active').trigger('click');
+                };
 
-        function changePriceValue(cell, value) {
-            jQuery(cell).html(Shopify.formatMoney(value, "<span class=money>${{amount}}</span>"));
-        };
+                function changePriceValue(cell, value) {
+                    jQuery(cell).html(Shopify.formatMoney(value, "<span class=money>${{amount}}</span>"));
+                };
 
-        function newVariantTextDataQv(obj, value) {
-            if (value != '') {
-                jQuery(obj).parent().show();
-                jQuery(obj).text(value);
-            }
-            else {
-                jQuery(obj).parent().hide();
-            }
-        };
+                function newVariantTextDataQv(obj, value) {
+                    if (value != '') {
+                        jQuery(obj).parent().show();
+                        jQuery(obj).text(value);
+                    }
+                    else {
+                        jQuery(obj).parent().hide();
+                    }
+                };
 
 
-        function selectGrid(_parent) {
-            setTimeout(timeout, 5);
-            function timeout() {
-                if (jQuery(_parent + " .selector-wrapper").length > 2) {
-                    jQuery(_parent + " .single-option-selector").addClass("select--wd");
-                } else if (jQuery(_parent + " .selector-wrapper").length == 1) {
-                    jQuery(_parent + " .single-option-selector").before("<label></label>");
-                    jQuery(_parent + " .single-option-selector").addClass("select--wd");
-                }
-            }
-        };
+                function selectGrid(_parent) {
+                    setTimeout(timeout, 5);
+                    function timeout() {
+                        if (jQuery(_parent + " .selector-wrapper").length > 2) {
+                            jQuery(_parent + " .single-option-selector").addClass("select--wd");
+                        } else if (jQuery(_parent + " .selector-wrapper").length == 1) {
+                            jQuery(_parent + " .single-option-selector").before("<label></label>");
+                            jQuery(_parent + " .single-option-selector").addClass("select--wd");
+                        }
+                    }
+                };
 
     </script> --}}
 
