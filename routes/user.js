@@ -9,25 +9,13 @@ const productHelper = require('../helpers/product-helper');
 const { Client } = require('twilio/lib/twiml/VoiceResponse');
 const { render } = require('../app');
 
-//service1
-// const serviceSID ="VA5a8ef04e14678a8226f1d6f5d8d30549"
-// const accountSID = "ACef72f523eca7c62a1505e6aca1fcaa1a"
-// const authToken = "febc47a5cba24670884f237d84c0ab24"
-//Service2  
-//const serviceSID = "VAe89712e0ae1b1f867d8672dfbf582432"
-//const accountSID = "ACd7f6eccaeb97ca60a7fb411c4a68d22e"
-//const authToken = "491b304d87215980f117a7b37e3dd416"
-//service3
-const serviceSID = "VA16f9513e1b7658ace6d44a0d9ac7a3ef"
-const accountSID = "AC81d9954beb80e9bee0ce1c9588a5f266"
-const authToken = "6613e9c8282fb122e7e5a89755dc4d16"
-//Service 4
-// const serviceSID = "VA6580cfcd0919f0304c7920ca71bf4f2a"
-// const accountSID = "AC04c91fa3b4e1f6dc9fd80ba41c63acdd"
-// const authToken = "60a34da2097c569dc4f54b5e431b9e18"
+const accountSID=process.env.accountSID
+const authToken=process.env.authToken
+const serviceSID=process.env.serviceSID
 
 
-const client = require('twilio')(accountSID, authToken)
+
+const client = require('twilio')(accountSID,authToken)
 
 
 
@@ -153,18 +141,14 @@ router.post('/login', (req, res) => {
 //Login with OTP
 
 router.get('/loginOtp', (req, res) => {
-  if(req.session.userLoggedIn){
+  if (req.session.userLoggedIn) {
     res.redirect('/')
-  }else{
-    if(req.session.loginHalf){
-      res.render('user/user-mobile', { otp: true, login: true, "noUser": req.session.noUserMobile })
+  } else {
+    res.render('user/user-mobile', { otp: true, login: true, "noUser": req.session.noUserMobile })
     req.session.noUserMobile = false
-    }else{
-      res.redirect('/login')
-    }
-    
+
   }
-  
+
 })
 
 router.post('/loginOtp', (req, res) => {
@@ -366,7 +350,7 @@ router.post('/forgetPassword', (req, res) => {
           req.session.loginHalf = true
           res.redirect('/forgetPasswordOtp')
         }).catch((err) => {
-          req.session.loginHalf = false 
+          req.session.loginHalf = false
           console.log(err, "err");
           req.session.otpErr = true
           res.redirect('/login/otp')
@@ -384,14 +368,14 @@ router.get('/forgetPasswordOtp', (req, res) => {
   if (req.session.userLoggedIn) {
     res.redirect('/')
   } else {
-    if(req.session.loginHalf){
+    if (req.session.loginHalf) {
       res.render('user/user-setPasswordOtp', { otp: true, login: true, "invalidOtp": req.session.invalidOtp, "otpErr": req.session.otpErr })
       req.session.otpErr = false
       req.session.invalidOtp = false
-    }else{
+    } else {
       res.redirect('/login')
     }
-    
+
   }
 
 })
@@ -414,7 +398,7 @@ router.post('/forgetPasswordOtp', (req, res) => {
           console.log(user, "otpiser");
           req.session.loginHalf = false
           req.session.user = user
-          
+
           res.redirect('/setPassword')
         })
 
@@ -520,18 +504,18 @@ router.post('/signup', (req, res) => {
 })
 
 router.get('/signup/otp', (req, res) => {
-  if(req.session.userLoggedIn){
+  if (req.session.userLoggedIn) {
     res.redirect('/')
-  }else{
-    if(req.session.loginHalf){
+  } else {
+    if (req.session.loginHalf) {
       res.render('user/user-signUpOtp', { "maxOtp": req.session.maxOtp, login: true, otp: true, "invalidOtp": req.session.invalidOtp, })
       req.session.maxOtp = false
       req.session.invalidOtp = false
-    }else{
+    } else {
       res.redirect('/signup')
     }
   }
-  
+
 })
 
 router.post('/signup/otp', (req, res) => {

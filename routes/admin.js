@@ -288,6 +288,14 @@ router.get('/delete-category/:id', verifyAdminLogin, (req, res) => {
   })
 })
 
+router.post('/crop',(req,res)=>{
+  // console.log(req.body.image,"crop");
+  let image=req.body.image
+  let newImage=toDataURL(image)
+  // console.log(newImage,"cr");
+  res.json({success:true})
+})
+
 
 
 //Logout
@@ -297,4 +305,4 @@ router.get('/logout', (req, res) => {
   res.redirect('/admin/login')
 })
 
-module.exports = router;
+module.exports = router; 

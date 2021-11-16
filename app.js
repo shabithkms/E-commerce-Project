@@ -10,6 +10,7 @@ const serviceSID = "VA4f6cca5d15fccc194e8862a54bbcf116"
 const accountSID = "ACef72f523eca7c62a1505e6aca1fcaa1a"
 const authToken = "febc47a5cba24670884f237d84c0ab24"
 const client = require('twilio')(accountSID,authToken)
+require('dotenv').config() 
 
 var db = require('./config/connection')
 db.connect((err) => {
