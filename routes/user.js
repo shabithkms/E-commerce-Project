@@ -414,7 +414,7 @@ router.post('/forgetPasswordOtp', (req, res) => {
           console.log(user, "otpiser");
           req.session.loginHalf = false
           req.session.user = user
-          req.session.userLoggedIn = true
+          
           res.redirect('/setPassword')
         })
 
