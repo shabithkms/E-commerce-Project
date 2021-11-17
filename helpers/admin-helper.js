@@ -38,6 +38,66 @@ module.exports = {
 
 
     },
+    getAllUsers: () => {
+        return new Promise(async (resolve, reject) => {
+            let users = await db.get().collection(collection.USER_COLLECTION).find().toArray()
+            resolve(users)
+        })
+    },
+    getActiveUsers: () => {
+        return new Promise(async (resolve, reject) => {
+            let activeUsers = await db.get().collection(collection.USER_COLLECTION).find({ status: true }).toArray()
+            resolve(activeUsers)
+        })
+
+    },
+    getBlockedUsers: () => {
+        return new Promise(async (resolve, reject) => {
+            let blockedUsers = await db.get().collection(collection.USER_COLLECTION).find({ status: false }).toArray()
+            resolve(blockedUsers)
+        })
+
+    },
+    getUserdetails: (Id) => {
+        return new Promise(async (resolve, reject) => {
+            let user = await db.get().collection(collection.USER_COLLECTION).findOne({ _id: objectId(Id) })
+            if (user) {
+                resolve(user)
+
+            } else {
+                console.log("else");
+                resolve(false)
+            }
+        })
+
+
+    },
+    blockUser: (Id, userData) => {
+        return new Promise((resolve, reject) => {
+            db.get().collection(collection.USER_COLLECTION).updateOne({ _id: objectId(Id) },
+                {
+                    $set: {
+                        status:false
+                    }
+                }).then((response) => {
+                    resolve(response)
+                    console.log(response,"res");
+                })
+        })
+    },
+    unblockUser: (Id) => {
+        return new Promise((resolve, reject) => {
+            db.get().collection(collection.USER_COLLECTION).updateOne({ _id: objectId(Id) },
+                {
+                    $set: {
+                        status:true
+                    }
+                }).then((response) => {
+                    resolve(response)
+                    console.log(response,"res");
+                })
+        })
+    },
     addCategory: (data) => {
         return new Promise((resolve, reject) => {
             db.get().collection(collection.CATEGORY_COLLECTION).insertOne(data).then((response) => {
@@ -56,7 +116,7 @@ module.exports = {
                 // console.log(response);
                 resolve(response)
             }).catch((err) => {
-                
+
                 reject(err)
             })
 
@@ -101,7 +161,7 @@ module.exports = {
         return new Promise((resolve, reject) => {
             db.get().collection(collection.BRAND_COLLECTION).insertOne(data).then((response) => {
                 resolve(response.insertedId.toString())
-            }).catch((err)=>{
+            }).catch((err) => {
                 reject(err)
                 console.log(err);
             })
@@ -133,7 +193,7 @@ module.exports = {
                     }
                 }).then((response) => {
                     resolve(response)
-                }).catch((err)=>{
+                }).catch((err) => {
                     console.log(err);
                     reject(err)
                 })

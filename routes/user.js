@@ -9,13 +9,17 @@ const productHelper = require('../helpers/product-helper');
 const { Client } = require('twilio/lib/twiml/VoiceResponse');
 const { render } = require('../app');
 
-const accountSID=process.env.accountSID
-const authToken=process.env.authToken
-const serviceSID=process.env.serviceSID
+const accountSID = process.env.accountSID
+const authToken = process.env.authToken
+const serviceSID = process.env.serviceSID
+
+console.log(accountSID);
+console.log(authToken);
+console.log(serviceSID); 
 
 
 
-const client = require('twilio')(accountSID,authToken)
+const client = require('twilio')(accountSID, authToken)
 
 
 
@@ -23,33 +27,33 @@ const client = require('twilio')(accountSID,authToken)
 const verifyUserLogin = (req, res, next) => {
   res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
   if (req.session.userloggedIn) {
-    // let userId = req.session.user._id
-    // userHelper.getUserDetails(userId).then((user) => {
-    //   console.log("In verify login");
-    //   if (user) {
-    //     console.log(user.status);
-    //     if (user.status === "Active") {
-    //       next()
-    //     } else {
+    let userId = req.session.user._id
+    userHelper.getUserDetails(userId).then((user) => {
+      console.log("In verify login");
+      if (user) {
+        console.log(user.status);
+        if (user.status === true) {
+          next()
+        } else {
 
-    //       req.session.blockErr = true
-    //       req.session.deleteErr = false
-    //       req.session.user = null
-    //       req.session.userloggedIn = false
-    //       res.redirect('/login')
-    //     }
+          req.session.blockErr = true
+          req.session.deleteErr = false
+          req.session.user = null
+          req.session.userloggedIn = false
+          res.redirect('/login')
+        }
 
-    //   } else {
-    //     console.log('no user');
-    //     req.session.deleteErr = true
-    //     req.session.user = null
-    //     req.session.userloggedIn = false
-    //     res.redirect('/login')
+      } else {
+        console.log('no user');
+        req.session.deleteErr = true
+        req.session.user = null
+        req.session.userloggedIn = false
+        res.redirect('/login')
 
-    //   }
+      }
 
-    // })
-    next()
+    })
+
   } else {
     res.redirect('/login')
   }
@@ -62,7 +66,7 @@ router.get('/', async function (req, res, next) {
   let products = await productHelper.getAllProducts()
   // console.log(products);
 
-  res.render('user/home', { user, users: true, products })
+  res.render('user/home', { user, userPage: true, products })
 });
 
 
@@ -94,24 +98,6 @@ router.post('/login', (req, res) => {
 
       console.log(status);
       if (status) {
-
-        // client.verify
-        //   .services(serviceSID)
-        //   .verifications.create({
-        //     to: `+91${req.body.mobileNo}`,
-        //     channel: "sms"
-        //   }).then((resp) => {
-        //     console.log(resp.to);
-        //     req.session.number = resp.to
-
-
-        //     req.session.loginHalf = true
-        //     res.redirect('/login/otp')
-        //   }).catch((err) => {
-        //     console.log(err, "err");
-        //     req.session.otpErr = true
-        //     res.redirect('/login/otp')
-        //   })
         req.session.user = response.user
         req.session.userLoggedIn = true
         res.redirect('/')
@@ -504,9 +490,8 @@ router.post('/signup', (req, res) => {
 })
 
 router.get('/signup/otp', (req, res) => {
-  if (req.session.userLoggedIn) {
-    res.redirect('/')
-  } else {
+ 
+  
     if (req.session.loginHalf) {
       res.render('user/user-signUpOtp', { "maxOtp": req.session.maxOtp, login: true, otp: true, "invalidOtp": req.session.invalidOtp, })
       req.session.maxOtp = false
@@ -514,11 +499,11 @@ router.get('/signup/otp', (req, res) => {
     } else {
       res.redirect('/signup')
     }
-  }
+  
 
 })
 
-router.post('/signup/otp', (req, res) => {
+router.post('/signup/otp', async (req, res) => {
   let userData = req.session.signUpUser
   console.log("signup otp", userData);
   let a = Object.values(req.body.otp)
@@ -533,10 +518,13 @@ router.post('/signup/otp', (req, res) => {
     }).then((response) => {
       if (response.valid) {
         console.log(number, "num");
-        userHelper.doSignUp(userData).then((response) => {
+        userHelper.doSignUp(userData).then(async(response) => {
           console.log(response, "otpiser");
           req.session.loginHalf = false
-          req.session.user = userData
+          let id = response.mobileNo
+          console.log(id,"mob");
+          let user = await userHelper.getUserdetails(id)
+          req.session.user = user
           req.session.userLoggedIn = true
           res.redirect('/')
         }).catch((err) => {

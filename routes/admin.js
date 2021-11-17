@@ -6,7 +6,8 @@ const productHelpers = require('../helpers/product-helper');
 var db = require('../config/connection')
 var collection = require('../config/collection');
 var fs = require('fs')
-var swal = require('sweetalert')
+var swal = require('sweetalert');
+const userHelper = require('../helpers/user-helper');
 
 const verifyAdminLogin = (req, res, next) => {
   res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
@@ -72,9 +73,48 @@ router.post('/login', (req, res) => {
 // User Section
 
 
-router.get('/users', verifyAdminLogin, (req, res) => {
+router.get('/users', (req, res) => {
+  adminHelpers.getAllUsers().then((users) => {
 
-  res.render('admin/all-users', { admin: true })
+    res.render('admin/all-users', { admin: true, users })
+  })
+
+})
+
+router.get('/active-users', (req, res) => {
+  adminHelpers.getActiveUsers().then((activeUsers) => {
+
+    res.render('admin/active-users', { admin: true, activeUsers })
+  })
+
+})
+
+router.get('/blocked-users', (req, res) => {
+  adminHelpers.getBlockedUsers().then((blockedUsers) => {
+
+    res.render('admin/blocked-users', { admin: true, blockedUsers })
+  })
+
+})
+
+router.get('/block-user/:id',  (req, res) => {
+  let id = req.params.id
+  
+  
+  adminHelpers.blockUser(id).then((response) => {
+    res.redirect('/admin/users')
+  })
+
+})
+
+router.get('/unblock-user/:id',  (req, res) => {
+  let id = req.params.id
+  
+  
+  adminHelpers.unblockUser(id).then((response) => {
+    res.redirect('/admin/users')
+  })
+
 })
 
 // Product Section
@@ -288,12 +328,16 @@ router.get('/delete-category/:id', verifyAdminLogin, (req, res) => {
   })
 })
 
-router.post('/crop',(req,res)=>{
+router.post('/crop', (req, res) => {
   // console.log(req.body.image,"crop");
-  let image=req.body.image
-  let newImage=toDataURL(image)
+  let image = req.body.image
+  req.session.image = image
+  // let newImage=toDataURL(image)
   // console.log(newImage,"cr");
-  res.json({success:true})
+  res.json({ satus: true })
+})
+router.get('/img', (req, res) => {
+  res.render('img', { admin: true, "image": req.session.image })
 })
 
 
@@ -305,4 +349,4 @@ router.get('/logout', (req, res) => {
   res.redirect('/admin/login')
 })
 
-module.exports = router; 
+module.exports = router;

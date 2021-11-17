@@ -48,42 +48,12 @@
                                 class="fas fa-edit"></i></a>
 
 
-                        
-                    <a class="btn btn-danger" href="/admin/delete-product/{{this._id}}" name="{{this.name}}"
-                        onclick="deleteproduct(event)"><i class="fas fa-trash-alt"></i></a>
+
+                        <a class="btn btn-danger" href="/admin/delete-product/{{this._id}}" name="{{this.name}}"
+                            onclick="deleteproduct(event)"><i class="fas fa-trash-alt"></i></a>
                     </td>
                 </tr>
                 {{/each}}
-
-                <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
-                    tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="staticBackdropLabel">Caution</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <br>
-                                <br>
-                                Are you Want to delete {{users.name}} ?.
-                                <br>
-                                <br><br>
-
-
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-                                <a href="" type="button" id="modalbutton" class="btn btn-primary">Yes</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-
-
             </tbody>
         </table>
     </div>
