@@ -555,7 +555,19 @@ router.post('/signup/otp', async (req, res) => {
 //Cart
 
 router.get('/cart', verifyUserLogin, (req, res) => {
-  res.render('user/cart', { user: true })
+  res.render('user/cart', { user: true }) 
+})
+
+//Checkout
+
+router.get('/checkout',(req,res)=>{
+  res.render('user/checkout')
+})
+
+//My profile
+
+router.get('/account',(req,res)=>{
+  res.render('user/my-profile')
 })
 
 

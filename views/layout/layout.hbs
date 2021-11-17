@@ -56,6 +56,7 @@
     <link href="/stylesheets/custom-responsivee203.css" rel="stylesheet" type="text/css" media="all" />
     <link href="/stylesheets/skin-theme19f0.css" rel="stylesheet" type="text/css" media="all" />
     <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="/css/profile.css">
 
     {{/if}}
 
@@ -124,7 +125,7 @@
         });
     </script>
 
-    <script src="/js/adminValidations.js"></script> 
+    <script src="/js/adminValidations.js"></script>
     <script>
         function addBrand() {
 
@@ -234,41 +235,29 @@
                 fileInput.value = '';
                 return false;
             } else {
-
-
-                var fileTrue = document.getElementById('file1').onchange.length
-                if (fileTrue == 1) {
-                    document.getElementById('file1').dataset.target = '#cropModal'
-                    document.getElementById('file1').click()
-                    fileTrue = 0
-                } 
-
-                document.getElementById('file1').dataset.target = 'none'
-
                 //Image preview
                 const img_data = fileInput.files[0]
                 const url = URL.createObjectURL(img_data)
                 imagebox.innerHTML = `<img src="${url}" id="image" style="width:100%">`
                 const image = document.getElementById('image')
                 document.getElementById('image-box').style.display = 'block'
-                document.getElementById('crop-btn').style.display = ''
-                document.getElementById('confirm-btn').style.display = 'block'
+                document.getElementById('crop-btn').style.display = 'block'
+                document.getElementById('confirm-btn').style.display = 'none'
 
                 const cropper = new Cropper(image, {
                     autoCropArea: 1,
                     viewMode: 1,
                     scalable: false,
-                    zoomable: true,
+                    zoomable: false,
                     movable: false,
-                    aspectRatio: 0.75 / 1, 
-                    preview: '.preview',
+                    aspectRatio: 16 / 19,
+                    //  preview: '.preview',
                     minCropBoxWidth: 180,
                     minCropBoxHeight: 240,
                 })
-
                 crop_btn.addEventListener('click', () => {
                     cropper.getCroppedCanvas().toBlob((blob) => {
-                        let fileInputElement = document.getElementById('profileimage');
+                        let fileInputElement = document.getElementById('file1');
                         let file = new File([blob], img_data.name, { type: "image/*", lastModified: new Date().getTime() });
                         let container = new DataTransfer();
 
@@ -285,6 +274,7 @@
             }
         }
 
+
     </script>
 
 
@@ -299,7 +289,7 @@
 
 
         $("body").on("change", ".image", function (e) {
-           
+
             var files = e.target.files;
             var done = function (url) {
                 console.log(url)
@@ -345,8 +335,8 @@
                 var reader = new FileReader();
                 reader.readAsDataURL(blob);
                 reader.onloadend = function () {
-                var base64data = reader.result;
-                console.log(base64data)
+                    var base64data = reader.result;
+                    console.log(base64data)
 
                     $.ajax({
                         type: "POST",
