@@ -21,32 +21,33 @@ const client = require('twilio')(accountSID, authToken)
 const verifyUserLogin = (req, res, next) => {
   res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
   if (req.session.userloggedIn) {
-    let userId = req.session.user._id
-    userHelper.getUserDetails(userId).then((user) => {
-      console.log("In verify login");
-      if (user) {
-        console.log(user.status);
-        if (user.status === true) {
-          next()
-        } else {
+    // let userId = req.session.user._id
+    // userHelper.getUserDetails(userId).then((user) => {
+    //   console.log("In verify login");
+    //   if (user) {
+    //     console.log(user.status);
+    //     if (user.status === true) {
+    //       next()
+    //     } else {
 
-          req.session.blockErr = true
-          req.session.deleteErr = false
-          req.session.user = null
-          req.session.userloggedIn = false
-          res.redirect('/login')
-        }
+    //       req.session.blockErr = true
+    //       req.session.deleteErr = false
+    //       req.session.user = null
+    //       req.session.userloggedIn = false
+    //       res.redirect('/login')
+    //     }
 
-      } else {
-        console.log('no user');
-        req.session.deleteErr = true
-        req.session.user = null
-        req.session.userloggedIn = false
-        res.redirect('/login')
+    //   } else {
+    //     console.log('no user');
+    //     req.session.deleteErr = true
+    //     req.session.user = null
+    //     req.session.userloggedIn = false
+    //     res.redirect('/login')
 
-      }
+    //   }
 
-    })
+    // })
+    next()
 
   } else {
     res.redirect('/login')
@@ -56,16 +57,19 @@ const verifyUserLogin = (req, res, next) => {
 //Home page
 router.get('/', async function (req, res, next) {
   let user = req.session.user
-  console.log(user, "user");
+ 
   let products = await productHelper.getAllProducts()
-  // console.log(products);
+  
 
-  res.render('user/home', { user, userPage: true, products })
+  res.render('user/home', { user, userPage: true,products })
+ 
+  
 });
 
 
 //Login Page
 router.get('/login', (req, res) => {
+  console.log("hi");
   res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
   if (req.session.userLoggedIn) {
     res.redirect('/')
@@ -76,6 +80,7 @@ router.get('/login', (req, res) => {
     req.session.noUser = false
     req.session.otpErr = false
   }
+  console.log("end");
 
 })
 
@@ -548,15 +553,22 @@ router.post('/signup/otp', async (req, res) => {
 
 //Cart
 
-router.get('/cart', (req, res) => {
-  res.render('user/cart', { cart: true })
+router.get('/cart',async (req, res) => {
+  let id=req.session.user._id 
+  let products=await userHelper.getCartProducts(id)
+  console.log(products);
+  
+  res.render('user/cart', { cart: true,products })
 })
 
 
-router.get('/add-to-cart/:id', verifyUserLogin, (req, res) => {
+router.get('/add-to-cart/:id', (req, res) => {
+  
   let proId = req.params.id
   let userId = req.session.user._id
+  
   userHelper.addToCart(proId, userId).then((response) => {
+    
     res.redirect('/')
   })
 })

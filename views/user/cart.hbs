@@ -35,7 +35,7 @@
                             <tr>
                                 <th>Image</th>
                                 <th>Product Name</th>
-                                <th>Until Price</th>
+
                                 <th>Qty</th>
                                 <th>Subtotal</th>
                                 <th>Action</th>
@@ -43,33 +43,36 @@
                         </thead>
                         <tbody>
 
-                            {{#each product}}
-                            <tr id="{{this.product._id}}row">
+                            {{#each products}}
+                            <tr id="{{this._id}}row">
                                 <td class="product-thumbnail">
-                                    <img class="img-responsive ml-3" src="/product-images/{{this.product._id}}a.jpg"
-                                        alt="" />
+                                    <img class="img-responsive ml-3" src="/productImages/{{this._id}}a.jpg" alt=""
+                                        style="width: 100px; height: 100px;" />
                                 </td>
-                                <td class="product-name">{{this.product.Name}}</td>
-                                <td class="product-price-cart"><span class="amount"
-                                        id="unitPrice">{{this.product.Price}}</span>
+                                <td class="product-name">{{this.name}}
+                                    <br>
+                                    Price: {{this.price}}
                                 </td>
 
-                                <td class="product-quantity"> 
 
-                                    <a class="btn btn-danger text-center pb-2 mr-3" style="width: 30px;height:30px;"
+                                <td class="product-quantity">
+
+                                    {{!-- <a class="btn btn-danger text-center pb-2 mr-3" style="width: 30px;height:30px;"
                                         onclick="changeQty('{{this._id}}','{{this.product._id}}','{{../userBtn._id}}',-1)">-</a>
                                     <span id="{{this.product._id}}">{{this.quantity}}</span><button
                                         class="btn btn-success text-center ml-3 p-2" style="width: 30px;height:30px;"
-                                        onclick="changeQty('{{this._id}}','{{this.product._id}}','{{../userBtn._id}}',1)">+</button>
+                                        onclick="changeQty('{{this._id}}','{{this.product._id}}','{{../userBtn._id}}',1)">+</button> --}}
+
+                                        <button class="mr-3">-</button>1<button class="ml-3">+</button>
                                 </td>
                                 <td class="product-subtotal" id="{{this.product._id}}5">{{this.subtotal}}</td>
 
 
-                                <td class="product-remove">
+                                <td class="">
 
-                                    <button
+                                    <button class="" style="width: fit-content;"
                                         onclick="deleteProCart('{{this._id}}','{{this.item}}','{{this.product._id}}')"><i
-                                            class="icon-close"></i></button>
+                                            class="fas fa-trash-alt " style="color: red;"></i></button>
                                 </td>
                             </tr>
                             {{/each}}

@@ -10,7 +10,7 @@ module.exports = {
 
 
             // console.log(userData);
-            
+
             userData.password = await bcrypt.hash(userData.password, 10)
             user = {
                 firstname: userData.firstName,
@@ -59,36 +59,36 @@ module.exports = {
     getUserdetails: (No) => {
         return new Promise(async (resolve, reject) => {
             let user = await db.get().collection(collection.USER_COLLECTION).findOne({ mobileNo: No })
-            if(user){
+            if (user) {
                 resolve(user)
-                console.log(user,"grt");
-            }else{
+                console.log(user, "grt");
+            } else {
                 console.log("else");
                 resolve(false)
             }
         })
-        
+
 
     },
-    setPassword: (No, data,user) => {
+    setPassword: (No, data, user) => {
         return new Promise(async (resolve, reject) => {
 
-            
-            console.log("user",user);
+
+            console.log("user", user);
             data.password1 = await bcrypt.hash(data.password1, 10)
             let passwordNew = data.password1
             db.get().collection(collection.USER_COLLECTION).updateOne({ mobileNo: No },
                 {
                     $set: {
-                        firstname:user.firstname,
-                        lastname:user.lastname,
-                        email:user.email,
-                        mobileNo:user.mobileNo,
-                        password:passwordNew,
-                        status:user.status
+                        firstname: user.firstname,
+                        lastname: user.lastname,
+                        email: user.email,
+                        mobileNo: user.mobileNo,
+                        password: passwordNew,
+                        status: user.status
 
                     }
-                }).then((response)=>{
+                }).then((response) => {
                     resolve(response)
                 })
         })
@@ -97,21 +97,57 @@ module.exports = {
 
     // Cart
 
-    addToCart:(proId,userId)=>{
-        return new Promise(async(resolve ,reject)=>{
-            let userCart=await db.get().collection(collection.CART_COLLECTION).findOne({user:objectId(userId)})
-            if(userCart){
-                // db.get().collection(collection.CART_COLLECTION).updateOne({})
-            }else{
-                let cartObj={
-                    user:objectId(userId),
-                    products:[ objectId(proId)] ,
+    addToCart: (proId, userId) => {
+        return new Promise(async (resolve, reject) => {
+            let userCart = await db.get().collection(collection.CART_COLLECTION).findOne({ user: objectId(userId) })
+
+            if (userCart) {
+                db.get().collection(collection.CART_COLLECTION).updateOne({ user: objectId(userId) },
+                    {
+
+                        $push: {
+                            products: objectId(proId)
+                        }
+
+
+                    }).then((response) => {
+                        resolve(response)
+                    })
+            } else {
+                let cartObj = {
+                    user: objectId(userId),
+                    products: [objectId(proId)],
 
                 }
-                db.get().collection(collection.CART_COLLECTION).insertOne(cartObj).then((response)=>{
+
+                db.get().collection(collection.CART_COLLECTION).insertOne(cartObj).then((response) => {
                     resolve(response)
                 })
             }
+        })
+    },
+    getCartProducts:(Id)=>{
+        return new Promise(async(resolve,reject)=>{
+            let cartItems=await db.get().collection(collection.CART_COLLECTION).aggregate([
+                {
+                    $match:{user:objectId(Id)}
+                },
+                {
+                    $lookup:{
+                         from:collection.PRODUCT_COLLECTION,
+                         let:{prodList:'$products'},
+                         pipeline:[{
+                             $match:{
+                                 $expr:{
+                                     $in:['$_id',"$$prodList"]
+                                 }
+                             }
+                         }],
+                         as:'cartItems'
+                    }
+                }
+            ]).toArray()
+            resolve(cartItems[0].cartItems)
         })
     }
 }
