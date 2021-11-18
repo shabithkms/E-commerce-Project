@@ -92,5 +92,26 @@ module.exports = {
                     resolve(response)
                 })
         })
+    },
+
+
+    // Cart
+
+    addToCart:(proId,userId)=>{
+        return new Promise(async(resolve ,reject)=>{
+            let userCart=await db.get().collection(collection.CART_COLLECTION).findOne({user:objectId(userId)})
+            if(userCart){
+                // db.get().collection(collection.CART_COLLECTION).updateOne({})
+            }else{
+                let cartObj={
+                    user:objectId(userId),
+                    products:[ objectId(proId)] ,
+
+                }
+                db.get().collection(collection.CART_COLLECTION).insertOne(cartObj).then((response)=>{
+                    resolve(response)
+                })
+            }
+        })
     }
 }

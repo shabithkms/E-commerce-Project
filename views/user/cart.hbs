@@ -1,0 +1,168 @@
+<div class="breadcrumb-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="row breadcrumb_box  align-items-center">
+                    <div class="col-lg-6 col-md-6 col-sm-12 text-center text-md-left">
+                        <h4 class="breadcrumb-title">cart</h4>
+                    </div>
+                    <div class="col-lg-6  col-md-6 col-sm-12">
+                        <!-- breadcrumb-list start -->
+                        <ul class="breadcrumb-list text-center text-md-right">
+                            <li class="breadcrumb-item"><a href="/">Home</a></li>
+                            <li class="breadcrumb-item active">Cart</li>
+                        </ul>
+                        <!-- breadcrumb-list end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- breadcrumb-area end -->
+
+<!-- Cart Area Start -->
+<div class="cart-main-area pt-100px pb-100px">
+    <div class="container">
+        <h3 class="cart-page-title">Your cart items</h3>
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+
+                <div class="table-content table-responsive cart-table-content">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Image</th>
+                                <th>Product Name</th>
+                                <th>Until Price</th>
+                                <th>Qty</th>
+                                <th>Subtotal</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            {{#each product}}
+                            <tr id="{{this.product._id}}row">
+                                <td class="product-thumbnail">
+                                    <img class="img-responsive ml-3" src="/product-images/{{this.product._id}}a.jpg"
+                                        alt="" />
+                                </td>
+                                <td class="product-name">{{this.product.Name}}</td>
+                                <td class="product-price-cart"><span class="amount"
+                                        id="unitPrice">{{this.product.Price}}</span>
+                                </td>
+
+                                <td class="product-quantity"> 
+
+                                    <a class="btn btn-danger text-center pb-2 mr-3" style="width: 30px;height:30px;"
+                                        onclick="changeQty('{{this._id}}','{{this.product._id}}','{{../userBtn._id}}',-1)">-</a>
+                                    <span id="{{this.product._id}}">{{this.quantity}}</span><button
+                                        class="btn btn-success text-center ml-3 p-2" style="width: 30px;height:30px;"
+                                        onclick="changeQty('{{this._id}}','{{this.product._id}}','{{../userBtn._id}}',1)">+</button>
+                                </td>
+                                <td class="product-subtotal" id="{{this.product._id}}5">{{this.subtotal}}</td>
+
+
+                                <td class="product-remove">
+
+                                    <button
+                                        onclick="deleteProCart('{{this._id}}','{{this.item}}','{{this.product._id}}')"><i
+                                            class="icon-close"></i></button>
+                                </td>
+                            </tr>
+                            {{/each}}
+
+                        </tbody>
+                    </table>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-lg-4 col-md-12 mt-md-30px">
+                        <div class="grand-totall">
+                            <div class="title-wrap">
+                                <h4 class="cart-bottom-title section-bg-gary-cart">Cart Total</h4>
+                            </div>
+                            <h5 class="pb-2"> <span></span></h5>
+
+                            <h4 class="grand-totall-title">Grand Total Rs. <span id="total">{{total}}</span></h4>
+                            <a href="/placeOrder" style="text-decoration: none;">Proceed to Checkout</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+    crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+    function deleteProCart(cart, prodId, proId) {
+        console.log("hello ew")
+        $.ajax({
+            url: '/delete-cart-item',
+            data: {
+                cartId: cart,
+                proId: prodId
+
+            },
+            method: 'post',
+            success: (response) => {
+                if (response.deleteSingleProduct) {
+                    alert("Product Removed")
+                    document.getElementById(proId + 'row').hidden = true
+                    document.getElementById('total').innerHTML = response.total
+                    document.getElementById("cart-count").innerHTML = response.cartCount
+                    document.getElementById("cart-count1").innerHTML = response.cartCount
+                }
+                if (response.cartEmpty) {
+                    alert("The item has been removed")
+                    location.reload()
+                }
+            }
+        })
+    }
+    function changeQty(cartId, proId, userId, count) {
+        let quantity = parseInt(document.getElementById(proId).innerHTML)
+        var price = parseInt(document.getElementById('unitPrice').innerHTML)
+
+        $.ajax({
+            url: '/change-product-qty',
+            data: {
+                user: userId,
+                cart: cartId,
+                product: proId,
+                count: count,
+                quantity: quantity
+            },
+            method: 'post',
+            success: (response) => {
+                if (response.removeProduct) {
+                    document.getElementById('total').innerHTML = response.total
+                    alert("The item has been removed")
+                    document.getElementById(proId + 'row').hidden = true
+                    document.getElementById("cart-count").innerHTML = response.cart
+                    document.getElementById("cart-count1").innerHTML = response.cart
+                }
+                else if (response.cartEmpty) {
+                    alert("The item has been removed")
+                    location.reload()
+                }
+                else {
+                    console.log(response)
+
+                    document.getElementById(proId).innerHTML = quantity + count
+                    document.getElementById('total').innerHTML = response.total
+                    document.getElementById(proId + 5).innerHTML = response.subtotal
+                    console.log(response.cartCount, "else")
+                }
+            }
+        })
+    }
+
+
+</script>

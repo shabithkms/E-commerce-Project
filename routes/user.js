@@ -13,12 +13,6 @@ const accountSID = process.env.accountSID
 const authToken = process.env.authToken
 const serviceSID = process.env.serviceSID
 
-console.log(accountSID);
-console.log(authToken);
-console.log(serviceSID); 
-
-
-
 const client = require('twilio')(accountSID, authToken)
 
 
@@ -490,16 +484,16 @@ router.post('/signup', (req, res) => {
 })
 
 router.get('/signup/otp', (req, res) => {
- 
-  
-    if (req.session.loginHalf) {
-      res.render('user/user-signUpOtp', { "maxOtp": req.session.maxOtp, login: true, otp: true, "invalidOtp": req.session.invalidOtp, })
-      req.session.maxOtp = false
-      req.session.invalidOtp = false
-    } else {
-      res.redirect('/signup')
-    }
-  
+
+
+  if (req.session.loginHalf) {
+    res.render('user/user-signUpOtp', { "maxOtp": req.session.maxOtp, login: true, otp: true, "invalidOtp": req.session.invalidOtp, })
+    req.session.maxOtp = false
+    req.session.invalidOtp = false
+  } else {
+    res.redirect('/signup')
+  }
+
 
 })
 
@@ -518,11 +512,11 @@ router.post('/signup/otp', async (req, res) => {
     }).then((response) => {
       if (response.valid) {
         console.log(number, "num");
-        userHelper.doSignUp(userData).then(async(response) => {
+        userHelper.doSignUp(userData).then(async (response) => {
           console.log(response, "otpiser");
           req.session.loginHalf = false
           let id = response.mobileNo
-          console.log(id,"mob");
+          console.log(id, "mob");
           let user = await userHelper.getUserdetails(id)
           req.session.user = user
           req.session.userLoggedIn = true
@@ -554,19 +548,28 @@ router.post('/signup/otp', async (req, res) => {
 
 //Cart
 
-router.get('/cart', verifyUserLogin, (req, res) => {
-  res.render('user/cart', { user: true }) 
+router.get('/cart', (req, res) => {
+  res.render('user/cart', { cart: true })
+})
+
+
+router.get('/add-to-cart/:id', verifyUserLogin, (req, res) => {
+  let proId = req.params.id
+  let userId = req.session.user._id
+  userHelper.addToCart(proId, userId).then((response) => {
+    res.redirect('/')
+  })
 })
 
 //Checkout
 
-router.get('/checkout',(req,res)=>{
+router.get('/checkout', (req, res) => {
   res.render('user/checkout')
 })
 
 //My profile
 
-router.get('/account',(req,res)=>{
+router.get('/account', (req, res) => {
   res.render('user/my-profile')
 })
 

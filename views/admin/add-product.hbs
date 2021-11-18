@@ -116,14 +116,14 @@
                         </div>
 
 
-                        <div class="form-row  pb-3 ">
-                            {{!-- <div class="form-group mt-2 col-md-4 ml-2">
+                        {{!-- <div class="form-row  pb-3 ">
+                            <div class="form-group mt-2 col-md-4 ml-2">
                                 <label for="exampleFormControlFile1">Select Main Image</label>
                                 <img src="" style="width:100px;height:100px;display:none" id="imgView"
                                     style="display: none;"><br><br>
                                 <input type="file" class="form-control" name="image1" id="exampleFormControlFile"
                                     style="width: 250px;" accept="image/*" onchange="viewMainImage(event)">
-                            </div> --}}
+                            </div>
 
 
                             <div class="form-group mt-2 col-md-4 ml-2">
@@ -153,45 +153,54 @@
                                 <input type="file" class="form-control" name="image4" id="exampleFormControlFile3"
                                     style="width: 250px;" accept="image/*" onchange="viewImage3(event)">
                             </div>
-                        </div>
-                        <div class="modal fade" id="cropModal" tabindex="-1" role="dialog"
-                            aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">New message</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form>
-                                            <div class="form-group">
-                                                <label for="recipient-name" class="col-form-label">Recipient:</label>
-                                                <input type="text" class="form-control" id="recipient-name">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="message-text" class="col-form-label">Message:</label>
-                                                <textarea class="form-control" id="message-text"></textarea>
-                                            </div>
-                                        </form>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary"
-                                            data-dismiss="modal">Close</button>
-                                        <button type="button" class="btn btn-primary">Send message</button>
-                                    </div>
-                                </div>
+                        </div> --}}
+                        <div class="row">
+                            <div class="mt-5 col-md-6">
+                                <label for="">IMAGE 1</label>
+                                <img src="" alt="" style="width: 100px; height:auto" id="imgview1">
+                                {{!-- <div id="preview1"></div> --}}
+                                <input type="file" name="image1" id="file1" class="form-control"
+                                    onchange="return fileValidation1()">
+                            </div>
+                            <div class="mt-5 col-md-6">
+                                <label for="">IMAGE 2</label>
+                                <img src="" alt="" style="width: 100px; height:auto" id="imgview2">
+                                {{!-- <div id="preview1"></div> --}}
+                                <input type="file" name="image2" id="file2" class="form-control"
+                                    onchange="return fileValidation2()">
+                            </div>
+                            <div class="mt-5 col-md-6">
+                                <label for="">IMAGE 3</label>
+                                <img src="" alt="" style="width: 100px; height:auto" id="imgview3">
+                                {{!-- <div id="preview1"></div> --}}
+                                <input type="file" name="image3" id="file3" class="form-control"
+                                    onchange="return fileValidation3()">
+                            </div>
+                            <div class="mt-5 col-md-6">
+                                <label for="">IMAGE 4</label>
+                                <img src="" alt="" style="width: 100px; height:auto" id="imgview4">
+                                {{!-- <div id="preview1"></div> --}}
+                                <input type="file" name="image4" id="file4" class="form-control"
+                                    onchange="return fileValidation4()">
+                            </div>
+                            <div class="col-12">
+                                <div id="image-box1" style="width: 500px; height: 500px; display: none;"></div>
+                                <button class="btn btn-primary mt-3" type="button" style="display: none;"
+                                    id="crop-btn1">Crop</button>
                             </div>
                         </div>
+                        <center>
+                            <button id="confirm-btn1" type="submit" class="btn btn-primary mt-5">Add
+                                Product</button><br>
+                        </center>
 
                         <p class="text-danger text-center" style="display: none;" id="errMsg">Only Image is
                             Accepted</p>
 
-                        <center>
+                        {{!-- <center>
                             <input type="submit" value="ADD PRODUCT" id='sub' style="width: max-content;"
                                 class="btn  btn-primary mt-4">
-                        </center>
+                        </center> --}}
 
                     </form>
                 </div>
