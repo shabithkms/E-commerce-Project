@@ -20,7 +20,7 @@ const client = require('twilio')(accountSID, authToken)
 
 const verifyUserLogin = (req, res, next) => {
   res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
-  if (req.session.userloggedIn) {
+  if (req.session.userLoggedIn) {
     // let userId = req.session.user._id
     // userHelper.getUserDetails(userId).then((user) => {
     //   console.log("In verify login");
@@ -57,13 +57,15 @@ const verifyUserLogin = (req, res, next) => {
 //Home page
 router.get('/', async function (req, res, next) {
   let user = req.session.user
- 
+  
+  let cartCount = null
+  if (req.session.user) {
+    let Id = req.session.user._id
+    cartCount = await userHelper.getCartCount(Id)
+  }
   let products = await productHelper.getAllProducts()
-  
+  res.render('user/home', { user, userPage: true, products, cartCount })
 
-  res.render('user/home', { user, userPage: true,products })
- 
-  
 });
 
 
@@ -553,23 +555,24 @@ router.post('/signup/otp', async (req, res) => {
 
 //Cart
 
-router.get('/cart',async (req, res) => {
-  let id=req.session.user._id 
-  let products=await userHelper.getCartProducts(id)
+router.get('/cart', verifyUserLogin, async (req, res, next) => {
+  let id = req.session.user._id
+  let products = await userHelper.getCartProducts(id)
   console.log(products);
-  
-  res.render('user/cart', { cart: true,products })
+
+  res.render('user/cart', { cart: true, products })
 })
 
 
 router.get('/add-to-cart/:id', (req, res) => {
-  
+  console.log("Api call");
+
   let proId = req.params.id
   let userId = req.session.user._id
-  
+
   userHelper.addToCart(proId, userId).then((response) => {
-    
-    res.redirect('/')
+
+    res.json({status:true})
   })
 })
 

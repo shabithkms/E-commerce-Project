@@ -203,18 +203,15 @@ sub {
 sup {
   top: -0.5em;
 }
-a {
-  color: #ff7004;
-  text-decoration: underline;
-}
-a:hover {
-  color: #b74f00;
-}
-a:not([href]):not([class]),
-a:not([href]):not([class]):hover {
-  color: inherit;
+a{
   text-decoration: none;
+  color: #000;
 }
+a:hover{
+  text-decoration: none;
+  color: #000;
+}
+
 code,
 kbd,
 pre,
@@ -10877,24 +10874,21 @@ input {
   background-color: #e2e2e2;
 }
 #scrollUp {
-  width: 50px;
-  height: 50px;
-  background-color: #ff7004;
+  width: 40px;
+  height: 40px;
+  background-color: #a8741a;
   color: #fff;
-  right: 20px;
-  bottom: 60px;
+  right: 12px;
+  bottom: 85px;
   text-align: center;
   overflow: hidden;
-  border-radius: 50px;
+  position: fixed;
+  
   z-index: 9811 !important;
-  font-size: 32px;
-  line-height: 50px;
+  font-size: 20px;
+  line-height: 40px;
 }
-#scrollUp:hover {
-  background: #212121;
-  color: #fff;
-  box-shadow: 0 0 20px #fff;
-}
+
 .slider-animated-1 > * {
   animation-duration: 1s;
   animation-fill-mode: both;
@@ -13912,7 +13906,7 @@ body.offcanvas-open {
   float: right;
 }
 .grand-totall .grand-totall-title {
-  color: #ff7004;
+  color: #a8741a;
   font-size: 20px;
   font-weight: 700;
   margin: 0 0 25px;
@@ -13921,7 +13915,7 @@ body.offcanvas-open {
   float: right;
 }
 .grand-totall a {
-  background-color: #ff7004;
+  background-color: #a8741a;
   border-radius: 0;
   color: #fff;
   display: block;

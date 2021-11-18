@@ -154,7 +154,8 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
-    <script src="../ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
     <script src="javascripts/modernizr-2.8.3.min3774.js?v=17472752542221191523"></script>
 
 
@@ -175,6 +176,7 @@
     <script src="/javascripts/jquery.matchHeightf621.js"></script>
     <!-- Ajax Cart js -->
 
+    
     <script
         src="j/avascripts/option_selection-fe6b72c2bbdd3369ac0bfefe8648e3c889efca213baefd4cfb0dd9363563831f.js"></script>
     <script src="/javascripts/api.jquery-e94e010e92e659b566dbc436fdfe5242764380e00398907a14955ba301a4749f.js"></script>
@@ -182,11 +184,28 @@
     <script src="/javascripts/themed240.js?v=3952815461228766799"></script>
     <script
         src="/javascripts/shopify_common-8ea6ac3faf357236a97f5de749df4da6e8436ca107bc3a4ee805cbf08bc47392.js"></script>
+   
+
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.js"></script>
 
     <script src="/js/adminValidations.js"></script>
     <script src="/js/user.js"></script>
     <script src="/js/homeSlider.js"></script>
+
+    {{!-- Cart --}}
+
+    <script>
+        function addToCart(proId, e) {
+            e.preventDefault()
+            $.ajax({
+                url: '/add-to-cart' + proId,
+                method: 'get',
+                success: (response) => {
+                    alert("success")
+                }
+            })
+        }
+    </script>
 
 
     {{!-- slider starts --}}

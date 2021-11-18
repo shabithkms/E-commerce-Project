@@ -185,7 +185,12 @@
                             <div class="header-cart common-style"> 
                                 <button class=" relative">
                                     <a href="/cart"><span class="ion-bag"></span></a>
+                                    {{#if cartCount}}
+                                    <span class="mini_cart_count bigcounter">{{cartCount}}</span>
+                                    {{else}}
                                     <span class="mini_cart_count bigcounter">0</span>
+                                    {{/if}}
+
                                 </button>
                             </div>
                             <div class="header-sidebar common-style">
