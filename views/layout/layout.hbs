@@ -100,6 +100,9 @@
     {{{body}}}
     {{/if}}
     {{/if}}
+    {{#if cart}}
+    {{>user-header}}
+    {{/if}}
 
     {{#if userPage}}
     {{>user-footer}}
@@ -143,6 +146,39 @@
     <script src="/js/otp.js"></script>
     <script src="/js/timer.js"></script>
     {{/if}}
+    {{#if cart}}
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+
+    <script>
+        function changeQuantity(cartId, proId, count) {
+            let quantity=parseInt(document.getElementById(proId).innerHTML)
+            count=parseInt(count)
+
+            $.ajax({
+                url: '/change-product-quantity',
+                data: {
+                    cart: cartId,
+                    product: proId,
+                    count: count,
+                    quantity:quantity
+                },
+                method: 'post',
+                success: (response)=>{
+                    if(response.removeProduct){
+                        alert("Item removed from cart")
+                        location.reload()
+                    }else{
+                        document.getElementById(proId).innerHTML=quantity+count 
+                    }
+                }
+            })
+        }
+    </script>
+    {{/if}}
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
@@ -176,7 +212,7 @@
     <script src="/javascripts/jquery.matchHeightf621.js"></script>
     <!-- Ajax Cart js -->
 
-    
+
     <script
         src="j/avascripts/option_selection-fe6b72c2bbdd3369ac0bfefe8648e3c889efca213baefd4cfb0dd9363563831f.js"></script>
     <script src="/javascripts/api.jquery-e94e010e92e659b566dbc436fdfe5242764380e00398907a14955ba301a4749f.js"></script>
@@ -184,7 +220,7 @@
     <script src="/javascripts/themed240.js?v=3952815461228766799"></script>
     <script
         src="/javascripts/shopify_common-8ea6ac3faf357236a97f5de749df4da6e8436ca107bc3a4ee805cbf08bc47392.js"></script>
-   
+
 
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.js"></script>
 
@@ -195,16 +231,22 @@
     {{!-- Cart --}}
 
     <script>
-        function addToCart(proId, e) {
-            e.preventDefault()
+        function addToCart(proId) {
+
             $.ajax({
-                url: '/add-to-cart' + proId,
+                url: '/add-to-cart/' + proId,
                 method: 'get',
                 success: (response) => {
-                    alert("success")
+                    if (response.status) {
+                        let count = $('#cartCount').html()
+                        count = parseInt(count) + 1
+                        $('#cartCount').html(count)
+                    }
                 }
             })
         }
+
+
     </script>
 
 

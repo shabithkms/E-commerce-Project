@@ -186,7 +186,7 @@
                                 <button class=" relative">
                                     <a href="/cart"><span class="ion-bag"></span></a>
                                     {{#if cartCount}}
-                                    <span class="mini_cart_count bigcounter">{{cartCount}}</span>
+                                    <span class="mini_cart_count bigcounter" id="cartCount">{{cartCount}}</span>
                                     {{else}}
                                     <span class="mini_cart_count bigcounter">0</span>
                                     {{/if}}
@@ -298,7 +298,7 @@
 
 
 
-    <div class="sidebar-cart onepage-sidebar-area">
+    {{!-- <div class="sidebar-cart onepage-sidebar-area">
         <div class="wrap-sidebar">
             <div class="sidebar-cart-all">
                 <div class="sidebar-cart-icon">
@@ -334,7 +334,7 @@
 
             </div>
         </div>
-    </div>
+    </div> --}}
     <div class="main-search-active">
         <div class="sidebar-search-icon">
             <button class="search-close"><span class="ion-android-close"></span></button>

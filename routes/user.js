@@ -559,8 +559,9 @@ router.get('/cart', verifyUserLogin, async (req, res, next) => {
   let id = req.session.user._id
   let products = await userHelper.getCartProducts(id)
   console.log(products);
+  let user=req.session.user
 
-  res.render('user/cart', { cart: true, products })
+  res.render('user/cart', { cart: true,userPage:true,user, products })
 })
 
 
@@ -576,9 +577,17 @@ router.get('/add-to-cart/:id', (req, res) => {
   })
 })
 
+router.post('/change-product-quantity',(req,res)=>{
+  console.log(req.body);
+  userHelper.changeProductQuantity(req.body).then((response)=>{
+    res.json(response) 
+
+  })
+})
+
 //Checkout
 
-router.get('/checkout', (req, res) => {
+router.get('/checkout', (req, res) => { 
   res.render('user/checkout')
 })
 
