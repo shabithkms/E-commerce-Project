@@ -1,0 +1,288 @@
+<link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+
+<style>
+    .glass {
+        width: 175px;
+        height: 175px;
+        position: absolute;
+        border-radius: 50%;
+        cursor: crosshair;
+
+        /* Multiple box shadows to achieve the glass effect */
+        box-shadow:
+            0 0 0 7px rgba(255, 255, 255, 0.85),
+            0 0 7px 7px rgba(0, 0, 0, 0.25),
+            inset 0 0 40px 2px rgba(0, 0, 0, 0.25);
+
+        /* hide the glass by default */
+        display: none;
+    }
+
+    #wrap {
+        max-width: 700px;
+        margin: 20px auto;
+    }
+
+    .product {
+        margin: 20px auto;
+        text-align: center;
+        padding: 20px;
+    }
+</style>
+<div class="breadcrumb-area ptb-170"
+    style="background-size: cover;background-image: url(/images/watchImages/Banner1.jpg)">
+    <div class="container">
+        <div class="breadcrumb-content text-center">
+
+            <ul class="breadcrumb-list mr-5">
+
+                <li>
+                    <a href="/" title="Back to the home page">Home</a>
+                </li>
+                <li>
+
+
+
+
+                    <span>{{product.name}}</span>
+
+
+                </li>
+            </ul>
+
+
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="product-details neha_pr_dt">
+    <div class="container p-0">
+        <div class="row">
+            <div class="col-md-12 col-lg-7 col-12">
+                <div class="product-details-img-content">
+                    <div class="product-details-tab mr-70 pr_style_1">
+                        <div class="product-details-large tab-content">
+                            <div id="pro-details1">
+
+                                <div id="wrap">
+
+
+
+
+                                    <div class="product"><img class="magniflier" id="ProductPhotoImg"
+                                            src="/productImages/{{product._id}}a.jpg" width="300" />
+                                    </div>
+
+
+
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="product-details-small product-details-1 nav mt-12" id="ProductThumbs">
+
+                            <a class=" mr-10 product-single__thumbnail">
+                                <img src="/productImages/{{product._id}}b.jpg" width="250px" height="250px" alt="">
+                            </a>
+
+                            <a class=" mr-10 product-single__thumbnail">
+                                <img src="/productImages/{{product._id}}c.jpg" width="250px" height="250px" alt="">
+                            </a>
+                            <a class=" mr-10 product-single__thumbnail">
+                                <img src="/productImages/{{product._id}}d.jpg" width="250px" height="250px" alt="">
+                            </a>
+
+
+
+
+
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12 col-lg-5 col-12">
+                <div class="product-details-content ">
+                    <div class="inner-wrapper-sticky">
+                        <h3>{{product.name}}</h3>
+
+                        <div class="rating-number">
+                            <div class="quick-view-rating">
+                                <span class="shopify-product-reviews-badge" data-id="1310201413721"></span>
+                            </div>
+                        </div>
+
+
+                        <div class="details-price">
+                            <span id="ProductPrice"><span class=money>₹{{product.cost}}</span></span>
+
+                            <del><span id="ComparePrice"><span class=money>₹{{product.price}}</span></span></del>
+
+                        </div>
+
+
+
+
+
+                        <p>En el valle, la vivienda en la vigilancia específica, el reemplazo o la
+                            consolidación de la
+                            cama, un hombre obsesionado con la reducción de opciones de apuestas ilegales.
+                            Wow, mercado muy
+                            atractivo, de mis visitantes. Tiempo de desarrollo reciente para odiar, un bar
+                            beef tiempo.</p>
+
+
+
+
+                        <form action="" method="post" enctype="multipart/form-data" id="add-item-form">
+
+
+
+
+
+
+
+
+
+
+                            <div class="quickview-plus-minus">
+                                {{!-- <div class="cart-plus-minus">
+                                    <input type="text" value="01" name="quantity" class="cart-plus-minus-box">
+                                </div> --}}
+
+                                {{!-- <div class="" style="font-size: 24px; ">
+                                    <button
+                                        onclick="changeQuantity('{{this._id}}','{{this.product._id}}',-1)">-</button>
+                                </div>
+                                <div class=" quantity" style="font-size: 18px;">
+                                    <span id="{{this.product._id}}" class=""> {{this.quantity}}0</span>
+                                </div>
+                                <div class=" quantity" style="font-size: 18px;">
+                                    <button class=""
+                                        onclick="changeQuantity('{{this._id}}','{{this.product._id}}',1)">+</button>
+                                </div> --}}
+
+                                <div class="quickview-btn-cart">
+
+                                    <a class="btn-hover-black addtocart cart-item" 
+                                        onclick="addToCart('{{product._id}}')" data-toggle="tooltip" title="add to cart">
+                                        <i class="ion-ios-loop-strong animated rotateIn infinite"></i>
+                                        <i class="ion-android-done"></i> add to cart
+                                    </a>
+
+
+                                </div>
+
+
+                                <div class="quickview-btn-wishlist">
+
+                                    <a href="../account/login.html" title="Wishlist"
+                                        class="btn-hover list-btn-wishlist animate-left">
+                                        <i class="ion-ios-heart-outline"></i>
+                                    </a>
+
+
+                                </div>
+
+                            </div>
+                        </form>
+
+
+                        <div class="product-categories product-cat-tag">
+                            <ul>
+
+                                <li class="categories-title">Category :</li>
+
+
+
+
+                                <li><a href="../collections/best-sale.html">{{product.category}}</a></li>
+
+                                {{!-- <li><a href="../collections/featured.html">Featured</a></li>
+
+                                <li><a href="../collections/new-arrival.html">New Arrival</a></li>
+
+                                <li><a href="../collections/on-sale.html">On Sale</a></li> --}}
+
+                            </ul>
+                        </div>
+
+
+
+
+                        {{!-- <div class="product-tags product-cat-tag">
+                            <ul>
+
+                                <li class="categories-title">Tags :</li>
+
+
+
+
+                                <li><a href="../collections/all/black.html">black,</a></li>
+
+                                <li><a href="../collections/all/brown.html">brown,</a></li>
+
+                                <li><a href="../collections/all/cotton.html">Cotton</a></li>
+
+
+                            </ul>
+                        </div> --}}
+
+
+
+
+                        {{!-- <div class="product-share">
+
+
+                            <ul>
+
+                                <li class="categories-title">Share:</li>
+
+
+                                <li><a target="_blank"
+                                        href="http://www.facebook.com/sharer.php?u=https://watchin-1.myshopify.com/products/adquiera-mas"
+                                        title="Share on Facebook" tabindex="0">
+                                        <i class="ion-social-facebook"></i>
+                                    </a></li>
+                                <li><a target="_blank"
+                                        href="http://twitter.com/share?text=Adquiera%20Mas&amp;url=https://watchin-1.myshopify.com/products/adquiera-mas;source=webclient"
+                                        title="Share on Twitter" tabindex="0">
+                                        <i class="ion-social-twitter"></i>
+                                    </a></li>
+                                <li><a target="_blank"
+                                        href="http://plus.google.com/share?url=https://watchin-1.myshopify.com/products/adquiera-mas"
+                                        title="Share on Google+" tabindex="0">
+                                        <i class="ion-social-instagram-outline"></i>
+                                    </a></li>
+
+                                <li><a target="_blank"
+                                        href="../../pinterest.com/pin/create/button/index1576.html?url=https://watchin-1.myshopify.com/products/adquiera-mas&amp;media=http://cdn.shopify.com/s/files/1/0012/9266/4921/products/1_1024x1024.jpg?v=1531545383&amp;description=Adquiera%20Mas"
+                                        title="Share on Pinterest" tabindex="0">
+                                        <i class="ion-social-pinterest-outline"></i>
+                                    </a></li>
+
+                            </ul>
+
+                        </div> --}}
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<style>
+    .product-details.neha_pr_dt {
+        padding-top: 100px;
+        padding-bottom: 90px;
+        margin-bottom: 0px;
+    }
+</style>

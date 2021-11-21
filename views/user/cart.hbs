@@ -43,7 +43,7 @@
                         </thead>
                         <tbody>
 
-                            {{#each products}}
+                            {{#products}}
                             <tr id="{{this._id}}row">
 
                                 <td class="product-thumbnail">
@@ -73,23 +73,29 @@
                                     <button class="ml-3"
                                         onclick="changeQuantity('{{this._id}}','{{this.product._id}}',1)">+</button>
                                 </td>
-                                <td class="product-subtotal" id="{{this.product._id}}5">{{this.subtotal}}</td>
+                                {{#each ../subTotals}}
+                                <td class="product-subtotal">{{total}}</td>
+                                {{/each}}
 
 
                                 <td class="">
 
-                                    <button class="" style="width: fit-content;"
-                                        onclick="deleteProCart('{{this._id}}','{{this.item}}','{{this.product._id}}')"><i
-                                            class="fas fa-trash-alt " style="color: red;font-size: 20px;"></i></button>
+                                    {{!-- <a class="" style="width: fit-content;"
+                                        href="/delete-cart-product/{{this._id}}/{{this.product._id}}"><i
+                                            class="fas fa-trash-alt " style="color: red;font-size: 20px;"></i></a> --}}
+                                    <button onclick="deleteCartPro('{{this._id}}','{{this.product._id}}')">
+                                        <i class="fas fa-trash-alt " style="color: red;font-size: 20px;"></i>
+                                    </button>
+
                                 </td>
                             </tr>
-                            {{/each}}
+                            {{/products}}
 
                         </tbody>
                     </table>
                 </div>
 
-
+                {{#totals}}
                 <div class="row mt-5">
                     <div class="col-lg-4 col-md-12 mt-md-30px">
                         <div class="grand-totall">
@@ -98,11 +104,12 @@
                             </div>
                             <h5 class="pb-2"> <span></span></h5>
 
-                            <h4 class="grand-totall-title">Grand Total Rs. <span id="total">{{total}}</span></h4>
-                            <a href="/placeOrder" style="text-decoration: none;">Proceed to Checkout</a>
+                            <h4 class="grand-totall-title">Grand Total Rs. <span id="total">{{this.total}}</span></h4>
+                            <a href="/checkout" style="text-decoration: none;">Proceed to Checkout</a>
                         </div>
                     </div>
                 </div>
+                {{/totals}}
             </div>
         </div>
     </div>

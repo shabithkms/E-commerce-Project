@@ -1,0 +1,234 @@
+<style>
+    @import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
+
+    body {
+        background-color: #eeeeee;
+        font-family: 'Open Sans', serif;
+        font-size: 14px
+    }
+
+    .container-fluid {
+        margin-top: 70px
+    }
+
+    .card-body {
+        -ms-flex: 1 1 auto;
+        flex: 1 1 auto;
+        padding: 1.40rem
+    }
+
+    .img-sm {
+        width: 80px;
+        height: 80px
+    }
+
+    .itemside .info {
+        padding-left: 15px;
+        padding-right: 7px
+    }
+
+    .table-shopping-cart .price-wrap {
+        line-height: 1.2
+    }
+
+    .table-shopping-cart .price {
+        font-weight: bold;
+        margin-right: 5px;
+        display: block
+    }
+
+    .text-muted {
+        color: #969696 !important
+    }
+
+    a {
+        color: black;
+        text-decoration: none !important
+    }
+
+    .card {
+        position: relative;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        min-width: 0;
+        word-wrap: break-word;
+        background-color: #fff;
+        background-clip: border-box;
+        border: 1px solid rgba(0, 0, 0, .125);
+        border-radius: 0px
+    }
+
+    .itemside {
+        position: relative;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        width: 100%
+    }
+
+    .dlist-align {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex
+    }
+
+    [class*="dlist-"] {
+        margin-bottom: 5px
+    }
+
+    .coupon {
+        border-radius: 1px
+    }
+
+    .price {
+        font-weight: 600;
+        color: #212529
+    }
+
+    .btn.btn-out {
+        outline: 1px solid #fff;
+        outline-offset: -5px
+    }
+
+    .btn-main {
+        border-radius: 2px;
+        text-transform: capitalize;
+        font-size: 15px;
+        padding: 10px 19px;
+        cursor: pointer;
+        color: #fff;
+        width: 100%
+    }
+
+    .btn-light {
+        color: #ffffff;
+        background-color: #a8741a;
+        border-color: #f8f9fa;
+        font-size: 12px
+    }
+
+    .btn-light:hover {
+        color: #ffffff;
+        background-color: #a8741a;
+        border-color: #a8741a
+    }
+
+    .btn-apply {
+        font-size: 11px
+    }
+</style>
+
+<div class="container-fluid mb-5">
+    <div class="row">
+        <aside class="col-lg-9">
+            <div class="card">
+                <div class="table-responsive">
+                    <table class="table table-borderless table-shopping-cart">
+                        <thead class="text-muted">
+                            <tr class="small text-uppercase">
+                                <th scope="col" class="text-center">Product</th>
+                                <th scope="col" class="text-center">Quantity</th>
+                                <th scope="col" class="text-center">Sub Total</th>
+                                <th scope="col" class="text-center">Remove</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each products}}
+                            <tr>
+                                <td class="text-center">
+                                    <figure class="itemside align-items-center">
+                                        <div class="aside"><img src="/productImages/{{this.product._id}}a.jpg"
+                                                class="img-sm"></div>
+                                        <figcaption class="info"> <a href="#" class="title text-dark"
+                                                data-abc="true">{{this.product.name}}</a>
+                                            <p class="text-muted small">Price :{{this.product.price}} </p>
+                                        </figcaption>
+                                    </figure>
+                                </td>
+                                <td class="text-center ">
+                                    <div class="qty">
+                                        <div class=" quantity" style="font-size: 24px; ">
+                                            <button
+                                                onclick="changeQuantity('{{this._id}}','{{this.product._id}}',-1)">-</button>
+                                        </div>
+                                        <div class=" quantity" style="font-size: 18px;">
+                                            <span id="{{this.product._id}}" class=""> {{this.quantity}}</span>
+                                        </div>
+                                        <div class=" quantity" style="font-size: 18px;">
+                                            <button class=""
+                                                onclick="changeQuantity('{{this._id}}','{{this.product._id}}',1)">+</button>
+                                        </div>
+
+
+
+                                    </div>
+                                </td>
+
+
+                                {{!-- {{#each ../subTotals}} --}}
+                                <td class="product-subtotal  text-center">{{total}}</td>
+                                {{!-- {{/each}} --}}
+
+                                <td class=" remove h-100  text-center">
+                                    <button onclick="deleteCartPro('{{this._id}}','{{this.product._id}}')">
+                                        <i class="fas fa-trash-alt mt-4 " style="color: red;font-size: 20px;"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            {{/each}}
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </aside>
+        <aside class="col-lg-3">
+
+            <div class="card">
+                <div class="card-body">
+                    {{!-- <dl class="dlist-align">
+                        <dt>Total price:</dt>
+                        <dd class="text-right ml-3">{{totals}}.00</dd>
+                    </dl>
+                    <dl class="dlist-align">
+                        <dt>Shipping :</dt>
+                        <dd class="text-right text-danger ml-3">00.00</dd>
+                    </dl>
+                    <dl class="dlist-align">
+                        <dt>Total:</dt>
+                        <dd class="text-right text-dark b ml-3"><strong>{{totals}}.00</strong></dd>
+                    </dl> --}}
+                    <table class="table borderless">
+                        <tr>
+                            <td>Total price:</td>
+                            <td>{{totals}}.00</td>
+                        </tr>
+                        <tr>
+                            <td>Shipping :</td>
+                            <td>{{totals}}.00</td>
+                        </tr>
+                        <tr>
+                            <td>Total:</td>
+                            <td><strong>{{totals}}.00</strong></td>
+                        </tr>
+                    </table>
+                    <style>
+                        .borderless td,
+                        .borderless th {
+                            border: none;
+                        }
+                    </style>
+                    <hr> <a href="/checkout" class="btn w-100 btn-primary text-center " data-abc="true">Checckout
+                    </a>
+                    <br>
+                    <a href="/" class="btn w-100  btn-success   mt-2" style="" data-abc="true">Continue
+                        Shopping</a>
+
+                </div>
+            </div>
+
+        </aside>
+    </div>
+</div>

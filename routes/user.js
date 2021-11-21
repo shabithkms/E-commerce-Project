@@ -57,7 +57,7 @@ const verifyUserLogin = (req, res, next) => {
 //Home page
 router.get('/', async function (req, res, next) {
   let user = req.session.user
-  
+
   let cartCount = null
   if (req.session.user) {
     let Id = req.session.user._id
@@ -553,15 +553,41 @@ router.post('/signup/otp', async (req, res) => {
 
 })
 
+//Product secction
+
+
+router.get('/product/:id', async (req, res) => {
+  let id = req.params.id
+  let cartCount = null
+  if (req.session.user) {
+    let Id = req.session.user._id
+    cartCount = await userHelper.getCartCount(Id)
+  }
+  let product = await productHelper.getProductDetails(id).then((product) => {
+    console.log(product, "pro in single")
+    res.render('user/single-product', { userPage: true,cartCount, product })
+  })
+
+})
+
 //Cart
 
 router.get('/cart', verifyUserLogin, async (req, res, next) => {
   let id = req.session.user._id
   let products = await userHelper.getCartProducts(id)
   console.log(products);
-  let user=req.session.user
-
-  res.render('user/cart', { cart: true,userPage:true,user, products })
+  let user = req.session.user
+  let subTotals = await userHelper.getCartTotal(id)
+  let totals = await userHelper.getTotalAmount(id)
+  console.log(totals,"total");
+  let cartCount = null
+  if (req.session.user) {
+    let Id = req.session.user._id
+    cartCount = await userHelper.getCartCount(Id)
+  }
+  console.log(totals);
+  // console.log(totals,"in cart");
+  res.render('user/newCart', { cart: true, userPage: true, user, cartCount, products, subTotals, totals })
 })
 
 
@@ -573,22 +599,42 @@ router.get('/add-to-cart/:id', (req, res) => {
 
   userHelper.addToCart(proId, userId).then((response) => {
 
-    res.json({status:true})
+    res.json({ status: true })
   })
 })
 
-router.post('/change-product-quantity',(req,res)=>{
+router.post('/change-product-quantity', (req, res) => {
   console.log(req.body);
-  userHelper.changeProductQuantity(req.body).then((response)=>{
-    res.json(response) 
+  userHelper.changeProductQuantity(req.body).then((response) => {
+    res.json(response)
 
+  })
+})
+
+router.post('/delete-cart-product', (req, res) => {
+  let cartId = req.body.cart
+  let proId = req.body.product
+  console.log(req.body);
+  console.log(cartId);
+  console.log(proId);
+  userHelper.deleteCartProduct(cartId, proId).then((response) => {
+    res.json(response)
   })
 })
 
 //Checkout
 
-router.get('/checkout', (req, res) => { 
-  res.render('user/checkout')
+router.get('/checkout', verifyUserLogin, async (req, res) => {
+  let userId = req.session.user._id
+  let total = await userHelper.getTotalAmount(userId)
+  let products = await userHelper.getCartProducts(userId)
+  let cartCount = null
+  if (req.session.user) {
+    let Id = req.session.user._id
+    cartCount = await userHelper.getCartCount(Id)
+  }
+  // console.log(total);
+  res.render('user/checkout', { total,cartCount, products })
 })
 
 //My profile
