@@ -428,17 +428,9 @@
 
 
     </script>
-    {{!-- Zoom --}}
+    
 
-    <script>
-        $(".zoom_05").elevateZoom({
-            gallery: 'ProductThumbs',
-            galleryActiveClass: "active",
-            zoomType: "inner",
-            cursor: "crosshair"
-        });
-    </script>
-
+{{!-- Zoom --}}
     <script>
         $(function () {
 
@@ -613,82 +605,7 @@
         // initialise
         headroom.init();
     </script>
-    <div class="modal fade" id="quickViewModal" tabindex="-1" tabindex="-1" role="dialog">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span class="ion-android-close" aria-hidden="true"></span>
-        </button>
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-body">
-
-                    <div class="qwick-view-left">
-                        <div class="quick-view-learg-img">
-                            <div class="quick-view-tab-content tab-content">
-                                <div class="product-main-image__item">
-                                    <div class="img_box_1"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="qwick-view-right">
-                        <div class="qwick-view-content">
-                            <h3 class="product_title">FROM_JS</h3>
-                            <div class="price product-info__price price-part">
-                                <span class="new price-box__new">jsprice</span>
-                                <span class="old main">jsprice </span>
-                            </div>
-
-                            <div class="small-product-des quick-desc">
-                                <div class="divider divider--xs product-info__divider"></div>
-                                <div class="product-info__description product-des">FROM_JS</div>
-                            </div>
-
-
-                            <form id="add-item-qv" action="https://watchin-1.myshopify.com/cart/add" method="post">
-                                <div class="quick-view-select variants"></div>
-                                <div class="quickview-plus-minus wrapper">
-                                    <div class="cart-plus-minus">
-                                        <input type="text" value="01" name="quantity" class="cart-plus-minus-box">
-                                    </div>
-                                    <div class="quickview-btn-cart">
-                                        <a class="btn-hover-black addtocartqv" href="#">add to cart</a>
-                                    </div>
-
-                                    <div class="quickview-btn-wishlist rhs_qcv">
-
-                                        <a href="account/login.html" title="Wishlist"
-                                            class="btn-hover list-btn-wishlist animate-left">
-                                            <i class="ion-ios-heart-outline"></i>
-                                        </a>
-
-
-                                    </div>
-                                </div>
-                                <script>
-                                    jQuery('.addtocartqv').click(function (e) {
-                                        e.preventDefault();
-                                        Shopify.addItemFromFormStart('add-item-qv', jQuery(this).attr('id'));
-                                    });
-                                </script>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-
-
-
-    <div class="quickViewModal_info" style="display: none;">
-        <div class="button">Add to Cart</div>
-        <div class="button_added"><i class="ion-checkmark-round"></i></div>
-        <div class="button_error"><span class="icon icon-shopping_basket"></span> Limit Products</div>
-        <div class="button_wait"><i class="ion-ios-loop-strong animated rotateIn infinite"></i></div>
-    </div>
+    
 
 
 

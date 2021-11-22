@@ -29,7 +29,7 @@
 
             <div class="billing-info-wrap">
                 <h3>Billing Details</h3>
-                <form action="" id="checkout-form" class="mt-3" method="POST">
+                <form action="" id="checkout-form"  class="mt-3" method="POST">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-row">
@@ -68,7 +68,8 @@
 
                                 <div class="form-group billing-info mb-4 col-md-6">
                                     <label for="pin">Postcode / ZIP</label>
-                                    <input type="text" id="pin" name="PIN" required pattern=".{6,6}" />
+                                    <input type="number" id="pin" name="PIN" maxlength="6"
+                                        onkeydown="return event.keyCode !== 69" required pattern=".{6,6}" />
                                 </div>
                             </div>
                             <div class="form-row">
@@ -273,23 +274,74 @@
 <script>
     $('#checkout-form').submit((e) => {
         e.preventDefault()
-        $.ajax({
-            url: '/place-order',
-            method: 'post',
-            data: $('#checkout-form').serialize(),
-            success: (response) => {
-                if (response.status) {
-                    console.log()
+        {{!-- $('#checkout-form').validate({
+            rules: {
+                FirstName: {
+                    required: true,
+                    minlength: 4,
+                    maxlength: 20
 
-                    location.href = "/order-success"
-                } else {
-                    alert("Some error")
-                    location.reload()
+                },
+                LastName: {
+                    required: true,
+                    minlength: 4,
+                    maxlength: 15
+
+                },
+                House: {
+                    required: true,
+
+                    minlength: 10,
+                    maxlength: 100,
+                },
+                Street: {
+                    required: true,
+                    minlength: 4
+                },
+                Town: {
+                    required: true,
+                    minlength: 4
+                },
+                PIN: {
+                    required: true,
+                    number: true,
+                    minlength: 6,
+                    maxlength: 6
+                },
+                Mobile: {
+                    required: true,
+                    minlength: 10,
+                    maxlength: 10,
+                    number: true
                 }
-
-
+                Email: {
+                    required: true,
+                    email: true
+                },
+            },
+            submitHandler: function submit(form) {
+                console.log(form)
+                
             }
-        })
+        }) --}}
+        $.ajax({
+                    url: '/place-order',
+                    method: 'post',
+                    data: $('#checkout-form').serialize(),
+                    success: (response) => {
+                        if (response.status) {
+                            console.log()
+
+                            location.href = "/order-success"
+                        } else {
+                            alert("Some error")
+                            location.reload()
+                        }
+
+
+                    }
+                })
+
 
     })
 </script>

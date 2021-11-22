@@ -58,7 +58,7 @@ const verifyUserLogin = (req, res, next) => {
 //Home page
 router.get('/', async function (req, res, next) {
   let user = req.session.user
-
+  req.session.noCartPro = false
   let cartCount = null
   if (req.session.user) {
     let Id = req.session.user._id
@@ -557,7 +557,7 @@ router.post('/signup/otp', async (req, res) => {
 //Product secction
 
 
-router.get('/product/:id', verifyUserLogin, async (req, res) => {
+router.get('/product/:id', async (req, res) => {
   let id = req.params.id
   let cartCount = null
   if (req.session.user) {
@@ -615,7 +615,7 @@ router.get('/add-to-cart/:id', (req, res) => {
   let userId = req.session.user._id
 
   userHelper.addToCart(proId, userId).then((response) => {
-
+    req.session.noCartPro = false
     res.json({ status: true })
   })
 })
