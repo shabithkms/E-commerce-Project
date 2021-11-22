@@ -135,7 +135,7 @@
                             <tr class="small text-uppercase">
                                 <th scope="col" class="text-center">Product</th>
                                 <th scope="col" class="text-center">Quantity</th>
-                                {{!-- <th scope="col" class="text-center">Sub Total</th> --}}
+                                <th scope="col" class="text-center">Sub Total</th>
                                 <th scope="col" class="text-center">Remove</th>
                             </tr>
                         </thead>
@@ -172,9 +172,16 @@
                                 </td>
 
 
-                                {{!-- {{#each ../subTotals}} --}}
-                                {{!-- <td class="product-subtotal  text-center">{{total}}</td> --}}
-                                {{!-- {{/each}} --}}
+
+                                <td class="product-subtotal  text-center">
+                                    <div class="mt-4">
+                                        <span class="" id="subTotal{{this.product._id}}">
+                                            {{this.subtotal}}
+                                        </span>
+                                    </div>
+                                </td>
+
+
 
                                 <td class=" remove h-100  text-center">
                                     <button onclick="deleteCartPro('{{this._id}}','{{this.product._id}}')">
@@ -193,22 +200,11 @@
 
             <div class="card">
                 <div class="card-body">
-                    {{!-- <dl class="dlist-align">
-                        <dt>Total price:</dt>
-                        <dd class="text-right ml-3">{{totals}}.00</dd>
-                    </dl>
-                    <dl class="dlist-align">
-                        <dt>Shipping :</dt>
-                        <dd class="text-right text-danger ml-3">00.00</dd>
-                    </dl>
-                    <dl class="dlist-align">
-                        <dt>Total:</dt>
-                        <dd class="text-right text-dark b ml-3"><strong>{{totals}}.00</strong></dd>
-                    </dl> --}}
+
 
                     <table class="table borderless">
                         <tr>
-                            <td > Total price:</td>
+                            <td> Total price:</td>
                             <td id="total1">{{totals}}</td>
                         </tr>
                         <tr>
@@ -216,7 +212,7 @@
                             <td>Free </td>
                         </tr>
                         <tr>
-                            <td >Total:</td>
+                            <td>Total:</td>
                             <td><strong id="total2">{{totals}}</strong></td>
                         </tr>
                     </table>

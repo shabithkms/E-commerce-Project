@@ -171,7 +171,8 @@ module.exports = {
                     $project: {
                         item: 1,
                         quantity: 1,
-                        product: { $arrayElemAt: ['$product', 0] }
+                        product: { $arrayElemAt: ['$product', 0] },
+                        subtotal: { $multiply: [{ $arrayElemAt: ["$product.price", 0] }, "$quantity"] }
                     }
                 }
 
@@ -232,11 +233,13 @@ module.exports = {
                 })
         })
     },
-    getCartTotal: (userId) => {
+    getSubTotal: (userId, proId) => {
         return new Promise(async (resolve, reject) => {
-            let total = await db.get().collection(collection.CART_COLLECTION).aggregate([
+            let subtotal = await db.get().collection(collection.CART_COLLECTION).aggregate([
                 {
-                    $match: { user: objectId(userId) }
+                    $match: {
+                        user: objectId(userId)
+                    }
                 },
                 {
                     $unwind: '$products'
@@ -252,26 +255,46 @@ module.exports = {
                         from: collection.PRODUCT_COLLECTION,
                         localField: 'item',
                         foreignField: '_id',
-                        as: 'product'
-                    }
-                },
-                {
-                    $project: {
-                        item: 1,
-                        quantity: 1,
-                        product: { $arrayElemAt: ['$product', 0] }
-                    }
-                },
-                {
-                    $project: {
+                        as: 'products'
 
-                        total: { $sum: { $multiply: [{ '$toInt': '$quantity' }, { '$toInt': '$product.price' }] } }
+                    }
+                },
+                {
+                    $match: {
+                        item: objectId(proId)
+                    }
+                },
+                {
+                    $project: {
+                        item: 1, quantity: 1, product: { $arrayElemAt: ['$products', 0] }
+
+                    }
+
+                },
+                {
+                    $project: {
+                        unitPrice: { $toInt: '$product.price' },
+                        quantity: { $toInt: '$quantity' }
+                    }
+                },
+                {
+                    $project: {
+                        _id: null,
+                        subtotal: { $sum: { $multiply: ['$quantity', '$unitPrice'] } }
                     }
                 }
 
             ]).toArray()
-            // console.log(total,"t");
-            resolve(total)
+            console.log(subtotal, "in u");
+            if (subtotal.length > 0) {
+                resolve(subtotal[0].subtotal)
+            }
+            else {
+                subtotal = 0
+                resolve(subtotal)
+            }
+
+
         })
     },
     getTotalAmount: (userId) => {
@@ -408,12 +431,12 @@ module.exports = {
         })
     },
     deleteAddress: (userId) => {
-        return new Promise(async(resolve, reject) => {
+        return new Promise(async (resolve, reject) => {
             let user = await db.get().collection(collection.USER_COLLECTION).findOne({ _id: objectId(userId) })
             if (user.address) {
                 db.get().collection(collection.USER_COLLECTION).updateOne({ _id: objectId(userId) }, {
                     $pull: {
-                        address:{User:userId}
+                        address: { User: userId }
                     }
                 }).then(() => {
                     resolve()

@@ -280,9 +280,10 @@
 
                     } else {
                         document.getElementById(proId).innerHTML = quantity + count
-                        console.log(response.total)
+                        console.log(response)
                         document.getElementById('total1').innerHTML = response.total
                         document.getElementById('total2').innerHTML = response.total
+                        document.getElementById('subTotal'+proId).innerHTML=response.subTotal
                     }
                 }
 

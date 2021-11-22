@@ -579,9 +579,9 @@ router.get('/cart', verifyUserLogin, async (req, res, next) => {
   let id = req.session.user._id
   console.log(req.session.user);
   let products = await userHelper.getCartProducts(id)
-  // console.log(products);
+  console.log(products);
   let user = req.session.user
-  // let subTotals = await userHelper.getCartTotal(id)
+  
   let totals = await userHelper.getTotalAmount(id)
 
   if (req.session.user) {
@@ -618,8 +618,10 @@ router.get('/add-to-cart/:id', (req, res) => {
 router.post('/change-product-quantity', (req, res) => {
   console.log(req.body);
   let id = req.body.user
+  let proId=req.body.product 
   userHelper.changeProductQuantity(req.body).then(async (response) => {
     response.total = await userHelper.getTotalAmount(id)
+    response.subTotal = await userHelper.getSubTotal(id,proId)
     console.log(response, "res");
     res.json(response)
 
