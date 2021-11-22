@@ -117,13 +117,13 @@
                                                                 </li>
                                                             </ol>
                                                         </td>
-                                                        <td>
+                                                        {{!-- <td>
                                                             <button
                                                                 onclick="deleteCartPro('{{this._id}}','{{this.product._id}}')">
                                                                 <i class="fas fa-trash-alt mt-4 "
                                                                     style="color: red;font-size: 20px;"></i>
                                                             </button>
-                                                        </td>
+                                                        </td> --}}
                                                     </tr>
                                                     {{/each}}
 
@@ -280,10 +280,11 @@
             success: (response) => {
                 if (response.status) {
                     console.log()
-                    alert(response.status)
+                    
                     location.href = "/order-success"
                 } else {
-                    razorpayPayment(response)
+                    alert("Some error")
+                    location.reload()
                 }
 
 

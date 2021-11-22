@@ -362,6 +362,8 @@ module.exports = {
             let Status = order.Payment === 'COD' ? 'placed' : 'pending'
             let orderObj = {
                 deliveryDetails: {
+                    userf:order.FirstName ,
+                    userl:order.LastName,
                     mobile: order.Mobile,
                     address: order.House,
                     pincode: order.PIN

@@ -9,6 +9,10 @@ module.exports = {
 
     addProduct: (proData) => {
         return new Promise((resolve, reject) => {
+            console.log(proData,"1");
+            proData.price=parseInt(proData.price)
+            proData.cost=parseInt(proData.cost)
+            proData.stock=parseInt(proData.stock)
             console.log(proData);
             db.get().collection(collection.PRODUCT_COLLECTION).insertOne(proData).then((response) => {
                 resolve(response.insertedId.toString())

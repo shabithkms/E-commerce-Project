@@ -6,6 +6,7 @@ var db = require('../config/connection')
 var collection = require('../config/collection');
 const { response } = require('express');
 const productHelper = require('../helpers/product-helper');
+const adminHelpers = require('../helpers/admin-helper');
 const { Client } = require('twilio/lib/twiml/VoiceResponse');
 const { render } = require('../app');
 
@@ -21,33 +22,33 @@ const client = require('twilio')(accountSID, authToken)
 const verifyUserLogin = (req, res, next) => {
   res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
   if (req.session.userLoggedIn) {
-    // let userId = req.session.user._id
-    // userHelper.getUserDetails(userId).then((user) => {
-    //   console.log("In verify login");
-    //   if (user) {
-    //     console.log(user.status);
-    //     if (user.status === true) {
-    //       next()
-    //     } else {
+    let userId = req.session.user._id
+    adminHelpers.getUserdetails(userId).then((user) => {
+      console.log("In verify login");
+      if (user) {
+        console.log(user.status);
+        if (user.status === true) {
+          next()
+        } else {
 
-    //       req.session.blockErr = true
-    //       req.session.deleteErr = false
-    //       req.session.user = null
-    //       req.session.userloggedIn = false
-    //       res.redirect('/login')
-    //     }
+          req.session.blockErr = true
+          req.session.deleteErr = false
+          req.session.user = null
+          req.session.userLoggedIn = false
+          res.redirect('/login')
+        }
 
-    //   } else {
-    //     console.log('no user');
-    //     req.session.deleteErr = true
-    //     req.session.user = null
-    //     req.session.userloggedIn = false
-    //     res.redirect('/login')
+      } else {
+        console.log('no user');
+        req.session.deleteErr = true
+        req.session.user = null
+        req.session.userLoggedIn = false
+        res.redirect('/login')
 
-    //   }
+      }
 
-    // })
-    next()
+    })
+    
 
   } else {
     res.redirect('/login')
@@ -592,7 +593,7 @@ router.get('/cart', verifyUserLogin, async (req, res, next) => {
     res.render('user/newCart', { cart: true, userPage: true, user, 'noCart': req.session.noCartPro, cartCount, products, totals })
     req.session.noCartPro = false
   } else {
-    res.render('user/empty-cart')
+    res.render('user/empty-cart',{login:true})
   }
 
   // userHelper.deleteAddress(id).then((res)=>{
@@ -700,6 +701,10 @@ router.post('/addNewAddress', (req, res) => {
     res.redirect('/checkout')
   })
 
+})
+
+router.get('/myOrders',(req,res)=>{
+  res.render('user/user-orders')
 })
 
 //My profile

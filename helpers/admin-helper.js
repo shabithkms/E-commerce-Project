@@ -77,11 +77,11 @@ module.exports = {
             db.get().collection(collection.USER_COLLECTION).updateOne({ _id: objectId(Id) },
                 {
                     $set: {
-                        status:false
+                        status: false
                     }
                 }).then((response) => {
                     resolve(response)
-                    console.log(response,"res");
+                    console.log(response, "res");
                 })
         })
     },
@@ -90,11 +90,11 @@ module.exports = {
             db.get().collection(collection.USER_COLLECTION).updateOne({ _id: objectId(Id) },
                 {
                     $set: {
-                        status:true
+                        status: true
                     }
                 }).then((response) => {
                     resolve(response)
-                    console.log(response,"res");
+                    console.log(response, "res");
                 })
         })
     },
@@ -204,6 +204,53 @@ module.exports = {
             db.get().collection(collection.BRAND_COLLECTION).deleteOne({ _id: objectId(id) }).then((response) => {
                 resolve(response)
             })
+        })
+    },
+    getAllOrders: () => {
+        return new Promise(async (resolve, reject) => {
+            let orders = await db.get().collection(collection.ORDER_COLLECTION).find().toArray()
+            resolve(orders)
+        })
+    },
+    getOrderProducts: (orderId) => {
+        return new Promise(async (resolve, reject) => {
+            let orderItem = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+                {
+                    $match: {
+                        _id: objectId(orderId)
+                    }
+                },
+                {
+                    $unwind: '$products'
+                },
+                {
+                    $project: {
+                        item: '$products.item',
+                        quantity: '$products.quantity'
+                    }
+                },
+                {
+                    $lookup: {
+                        from: collection.PRODUCT_COLLECTION,
+                        localField: 'item',
+                        foreignField: '_id',
+                        as: 'products'
+
+                    }
+                },
+                {
+                    $project: {
+                        item: 1, quantity: 1, product: { $arrayElemAt: ['$products', 0] },
+
+
+                    }
+
+                }
+
+            ]).toArray()
+            console.log(orderItem,"0");
+
+            resolve(orderItem)
         })
     },
 

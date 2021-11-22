@@ -73,7 +73,7 @@ router.post('/login', (req, res) => {
 // User Section
 
 
-router.get('/users', (req, res) => {
+router.get('/users', verifyAdminLogin,(req, res) => {
   adminHelpers.getAllUsers().then((users) => {
 
     res.render('admin/all-users', { admin: true, users })
@@ -81,7 +81,7 @@ router.get('/users', (req, res) => {
 
 })
 
-router.get('/active-users', (req, res) => {
+router.get('/active-users', verifyAdminLogin,(req, res) => {
   adminHelpers.getActiveUsers().then((activeUsers) => {
 
     res.render('admin/active-users', { admin: true, activeUsers })
@@ -89,7 +89,7 @@ router.get('/active-users', (req, res) => {
 
 })
 
-router.get('/blocked-users', (req, res) => {
+router.get('/blocked-users',verifyAdminLogin, (req, res) => {
   adminHelpers.getBlockedUsers().then((blockedUsers) => {
 
     res.render('admin/blocked-users', { admin: true, blockedUsers })
@@ -97,7 +97,7 @@ router.get('/blocked-users', (req, res) => {
 
 })
 
-router.get('/block-user/:id',  (req, res) => {
+router.get('/block-user/:id',verifyAdminLogin,  (req, res) => {
   let id = req.params.id
   
   
@@ -107,7 +107,7 @@ router.get('/block-user/:id',  (req, res) => {
 
 })
 
-router.get('/unblock-user/:id',  (req, res) => {
+router.get('/unblock-user/:id',verifyAdminLogin,  (req, res) => {
   let id = req.params.id
   
   
@@ -329,6 +329,20 @@ router.get('/delete-category/:id', verifyAdminLogin, (req, res) => {
   })
 })
 
+router.get('/orders',verifyAdminLogin,async(req,res)=>{
+  let ordersList=await adminHelpers.getAllOrders()
+  console.log(ordersList);
+  res.render('admin/all-orders',{admin:true,ordersList})
+})
+
+router.get('/singleOrder/:id',verifyAdminLogin,(req,res)=>{
+  let oId=req.params.id
+  adminHelpers.getOrderProducts(oId).then((products)=>{
+    console.log(products);
+    res.render('admin/single-order',{products,admin:true})
+  })
+})
+
 router.post('/crop', (req, res) => {
   // console.log(req.body.image,"crop");
   let image = req.body.image
@@ -336,9 +350,6 @@ router.post('/crop', (req, res) => {
   // let newImage=toDataURL(image)
   // console.log(newImage,"cr");
   res.json({ satus: true })
-})
-router.get('/img', (req, res) => {
-  res.render('img', { admin: true, "image": req.session.image })
 })
 
 

@@ -1,0 +1,41 @@
+<div class="half">
+    <div class="bg order-1 order-md-2" style="background-image: url('/adminLogin/images/bg_1.jpg');"></div>
+    <div class="contents order-2 order-md-1">
+        <div class="container-fluid">
+            <div class="row align-items-center justify-content-center">
+                {{#each products}}
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6 alert border-light" data-aos="fade-up"
+                    data-aos-delay="200">
+                    <!-- Single Product -->
+                    <div class="product mb-5" style="width: 300px;height:400px">
+                        <div class="thumb">
+
+                            <img src="/productImages/{{this.product._id}}a.jpg" alt="Product"
+                                style="height: 10em;width:15em;" />
+
+
+                            <span class="badges">
+                                <span class="new"></span>
+                            </span>
+                            <div class="actions">
+
+
+                            </div>
+
+                        </div>
+                        <div class="content">
+                            <h5 class="title">{{this.product.name}}</a></h5>
+                            <span class="price">
+                                <span class="new">Rs.{{this.product.price}}</span>
+                            </span> <br>
+                            <span class="price">Quantity:
+                                <span class="new">{{this.quantity}}</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+</div>
