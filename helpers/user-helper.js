@@ -2,6 +2,7 @@ var db = require('../config/connection')
 var collection = require('../config/collection')
 const bcrypt = require('bcrypt')
 const objectId = require('mongodb').ObjectID
+const moment=require('moment')
 const { response } = require('../app')
 
 module.exports = {
@@ -360,28 +361,53 @@ module.exports = {
         return new Promise((resolve, reject) => {
             console.log(order, products, total);
             let Status = order.Payment === 'COD' ? 'placed' : 'pending'
+            // let orderObj = {
+            //     deliveryDetails: {
+            //         userf:order.FirstName ,
+            //         userl:order.LastName,
+            //         mobile: order.Mobile,
+            //         address: order.House,
+            //         pincode: order.PIN
+            //     },
+            //     userId: objectId(order.User),
+            //     paymentMethod: order.Payment,
+            //     products: products,
+            //     totalAmount: total,
+            //     date: new Date(),
+            //     status: Status
+            // }
+
+            let dateIso = new Date()
+            let date = moment(dateIso).format('YYYY/MM/DD')
+            let time = moment(dateIso).format('HH:mm:ss')
             let orderObj = {
                 deliveryDetails: {
-                    userf:order.FirstName ,
-                    userl:order.LastName,
-                    mobile: order.Mobile,
-                    address: order.House,
-                    pincode: order.PIN
+                    FirstName: order.FirstName,
+                    LastName: order.LastName,
+                    House: order.House,
+                    Street: order.Street,
+                    Town: order.Town,
+                    PIN: order.PIN,
+                    Mobile: order.Mobile
                 },
-                userId: objectId(order.User),
-                paymentMethod: order.Payment,
-                products: products,
-                totalAmount: total,
-                date: new Date(),
-                status: Status
+                Email: order.Email,
+                User: order.User,
+                PaymentMethod: order.Payment,
+                Products: products,
+                Total: total,
+                Discount: order.Discount,
+                Date: date,
+                Time: time,
+                Status: Status
+                
             }
 
             db.get().collection(collection.ORDER_COLLECTION).insertOne(orderObj).then((response) => {
-                db.get().collection(collection.CART_COLLECTION).deleteOne({ user: objectId(order.User) })
-                resolve(response)
-            })
+                    db.get().collection(collection.CART_COLLECTION).deleteOne({ user: objectId(order.User) })
+                    resolve(response)
+                })
 
-        })
+            })
 
     },
     getCartProductList: (userId) => {
@@ -444,6 +470,12 @@ module.exports = {
                     resolve()
                 })
             }
+        })
+    },
+    getUserOrders: (Id) => {
+        return new Promise(async (resolve, reject) => {
+            let orders = await db.get().collection(collection.ORDER_COLLECTION).find({ User:Id }).toArray()
+            resolve(orders)
         })
     }
 

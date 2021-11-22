@@ -2,7 +2,6 @@
     <div class="bg order-1 order-md-2" style="background-image: url('/adminLogin/images/bg_1.jpg');"></div>
     <ol class="breadcrumb">
         <li class="pr-3"><a href="/admin" style="text-decoration: none;">Home</a></li>
-        
         <li class="active">All Orders</li>
     </ol>
     <div class="contents order-2 order-md-1">
@@ -14,7 +13,7 @@
                             <tr>
                                 <th scope="col">No.</th>
                                 <th scope="col">Date</th>
-                                {{!-- <th scope="col">Time</th> --}}
+                                <th scope="col">Time</th>
                                 <th scope="col">User</th>
                                 <th scope="col">Address</th>
 
@@ -23,7 +22,7 @@
                                 <th scope="col">Payment</th>
 
                                 <th scope="col">Status</th>
-                                <th scope="col">Change</th>
+                                <th></th>
                                 <th scope="col">Items</th>
                             </tr>
                         </thead>
@@ -31,16 +30,16 @@
                             {{#each ordersList}}
                             <tr>
                                 <td></td>
-                                <td>{{this.date}}</td>
-                                {{!-- <td>{{this.Time}}</td> --}}
-                                <td>{{this.userId}}</td>
-                                <td>{{this.deliveryDetails.userf}} {{this.deliveryDetails.userl}},{{this.deliveryDetails.address}}PIN:{{this.deliveryDetails.pincode}}<br>PH:{{this.deliveryDetails.mobile}}
+                                <td>{{this.Date}}</td>
+                                <td>{{this.Time}}</td>
+                                <td>{{this.User}}</td>
+                                <td>{{this.deliveryDetails.FirstName}},{{this.deliveryDetails.House}}<br>{{this.deliveryDetails.Town}},PIN:{{this.deliveryDetails.PIN}}<br>PH:{{this.deliveryDetails.Mobile}}
                                 </td>
 
-                                <td>{{this.totalAmount}}</td>
+                                <td>{{this.Total}}</td>
                                 <td>{{this.Discount}}</td>
-                                <td>{{this.paymentMethod}}</td>
-                                <td id="{{this._id}}">{{this.status}}</td> 
+                                <td>{{this.PaymentMethod}}</td>
+                                <td id="{{this._id}}">{{this.Status}}</td>
                                 <td>
                                     <div class="dropdown">
                                         <button class="btn btn-dark dropdown-toggle p-1" type="button"
@@ -50,7 +49,7 @@
                                             Status
                                         </button>
 
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <div class="dropdown-menu bg-dark" aria-labelledby="dropdownMenuButton">
                                             <a class="dropdown-item" href="/admin/shipped/{{this._id}}"
                                                 style="text-decoration: none;" id="{{this._id}}ship">Shipped</a>
                                             <a class="dropdown-item" href="/admin/delivered/{{this._id}}"
@@ -74,7 +73,7 @@
         </div>
     </div>
 </div>
-
+</div>
 {{!--
 <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
     crossorigin="anonymous"></script> --}}
@@ -96,9 +95,4 @@
             document.getElementById(orderId + 'deliver').style.display = "none";
         }
     }
-</script>
-<script>
-    $(document).ready(function () {
-        $('#transaction').DataTable();
-    });
 </script>

@@ -1,75 +1,220 @@
-{{!-- <div class="breadcrumb-area">
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <div class="row breadcrumb_box  align-items-center">
-                    <div class="col-lg-6 col-md-6 col-sm-12 text-center text-md-left">
-                        <h2 class="breadcrumb-title">Shop</h2>
-                    </div>
-                    <div class="col-lg-6  col-md-6 col-sm-12">
-                        <!-- breadcrumb-list start -->
-                        <ul class="breadcrumb-list text-center text-md-right">
-                            <li class="breadcrumb-item"><a href="/">Home</a></li>
-                            <li class="breadcrumb-item active">My Orders</li>
-                        </ul>
-                        <!-- breadcrumb-list end -->
+<style>
+    body {
+        min-height: 100vh;
+        background-size: cover;
+        font-family: 'Lato', sans-serif;
+        color: rgba(116, 116, 116, 0.667);
+
+            {
+                {
+                 !-- background: linear-gradient(140deg, #fff, 50%, #BA68C8) --
+            }
+        }
+    }
+    .btn{
+        background-color: #a8741a;
+        border-radius: 3px;
+    }
+    .btn :hover{
+        background-color: black;
+    }
+    h6{
+        
+    }
+
+    .container-fluid {
+        margin-top: 200px
+    }
+
+    p {
+        font-size: 14px;
+        margin-bottom: 7px
+    }
+
+    .small {
+        letter-spacing: 0.5px !important
+    }
+
+        
+    }
+
+    hr {
+        background-color: rgba(248, 248, 248, 0.667)
+    }
+
+    .bold {
+        font-weight: 500
+    }
+
+    .change-color {
+        color: #a8741a !important
+    }
+
+    .card-2 {
+        box-shadow: 1px 1px 3px 0px rgb(112, 115, 139)
+    }
+
+    .fa-circle.active {
+        font-size: 8px;
+        color: #a8741a
+    }
+
+    .fa-circle {
+        font-size: 8px;
+        color: #aaa
+    }
+
+    .rounded {
+        border-radius: 2.25rem !important
+    }
+
+    .progress-bar {
+        background-color: #a8741a !important
+    }
+
+    .progress {
+        height: 5px !important;
+        margin-bottom: 0
+    }
+
+    .invoice {
+        position: relative;
+        top: -70px
+    }
+
+    .Glasses {
+        position: relative;
+        top: -12px !important
+    }
+
+    .card-footer {
+        background-color: #AB47BC;
+        color: #fff
+    }
+
+    h2 {
+        color: #000;
+        letter-spacing: 2px !important
+    }
+
+    .display-3 {
+        font-weight: 500 !important
+    }
+
+    @media (max-width: 479px) {
+        .invoice {
+            position: relative;
+            top: 7px
+        }
+
+        .border-line {
+            border-right: 0px solid rgb(226, 206, 226) !important
+        }
+    }
+
+    @media (max-width: 700px) {
+        h2 {
+            color: #a8741a;
+            font-size: 17px
+        }
+
+        .display-3 {
+            font-size: 28px;
+            font-weight: 500 !important
+        }
+    }
+
+    .card-footer small {
+        letter-spacing: 7px !important;
+        font-size: 12px
+    }
+
+    .border-line {
+        border-right: 1px solid rgb(226, 206, 226)
+    }
+</style>
+
+
+<div class="container-fluid my-5 d-flex justify-content-center">
+    <div class="card card-1">
+        {{!-- <div class="card-header bg-white">
+            <div class="media flex-sm-row flex-column-reverse justify-content-between ">
+                <div class="col my-auto">
+                    <h4 class="mb-0">Thanks for your Order,<span class="change-color">Anjali</span> !</h4>
+                </div>
+
+            </div>
+        </div> --}}
+        <div class="card-body">
+            <div class="row justify-content-between mb-3">
+                <div class="col-auto">
+                    <h6 class="color-1 mb-0 change-color">Orders</h6>
+                </div>
+
+            </div>
+            {{#each orders}}
+            <div class="col-auto "> <small>Order ID : {{this._id}}</small> </div>
+            <div class="row">
+                <div class="col">
+                    <div class="card card-2">
+                        <div class="card-body">
+                            <div class="media">
+                                <div class="sq align-self-center "> 
+                                    Delivery Address: <br>
+                                    {{this.deliveryDetails.FirstName}} {{this.deliveryDetails.LastName}} <br>
+                                    {{this.deliveryDetails.House}} <br>
+                                    {{this.deliveryDetails.Town}},{{this.deliveryDetails.PIN}}  <br>
+                                    {{this.deliveryDetails.Mobile}} <br>
+                                    <div class=""> <small> Order Date: <br> {{this.Date}} </small></div>
+                                    <a class="btn" href="/singleOrder/{{this._id}}">View products</a>
+
+                                </div>
+                                <div class="media-body my-auto text-right">
+                                    <div class="row my-auto flex-column flex-md-row">
+                                        <div class="col my-auto">
+                                            <h6 class="mb-0"> </h6>
+                                        </div>
+                                        
+                                        {{!-- <div class="col my-auto"> <small>Size : M</small></div> --}}
+                                        <div class="col my-auto"> <small></small></div>
+                                        <div class="col my-auto">
+                                            <h5>Total :</h5>
+                                            <h6 class="mb-0">&#8377;{{this.Total}}.00</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr class="my-3 ">
+                            <div class="row">
+                                <div class="col-md-3 mb-3"> <small>  Order Status <span><i class=" ml-2 fa fa-refresh"
+                                                aria-hidden="true"></i></span></small> </div>
+                                <div class="col mt-auto">
+                                    <div class="progress my-auto">
+                                        <div class="progress-bar progress-bar rounded" style="width: 10%"
+                                            role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                                        </div>
+                                    </div>
+                                    <div class="media row justify-content-between ">
+                                        <div class="col-auto text-right"><span> <small
+                                                    class="text-right mr-sm-2">Placed</small> <i
+                                                    class="fa fa-circle active"></i> </span></div>
+                                        <div class="flex-col"> <span> <small
+                                                    class="text-right mr-sm-2">Shipped</small><i
+                                                    class="fa fa-circle "></i></span></div>
+                                        <div class="col-auto flex-col-auto"><small
+                                                class="text-right mr-sm-2">Delivered</small><span> <i
+                                                    class="fa fa-circle"></i></span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+            {{/each}}
+
+           
         </div>
-    </div>
-</div> --}}
-
-<!-- breadcrumb-area end -->
-<div class="mt-4 mb-3" style="background-color: #f2f2f2;">
-    <center>
-        <h3>
-            <strong>
-                My orders
-            </strong>
-        </h3>
-    </center>
-</div>
-<!-- Cart Area Start -->
-<div class="cart-main-area pt-100px pb-100px" style="background-color: #f2f2f2;">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th scope="col">No.</th>
-                            <th scope="col">Date</th>
-                            <th scope="col">Time</th>
-                            <th scope="col">Address</th>
-                            <th scope="col">Amount</th>
-                            <th scope="col">Discount</th>
-                            <th scope="col">Payment</th>
-                            <th scope="col">Items</th>
-                            <th scope="col">Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {{#each orderList}}
-                        <tr>
-                            <th scope="row">{{inc @index}}</th>
-                            <td>{{this.Date}}</td>
-                            <td>{{this.Time}}</td>
-                            <td>{{this.deliveryDetails.FirstName}},{{this.deliveryDetails.House}}<br>{{this.deliveryDetails.Town}},PIN:{{this.deliveryDetails.PIN}}<br>PH:{{this.deliveryDetails.Mobile}}
-                            </td>
-                            <td>{{this.Total}}</td>
-                            <td>{{this.Discount}}</td>
-                            <td>{{this.PaymentMethod}}</td>
-                            <td><a class="btn btn-secondary " style="width: 125px;height:auto"
-                                    href="/viewOrderProduct/{{this._id}}">View Product</a></td>
-                            <td>{{this.Status}}</td>
-                        </tr>
-                        {{/each}}
-                    </tbody>
-                </table>
-            </div>
-
-        </div>
-
+      
     </div>
 </div>

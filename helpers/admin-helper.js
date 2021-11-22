@@ -221,12 +221,12 @@ module.exports = {
                     }
                 },
                 {
-                    $unwind: '$products'
+                    $unwind: '$Products'
                 },
                 {
                     $project: {
-                        item: '$products.item',
-                        quantity: '$products.quantity'
+                        item: '$Products.item',
+                        quantity: '$Products.quantity'
                     }
                 },
                 {
@@ -241,6 +241,7 @@ module.exports = {
                 {
                     $project: {
                         item: 1, quantity: 1, product: { $arrayElemAt: ['$products', 0] },
+                        subtotal: { $multiply: [{ $arrayElemAt: ["$products.price", 0] }, "$quantity"] }
 
 
                     }

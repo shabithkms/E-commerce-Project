@@ -703,8 +703,24 @@ router.post('/addNewAddress', (req, res) => {
 
 })
 
-router.get('/myOrders',(req,res)=>{
-  res.render('user/user-orders')
+router.get('/myOrders',verifyUserLogin,(req,res)=>{
+  let id=req.session.user._id 
+  console.log(id);
+  userHelper.getUserOrders(id).then((orders)=>{
+    console.log(orders,"order");
+    res.render('user/user-orders',{orders})
+  })
+  
+})
+
+router.get('/singleOrder/:id',verifyUserLogin,(req,res)=>{
+  let oId=req.params.id
+  let date=req.params.date
+  console.log(date);
+  adminHelpers.getOrderProducts(oId).then((products)=>{
+    console.log(products,"pr o");
+    res.render('user/single-orders',{products})
+  })
 })
 
 //My profile
