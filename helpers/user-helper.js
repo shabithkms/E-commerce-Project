@@ -386,22 +386,8 @@ module.exports = {
     placeOrder: (order, products, total) => {
         return new Promise((resolve, reject) => {
             console.log(order, products, total);
-            let Status = order.Payment === 'COD' ? 'placed' : 'pending'
-            // let orderObj = {
-            //     deliveryDetails: {
-            //         userf:order.FirstName ,
-            //         userl:order.LastName,
-            //         mobile: order.Mobile,
-            //         address: order.House,
-            //         pincode: order.PIN
-            //     },
-            //     userId: objectId(order.User),
-            //     paymentMethod: order.Payment,
-            //     products: products,
-            //     totalAmount: total,
-            //     date: new Date(),
-            //     status: Status
-            // }
+            let Status = order.Payment === 'COD' ? 'Placed' : 'Pending'
+           
 
             let dateIso = new Date()
             let date = moment(dateIso).format('YYYY/MM/DD')

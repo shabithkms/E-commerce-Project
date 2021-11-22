@@ -11,7 +11,7 @@
                 <a href="#" class="list-group-item list-group-item-action active">Dashboard</a>
                 <a href="/cart" class="list-group-item list-group-item-action">Cart</a>
                 <a href="/myOrders" class="list-group-item list-group-item-action">My Orders</a>
-                <a href="/addNewAddress" class="list-group-item list-group-item-action">Add New address</a>
+                <a href="/addNewAddressProfile" class="list-group-item list-group-item-action">Add New address</a>
 
 
             </div>
@@ -81,15 +81,14 @@
                         {{#each address}}
                         <div class="col-md-3 mt-5 alert border-warning mr-2 card" style="cursor: pointer;">
 
-                            <div class="col-md-12" onclick="">
+                            <div class="col-md-12" >
 
                                 <h6 class="">{{this.FirstName}} {{this.LastName}}</h6>
                                 <p class="">{{this.House}},{{this.Town}} - {{this.PIN}}<br>Ph : {{this.Mobile}}</p>
                                 <div class="ml-auto">
-                                    <button class="btn btn-primary" style="width: fit-content;"
-                                        onclick="autoFill('{{this.FirstName}}','{{this.LastName}}','{{this.House}}','{{this.Street}}','{{this.Town}}','{{this.PIN}}','{{this.Mobile}}','{{this.Email}}')">
-                                        Auto fill
-                                    </button>
+                                    {{!-- <button class="btn btn-primary" style="width: fit-content;">
+                                        Edit 
+                                    </button> --}}
                                 </div>
 
                             </div>
@@ -97,10 +96,7 @@
 
                         </div>
                         {{/each}}
-                        <div class="col-md-2 pt-5">
-                            <a href="/addNewAddress" class="btn btn-warning "
-                                style="text-decoration: none;width:100%;margin-top:30px;">Add New Address</a>
-                        </div>
+                        
                     </div>
 
                 </div>

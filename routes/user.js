@@ -743,19 +743,19 @@ router.get('/singleOrder/:id', verifyUserLogin, (req, res) => {
 router.get('/profile', verifyUserLogin, async (req, res) => {
   let id = req.session.user._id
   let user = await adminHelpers.getUserdetails(id)
-  
+
   //get Address
   var address = null
-  let status = await userHelper.addressChecker(req.session.user._id)
+  let status = await userHelper.addressChecker(id)
   console.log(status);
   if (status.address) {
     console.log(status.address, "st a");
-    let addr = await userHelper.getUserAddress(req.session.user._id)
+    let addr = await userHelper.getUserAddress(id)
     console.log(addr, "addr");
     let len = addr.length
     address = addr.slice(len - 2, len)
   }
-  res.render('user/my-profile', { user })
+  res.render('user/my-profile', { user, address })
 })
 
 router.post('/edit-profile', (req, res) => {
@@ -764,6 +764,20 @@ router.post('/edit-profile', (req, res) => {
   userHelper.updateProfile(id, req.body).then((response) => {
     res.redirect('/profile')
   })
+})
+
+router.get('/addNewAddressProfile', verifyUserLogin, (req, res) => {
+
+  let user = req.session.user
+  res.render('user/add-new-addressProfile', { user })
+})
+
+router.post('/addNewAddressProfile', (req, res) => {
+  console.log(req.body);
+  userHelper.addNewAddress(req.body).then((response) => {
+    res.redirect('/profile')
+  })
+
 })
 
 
