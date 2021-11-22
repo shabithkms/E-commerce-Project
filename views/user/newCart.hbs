@@ -121,6 +121,11 @@
 </style>
 
 <div class="container-fluid mb-5">
+    {{#if noCart}}
+    <div class="alert alert-danger col-md-6" role="alert">
+        Cart is Empty!!
+    </div>
+    {{/if}}
     <div class="row">
         <aside class="col-lg-9">
             <div class="card">
@@ -130,7 +135,7 @@
                             <tr class="small text-uppercase">
                                 <th scope="col" class="text-center">Product</th>
                                 <th scope="col" class="text-center">Quantity</th>
-                                <th scope="col" class="text-center">Sub Total</th>
+                                {{!-- <th scope="col" class="text-center">Sub Total</th> --}}
                                 <th scope="col" class="text-center">Remove</th>
                             </tr>
                         </thead>
@@ -151,14 +156,14 @@
                                     <div class="qty">
                                         <div class=" quantity" style="font-size: 24px; ">
                                             <button
-                                                onclick="changeQuantity('{{this._id}}','{{this.product._id}}',-1)">-</button>
+                                                onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{../user._id}}',-1)">-</button>
                                         </div>
                                         <div class=" quantity" style="font-size: 18px;">
                                             <span id="{{this.product._id}}" class=""> {{this.quantity}}</span>
                                         </div>
                                         <div class=" quantity" style="font-size: 18px;">
                                             <button class=""
-                                                onclick="changeQuantity('{{this._id}}','{{this.product._id}}',1)">+</button>
+                                                onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{../user._id}}',1)">+</button>
                                         </div>
 
 
@@ -168,7 +173,7 @@
 
 
                                 {{!-- {{#each ../subTotals}} --}}
-                                <td class="product-subtotal  text-center">{{total}}</td>
+                                {{!-- <td class="product-subtotal  text-center">{{total}}</td> --}}
                                 {{!-- {{/each}} --}}
 
                                 <td class=" remove h-100  text-center">
@@ -200,20 +205,22 @@
                         <dt>Total:</dt>
                         <dd class="text-right text-dark b ml-3"><strong>{{totals}}.00</strong></dd>
                     </dl> --}}
+
                     <table class="table borderless">
                         <tr>
-                            <td>Total price:</td>
-                            <td>{{totals}}.00</td>
+                            <td > Total price:</td>
+                            <td id="total1">{{totals}}</td>
                         </tr>
                         <tr>
                             <td>Shipping :</td>
-                            <td>{{totals}}.00</td>
+                            <td>Free </td>
                         </tr>
                         <tr>
-                            <td>Total:</td>
-                            <td><strong>{{totals}}.00</strong></td>
+                            <td >Total:</td>
+                            <td><strong id="total2">{{totals}}</strong></td>
                         </tr>
                     </table>
+
                     <style>
                         .borderless td,
                         .borderless th {
@@ -231,4 +238,6 @@
 
         </aside>
     </div>
+
+
 </div>

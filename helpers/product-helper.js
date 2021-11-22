@@ -12,8 +12,8 @@ module.exports = {
             console.log(proData);
             db.get().collection(collection.PRODUCT_COLLECTION).insertOne(proData).then((response) => {
                 resolve(response.insertedId.toString())
-                
-            }).catch((err)=>{
+
+            }).catch((err) => {
                 reject(err)
             })
         })
@@ -28,7 +28,7 @@ module.exports = {
     getProductDetails: (id) => {
         return new Promise((resolve, reject) => {
             db.get().collection(collection.PRODUCT_COLLECTION).findOne({ _id: objectId(id) }).then((product) => {
-                
+
                 resolve(product)
             })
         })
@@ -56,6 +56,16 @@ module.exports = {
                 resolve(response)
             })
         })
+    },
+    getRelatedProducts: () => {
+        return new Promise(async (resolve, reject) => {
+            let sort = { name: 1 }
+            let limit = 4
+            let related = await db.get().collection(collection.PRODUCT_COLLECTION).find().sort(sort).limit(limit).toArray()
+            
+            resolve(related)
+        })
+
     }
 
 }

@@ -8,10 +8,10 @@
                     </div>
                     <div class="col-lg-6  col-md-6 col-sm-12">
                         <!-- breadcrumb-list start -->
-                        <ul class="breadcrumb-list text-center text-md-right">
+                        {{!-- <ul class="breadcrumb-list text-center text-md-right row ml-auto">
                             <li class="breadcrumb-item"><a href="/">Home</a></li>
                             <li class="breadcrumb-item active">Checkout</li>
-                        </ul>
+                        </ul> --}}
                         <!-- breadcrumb-list end -->
                     </div>
                 </div>
@@ -83,7 +83,7 @@
                                     <label for="email">Email Address</label>
                                     <input type="text" required id="email" name="Email" />
                                 </div>
-                                <input type="text" name="User" value="{{userBtn._id}}" hidden>
+                                <input type="text" name="User" value="{{user._id}}" hidden>
                             </div>
 
                         </div>
@@ -95,29 +95,56 @@
                                         <div class="your-order-product-info">
                                             <div class="your-order-top">
                                                 <ul>
-                                                    <li><h4 class="p-3">Cart Items</h4></li>
-                                                    
+                                                    <li>
+                                                        <h4 class="p-3">Cart Items</h4>
+                                                    </li>
+
                                                 </ul>
                                             </div>
                                             <div class="your-order-middle">
-                                                <ol >
+                                                <table class="table borderless">
+
                                                     {{#each products}}
-                                                    <li><span class="order-middle-left">{{this.product.name}}  X
-                                                              {{this.quantity}}</span> <br>
-                                                        <span class="order-price">Rs.{{this.subtotal}}
-                                                        </span>
-                                                    </li>
+                                                    <tr>
+                                                        <td>
+                                                            <ol>
+                                                                <li><span
+                                                                        class="order-middle-left">{{this.product.name}}
+                                                                        X
+                                                                        {{this.quantity}}</span> <br>
+                                                                    <span class="order-price">Rs.{{this.subtotal}}
+                                                                    </span>
+                                                                </li>
+                                                            </ol>
+                                                        </td>
+                                                        <td>
+                                                            <button
+                                                                onclick="deleteCartPro('{{this._id}}','{{this.product._id}}')">
+                                                                <i class="fas fa-trash-alt mt-4 "
+                                                                    style="color: red;font-size: 20px;"></i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
                                                     {{/each}}
 
-                                                </ol>
+
+                                                </table>
+                                                <style>
+                                                    .borderless td,
+                                                    .borderless th {
+                                                        border: none;
+                                                    }
+                                                </style>
+
                                             </div>
                                             <div class="your-order-bottom">
                                                 <div class="discount-code">
                                                     <p>Enter your coupon code if you have one.</p>
                                                     <input type="text" class="form-control" name="Coupon"
                                                         id="couponInput" />
-                                                    <input type="text" id="couponTotal" name="Total" value="{{total}}" hidden>
-                                                    <a  id="couponBtn" onclick="couponApply()"
+                                                    <input type="text" id="couponTotal" name="Total" value="{{total}}"
+                                                        hidden>
+                                                    <a id="couponBtn" onclick="couponApply()"
                                                         class="btn bg-success text-white text-center  mt-2"
                                                         style="width: 100%;text-decoration: none;">Apply Coupon</a>
                                                     <p class="text-center text-danger" style="display: none;"
@@ -154,7 +181,7 @@
                                                     <h4>Payment methods</h4>
                                                     <input type="radio" name="Payment" value="COD"
                                                         style="width:5%;height:auto" checked>Cash on Delivery<br>
-                                                    <input type="radio" name="Payment" value="Online Payment"
+                                                    <input type="radio" name="Payment" value="Online"
                                                         style="width:5%;height:auto">Online Payment<br>
                                                     <input type="radio" name="Payment" value="Paypal"
                                                         style="width:5%;height:auto">Paypal
@@ -181,18 +208,25 @@
             </div>
 
         </div>
+         <h3>Address</h3>
         <div class="row">
+           
             {{#each address}}
             <div class="col-md-3 mt-5 alert border-warning mr-2 card" style="cursor: pointer;">
 
-                <div class="col-md-12"
-                    onclick="hai('{{this.FirstName}}','{{this.LastName}}','{{this.House}}','{{this.Street}}','{{this.Town}}','{{this.PIN}}','{{this.Mobile}}','{{this.Email}}')">
+                <div class="col-md-12" onclick="">
 
                     <h6 class="">{{this.FirstName}} {{this.LastName}}</h6>
                     <p class="">{{this.House}},{{this.Town}} - {{this.PIN}}<br>Ph : {{this.Mobile}}</p>
-
+                    <div class="ml-auto">
+                        <button class="btn btn-primary" style="width: fit-content;"
+                            onclick="autoFill('{{this.FirstName}}','{{this.LastName}}','{{this.House}}','{{this.Street}}','{{this.Town}}','{{this.PIN}}','{{this.Mobile}}','{{this.Email}}')">
+                            Auto fill
+                        </button>
+                    </div>
 
                 </div>
+
 
             </div>
             {{/each}}
@@ -206,9 +240,21 @@
 </div>
 </div>
 </div>
+
+
+
+
+
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-    function hai(fname, lname, house, street, town, pin, mobile, email) {
-        alert("Address Form Filled")
+    function autoFill(fname, lname, house, street, town, pin, mobile, email) {
+        Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'Form auto filled',
+            showConfirmButton: false,
+            timer: 1500
+        })
         document.getElementById('fname').value = fname
         document.getElementById('lname').value = lname
         document.getElementById('house').value = house
@@ -222,10 +268,6 @@
 <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
     crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-<script
-    src="https://www.paypal.com/sdk/js?client-id=AVH4zvU5seJDDc1AizTEk60_DaAdig8d4FWLNJ3bsVj1ZGL9rCt9y09lWPaEdvoP2F30-D5-eAG-cufL&disable-funding=credit,card"></script>
 
 <script>
     function viewImage1(event) {
@@ -240,15 +282,14 @@
 </script>
 
 <script>
-    function couponApply()
-    {
+    function couponApply() {
         let couponCode = document.getElementById('couponInput').value
         let couponTotal = document.getElementById('couponTotal').value
         $.ajax({
             url: '/couponSubmit',
             data: {
-                Coupon:couponCode,
-                Total:couponTotal
+                Coupon: couponCode,
+                Total: couponTotal
             },
             method: 'post',
             success: (response) => {
@@ -306,8 +347,10 @@
             method: 'post',
             data: $('#checkout-form').serialize(),
             success: (response) => {
-                if (response.codSuccess) {
-                    location.href = "orderSuccess"
+                if (response.status) {
+                    console.log()
+                    alert(response.status)
+                    location.href = "/order-success"
                 } else if (response.paypal) {
                     console.log("response coming")
                     paypal.Buttons({

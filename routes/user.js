@@ -71,7 +71,7 @@ router.get('/', async function (req, res, next) {
 
 //Login Page
 router.get('/login', (req, res) => {
-  console.log("hi");
+
   res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
   if (req.session.userLoggedIn) {
     res.redirect('/')
@@ -82,7 +82,7 @@ router.get('/login', (req, res) => {
     req.session.noUser = false
     req.session.otpErr = false
   }
-  console.log("end");
+
 
 })
 
@@ -563,9 +563,12 @@ router.get('/product/:id', async (req, res) => {
     let Id = req.session.user._id
     cartCount = await userHelper.getCartCount(Id)
   }
+  let realtedProducts = await productHelper.getRelatedProducts()
+  console.log("Related", realtedProducts);
+
   let product = await productHelper.getProductDetails(id).then((product) => {
     console.log(product, "pro in single")
-    res.render('user/single-product', { userPage: true,cartCount, product })
+    res.render('user/single-product', { userPage: true, cartCount, product, realtedProducts })
   })
 
 })
@@ -574,20 +577,29 @@ router.get('/product/:id', async (req, res) => {
 
 router.get('/cart', verifyUserLogin, async (req, res, next) => {
   let id = req.session.user._id
+  console.log(req.session.user);
   let products = await userHelper.getCartProducts(id)
-  console.log(products);
+  // console.log(products);
   let user = req.session.user
-  let subTotals = await userHelper.getCartTotal(id)
+  // let subTotals = await userHelper.getCartTotal(id)
   let totals = await userHelper.getTotalAmount(id)
-  console.log(totals,"total");
-  let cartCount = null
+
   if (req.session.user) {
     let Id = req.session.user._id
     cartCount = await userHelper.getCartCount(Id)
   }
-  console.log(totals);
-  // console.log(totals,"in cart");
-  res.render('user/newCart', { cart: true, userPage: true, user, cartCount, products, subTotals, totals })
+  if (cartCount > 0) {
+    res.render('user/newCart', { cart: true, userPage: true, user, 'noCart': req.session.noCartPro, cartCount, products, totals })
+    req.session.noCartPro = false
+  } else {
+    res.render('user/empty-cart')
+  }
+
+  // userHelper.deleteAddress(id).then((res)=>{
+  //   console.log("pulled");
+  // })
+
+
 })
 
 
@@ -605,7 +617,10 @@ router.get('/add-to-cart/:id', (req, res) => {
 
 router.post('/change-product-quantity', (req, res) => {
   console.log(req.body);
-  userHelper.changeProductQuantity(req.body).then((response) => {
+  let id = req.body.user
+  userHelper.changeProductQuantity(req.body).then(async (response) => {
+    response.total = await userHelper.getTotalAmount(id)
+    console.log(response, "res");
     res.json(response)
 
   })
@@ -626,15 +641,63 @@ router.post('/delete-cart-product', (req, res) => {
 
 router.get('/checkout', verifyUserLogin, async (req, res) => {
   let userId = req.session.user._id
+  let user = req.session.user
   let total = await userHelper.getTotalAmount(userId)
   let products = await userHelper.getCartProducts(userId)
+  //cart count
   let cartCount = null
   if (req.session.user) {
     let Id = req.session.user._id
     cartCount = await userHelper.getCartCount(Id)
   }
-  // console.log(total);
-  res.render('user/checkout', { total,cartCount, products })
+  //get Address
+  var address = null
+  let status = await userHelper.addressChecker(req.session.user._id)
+  console.log(status);
+  if (status.address) {
+    console.log(status.address,"st a");
+    let addr = await userHelper.getUserAddress(req.session.user._id)
+    console.log(addr,"addr");
+    let len = addr.length
+    address = addr.slice(len - 2, len)
+  }
+
+  console.log(address, "address");
+
+  if (cartCount > 0) {
+    res.render('user/checkout', { total, cart: true, cartCount, products, address, user })
+  } else {
+    req.session.noCartPro = true
+    res.redirect('/cart')
+  }
+})
+
+router.post('/place-order', async (req, res) => {
+  console.log(req.body);
+  let id = req.session.user._id
+  let products = await userHelper.getCartProductList(id)
+  let total = await userHelper.getTotalAmount(id)
+  userHelper.placeOrder(req.body, products, total).then((resp) => {
+    response.orderId = resp.insertedId.toString()
+    res.json({ status: true })
+  })
+})
+
+router.get('/order-success', (req, res) => {
+  res.render('user/order-success', {})
+})
+
+router.get('/addNewAddress', verifyUserLogin, (req, res) => {
+  let user = req.session.user
+  res.render('user/add-new-address', { user, })
+})
+
+router.post('/addNewAddress', (req, res) => {
+  console.log(req.body);
+  userHelper.addNewAddress(req.body).then((response) => {
+    res.redirect('/checkout')
+  })
+
 })
 
 //My profile
