@@ -48,7 +48,7 @@ const verifyUserLogin = (req, res, next) => {
       }
 
     })
-    
+
 
   } else {
     res.redirect('/login')
@@ -557,7 +557,7 @@ router.post('/signup/otp', async (req, res) => {
 //Product secction
 
 
-router.get('/product/:id', async (req, res) => {
+router.get('/product/:id', verifyUserLogin, async (req, res) => {
   let id = req.params.id
   let cartCount = null
   if (req.session.user) {
@@ -566,10 +566,10 @@ router.get('/product/:id', async (req, res) => {
   }
   let realtedProducts = await productHelper.getRelatedProducts()
   console.log("Related", realtedProducts);
-
+  let user = req.session.user
   let product = await productHelper.getProductDetails(id).then((product) => {
     console.log(product, "pro in single")
-    res.render('user/single-product', { userPage: true, cartCount, product, realtedProducts })
+    res.render('user/single-product', { userPage: true, cartCount, user, product, realtedProducts })
   })
 
 })
@@ -577,13 +577,17 @@ router.get('/product/:id', async (req, res) => {
 //Cart
 
 router.get('/cart', verifyUserLogin, async (req, res, next) => {
+
   let id = req.session.user._id
   console.log(req.session.user);
   let products = await userHelper.getCartProducts(id)
   console.log(products);
   let user = req.session.user
-  
-  let totals = await userHelper.getTotalAmount(id)
+  let totals = 0
+  if (products.length > 0) {
+    totals = await userHelper.getTotalAmount(id)
+  }
+
 
   if (req.session.user) {
     let Id = req.session.user._id
@@ -593,7 +597,7 @@ router.get('/cart', verifyUserLogin, async (req, res, next) => {
     res.render('user/newCart', { cart: true, userPage: true, user, 'noCart': req.session.noCartPro, cartCount, products, totals })
     req.session.noCartPro = false
   } else {
-    res.render('user/empty-cart',{login:true})
+    res.render('user/empty-cart', { login: true })
   }
 
   // userHelper.deleteAddress(id).then((res)=>{
@@ -619,10 +623,10 @@ router.get('/add-to-cart/:id', (req, res) => {
 router.post('/change-product-quantity', (req, res) => {
   console.log(req.body);
   let id = req.body.user
-  let proId=req.body.product 
+  let proId = req.body.product
   userHelper.changeProductQuantity(req.body).then(async (response) => {
     response.total = await userHelper.getTotalAmount(id)
-    response.subTotal = await userHelper.getSubTotal(id,proId)
+    response.subTotal = await userHelper.getSubTotal(id, proId)
     console.log(response, "res");
     res.json(response)
 
@@ -658,9 +662,9 @@ router.get('/checkout', verifyUserLogin, async (req, res) => {
   let status = await userHelper.addressChecker(req.session.user._id)
   console.log(status);
   if (status.address) {
-    console.log(status.address,"st a");
+    console.log(status.address, "st a");
     let addr = await userHelper.getUserAddress(req.session.user._id)
-    console.log(addr,"addr");
+    console.log(addr, "addr");
     let len = addr.length
     address = addr.slice(len - 2, len)
   }
@@ -686,13 +690,15 @@ router.post('/place-order', async (req, res) => {
   })
 })
 
-router.get('/order-success', (req, res) => {
-  res.render('user/order-success', {})
+router.get('/order-success', verifyUserLogin, (req, res) => {
+  let user = req.session.user
+  res.render('user/order-success', { user })
 })
 
 router.get('/addNewAddress', verifyUserLogin, (req, res) => {
+
   let user = req.session.user
-  res.render('user/add-new-address', { user, })
+  res.render('user/add-new-address', { user })
 })
 
 router.post('/addNewAddress', (req, res) => {
@@ -703,30 +709,61 @@ router.post('/addNewAddress', (req, res) => {
 
 })
 
-router.get('/myOrders',verifyUserLogin,(req,res)=>{
-  let id=req.session.user._id 
+router.get('/myOrders', verifyUserLogin, (req, res) => {
+  let user = req.session.user
+  let id = req.session.user._id
   console.log(id);
-  userHelper.getUserOrders(id).then((orders)=>{
-    console.log(orders,"order");
-    res.render('user/user-orders',{orders})
+  userHelper.getUserOrders(id).then((orders) => {
+    console.log(orders, "order");
+    let len = orders.length
+    // for(i=0;i<len;i++){
+    //   console.log(orders[i].Status);
+    // }
+    let result = orders.map(({ Status }) => Status)
+    console.log(result, "res");
+
+    res.render('user/user-orders', { orders, user })
   })
-  
+
 })
 
-router.get('/singleOrder/:id',verifyUserLogin,(req,res)=>{
-  let oId=req.params.id
-  let date=req.params.date
+router.get('/singleOrder/:id', verifyUserLogin, (req, res) => {
+  let user = req.session.user
+  let oId = req.params.id
+  let date = req.params.date
   console.log(date);
-  adminHelpers.getOrderProducts(oId).then((products)=>{
-    console.log(products,"pr o");
-    res.render('user/single-orders',{products})
+  adminHelpers.getOrderProducts(oId).then((products) => {
+    console.log(products, "pr o");
+    res.render('user/single-orders', { products, user })
   })
 })
 
 //My profile
 
-router.get('/account', (req, res) => {
-  res.render('user/my-profile')
+router.get('/profile', verifyUserLogin, async (req, res) => {
+  let id = req.session.user._id
+  let user = await adminHelpers.getUserdetails(id)
+  
+  //get Address
+  var address = null
+  let status = await userHelper.addressChecker(req.session.user._id)
+  console.log(status);
+  if (status.address) {
+    console.log(status.address, "st a");
+    let addr = await userHelper.getUserAddress(req.session.user._id)
+    console.log(addr, "addr");
+    let len = addr.length
+    address = addr.slice(len - 2, len)
+  }
+  res.render('user/my-profile', { user })
+})
+
+router.post('/edit-profile', (req, res) => {
+  console.log(req.body);
+  let id = req.session.user._id
+  userHelper.updateProfile(id, req.body).then((response) => {
+    res.redirect('/profile')
+  })
 })
 
 

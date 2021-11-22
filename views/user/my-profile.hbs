@@ -1,41 +1,125 @@
-<div class="wrapper bg-white mt-sm-5">
-    <h4 class="pb-4 border-bottom">Account settings</h4>
-    <div class="d-flex align-items-start py-3 border-bottom"> <img src="https://images.pexels.com/photos/1037995/pexels-photo-1037995.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" class="img" alt="">
-        <div class="pl-sm-4 pl-2" id="img-section"> <b>Profile Photo</b>
-            <p>Accepted file type .png. Less than 1MB</p> <button class="btn button border"><b>Change</b></button>
-        </div>
-    </div>
-    <div class="py-2">
-        <div class="row py-2">
-            <div class="col-md-6"> <label for="firstname">First Name</label> <input type="text" class="bg-light form-control" placeholder="Steve"> </div>
-            <div class="col-md-6 pt-md-0 pt-3"> <label for="lastname">Last Name</label> <input type="text" class="bg-light form-control" placeholder="Smith"> </div>
-        </div>
-        <div class="row py-2">
-            <div class="col-md-6"> <label for="email">Email Address</label> <input type="text" class="bg-light form-control" placeholder="steve_@email.com"> </div>
-            <div class="col-md-6 pt-md-0 pt-3"> <label for="phone">Phone Number</label> <input type="tel" class="bg-light form-control" placeholder="+1 213-548-6015"> </div>
-        </div>
-        <div class="row py-2">
-            <div class="col-md-6"> <label for="country">Country</label> <select name="country" id="country" class="bg-light">
-                    <option value="india" selected>India</option>
-                    <option value="usa">USA</option>
-                    <option value="uk">UK</option>
-                    <option value="uae">UAE</option>
-                </select> </div>
-            <div class="col-md-6 pt-md-0 pt-3" id="lang"> <label for="language">Language</label>
-                <div class="arrow"> <select name="language" id="language" class="bg-light">
-                        <option value="english" selected>English</option>
-                        <option value="english_us">English (United States)</option>
-                        <option value="enguk">English UK</option>
-                        <option value="arab">Arabic</option>
-                    </select> </div>
+{{!--
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> --}}
+<!------ Include the above in your HEAD tag ---------->
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-3 ">
+            <div class="list-group ">
+                <a href="#" class="list-group-item list-group-item-action active">Dashboard</a>
+                <a href="/cart" class="list-group-item list-group-item-action">Cart</a>
+                <a href="/myOrders" class="list-group-item list-group-item-action">My Orders</a>
+                <a href="/addNewAddress" class="list-group-item list-group-item-action">Add New address</a>
+
+
             </div>
         </div>
-        <div class="py-3 pb-4 border-bottom"> <button class="btn btn-primary mr-3">Save Changes</button> <button class="btn border button">Cancel</button> </div>
-        <div class="d-sm-flex align-items-center pt-3" id="deactivate">
-            <div> <b>Deactivate your account</b>
-                <p>Details about your company account and password</p> 
+        <div class="col-md-9">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4>My Profile</h4>
+                            <hr>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form method="post" action="/edit-profile">
+
+                                <div class="form-group row">
+                                    <label for="name" class="col-4 col-form-label">First Name</label>
+                                    <div class="col-8">
+                                        <input id="name" name="firstname" value="{{user.firstname}}"
+                                            placeholder="First Name" class="form-control here" type="text" disabled>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="lastname" class="col-4 col-form-label">Last Name</label>
+                                    <div class="col-8">
+                                        <input id="lastname" name="lastname" value="{{user.lastname}}"
+                                            placeholder="Last Name" class="form-control here" type="text" disabled>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="email" class="col-4 col-form-label">Mobile</label>
+                                    <div class="col-8">
+                                        <input id="mobile" name="mobile" value="{{user.mobileNo}}" placeholder="Mobile"
+                                            class="form-control here" required="required" type="text" disabled>
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group row">
+                                    <label for="email" class="col-4 col-form-label">Email</label>
+                                    <div class="col-8">
+                                        <input id="email" name="email" value="{{user.email}}" placeholder="Email"
+                                            class="form-control here" required="required" type="text" disabled>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="form-group row">
+                                    <div class="offset-4 col-8">
+                                        <a onclick="editProfile('{{user._id}}')"
+                                            style="text-decoration: none; color: white;" type="" id="submit"
+                                            class="btn btn-primary">Edit
+                                            Profile</a>
+                                        <button type="submit" class="btn btn-primary" id="btn"
+                                            style="display: none;">Update</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <h3>Address</h3>
+                    <div class="row">
+
+                        {{#each address}}
+                        <div class="col-md-3 mt-5 alert border-warning mr-2 card" style="cursor: pointer;">
+
+                            <div class="col-md-12" onclick="">
+
+                                <h6 class="">{{this.FirstName}} {{this.LastName}}</h6>
+                                <p class="">{{this.House}},{{this.Town}} - {{this.PIN}}<br>Ph : {{this.Mobile}}</p>
+                                <div class="ml-auto">
+                                    <button class="btn btn-primary" style="width: fit-content;"
+                                        onclick="autoFill('{{this.FirstName}}','{{this.LastName}}','{{this.House}}','{{this.Street}}','{{this.Town}}','{{this.PIN}}','{{this.Mobile}}','{{this.Email}}')">
+                                        Auto fill
+                                    </button>
+                                </div>
+
+                            </div>
+
+
+                        </div>
+                        {{/each}}
+                        <div class="col-md-2 pt-5">
+                            <a href="/addNewAddress" class="btn btn-warning "
+                                style="text-decoration: none;width:100%;margin-top:30px;">Add New Address</a>
+                        </div>
+                    </div>
+
+                </div>
             </div>
-            <div class="ml-auto"> <button class="btn danger">Deactivate</button> </div>
         </div>
     </div>
 </div>
+
+<script>
+    function editProfile(userId) {
+
+        document.getElementById('name').disabled = false
+        document.getElementById('lastname').disabled = false
+        document.getElementById('mobile').disabled = false
+        document.getElementById('email').disabled = false
+        document.getElementById('submit').style.display = "none"
+        document.getElementById('btn').style.display = "block"
+
+
+
+    }
+</script>

@@ -249,9 +249,20 @@ module.exports = {
                 }
 
             ]).toArray()
-            console.log(orderItem,"0");
+            console.log(orderItem, "0");
 
             resolve(orderItem)
+        })
+    },
+    changeOrderStatus: (orderId, stat) => {
+        return new Promise((resolve, reject) => {
+            db.get().collection(collection.ORDER_COLLECTION).updateOne({ _id: objectId(orderId) }, {
+                $set: {
+                    Status: stat
+                }
+            }).then(() => {
+                resolve()
+            })
         })
     },
 

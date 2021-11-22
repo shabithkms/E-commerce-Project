@@ -11,16 +11,17 @@
             }
         }
     }
-    .btn{
+
+    .btn {
         background-color: #a8741a;
         border-radius: 3px;
     }
-    .btn :hover{
+
+    .btn :hover {
         background-color: black;
     }
-    h6{
-        
-    }
+
+    h6 {}
 
     .container-fluid {
         margin-top: 200px
@@ -35,7 +36,7 @@
         letter-spacing: 0.5px !important
     }
 
-        
+
     }
 
     hr {
@@ -114,7 +115,7 @@
 
     @media (max-width: 700px) {
         h2 {
-            color: #a8741a;
+            color: #000;
             font-size: 17px
         }
 
@@ -132,89 +133,100 @@
     .border-line {
         border-right: 1px solid rgb(226, 206, 226)
     }
+
+    .card {
+        display: flex;
+        flex-direction: row;
+    }
 </style>
 
 
-<div class="container-fluid my-5 d-flex justify-content-center">
-    <div class="card card-1">
-        {{!-- <div class="card-header bg-white">
-            <div class="media flex-sm-row flex-column-reverse justify-content-between ">
-                <div class="col my-auto">
-                    <h4 class="mb-0">Thanks for your Order,<span class="change-color">Anjali</span> !</h4>
-                </div>
+<div class="container-fluid my-5 ">
 
-            </div>
-        </div> --}}
-        <div class="card-body">
-            <div class="row justify-content-between mb-3">
+    <div class="card card-1 row ">
+        {{#each orders}}
+        <div class="card-body col-md-6">
+            {{!-- <div class="row justify-content-between mb-3">
                 <div class="col-auto">
                     <h6 class="color-1 mb-0 change-color">Orders</h6>
                 </div>
 
-            </div>
-            {{#each orders}}
-            <div class="col-auto "> <small>Order ID : {{this._id}}</small> </div>
-            <div class="row">
-                <div class="col">
-                    <div class="card card-2">
-                        <div class="card-body">
-                            <div class="media">
-                                <div class="sq align-self-center "> 
-                                    Delivery Address: <br>
-                                    {{this.deliveryDetails.FirstName}} {{this.deliveryDetails.LastName}} <br>
-                                    {{this.deliveryDetails.House}} <br>
-                                    {{this.deliveryDetails.Town}},{{this.deliveryDetails.PIN}}  <br>
-                                    {{this.deliveryDetails.Mobile}} <br>
-                                    <div class=""> <small> Order Date: <br> {{this.Date}} </small></div>
-                                    <a class="btn" href="/singleOrder/{{this._id}}">View products</a>
+            </div> --}}
 
-                                </div>
-                                <div class="media-body my-auto text-right">
-                                    <div class="row my-auto flex-column flex-md-row">
-                                        <div class="col my-auto">
-                                            <h6 class="mb-0"> </h6>
-                                        </div>
-                                        
-                                        {{!-- <div class="col my-auto"> <small>Size : M</small></div> --}}
-                                        <div class="col my-auto"> <small></small></div>
-                                        <div class="col my-auto">
-                                            <h5>Total :</h5>
-                                            <h6 class="mb-0">&#8377;{{this.Total}}.00</h6>
+            <div class="">
+
+
+                <div class="col-auto "> <small>Order ID : {{this._id}}</small> </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="card card-2">
+                            <div class="card-body">
+                                <div class="media">
+                                    <div class="sq align-self-center ">
+                                        Delivery Address: <br>
+                                        {{this.deliveryDetails.FirstName}} {{this.deliveryDetails.LastName}} <br>
+                                        {{this.deliveryDetails.House}} <br>
+                                        {{this.deliveryDetails.Town}},{{this.deliveryDetails.PIN}} <br>
+                                        {{this.deliveryDetails.Mobile}} <br>
+                                        <div class=""> <small> Order Date: <br> {{this.Date}} </small></div>
+                                        <a class="btn" href="/singleOrder/{{this._id}}">View products</a>
+
+                                    </div>
+                                    <div class="media-body my-auto text-right">
+                                        <div class="row my-auto flex-column flex-md-row">
+                                            <div class="col my-auto">
+                                                <h6 class="mb-0"> </h6>
+                                            </div>
+
+                                            {{!-- <div class="col my-auto"> <small>Size : M</small></div> --}}
+                                            <div class="col my-auto"> <small></small></div>
+                                            <div class="col my-auto">
+                                                <h5>Total :</h5>
+                                                <h6 class="mb-0">&#8377;{{this.Total}}.00</h6>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <hr class="my-3 ">
-                            <div class="row">
-                                <div class="col-md-3 mb-3"> <small>  Order Status <span><i class=" ml-2 fa fa-refresh"
-                                                aria-hidden="true"></i></span></small> </div>
-                                <div class="col mt-auto">
-                                    <div class="progress my-auto">
-                                        <div class="progress-bar progress-bar rounded" style="width: 10%"
-                                            role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                                <hr class="my-3 ">
+                                <div class="row flex-column">
+                                    <div class="col-md-3 mb-3"> <small> Order Status <span><i
+                                                    class=" ml-2 fa fa-refresh" aria-hidden="true"></i></span></small>
+                                    </div>
+                                    <div class="col-md-3 mb-3"> <h5>{{this.Status}}</h5><i
+                                                    class=" ml-2 fa fa-refresh" aria-hidden="true"></i></span></small>
+                                    </div>
+                                    {{!-- <div class="col mt-auto">
+                                        <div class="progress my-auto">
+                                            <div class="progress-bar progress-bar rounded" style="width: 10%"
+                                                role="progressbar" aria-valuenow="25" aria-valuemin="0"
+                                                aria-valuemax="100">
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="media row justify-content-between ">
-                                        <div class="col-auto text-right"><span> <small
-                                                    class="text-right mr-sm-2">Placed</small> <i
-                                                    class="fa fa-circle active"></i> </span></div>
-                                        <div class="flex-col"> <span> <small
-                                                    class="text-right mr-sm-2">Shipped</small><i
-                                                    class="fa fa-circle "></i></span></div>
-                                        <div class="col-auto flex-col-auto"><small
-                                                class="text-right mr-sm-2">Delivered</small><span> <i
-                                                    class="fa fa-circle"></i></span></div>
-                                    </div>
+
+
+                                        <div class="media row justify-content-between ">
+                                            <div class="col-auto text-right"><span> <small
+                                                        class="text-right mr-sm-2">Placed</small> <i
+                                                        class="fa fa-circle active"></i> </span></div>
+                                            <div class="flex-col"> <span> <small
+                                                        class="text-right mr-sm-2">Shipped</small><i
+                                                        class="fa fa-circle "></i></span></div>
+                                            <div class="col-auto flex-col-auto"><small
+                                                    class="text-right mr-sm-2">Delivered</small><span> <i
+                                                        class="fa fa-circle"></i></span></div>
+                                        </div>
+                                    </div> --}}
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            {{/each}}
 
-           
+
+
         </div>
-      
+        {{/each}}
     </div>
+
 </div>

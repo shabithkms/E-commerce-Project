@@ -28,6 +28,11 @@
         text-align: center;
         padding: 20px;
     }
+
+    .carousel {
+        width: 400px;
+        height: 500px;
+    }
 </style>
 <div class="breadcrumb-area ptb-170"
     style="background-size: cover;background-image: url(/images/watchImages/Banner1.jpg)">
@@ -61,54 +66,52 @@
 <div class="product-details neha_pr_dt">
     <div class="container p-0">
         <div class="row">
-            <div class="col-md-12 col-lg-7 col-12">
+            <div class="col-md-6 col-lg-6 col-12">
                 <div class="product-details-img-content">
                     <div class="product-details-tab mr-70 pr_style_1">
-                        <div class="product-details-large tab-content">
-                            <div id="pro-details1">
-
-                                <div id="wrap">
 
 
 
 
-                                    <div class="product"><img class="magniflier" id="ProductPhotoImg"
-                                            src="/productImages/{{product._id}}a.jpg" width="300" />
-                                    </div>
 
 
 
+                        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                            <ol class="carousel-indicators">
+                                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                                <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                                <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                                <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
+                            </ol>
+                            <div class="carousel-inner">
+                                <div class="carousel-item active product">
+                                    <img src="/productImages/{{product._id}}c.jpg" class="d-block  magniflier"
+                                        alt="...">
+                                </div>
+                                <div class="carousel-item product">
+                                    <img src="/productImages/{{product._id}}c.jpg" class="d-block  magniflier"
+                                        alt="...">
+                                </div>
+                                <div class="carousel-item product">
+                                    <img src="/productImages/{{product._id}}c.jpg" class="d-block  magniflier"
+                                        alt="...">
+                                </div>
+                                <div class="carousel-item product">
+                                    <img src="/productImages/{{product._id}}d.jpg" class="d-block  magniflier"
+                                        alt="...">
                                 </div>
                             </div>
-                        </div>
-
-
-
-                        <div class="col-md-12 row nav mt-12 " style="justify-content: space-between;" id="ProductThumbs">
-
-                            <div class="col-md-4">
-                                <a class=" mr-10 product-single__thumbnail ">
-                                    <img src="/productImages/{{product._id}}b.jpg" width="250px" height="250px" alt="">
-                                </a>
-
-                            </div>
-
-
-                            <div class="col-md-4">
-                                <a class=" mr-10 product-single__thumbnail ">
-                                    <img src="/productImages/{{product._id}}c.jpg" width="250px" height="250px" alt="">
-                                </a>
-                            </div>
-                            <div class="col-md-4">
-                                <a class=" mr-10 product-single__thumbnail ">
-                                    <img src="/productImages/{{product._id}}d.jpg" width="250px" height="250px" alt="">
-                                </a>
-                            </div>
-
-
-
-
-
+                            <a class="carousel-control-prev" style="color: black;" href="#carouselExampleIndicators"
+                                role="button" data-slide="prev">
+                                <span class="carousel-control-prev-icon" style="color: black;"
+                                    aria-hidden="true"></span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button"
+                                data-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Next</span>
+                            </a>
                         </div>
 
 
@@ -139,12 +142,10 @@
 
 
 
-                        <p>En el valle, la vivienda en la vigilancia específica, el reemplazo o la
-                            consolidación de la
-                            cama, un hombre obsesionado con la reducción de opciones de apuestas ilegales.
-                            Wow, mercado muy
-                            atractivo, de mis visitantes. Tiempo de desarrollo reciente para odiar, un bar
-                            beef tiempo.</p>
+                        <p>A watch is a portable timepiece intended to be carried or worn by a person. ... During most
+                            of its history the watch was a mechanical device, driven by clockwork, powered by winding a
+                            mainspring, and keeping time with an oscillating balance wheel. These are called mechanical
+                            watches.</p>
 
 
 
@@ -212,7 +213,7 @@
 
 
 
-                                <li><a href="../collections/best-sale.html">{{product.category}}</a></li>
+                                <li><a href="">{{product.category}}</a></li>
 
                                 {{!-- <li><a href="../collections/featured.html">Featured</a></li>
 
@@ -303,7 +304,7 @@
         </h3>
     </center>
 </div>
-<div class="tab-content jump mb-4">
+<div class="container tab-content jump mb-4">
     <div class="row">
         <div class="rhs_product_tab rhs_match_height">
 

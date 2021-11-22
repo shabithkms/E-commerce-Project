@@ -58,6 +58,32 @@ module.exports = {
             }
         })
     },
+    updateProfile:(id,newData)=>{
+        return new Promise((resolve ,reject)=>{
+            let newf=newData.firstname
+            let newl=newData.lastname
+            let newm=newData.mobile
+            let newe=newData.email
+            let len=newm.length
+            console.log(len);
+            if(len==10){
+                newm=`+91${newm}`
+            }
+            db.get().collection(collection.USER_COLLECTION).updateOne({_id:objectId(id)},{
+                $set:{
+                    firstname:newf,
+                    lastname:newl,
+                    mobileNo:newm,
+                    email:newe
+                }
+            }).then((response)=>{
+                console.log(response);
+                resolve(response)
+            }).catch((err)=>{
+                console.log(err);
+            })
+        })
+    },
     getUserdetails: (No) => {
         return new Promise(async (resolve, reject) => {
             let user = await db.get().collection(collection.USER_COLLECTION).findOne({ mobileNo: No })
@@ -474,7 +500,9 @@ module.exports = {
     },
     getUserOrders: (Id) => {
         return new Promise(async (resolve, reject) => {
-            let orders = await db.get().collection(collection.ORDER_COLLECTION).find({ User:Id }).toArray()
+            let orders = await db.get().collection(collection.ORDER_COLLECTION).find({ User:Id }).sort({Date:-1}).toArray()
+            console.log(orders);
+            console.log("sortted");
             resolve(orders)
         })
     }
