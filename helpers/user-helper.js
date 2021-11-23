@@ -2,7 +2,7 @@ var db = require('../config/connection')
 var collection = require('../config/collection')
 const bcrypt = require('bcrypt')
 const objectId = require('mongodb').ObjectID
-const moment=require('moment')
+const moment = require('moment')
 const { response } = require('../app')
 
 module.exports = {
@@ -58,28 +58,28 @@ module.exports = {
             }
         })
     },
-    updateProfile:(id,newData)=>{
-        return new Promise((resolve ,reject)=>{
-            let newf=newData.firstname
-            let newl=newData.lastname
-            let newm=newData.mobile
-            let newe=newData.email
-            let len=newm.length
+    updateProfile: (id, newData) => {
+        return new Promise((resolve, reject) => {
+            let newf = newData.firstname
+            let newl = newData.lastname
+            let newm = newData.mobile
+            let newe = newData.email
+            let len = newm.length
             console.log(len);
-            if(len==10){
-                newm=`+91${newm}`
+            if (len == 10) {
+                newm = `+91${newm}`
             }
-            db.get().collection(collection.USER_COLLECTION).updateOne({_id:objectId(id)},{
-                $set:{
-                    firstname:newf,
-                    lastname:newl,
-                    mobileNo:newm,
-                    email:newe
+            db.get().collection(collection.USER_COLLECTION).updateOne({ _id: objectId(id) }, {
+                $set: {
+                    firstname: newf,
+                    lastname: newl,
+                    mobileNo: newm,
+                    email: newe
                 }
-            }).then((response)=>{
+            }).then((response) => {
                 console.log(response);
                 resolve(response)
-            }).catch((err)=>{
+            }).catch((err) => {
                 console.log(err);
             })
         })
@@ -387,7 +387,7 @@ module.exports = {
         return new Promise((resolve, reject) => {
             console.log(order, products, total);
             let Status = order.Payment === 'COD' ? 'Placed' : 'Pending'
-           
+
 
             let dateIso = new Date()
             let date = moment(dateIso).format('YYYY/MM/DD')
@@ -411,15 +411,15 @@ module.exports = {
                 Date: date,
                 Time: time,
                 Status: Status
-                
+
             }
 
             db.get().collection(collection.ORDER_COLLECTION).insertOne(orderObj).then((response) => {
-                    db.get().collection(collection.CART_COLLECTION).deleteOne({ user: objectId(order.User) })
-                    resolve(response)
-                })
-
+                db.get().collection(collection.CART_COLLECTION).deleteOne({ user: objectId(order.User) })
+                resolve(response)
             })
+
+        })
 
     },
     getCartProductList: (userId) => {
@@ -443,7 +443,7 @@ module.exports = {
 
                 addr = [details]
                 db.get().collection(collection.USER_COLLECTION).updateOne({ _id: objectId(details.User) }, {
-                    $unset: {
+                    $set: {
                         address: addr
                     }
                 }).then((user) => {
@@ -486,10 +486,82 @@ module.exports = {
     },
     getUserOrders: (Id) => {
         return new Promise(async (resolve, reject) => {
-            let orders = await db.get().collection(collection.ORDER_COLLECTION).find({ User:Id }).sort({Date:-1}).toArray()
+            let orders = await db.get().collection(collection.ORDER_COLLECTION).find({ User: Id }).sort({ Date: -1 }).toArray()
             console.log(orders);
             console.log("sortted");
             resolve(orders)
+        })
+    },
+    stockChanger: (orderId) => {
+        return new Promise(async (resolve, reject) => {
+            let prod = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+                {
+                    $match: {
+                        _id: objectId(orderId)
+                    }
+                },
+                {
+                    $unwind: '$Products'
+                },
+                {
+                    $project: {
+                        item: '$Products.item',
+                        quantity: '$Products.quantity'
+                    }
+                },
+                {
+                    $lookup: {
+                        from: collection.PRODUCT_COLLECTION,
+                        localField: 'item',
+                        foreignField: '_id',
+                        as: 'products'
+                    }
+                },
+                {
+                    $project: {
+                        item: 1, quantity: 1, product: { $arrayElemAt: ['$products', 0] },
+                        newQty: { $subtract: [{ $arrayElemAt: ['$products.stock', 0] }, '$quantity'] }
+                    }
+                }
+            ]).toArray()
+            let proLen = prod.length
+            console.log('stockchange', prod);
+            for (let i = 0; i < proLen; i++) {
+                let itemMain = prod[i]
+                db.get().collection(collection.PRODUCT_COLLECTION).updateOne({ _id: objectId(itemMain.item) }, {
+                    $set: {
+                        stock: itemMain.newQty
+                    }
+                })
+                if (itemMain.newQty < 1) {
+                    db.get().collection(collection.PRODUCT_COLLECTION).updateOne({ _id: objectId(itemMain.item) }, {
+                        $set: {
+                            stockout: true
+                        }
+                    })
+                } else {
+                    db.get().collection(collection.PRODUCT_COLLECTION).updateOne({ _id: objectId(itemMain.item) }, {
+                        $unset: {
+                            stockout: ""
+                        }
+                    })
+                }
+            }
+            resolve()
+        })
+    },
+    getBrands: () => {
+        return new Promise(async (resolve, reject) => {
+            let brands = await db.get().collection(collection.BRAND_COLLECTION).find().limit(8).toArray()
+            console.log(brands);
+            resolve(brands)
+        })
+    },
+    getHomeProducts: () => {
+        return new Promise(async (resolve, reject) => {
+            let products = await db.get().collection(collection.PRODUCT_COLLECTION).find().limit(8).toArray()
+            console.log(products);
+            resolve(products)
         })
     }
 

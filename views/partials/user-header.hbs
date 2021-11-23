@@ -1,5 +1,5 @@
-<div id="shopify-section-header" class="shopify-section">
-    <header class="back-to-top intelligent-header pl-155 pr-155">
+<div id="shopify-section-header" class="shopify-section ">
+    <header class="back-to-top intelligent-header pl-155 pr-155 border-bottom">
         <div class="header-area header-area-2">
             <div class="container">
                 <div class="row">
@@ -48,10 +48,13 @@
                                         <li class="megamenus"><a class="title"
                                                 href="products/algunas-veces-por.html">Best Watch</a>
                                             <ul class="mega__item">
+                                                {{#each brand}}
+                                                <li><a href="products/{{this.brand}}">{{this.brand}}</a></li>
+                                                {{/each}}
 
-                                                <li><a href="products/finibus-bonorum.html">Patek Philippe</a></li>
 
-                                                <li><a href="products/usado-hot-desde.html">Omega SA</a></li>
+
+                                                {{!-- <li><a href="products/usado-hot-desde.html">Omega SA</a></li>
 
                                                 <li><a href="products/lorem-ipsum.html">Jaeger-LeCoultre</a></li>
 
@@ -63,7 +66,7 @@
 
                                                 <li><a href="products/menos-new-normal.html">Breitling SA</a></li>
 
-                                                <li><a href="products/finibus-bonorum.html">TAG Heuer</a></li>
+                                                <li><a href="products/finibus-bonorum.html">TAG Heuer</a></li> --}}
 
                                             </ul>
                                         </li>
@@ -74,10 +77,10 @@
                                         <li class="megamenus"><a class="title"
                                                 href="products/hacen-new-parecerlo.html">New Arrival</a>
                                             <ul class="mega__item">
-
-                                                <li><a href="products/las-hot-palabras.html">Seiko</a></li>
-
-                                                <li><a href="products/algunas-veces-por.html">Hublot</a></li>
+                                                {{#each homePro}}
+                                                <li><a href="products/las-hot-palabras.html">{{this.name}}</a></li>
+                                                {{/each}}
+                                                {{!-- <li><a href="products/algunas-veces-por.html">Hublot</a></li>
 
                                                 <li><a href="products/aquellos-interesados.html">Panerai</a></li>
 
@@ -89,7 +92,7 @@
 
                                                 <li><a href="products/simplemente-texto.html">Blancpain</a></li>
 
-                                                <li><a href="products/original-hot-exacta.html">Oris</a></li>
+                                                <li><a href="products/original-hot-exacta.html">Oris</a></li> --}}
 
                                             </ul>
                                         </li>
@@ -224,7 +227,7 @@
                                             <li><a href="/profile">My Account</a></li>
                                             <li><a href="/cart">My Cart</a></li>
                                             <li><a href="/wishlist">Wishlist</a></li>
-                                            <li><a href="/checkout">Checkout</a></li>
+                                            {{!-- <li><a href="/checkout">Checkout</a></li> --}}
                                             {{else}}
                                             <li><a href="/login">Log In</a></li>
                                             <li><a href="/signup">Register</a></li>

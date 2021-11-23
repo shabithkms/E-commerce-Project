@@ -65,7 +65,10 @@ router.get('/', async function (req, res, next) {
     cartCount = await userHelper.getCartCount(Id)
   }
   let products = await productHelper.getAllProducts()
-  res.render('user/home', { user, userPage: true, products, cartCount })
+  let brand = await userHelper.getBrands()
+  let homePro=await userHelper.getHomeProducts()
+  console.log(homePro);
+  res.render('user/home', { user, userPage: true, products,brand,homePro, cartCount })
 
 });
 
@@ -686,7 +689,12 @@ router.post('/place-order', async (req, res) => {
   let total = await userHelper.getTotalAmount(id)
   userHelper.placeOrder(req.body, products, total).then((resp) => {
     response.orderId = resp.insertedId.toString()
-    res.json({ status: true })
+    req.session.orderId = resp.insertedId.toString()
+    console.log(req.session.orderId, "order id");
+    userHelper.stockChanger(req.session.orderId).then(() => {
+      res.json({ status: true })
+    })
+
   })
 })
 
@@ -695,46 +703,61 @@ router.get('/order-success', verifyUserLogin, (req, res) => {
   res.render('user/order-success', { user })
 })
 
-router.get('/addNewAddress', verifyUserLogin, (req, res) => {
-
+router.get('/addNewAddress', verifyUserLogin, async (req, res) => {
+  let cartCount = null
+  if (req.session.user) {
+    let Id = req.session.user._id
+    cartCount = await userHelper.getCartCount(Id)
+  }
   let user = req.session.user
-  res.render('user/add-new-address', { user })
+  console.log(user);
+  res.render('user/add-new-address', { user, cartCount })
 })
 
 router.post('/addNewAddress', (req, res) => {
   console.log(req.body);
   userHelper.addNewAddress(req.body).then((response) => {
+    console.log(response, "address");
     res.redirect('/checkout')
   })
 
 })
 
-router.get('/myOrders', verifyUserLogin, (req, res) => {
+router.get('/myOrders', verifyUserLogin, async (req, res) => {
   let user = req.session.user
   let id = req.session.user._id
   console.log(id);
+  let cartCount = null
+  if (req.session.user) {
+    let Id = req.session.user._id
+    cartCount = await userHelper.getCartCount(Id)
+  }
   userHelper.getUserOrders(id).then((orders) => {
     console.log(orders, "order");
     let len = orders.length
     // for(i=0;i<len;i++){
     //   console.log(orders[i].Status);
     // }
-    let result = orders.map(({ Status }) => Status)
-    console.log(result, "res");
+    // let result = orders.map(({ Status }) => Status)
+    // console.log(result, "res");
 
-    res.render('user/user-orders', { orders, user })
+    res.render('user/user-orders', { orders, cartCount, user })
   })
 
 })
 
-router.get('/singleOrder/:id', verifyUserLogin, (req, res) => {
+router.get('/singleOrder/:id', verifyUserLogin, async (req, res) => {
   let user = req.session.user
   let oId = req.params.id
-  let date = req.params.date
-  console.log(date);
+
+  let cartCount = null
+  if (req.session.user) {
+    let Id = req.session.user._id
+    cartCount = await userHelper.getCartCount(Id)
+  }
   adminHelpers.getOrderProducts(oId).then((products) => {
     console.log(products, "pr o");
-    res.render('user/single-orders', { products, user })
+    res.render('user/single-orders', { products, user, cartCount })
   })
 })
 
@@ -743,7 +766,11 @@ router.get('/singleOrder/:id', verifyUserLogin, (req, res) => {
 router.get('/profile', verifyUserLogin, async (req, res) => {
   let id = req.session.user._id
   let user = await adminHelpers.getUserdetails(id)
-
+  let cartCount = null
+  if (req.session.user) {
+    let Id = req.session.user._id
+    cartCount = await userHelper.getCartCount(Id)
+  }
   //get Address
   var address = null
   let status = await userHelper.addressChecker(id)
@@ -755,7 +782,7 @@ router.get('/profile', verifyUserLogin, async (req, res) => {
     let len = addr.length
     address = addr.slice(len - 2, len)
   }
-  res.render('user/my-profile', { user, address })
+  res.render('user/my-profile', { user, address, cartCount })
 })
 
 router.post('/edit-profile', (req, res) => {
@@ -766,15 +793,21 @@ router.post('/edit-profile', (req, res) => {
   })
 })
 
-router.get('/addNewAddressProfile', verifyUserLogin, (req, res) => {
-
+router.get('/addNewAddressProfile', verifyUserLogin, async (req, res) => {
+  let cartCount = null
+  if (req.session.user) {
+    let Id = req.session.user._id
+    cartCount = await userHelper.getCartCount(Id)
+  }
   let user = req.session.user
-  res.render('user/add-new-addressProfile', { user })
+  console.log(user);
+  res.render('user/add-new-addressProfile', { user, cartCount })
 })
 
 router.post('/addNewAddressProfile', (req, res) => {
-  console.log(req.body);
+  console.log(req.body, "fyfy");
   userHelper.addNewAddress(req.body).then((response) => {
+    console.log(response);
     res.redirect('/profile')
   })
 

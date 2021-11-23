@@ -77,7 +77,7 @@ $(document).ready(function () {
                 required: true,
                 minlength: 4,
                 maxlength: 20,
-                equalTo: "#password1"
+                
 
 
             }
@@ -127,67 +127,81 @@ jQuery(function ($) {
 });
 
 $(document).ready(function () {
-    $('#checkout-form').validate({
+    $('#address-form').validate({
         rules: {
-            fname: {
+            FirstName: {
                 required: true,
                 minlength: 4,
                 maxlength: 20
 
             },
-            lname: {
+            LastName: {
                 required: true,
                 minlength: 4,
                 maxlength: 15
 
             },
-            mobileNo: {
+            House:{
+                required:true,
+                minlength:10,
+                maxlength:50
+            },
+            Street:{
+                required:true,
+                minlength:5
+            },
+            Town:{
+                required:true,
+                minlength:5
+            },
+            PIN:{
+                required:true,
+                number:true,
+                minlength:6,
+                maxlength:6
+            },
+            Mobile: {
                 required: true,
                 number: true,
                 minlength: 10,
                 maxlength: 10,
             },
-            email: {
+            Email: {
                 required: true,
                 email: true
-            },
-            password: {
-                minlength: 4,
-                required: true,
-
-            },
+            }
 
 
 
 
         },
-        messages: {
-            firstName: {
-                required: "Enter your firstname",
-                minlength: "Enter at least 4 characters",
-                maxlength: "Enter maximumm 20 caharacters"
+        // messages: {
+        //     firstName: {
+        //         required: "Enter your firstname",
+        //         minlength: "Enter at least 4 characters",
+        //         maxlength: "Enter maximumm 20 caharacters"
 
-            },
-            lastName: {
-                required: "Enter your lastname",
-                minlength: "Enter minimum 4 characters",
-                maxlength: "Enter maximum 15 characters"
+        //     },
+        //     lastName: {
+        //         required: "Enter your lastname",
+        //         minlength: "Enter minimum 4 characters",
+        //         maxlength: "Enter maximum 15 characters"
 
-            },
-            mobileNo: {
-                required: "Enter your mobile number",
-                nnumber: "Enter a valid number",
-                minlength: "Enter 10 numbers"
-            },
-            email: {
-                required: "Enter your Email",
-                email: "Enter a valid Email"
-            },
-            password: {
-                required: "Enter a password",
-                minlength: "Password must be in 4-20 characters"
-            }
-        }
+        //     },
+        //     mobileNo: {
+        //         required: "Enter your mobile number",
+        //         nnumber: "Enter a valid number",
+        //         minlength: "Enter 10 numbers"
+        //     },
+        //     email: {
+        //         required: "Enter your Email",
+        //         email: "Enter a valid Email"
+        //     },
+        //     password: {
+        //         required: "Enter a password",
+        //         minlength: "Password must be in 4-20 characters"
+        //     }
+        // }
     })
 
 })

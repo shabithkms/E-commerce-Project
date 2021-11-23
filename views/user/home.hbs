@@ -133,7 +133,7 @@
                             <div class="rhs_product_tab rhs_match_height">
 
                                 {{#each products}}
-                                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-xs-12 mb-4">
 
 
                                     <div class="single-product mb-35">
@@ -186,17 +186,17 @@
 
                                                 <div class="product-categori">
 
-                                                    <button class="add_cart cart-item" onclick="addToCart('{{this._id}}')">
+                                                    <button class="add_cart btn btn-dark cart-item " style="width: 130px;"  onclick="addToCart('{{this._id}}')">
                                                         
                                                         <i class="ion-bag"></i>
                                                         <i class="ion-ios-loop-strong animated rotateIn infinite"></i>
                                                         <i class="ion-android-done"></i> Add to Cart
                                                     </button>
                                                     <br>
-                                                    <a href="" class="add_cart cart-item mt-1" title="Add to Cart">
-                                                        <i class="ion-bag"></i>
-                                                        <i class="ion-ios-loop-strong animated rotateIn infinite"></i>
-                                                        <i class="ion-android-done"></i> Buy now
+                                                    <a href="" class="add_cart btn btn-dark cart-item mt-1" style="color: white;width: 130px;" title="Buy Now">
+                                                        <i class="ion-bag" style="color: white;"></i>
+                                                        <i class="ion-ios-loop-strong animated rotateIn infinite" style="color: white;"></i>
+                                                        <i class="ion-android-done" style="color: white;"></i> Buy now
                                                     </a>
 
                                                 </div>
@@ -310,7 +310,7 @@
                     <div class="rhs_product_tab rhs_match_height">
 
                         {{#each products}}
-                        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-xs-12 mt-4">
 
 
                             <div class="single-product mb-35">
@@ -360,19 +360,20 @@
 
                                         <div class="product-categori">
 
-                                            <a href="" onclick="" class="add_cart cart-item" title="Add to Cart">
-                                                <i class="ion-bag"></i>
-                                                <i class="ion-ios-loop-strong animated rotateIn infinite"></i>
-                                                <i class="ion-android-done"></i> Add to Cart
-                                            </a>
-                                            <br>
-                                            <a href="" class="add_cart cart-item mt-1" title="Add to Cart">
-                                                <i class="ion-bag"></i>
-                                                <i class="ion-ios-loop-strong animated rotateIn infinite"></i>
-                                                <i class="ion-android-done"></i> Buy now
-                                            </a>
+                                                    <button class="add_cart btn btn-dark cart-item " style="width: 130px;"  onclick="addToCart('{{this._id}}')">
+                                                        
+                                                        <i class="ion-bag"></i>
+                                                        <i class="ion-ios-loop-strong animated rotateIn infinite"></i>
+                                                        <i class="ion-android-done"></i> Add to Cart
+                                                    </button>
+                                                    <br>
+                                                    <a href="" class="add_cart btn btn-dark cart-item mt-1" style="color: white;width: 130px;" title="Buy Now">
+                                                        <i class="ion-bag" style="color: white;"></i>
+                                                        <i class="ion-ios-loop-strong animated rotateIn infinite" style="color: white;"></i>
+                                                        <i class="ion-android-done" style="color: white;"></i> Buy now
+                                                    </a>
 
-                                        </div>
+                                                </div>
 
                                     </div>
                                 </div>

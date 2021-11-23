@@ -23,9 +23,9 @@
 
     h6 {}
 
-    .container-fluid {
-        margin-top: 200px
-    }
+    {{!-- .container-fluid {
+        margin-top: 100px;
+    } --}}
 
     p {
         font-size: 14px;
@@ -141,11 +141,14 @@
 </style>
 
 
-<div class="container-fluid my-5 ">
-
+<div class="container-fluid my-3 ">
+<div class="header text-center mb-2">
+<h4>
+    <strong>My Orders</strong></h4>
+</div>
     <div class="card card-1 row ">
         {{#each orders}}
-        <div class="card-body col-md-6">
+        <div class="card-body col-md-4">
             {{!-- <div class="row justify-content-between mb-3">
                 <div class="col-auto">
                     <h6 class="color-1 mb-0 change-color">Orders</h6>
@@ -168,8 +171,12 @@
                                         {{this.deliveryDetails.House}} <br>
                                         {{this.deliveryDetails.Town}},{{this.deliveryDetails.PIN}} <br>
                                         {{this.deliveryDetails.Mobile}} <br>
-                                        <div class=""> <small style="color: black;"> Order Date: <br> {{this.Date}} </small></div>
+                                        <div class=""> <small style="color: black;"> Order Date: <br> {{this.Date}}
+                                            </small></div>
                                         <a class="btn" href="/singleOrder/{{this._id}}">View products</a>
+                                        <div class=""> <small style="color: black;"> Order Status: <br>
+                                            </small><span style="color: black;"> {{this.Status}}</span></div>
+
 
                                     </div>
                                     <div class="media-body my-auto text-right">
@@ -184,18 +191,21 @@
                                                 <h5>Total :</h5>
                                                 <h6 class="mb-0">&#8377;{{this.Total}}.00</h6>
                                             </div>
+
                                         </div>
                                     </div>
                                 </div>
-                                <hr class="my-3 ">
+                                {{!--
+                                <hr class="my-3 "> --}}
                                 <div class="row flex-column">
-                                    <div class="col-md-3 mb-3"> <small> Order Status <span><i
+                                    {{!-- <div class="col-md-3 mb-3"> <small> Order Status <span><i
                                                     class=" ml-2 fa fa-refresh" aria-hidden="true"></i></span></small>
                                     </div>
-                                    <div class="col-md-3 mb-3"> <h5>{{this.Status}}</h5><i
-                                                    class=" ml-2 fa fa-refresh" aria-hidden="true"></i></span></small>
+                                    <div class="col-md-3 mb-3">
+                                        <h5>{{this.Status}}</h5><i class=" ml-2 fa fa-refresh"
+                                            aria-hidden="true"></i></span></small>
                                     </div>
-                                    {{!-- <div class="col mt-auto">
+                                    <div class="col mt-auto">
                                         <div class="progress my-auto">
                                             <div class="progress-bar progress-bar rounded" style="width: 10%"
                                                 role="progressbar" aria-valuenow="25" aria-valuemin="0"
@@ -216,6 +226,8 @@
                                                         class="fa fa-circle"></i></span></div>
                                         </div>
                                     </div> --}}
+
+
                                 </div>
                             </div>
                         </div>

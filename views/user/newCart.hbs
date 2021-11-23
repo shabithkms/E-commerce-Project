@@ -154,17 +154,20 @@
                                 </td>
                                 <td class="text-center ">
                                     <div class="qty">
-                                        <div class=" quantity" style="font-size: 24px; ">
-                                            <button
-                                                onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{../user._id}}',-1)">-</button>
-                                        </div>
+                                        
+
                                         <div class=" quantity" style="font-size: 18px;">
-                                            <span id="{{this.product._id}}" class=""> {{this.quantity}}</span>
-                                        </div>
-                                        <div class=" quantity" style="font-size: 18px;">
-                                            <button class=""
+                                            <button class="btn btn-light" style="width: 40px;"
                                                 onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{../user._id}}',1)">+</button>
                                         </div>
+                                        <div class=" quantity" style="font-size: 18px;">
+                                            <span id="{{this.product._id}}" style="width: 40px;" > {{this.quantity}}</span>
+                                        </div>
+                                        <div class=" quantity" style="font-size: 24px; ">
+                                            <button class="btn btn-light"  style="width: 40px;"
+                                                onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{../user._id}}',-1)">-</button>
+                                        </div>
+                                        
 
 
 

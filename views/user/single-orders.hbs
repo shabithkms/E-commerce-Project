@@ -129,19 +129,33 @@
     .border-line {
         border-right: 1px solid rgb(226, 206, 226)
     }
+
     .card {
         display: flex;
         flex-direction: row;
     }
 </style>
+<div class="container">
+    <div class="row mt-2">
 
+        <div>
+            <i class="fas fa-arrow-left mr-2" style="color: black;"></i>
+        </div>
+        <div>
+            <a href="/myOrders">
+                <h6>Back to orders</h6>
+            </a>
+        </div>
 
+    </div>
+</div>
 <div class="container-fluid my-5  pb-5">
-    <div class="card card-1">
-        
+    <div class="card card-1 col-md-12 row">
+
+
 
         {{#each products}}
-        <div class="card-body col-md-6">
+        <div class="card-body col-md-4">
             <div class="row justify-content-between mb-3">
 
                 <div class="col-auto "> <small>Order ID : {{this._id}}</small> </div>
@@ -156,9 +170,9 @@
                                         src="/productImages/{{this.product._id}}a.jpg" width="150" height="250" />
                                 </div>
                                 <div class="media-body my-auto text-right">
-                                    <div class="row my-auto  flex-md-row">
+                                    <div class="row my-auto  ">
                                         <div class="col my-auto">
-                                            <h6 class="mb-0">{{this.product.name}}</h6>
+                                            <h7 class="mb-0" style="color: black;">{{this.product.name}}</h7>
                                         </div>
                                         <div class="col my-auto">
                                             <p>Price:</p>
