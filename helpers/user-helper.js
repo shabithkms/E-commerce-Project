@@ -7,6 +7,8 @@ const { response } = require('../app')
 
 module.exports = {
 
+    //User section starting...
+
     doSignUp: (userData) => {
         return new Promise(async (resolve, reject) => {
 
@@ -121,9 +123,145 @@ module.exports = {
                 })
         })
     },
+    addressChecker: (userId) => {
+        return new Promise(async (resolve, reject) => {
+            let status = {}
+            let user = await db.get().collection(collection.USER_COLLECTION).findOne({ _id: objectId(userId) })
+            if (user.address) {
+                status.address = true
+            }
+            resolve(status)
+        })
+    },
+    getUserAddress: (userId) => {
+        return new Promise(async (resolve, reject) => {
+            let user = await db.get().collection(collection.USER_COLLECTION).findOne({ _id: objectId(userId) })
+            let address = user.address
+            resolve(address)
+        })
+    },
+    addNewAddress: (details) => {
+        return new Promise(async (resolve, reject) => {
+            let user = await db.get().collection(collection.USER_COLLECTION).findOne({ _id: objectId(details.User) })
+            details._id = objectId()
+            console.log(details, "de");
+            if (user.address) {
+                db.get().collection(collection.USER_COLLECTION).updateOne({ _id: objectId(details.User) }, {
+                    $push: {
+                        address: details
+                    }
+                }).then(() => {
+                    resolve()
+                })
+            } else {
+
+                addr = [details]
+                db.get().collection(collection.USER_COLLECTION).updateOne({ _id: objectId(details.User) }, {
+                    $set: {
+                        address: addr
+                    }
+                }).then((user) => {
+                    resolve(user)
+                })
+            }
+
+        })
+    },
+    getSingleAddress: (Id, uId) => {
+        return new Promise(async (resolve, reject) => {
+            console.log(Id);
+            let user = await db.get().collection(collection.USER_COLLECTION).findOne({ _id: objectId(uId) })
+
+            if (user) {
+                let address = await db.get().collection(collection.USER_COLLECTION).findOne({ address: { $elemMatch: { _id: objectId(Id) } } })
+
+                resolve(address.address[0])
+            }
+
+        })
+    },
+    editAddress: (newData) => {
+        console.log(newData, "new");
+
+        return new Promise((resolve, reject) => {
+            db.get().collection(collection.USER_COLLECTION).updateOne({ _id: objectId(newData.User), "address._id": objectId(newData._id) }, {
+                $set: {
+                    "address.$.FirstName": newData.FirstName,
+                    "address.$.LastName": newData.LastName,
+                    "address.$.House": newData.House,
+                    "address.$.Street": newData.Street,
+                    "address.$.Town": newData.Town,
+                    "address.$.PIN": newData.PIN,
+                    "address.$.Mobile": newData.Mobile,
+                    "address.$.Email": newData.Email,
 
 
-    // Cart
+                }
+            }).then((response) => {
+                resolve(response)
+                console.log("response=,", response);
+            })
+        })
+    },
+    deleteAddress: (Id, uId) => {
+        return new Promise(async (resolve, reject) => {
+            let user = await db.get().collection(collection.USER_COLLECTION).findOne({ _id: objectId(uId) })
+            if (user) {
+                db.get().collection(collection.USER_COLLECTION).updateOne({ _id: objectId(uId) }, {
+                    $pull: {
+                        address: { _id: objectId(Id) }
+                    }
+                }).then((response) => {
+                    resolve(response)
+                    console.log(response, "red");
+                })
+            }
+        })
+    },
+    changePassword: (Id, data) => {
+        return new Promise(async (resolve, reject) => {
+            // response={}
+            console.log(data);
+            let p1 = data.password1
+            let p2 = data.password2
+            let user = await db.get().collection(collection.USER_COLLECTION).findOne({ _id: objectId(Id) })
+            if (user) {
+                console.log(user, "user");
+                data1 = await bcrypt.hash(data.password1, 10)
+                if (p1 == p2) {
+                    bcrypt.compare(data.current, user.password).then((status) => {
+                        if (status) {
+                            console.log(status);
+                            db.get().collection(collection.USER_COLLECTION).updateOne({ _id: objectId(Id) }, {
+                                $set: {
+                                    password: data1
+                                }
+                            }).then((response) => {
+                                resolve(response)
+                                console.log(response, "then");
+                            })
+                        } else {
+                            console.log("current password is invalid");
+                        }
+                    })
+                } else {
+                    console.log("password must be same");
+                    response({ notSame: true })
+                    resolve(response)
+                    console.log(response);
+                }
+
+            }
+
+        })
+    },
+
+    //User section ends...
+
+
+
+
+    // Cart section Starting
 
     addToCart: (proId, userId) => {
         let proObj = {
@@ -383,6 +521,17 @@ module.exports = {
             console.log(err, "err in total");
         })
     },
+    getCartProductList: (userId) => {
+        return new Promise(async (resolve, reject) => {
+            let cart = await db.get().collection(collection.CART_COLLECTION).findOne({ user: objectId(userId) })
+            resolve(cart.products)
+        })
+    },
+
+    //Cart ends...
+
+    //Order section starting
+
     placeOrder: (order, products, total) => {
         return new Promise((resolve, reject) => {
             console.log(order, products, total);
@@ -422,56 +571,6 @@ module.exports = {
 
         })
 
-    },
-    getCartProductList: (userId) => {
-        return new Promise(async (resolve, reject) => {
-            let cart = await db.get().collection(collection.CART_COLLECTION).findOne({ user: objectId(userId) })
-            resolve(cart.products)
-        })
-    },
-    addNewAddress: (details) => {
-        return new Promise(async (resolve, reject) => {
-            let user = await db.get().collection(collection.USER_COLLECTION).findOne({ _id: objectId(details.User) })
-            details._id = objectId()
-            console.log(details, "de");
-            if (user.address) {
-                db.get().collection(collection.USER_COLLECTION).updateOne({ _id: objectId(details.User) }, {
-                    $push: {
-                        address: details
-                    }
-                }).then(() => {
-                    resolve()
-                })
-            } else {
-
-                addr = [details]
-                db.get().collection(collection.USER_COLLECTION).updateOne({ _id: objectId(details.User) }, {
-                    $set: {
-                        address: addr
-                    }
-                }).then((user) => {
-                    resolve(user)
-                })
-            }
-
-        })
-    },
-    addressChecker: (userId) => {
-        return new Promise(async (resolve, reject) => {
-            let status = {}
-            let user = await db.get().collection(collection.USER_COLLECTION).findOne({ _id: objectId(userId) })
-            if (user.address) {
-                status.address = true
-            }
-            resolve(status)
-        })
-    },
-    getUserAddress: (userId) => {
-        return new Promise(async (resolve, reject) => {
-            let user = await db.get().collection(collection.USER_COLLECTION).findOne({ _id: objectId(userId) })
-            let address = user.address
-            resolve(address)
-        })
     },
     getUserOrders: (Id) => {
         return new Promise(async (resolve, reject) => {
@@ -539,70 +638,50 @@ module.exports = {
             resolve()
         })
     },
+
+    //Header banners
+
     getBrands: () => {
         return new Promise(async (resolve, reject) => {
-            let brands = await db.get().collection(collection.BRAND_COLLECTION).find().limit(8).toArray()
-            console.log(brands);
+            let brands = await db.get().collection(collection.BRAND_COLLECTION).find().limit(6).toArray()
+          
             resolve(brands)
         })
     },
     getHomeProducts: () => {
         return new Promise(async (resolve, reject) => {
-            let products = await db.get().collection(collection.PRODUCT_COLLECTION).find().limit(8).toArray()
-            console.log(products);
+            let products = await db.get().collection(collection.PRODUCT_COLLECTION).find().limit(6).toArray() 
+            
             resolve(products)
         })
     },
-    getSingleAddress: (Id, uId) => {
+
+    //All products
+
+    getAllProducts: () => {
         return new Promise(async (resolve, reject) => {
-            console.log(Id);
-            let user = await db.get().collection(collection.USER_COLLECTION).findOne({ _id: objectId(uId) })
-
-            if (user) {
-                let address = await db.get().collection(collection.USER_COLLECTION).findOne({ address: { $elemMatch: { _id: objectId(Id) } } })
-
-                resolve(address.address[0])
-            }
-
+            let products = db.get().collection(collection.PRODUCT_COLLECTION).find().toArray()
+            resolve(products)
         })
     },
-    editAddress: (newData) => {
-        console.log(newData, "new");
-       
-        return new Promise((resolve, reject) => {
-            db.get().collection(collection.USER_COLLECTION).updateOne({ _id: objectId(newData.User), "address._id": objectId(newData._id) }, {
-                $set: {
-                    "address.$.FirstName": newData.FirstName,
-                    "address.$.LastName": newData.LastName,
-                    "address.$.House": newData.House,
-                    "address.$.Street": newData.Street,
-                    "address.$.Town": newData.Town,
-                    "address.$.PIN": newData.PIN,
-                    "address.$.Mobile": newData.Mobile,
-                    "address.$.Email": newData.Email,
-                    
-                    
-                }
-            }).then((response)=>{
-                resolve(response)
-                console.log("response=,",response);
-            })
+
+    //By Name
+
+    getProductsByName:(name)=>{
+        return new Promise (async(resolve,reject)=>{
+          let products=await  db.get().collection(collection.PRODUCT_COLLECTION).findOne({name:name})
+          resolve(products)
+          console.log("by name=",products);
         })
     },
-    deleteAddress: (Id,uId) => {
-        return new Promise(async (resolve, reject) => {
-            let user = await db.get().collection(collection.USER_COLLECTION).findOne({ _id: objectId(uId) })
-            if (user) {
-                db.get().collection(collection.USER_COLLECTION).updateOne({ _id: objectId(uId) }, {
-                    $pull: {
-                        address: { _id: objectId(Id) }
-                    }
-                }).then((response) => {
-                    resolve(response)
-                    console.log(response,"red");
-                })
-            }
+
+    //By Brands
+    getProductsByBrand:(name)=>{
+        return new Promise (async(resolve,reject)=>{
+          let products=await  db.get().collection(collection.PRODUCT_COLLECTION).find({brand:name}).toArray()
+          resolve(products)
         })
     },
+
 
 }

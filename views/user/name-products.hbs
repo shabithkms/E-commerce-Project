@@ -25,16 +25,16 @@
     .carousel-control-next-icon {
         background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23000' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E") !important;
     }
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  height: 50px;
+  width: 50px;
+  align-items: center;
+  
+  
+  
+}
 
-    .carousel-control-prev-icon,
-    .carousel-control-next-icon {
-        height: 50px;
-        width: 50px;
-        align-items: center;
-
-
-
-    }
 
     #wrap {
         max-width: 700px;
@@ -50,6 +50,10 @@
     .carousel {
         width: 400px;
         height: 500px;
+    }
+
+    .indi {
+        color: black;
     }
 </style>
 <div class="breadcrumb-area ptb-170"
@@ -96,10 +100,10 @@
 
                         <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                             <ol class="carousel-indicators">
-                                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                                <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                                <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-                                <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
+                                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active indi"></li>
+                                <li data-target="#carouselExampleIndicators" data-slide-to="1" class="indi"></li>
+                                <li data-target="#carouselExampleIndicators" data-slide-to="2" class="indi"></li>
+                                <li data-target="#carouselExampleIndicators" data-slide-to="3" class="indi"></li>
                             </ol>
                             <div class="carousel-inner">
                                 <div class="carousel-item active product">
@@ -121,9 +125,9 @@
                             </div>
                             <a class="carousel-control-prev" style="color: black;" href="#carouselExampleIndicators"
                                 role="button" data-slide="prev">
-                                <span class="carousel-control-prev-icon" style="color: black;"
+                                <span class="carousel-control-prev-icon text-dark" style="color: black;"
                                     aria-hidden="true"></span>
-                                <span class="sr-only">Previous</span>
+                                <span class="sr-only" style="color: black;">Previous</span>
                             </a>
                             <a class="carousel-control-next" href="#carouselExampleIndicators" role="button"
                                 data-slide="next">
@@ -326,7 +330,7 @@
     <div class="row">
         <div class="rhs_product_tab rhs_match_height">
 
-            {{#each realtedProducts}}
+            {{#each nameProducts}}
             <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-xs-12">
 
 

@@ -74,13 +74,15 @@ router.get('/', async function (req, res, next) {
 
 
 //Login Page
-router.get('/login', (req, res) => {
+router.get('/login', async (req, res) => {
 
   res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
   if (req.session.userLoggedIn) {
     res.redirect('/')
   } else {
-    res.render('user/user-login', { "loginErr": req.session.loggedInErr, "otpErr": req.session.otpErr, "blockErr": req.session.blockErr, "noUser": req.session.noUser })
+    let brand = await userHelper.getBrands()
+    let homePro = await userHelper.getHomeProducts()
+    res.render('user/user-login', { brand, homePro, "loginErr": req.session.loggedInErr, "otpErr": req.session.otpErr, "blockErr": req.session.blockErr, "noUser": req.session.noUser })
     req.session.loggedInErr = false
     req.session.blockErr = false
     req.session.noUser = false
@@ -131,11 +133,13 @@ router.post('/login', (req, res) => {
 
 //Login with OTP
 
-router.get('/loginOtp', (req, res) => {
+router.get('/loginOtp',async (req, res) => {
   if (req.session.userLoggedIn) {
     res.redirect('/')
   } else {
-    res.render('user/user-mobile', { otp: true, login: true, "noUser": req.session.noUserMobile })
+    let brand = await userHelper.getBrands()
+    let homePro = await userHelper.getHomeProducts()
+    res.render('user/user-mobile', { otp: true, login: true, brand, homePro, "noUser": req.session.noUserMobile })
     req.session.noUserMobile = false
 
   }
@@ -178,7 +182,7 @@ router.post('/loginOtp', (req, res) => {
 
 //OTP
 
-router.get('/login/otp', (req, res) => {
+router.get('/login/otp',async (req, res) => {
   if (req.session.userLoggedIn) {
 
     res.redirect('/')
@@ -186,7 +190,9 @@ router.get('/login/otp', (req, res) => {
 
   } else {
     if (req.session.loginHalf) {
-      res.render('user/user-otp', { otp: true, login: true, "invalidOtp": req.session.invalidOtp, "otpErr": req.session.otpErr })
+      let brand = await userHelper.getBrands()
+      let homePro = await userHelper.getHomeProducts()
+      res.render('user/user-otp', { otp: true, login: true, brand, homePro, "invalidOtp": req.session.invalidOtp, "otpErr": req.session.otpErr })
       req.session.otpErr = false
       req.session.invalidOtp = false
     } else {
@@ -311,12 +317,13 @@ router.get('/forget/resend-otp', (req, res) => {
 
 //Forget Password
 
-router.get('/forgetPassword', (req, res) => {
+router.get('/forgetPassword',async (req, res) => {
   if (req.session.userLoggedIn) {
     res.redirect('/')
   } else {
-
-    res.render('user/user-changePassword', { otp: true, login: true, "noUser": req.session.noUserMobile })
+    let brand = await userHelper.getBrands()
+    let homePro = await userHelper.getHomeProducts()
+    res.render('user/user-changePassword', { otp: true, brand, homePro, login: true, "noUser": req.session.noUserMobile })
     req.session.noUserMobile = false
   }
 
@@ -360,6 +367,7 @@ router.get('/forgetPasswordOtp', (req, res) => {
     res.redirect('/')
   } else {
     if (req.session.loginHalf) {
+
       res.render('user/user-setPasswordOtp', { otp: true, login: true, "invalidOtp": req.session.invalidOtp, "otpErr": req.session.otpErr })
       req.session.otpErr = false
       req.session.invalidOtp = false
@@ -450,12 +458,14 @@ router.post('/setPassword', async (req, res) => {
 
 //Signup
 
-router.get('/signup', (req, res) => {
+router.get('/signup', async (req, res) => {
   res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
   if (req.session.userLoggedIn) {
     res.redirect('/')
   } else {
-    res.render('user/user-signup', { "mobileNoExist": req.session.mobileNoExist })
+    let brand = await userHelper.getBrands()
+    let homePro = await userHelper.getHomeProducts()
+    res.render('user/user-signup', { brand, homePro, "mobileNoExist": req.session.mobileNoExist })
     req.session.mobileNoExist = false
     req.session.loginErr = false
     req.session.blockErr = false
@@ -557,27 +567,52 @@ router.post('/signup/otp', async (req, res) => {
 
 })
 
-//Product secction
 
 
+//Product secction starting
+
+//By Id
 router.get('/product/:id', async (req, res) => {
   let id = req.params.id
   let cartCount = null
   if (req.session.user) {
     let Id = req.session.user._id
-    cartCount = await userHelper.getCartCount(Id)
+    cartCount = await userHelper.getCartCount(Id) 
   }
   let realtedProducts = await productHelper.getRelatedProducts()
   console.log("Related", realtedProducts);
+  let brand = await userHelper.getBrands()
+  let homePro = await userHelper.getHomeProducts()
   let user = req.session.user
   let product = await productHelper.getProductDetails(id).then((product) => {
     console.log(product, "pro in single")
-    res.render('user/single-product', { userPage: true, cartCount, user, product, realtedProducts })
+    res.render('user/single-product', { userPage: true, brand, homePro, cartCount, user, product, realtedProducts })
   })
 
 })
+//All products
+router.get('/products',async(req,res)=>{
+  let products=await userHelper.getAllProducts()
+  let brand = await userHelper.getBrands()
+  let homePro = await userHelper.getHomeProducts()
+  res.render('user/all-products',{products,brand,homePro, userPage:true})
+})
 
-//Cart
+//By name
+
+router.get('/products/:name',async(req,res)=>{
+  let name=req.params.name
+  console.log(name,"=name");
+  let brand = await userHelper.getBrands()
+  let homePro = await userHelper.getHomeProducts()
+  let product=await userHelper.getProductsByName(name)
+  res.render('user/name-products',{userPage:true,brand,homePro,product})
+})
+
+
+
+
+//Cart section starting
 
 router.get('/cart', verifyUserLogin, async (req, res, next) => {
 
@@ -590,6 +625,8 @@ router.get('/cart', verifyUserLogin, async (req, res, next) => {
   if (products.length > 0) {
     totals = await userHelper.getTotalAmount(id)
   }
+  let brand = await userHelper.getBrands()
+  let homePro = await userHelper.getHomeProducts()
 
 
   if (req.session.user) {
@@ -597,10 +634,13 @@ router.get('/cart', verifyUserLogin, async (req, res, next) => {
     cartCount = await userHelper.getCartCount(Id)
   }
   if (cartCount > 0) {
-    res.render('user/newCart', { cart: true, userPage: true, user, 'noCart': req.session.noCartPro, cartCount, products, totals })
+
+    res.render('user/newCart', { cart: true, userPage: true,brand,homePro, user, 'noCart': req.session.noCartPro, cartCount, products, totals })
     req.session.noCartPro = false
   } else {
-    res.render('user/empty-cart', { userPage: true, user })
+    let brand = await userHelper.getBrands()
+    let homePro = await userHelper.getHomeProducts()
+    res.render('user/empty-cart', { userPage: true, brand, homePro, user })
   }
 
   // userHelper.deleteAddress(id).then((res)=>{
@@ -654,6 +694,8 @@ router.get('/checkout', verifyUserLogin, async (req, res) => {
   let user = req.session.user
   let total = await userHelper.getTotalAmount(userId)
   let products = await userHelper.getCartProducts(userId)
+  let brand = await userHelper.getBrands()
+  let homePro = await userHelper.getHomeProducts()
   //cart count
   let cartCount = null
   if (req.session.user) {
@@ -675,7 +717,7 @@ router.get('/checkout', verifyUserLogin, async (req, res) => {
   console.log(address, "address");
 
   if (cartCount > 0) {
-    res.render('user/checkout', { total, cart: true, cartCount, products, address, user })
+    res.render('user/checkout', { total, cart: true,brand,homePro, cartCount, products, address, user })
   } else {
     req.session.noCartPro = true
     res.redirect('/cart')
@@ -699,10 +741,12 @@ router.post('/place-order', async (req, res) => {
   })
 })
 
-router.get('/order-success', verifyUserLogin, (req, res) => {
+router.get('/order-success', verifyUserLogin,async (req, res) => {
   let user = req.session.user
+  let brand = await userHelper.getBrands()
+  let homePro = await userHelper.getHomeProducts()
   if (req.session.ordered) {
-    res.render('user/order-success', { user })
+    res.render('user/order-success', { user,brand,homePro })
   } else {
     res.redirect('/cart')
   }
@@ -712,13 +756,15 @@ router.get('/order-success', verifyUserLogin, (req, res) => {
 
 router.get('/addNewAddress', verifyUserLogin, async (req, res) => {
   let cartCount = null
+  let brand = await userHelper.getBrands()
+  let homePro = await userHelper.getHomeProducts()
   if (req.session.user) {
     let Id = req.session.user._id
     cartCount = await userHelper.getCartCount(Id)
   }
   let user = req.session.user
   console.log(user);
-  res.render('user/add-new-address', { user, cartCount })
+  res.render('user/add-new-address', { user,brand,homePro, cartCount })
 })
 
 router.post('/addNewAddress', (req, res) => {
@@ -733,6 +779,8 @@ router.post('/addNewAddress', (req, res) => {
 router.get('/myOrders', verifyUserLogin, async (req, res) => {
   let user = req.session.user
   let id = req.session.user._id
+  let brand = await userHelper.getBrands()
+  let homePro = await userHelper.getHomeProducts()
   console.log(id);
   let cartCount = null
   if (req.session.user) {
@@ -748,7 +796,7 @@ router.get('/myOrders', verifyUserLogin, async (req, res) => {
     // let result = orders.map(({ Status }) => Status)
     // console.log(result, "res");
 
-    res.render('user/user-orders', { orders, cartCount, user })
+    res.render('user/user-orders', { orders,brand,homePro, cartCount, user })
   })
 
 })
@@ -756,6 +804,8 @@ router.get('/myOrders', verifyUserLogin, async (req, res) => {
 router.get('/singleOrder/:id', verifyUserLogin, async (req, res) => {
   let user = req.session.user
   let oId = req.params.id
+  let brand = await userHelper.getBrands()
+  let homePro = await userHelper.getHomeProducts()
 
   let cartCount = null
   if (req.session.user) {
@@ -764,7 +814,7 @@ router.get('/singleOrder/:id', verifyUserLogin, async (req, res) => {
   }
   adminHelpers.getOrderProducts(oId).then((products) => {
     console.log(products, "pr o");
-    res.render('user/single-orders', { products, user, cartCount })
+    res.render('user/single-orders', { products,brand,homePro, user, cartCount })
   })
 })
 
@@ -772,6 +822,8 @@ router.get('/singleOrder/:id', verifyUserLogin, async (req, res) => {
 
 router.get('/profile', verifyUserLogin, async (req, res) => {
   let id = req.session.user._id
+  let brand = await userHelper.getBrands()
+  let homePro = await userHelper.getHomeProducts()
   let user = await adminHelpers.getUserdetails(id)
   let cartCount = null
   if (req.session.user) {
@@ -780,19 +832,17 @@ router.get('/profile', verifyUserLogin, async (req, res) => {
   }
   //get Address
   var address = null
-  let status = await userHelper.addressChecker(id)
+  let status = await userHelper.addressChecker(req.session.user._id)
   console.log(status);
   if (status.address) {
     console.log(status.address, "st a");
-    let addr = await userHelper.getUserAddress(id)
+    let addr = await userHelper.getUserAddress(req.session.user._id)
     console.log(addr, "addr");
     let len = addr.length
-    console.log("length=", len);
-    address = addr.slice(len - 3, len)
-
-    console.log("addrress=", address);
+    address = addr.slice(len - 2, len)
   }
-  res.render('user/my-profile', { user, address, cartCount })
+
+  res.render('user/my-profile', { user,brand,homePro, address, cartCount })
 })
 
 router.post('/edit-profile', (req, res) => {
@@ -809,9 +859,11 @@ router.get('/addNewAddressProfile', verifyUserLogin, async (req, res) => {
     let Id = req.session.user._id
     cartCount = await userHelper.getCartCount(Id)
   }
+  let brand = await userHelper.getBrands()
+  let homePro = await userHelper.getHomeProducts()
   let user = req.session.user
   console.log(user);
-  res.render('user/add-new-addressProfile', { user, cartCount })
+  res.render('user/add-new-addressProfile', { user, brand,homePro,cartCount })
 })
 
 router.post('/addNewAddressProfile', (req, res) => {
@@ -823,32 +875,53 @@ router.post('/addNewAddressProfile', (req, res) => {
 
 })
 
-router.get('/edit-address/:id',verifyUserLogin, async (req, res) => {
+router.get('/edit-address/:id', verifyUserLogin, async (req, res) => {
+  let brand = await userHelper.getBrands()
+  let homePro = await userHelper.getHomeProducts()
   let aId = req.params.id
-  let uId=req.session.user._id
+  let uId = req.session.user._id
   console.log(aId);
-  let address = await userHelper.getSingleAddress(aId,uId)
-  console.log("address=",address);
-  res.render('user/edit-address',address)
+  let address = await userHelper.getSingleAddress(aId, uId)
+  console.log("address=", address);
+  res.render('user/edit-address',brand,homePro, address)
 })
 
-router.post('/edit-address',(req,res)=>{
-  console.log(req.body,"req.body");
-  userHelper.editAddress(req.body).then((response)=>{
+router.post('/edit-address', (req, res) => {
+  console.log(req.body, "req.body");
+  userHelper.editAddress(req.body).then((response) => {
     res.redirect('/profile')
   })
 })
 
-router.get('/delete-address/:id',verifyUserLogin,(req,res)=>{
-  let Id=req.params.id 
-  let uId=req.session.user._id
-  userHelper.deleteAddress(Id,uId).then((response)=>{
+router.get('/delete-address/:id', verifyUserLogin, (req, res) => {
+  let Id = req.params.id
+  let uId = req.session.user._id
+  
+  userHelper.deleteAddress(Id, uId).then((response) => {
     console.log("deleted");
   })
 })
 
+router.get('/change-password', verifyUserLogin,async (req, res) => {
+  let user = req.session.user
+  let brand = await userHelper.getBrands()
+  let homePro = await userHelper.getHomeProducts()
+  res.render('user/change-password', { user,brand,homePro })
+})
 
-router.get('/logout', (req, res) => {
+router.post('/change-password', (req, res) => {
+  console.log(req.body, "req");
+  let id = req.session.user._id
+  userHelper.changePassword(id, req.body).then((response) => {
+    console.log(response);
+    req.session.userLoggedIn = false
+    req.session.user = null
+    res.redirect('/login')
+  })
+})
+
+
+router.get('/logout', (req, res) => {    
   req.session.user = null
   req.session.userLoggedIn = false
   res.redirect('/')
