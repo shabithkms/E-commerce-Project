@@ -66,9 +66,9 @@ router.get('/', async function (req, res, next) {
   }
   let products = await productHelper.getAllProducts()
   let brand = await userHelper.getBrands()
-  let homePro=await userHelper.getHomeProducts()
-  console.log(homePro);
-  res.render('user/home', { user, userPage: true, products,brand,homePro, cartCount })
+  let homePro = await userHelper.getHomeProducts()
+  // console.log(homePro);
+  res.render('user/home', { user, userPage: true, products, brand, homePro, cartCount })
 
 });
 
@@ -600,7 +600,7 @@ router.get('/cart', verifyUserLogin, async (req, res, next) => {
     res.render('user/newCart', { cart: true, userPage: true, user, 'noCart': req.session.noCartPro, cartCount, products, totals })
     req.session.noCartPro = false
   } else {
-    res.render('user/empty-cart', { login: true })
+    res.render('user/empty-cart', { userPage: true, user })
   }
 
   // userHelper.deleteAddress(id).then((res)=>{
@@ -692,6 +692,7 @@ router.post('/place-order', async (req, res) => {
     req.session.orderId = resp.insertedId.toString()
     console.log(req.session.orderId, "order id");
     userHelper.stockChanger(req.session.orderId).then(() => {
+      req.session.ordered = true
       res.json({ status: true })
     })
 
@@ -700,7 +701,13 @@ router.post('/place-order', async (req, res) => {
 
 router.get('/order-success', verifyUserLogin, (req, res) => {
   let user = req.session.user
-  res.render('user/order-success', { user })
+  if (req.session.ordered) {
+    res.render('user/order-success', { user })
+  } else {
+    res.redirect('/cart')
+  }
+
+  req.session.ordered = false
 })
 
 router.get('/addNewAddress', verifyUserLogin, async (req, res) => {
@@ -780,7 +787,10 @@ router.get('/profile', verifyUserLogin, async (req, res) => {
     let addr = await userHelper.getUserAddress(id)
     console.log(addr, "addr");
     let len = addr.length
-    address = addr.slice(len - 2, len)
+    console.log("length=", len);
+    address = addr.slice(len - 3, len)
+
+    console.log("addrress=", address);
   }
   res.render('user/my-profile', { user, address, cartCount })
 })
@@ -811,6 +821,30 @@ router.post('/addNewAddressProfile', (req, res) => {
     res.redirect('/profile')
   })
 
+})
+
+router.get('/edit-address/:id',verifyUserLogin, async (req, res) => {
+  let aId = req.params.id
+  let uId=req.session.user._id
+  console.log(aId);
+  let address = await userHelper.getSingleAddress(aId,uId)
+  console.log("address=",address);
+  res.render('user/edit-address',address)
+})
+
+router.post('/edit-address',(req,res)=>{
+  console.log(req.body,"req.body");
+  userHelper.editAddress(req.body).then((response)=>{
+    res.redirect('/profile')
+  })
+})
+
+router.get('/delete-address/:id',verifyUserLogin,(req,res)=>{
+  let Id=req.params.id 
+  let uId=req.session.user._id
+  userHelper.deleteAddress(Id,uId).then((response)=>{
+    console.log("deleted");
+  })
 })
 
 

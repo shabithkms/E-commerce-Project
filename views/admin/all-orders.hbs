@@ -13,12 +13,12 @@
                             <tr>
                                 <th scope="col">No.</th>
                                 <th scope="col">Date</th>
-                                <th scope="col">Time</th>
+                                
                                 <th scope="col">User</th>
                                 <th scope="col">Address</th>
 
                                 <th scope="col">Amount</th>
-                                <th scope="col">Discount</th>
+                                
                                 <th scope="col">Payment</th>
 
                                 <th scope="col">Status</th>
@@ -30,14 +30,15 @@
                             {{#each ordersList}}
                             <tr>
                                 <td></td>
-                                <td>{{this.Date}}</td>
-                                <td>{{this.Time}}</td>
+                                <td>{{this.Date}} <br>
+                                {{this.Time}}</td>
+                                
                                 <td>{{this.User}}</td>
                                 <td>{{this.deliveryDetails.FirstName}},{{this.deliveryDetails.House}}<br>{{this.deliveryDetails.Town}},PIN:{{this.deliveryDetails.PIN}}<br>PH:{{this.deliveryDetails.Mobile}}
                                 </td>
 
                                 <td>{{this.Total}}</td>
-                                <td>{{this.Discount}}</td>
+                                
                                 <td>{{this.PaymentMethod}}</td>
                                 <td id="{{this._id}}" style="display: none;">{{this.Status}}</td>
                                 <td>
@@ -91,6 +92,7 @@
         }else if (status === 'Shipped') {
             console.log("Shipped")
             document.getElementById(orderId + 'placed').style.display = "none";
+            document.getElementById(orderId + 'ship').style.display = "none";
 
         } else if (status === 'Delivered') {
             document.getElementById(orderId + 'placed').style.display = "none";
@@ -100,7 +102,7 @@
         } else if (status === 'Cancelled') {
             document.getElementById(orderId + 'placed').style.display = "none";
             document.getElementById(orderId + 'ship').style.display = "none";
-            document.getElementById(orderId + 'deliver').style.display = "none";
+            {{!-- document.getElementById(orderId + 'deliver').style.display = "none"; --}}
         }
     }
 </script>

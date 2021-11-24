@@ -9,7 +9,8 @@
         label.error {
             color: red !important;
         }
-        body{
+
+        body {
             background-color: #f2f2f2;
         }
     </style>
@@ -23,7 +24,8 @@
     <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
     <link rel="stylesheet" href="/admin/css/custom-styles.css" type="text/css">
     <link rel="stylesheet" href="/stylesheets/style.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
+    <link rel="stylesheet" type="text/css"
+        href="https://cdn.datatables.net/v/bs4/dt-1.11.3/sc-2.0.5/datatables.min.css" />
     <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@7.12.15/dist/sweetalert2.min.css'>
     </link>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.11/cropper.css">
@@ -130,8 +132,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
-    <script type="text/javascript" charset="utf8"
-        src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.11.3/sc-2.0.5/datatables.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.11/cropper.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
@@ -268,25 +269,26 @@
                 },
                 method: 'post',
                 success: (response) => {
+                    console.log(response, "res")
                     if (response.removeProduct) {
                         Swal.fire({
-                            position: 'top-center',
+                            position: 'top-end',
                             icon: 'error',
                             title: 'Item removed from cart',
                             showConfirmButton: true,
 
 
                         }).then((result) => {
-                            location.reload()
+                            console.log(result)
+                            { { !--location.reload() --} }
                         })
 
 
                     } else {
                         document.getElementById(proId).innerHTML = quantity + count
-                        console.log(response)
                         document.getElementById('total1').innerHTML = response.total
                         document.getElementById('total2').innerHTML = response.total
-                        document.getElementById('subTotal'+proId).innerHTML=response.subTotal
+                        document.getElementById('subTotal' + proId).innerHTML = response.subTotal
                     }
                 }
 
@@ -388,6 +390,19 @@
     {{!-- Cart --}}
 
     <script>
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        })
+
+
         function addToCart(proId) {
 
             $.ajax({
@@ -400,23 +415,14 @@
                         if (count > 0) {
                             count = parseInt(count) + 1
                             $('#cartCount').html(count)
-                            Swal.fire({
-                                position: 'top-end',
+                            Toast.fire({
                                 icon: 'success',
-                                title: 'Item added to cart',
-                                showConfirmButton: false,
-                                timer: 1500
+                                title: 'item added to Cart'
                             })
                         } else {
                             count = parseInt(count) + 1
                             $('#cartCount').html(count)
-                            Swal.fire({
-                                position: 'top-end',
-                                icon: 'success',
-                                title: 'Item added to cart',
-                                showConfirmButton: false,
-                                timer: 1500
-                            })
+
                             location.reload()
                         }
 
@@ -428,9 +434,9 @@
 
 
     </script>
-    
 
-{{!-- Zoom --}}
+
+    {{!-- Zoom --}}
     <script>
         $(function () {
 
@@ -605,7 +611,7 @@
         // initialise
         headroom.init();
     </script>
-    
+
 
 
 

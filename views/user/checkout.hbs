@@ -25,7 +25,7 @@
 <!-- checkout area start -->
 <div class="checkout-area pt-3 pb-5">
     <div class="container">
-        <h3>Address</h3>
+        <h3> Saved Address</h3>
         <div class="row">
 
             {{#each address}}
@@ -120,7 +120,8 @@
                                 <div class="col-lg-12 mt-md-30px mt-lm-30px ">
                                     <div class="your-order-area">
                                         <h3>Your order</h3>
-                                        <div class="your-order-wrap gray-bg-4 pl-4 pr-4 pb-4" style="border: 1px solid black;">
+                                        <div class="your-order-wrap gray-bg-4 pl-4 pr-4 pb-4"
+                                            style="border: 1px solid black;">
                                             <div class="your-order-product-info">
                                                 <div class="your-order-top">
                                                     <ul>
@@ -135,7 +136,7 @@
 
                                                         {{#each products}}
                                                         <tr>
-                                                            
+
                                                             <td>
                                                                 <ol>
                                                                     <li><span
@@ -253,13 +254,22 @@
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     function autoFill(fname, lname, house, street, town, pin, mobile, email) {
-        Swal.fire({
+        const Toast = Swal.mixin({
+            toast: true,
             position: 'top-end',
-            icon: 'success',
-            title: 'Form auto filled',
             showConfirmButton: false,
-            timer: 1500
+            timer: 2000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
         })
+        Toast.fire({
+            icon: 'success',
+            title: 'Address selected'
+        })
+
         document.getElementById('fname').value = fname
         document.getElementById('lname').value = lname
         document.getElementById('house').value = house
@@ -278,59 +288,8 @@
 <script>
     $('#checkout-form').submit((e) => {
         e.preventDefault()
-        {
-            {
-                !--$('#checkout-form').validate({
-                    rules: {
-                        FirstName: {
-                            required: true,
-                            minlength: 4,
-                            maxlength: 20
 
-                        },
-                        LastName: {
-                            required: true,
-                            minlength: 4,
-                            maxlength: 15
 
-                        },
-                        House: {
-                            required: true,
-
-                            minlength: 10,
-                            maxlength: 100,
-                        },
-                        Street: {
-                            required: true,
-                            minlength: 4
-                        },
-                        Town: {
-                            required: true,
-                            minlength: 4
-                        },
-                        PIN: {
-                            required: true,
-                            number: true,
-                            minlength: 6,
-                            maxlength: 6
-                        },
-                        Mobile: {
-                            required: true,
-                            minlength: 10,
-                            maxlength: 10,
-                            number: true
-                        }
-                Email: {
-                            required: true,
-                            email: true
-                        },
-                    },
-                    submitHandler: function submit(form) {
-                        console.log(form)
-
-                    }
-                }) --}
-        }
         $.ajax({
             url: '/place-order',
             method: 'post',

@@ -23,9 +23,15 @@
 
     h6 {}
 
-    {{!-- .container-fluid {
-        margin-top: 100px;
-    } --}}
+        {
+            {
+             !-- .container-fluid {
+                margin-top: 100px;
+            }
+
+            --
+        }
+    }
 
     p {
         font-size: 14px;
@@ -142,10 +148,11 @@
 
 
 <div class="container-fluid my-3 ">
-<div class="header text-center mb-2">
-<h4>
-    <strong>My Orders</strong></h4>
-</div>
+    <div class="header text-center mb-2">
+        <h4>
+            <strong>My Orders</strong>
+        </h4>
+    </div>
     <div class="card card-1 row ">
         {{#each orders}}
         <div class="card-body col-md-4">
@@ -171,7 +178,8 @@
                                         {{this.deliveryDetails.House}} <br>
                                         {{this.deliveryDetails.Town}},{{this.deliveryDetails.PIN}} <br>
                                         {{this.deliveryDetails.Mobile}} <br>
-                                        <div class=""> <small style="color: black;"> Order Date: <br> {{this.Date}}
+                                        <div class=""> <small style="color: black;"> Order Date: <br> {{this.Date}} <br>
+                                                {{this.Time}}
                                             </small></div>
                                         <a class="btn" href="/singleOrder/{{this._id}}">View products</a>
                                         <div class=""> <small style="color: black;"> Order Status: <br>

@@ -390,7 +390,7 @@ module.exports = {
 
 
             let dateIso = new Date()
-            let date = moment(dateIso).format('YYYY/MM/DD')
+            let date = moment(dateIso).format('DD/MM/YYYY')
             let time = moment(dateIso).format('HH:mm:ss')
             let orderObj = {
                 deliveryDetails: {
@@ -413,6 +413,7 @@ module.exports = {
                 Status: Status
 
             }
+            console.log(orderObj, "obj");
 
             db.get().collection(collection.ORDER_COLLECTION).insertOne(orderObj).then((response) => {
                 db.get().collection(collection.CART_COLLECTION).deleteOne({ user: objectId(order.User) })
@@ -431,6 +432,8 @@ module.exports = {
     addNewAddress: (details) => {
         return new Promise(async (resolve, reject) => {
             let user = await db.get().collection(collection.USER_COLLECTION).findOne({ _id: objectId(details.User) })
+            details._id = objectId()
+            console.log(details, "de");
             if (user.address) {
                 db.get().collection(collection.USER_COLLECTION).updateOne({ _id: objectId(details.User) }, {
                     $push: {
@@ -468,20 +471,6 @@ module.exports = {
             let user = await db.get().collection(collection.USER_COLLECTION).findOne({ _id: objectId(userId) })
             let address = user.address
             resolve(address)
-        })
-    },
-    deleteAddress: (userId) => {
-        return new Promise(async (resolve, reject) => {
-            let user = await db.get().collection(collection.USER_COLLECTION).findOne({ _id: objectId(userId) })
-            if (user.address) {
-                db.get().collection(collection.USER_COLLECTION).updateOne({ _id: objectId(userId) }, {
-                    $pull: {
-                        address: { User: userId }
-                    }
-                }).then(() => {
-                    resolve()
-                })
-            }
         })
     },
     getUserOrders: (Id) => {
@@ -563,6 +552,57 @@ module.exports = {
             console.log(products);
             resolve(products)
         })
-    }
+    },
+    getSingleAddress: (Id, uId) => {
+        return new Promise(async (resolve, reject) => {
+            console.log(Id);
+            let user = await db.get().collection(collection.USER_COLLECTION).findOne({ _id: objectId(uId) })
+
+            if (user) {
+                let address = await db.get().collection(collection.USER_COLLECTION).findOne({ address: { $elemMatch: { _id: objectId(Id) } } })
+
+                resolve(address.address[0])
+            }
+
+        })
+    },
+    editAddress: (newData) => {
+        console.log(newData, "new");
+       
+        return new Promise((resolve, reject) => {
+            db.get().collection(collection.USER_COLLECTION).updateOne({ _id: objectId(newData.User), "address._id": objectId(newData._id) }, {
+                $set: {
+                    "address.$.FirstName": newData.FirstName,
+                    "address.$.LastName": newData.LastName,
+                    "address.$.House": newData.House,
+                    "address.$.Street": newData.Street,
+                    "address.$.Town": newData.Town,
+                    "address.$.PIN": newData.PIN,
+                    "address.$.Mobile": newData.Mobile,
+                    "address.$.Email": newData.Email,
+                    
+                    
+                }
+            }).then((response)=>{
+                resolve(response)
+                console.log("response=,",response);
+            })
+        })
+    },
+    deleteAddress: (Id,uId) => {
+        return new Promise(async (resolve, reject) => {
+            let user = await db.get().collection(collection.USER_COLLECTION).findOne({ _id: objectId(uId) })
+            if (user) {
+                db.get().collection(collection.USER_COLLECTION).updateOne({ _id: objectId(uId) }, {
+                    $pull: {
+                        address: { _id: objectId(Id) }
+                    }
+                }).then((response) => {
+                    resolve(response)
+                    console.log(response,"red");
+                })
+            }
+        })
+    },
 
 }

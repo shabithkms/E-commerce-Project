@@ -8,7 +8,7 @@
     <div class="row">
         <div class="col-md-3 ">
             <div class="list-group ">
-                <a href="#" class="list-group-item list-group-item-action active">Dashboard</a>
+                <a href="#" class="list-group-item list-group-item-action active">PROFILE</a>
                 <a href="/cart" class="list-group-item list-group-item-action">Cart</a>
                 <a href="/myOrders" class="list-group-item list-group-item-action">My Orders</a>
                 <a href="/addNewAddressProfile" class="list-group-item list-group-item-action">Add New address</a>
@@ -76,19 +76,27 @@
                         </div>
                     </div>
                     <h3>Address</h3>
+                    <div class="col-md-2 mt-auto ">
+                        <button href="" class="btn btn-warning " data-toggle="modal" data-target="#exampleModalAdd"
+                            data-whatever="@mdo" style="text-decoration: none;width:fit-content;margin-top:30px;">Add
+                            New</a>
+                    </div>
                     <div class="row">
 
                         {{#each address}}
                         <div class="col-md-3 mt-5 alert border-warning mr-2 card" style="cursor: pointer;">
 
-                            <div class="col-md-12" >
+                            <div class="col-md-12" onclick="">
 
                                 <h6 class="">{{this.FirstName}} {{this.LastName}}</h6>
                                 <p class="">{{this.House}},{{this.Town}} - {{this.PIN}}<br>Ph : {{this.Mobile}}</p>
-                                <div class="ml-auto">
-                                    {{!-- <button class="btn btn-primary" style="width: fit-content;">
-                                        Edit 
-                                    </button> --}}
+                                <div class="ml-auto ">
+                                    <a class="btn btn-warning mt-auto " href="/edit-address/{{this._id}}" style="width: fit-content;">
+                                        Edit
+                                    </a>
+                                    <a class="btn btn-danger mt-auto" href="/delete-address/{{this._id}}" style="width: fit-content; color: white;">
+                                        Delete
+                                    </a>
                                 </div>
 
                             </div>
@@ -96,7 +104,108 @@
 
                         </div>
                         {{/each}}
+
+
+
+
+                        <div class="modal " id="exampleModalAdd" tabindex="-1" role="dialog"
+                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h3 class="mb-3 mt-3">Add new Address</h3>
+                                        {{!-- <button type="button" class="close ml-auto" data-dismiss="modal"
+                                            aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button> --}}
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="billing-info-wrap">
+
+                                            <form action="/addNewAddressProfile" id="checkout-form" method="POST">
+                                                <div class="row bg-light">
+                                                    <div class="col-md-12">
+                                                        <div class="form-row">
+                                                            <div class=" form-group billing-info mb-4 col-md-6">
+                                                                <label for="fname">First Name</label>
+                                                                <input type="text" id="fname" name="FirstName"
+                                                                    minlength="4" required />
+                                                            </div>
+
+                                                            <div class="form-group billing-info mb-4 col-md-6">
+                                                                <label for="lname">Last Name</label>
+                                                                <input type="text" id="lname" name="LastName"
+                                                                    required />
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-row">
+                                                            <div class="form-group billing-info mb-4 col-md-12">
+                                                                <label for="house">House Name</label>
+                                                                <input type="text" id="house" name="House" required
+                                                                    minlength="4" />
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-row ">
+                                                            <div class="form-group billing-info mb-4 col-md-12">
+                                                                <label for="street">Street Address</label>
+                                                                <input class="billing-address" placeholder="street name"
+                                                                    id="street" name="Street" type="text" minlength="4"
+                                                                    required />
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-row">
+                                                            <div class="form-group billing-info mb-4 col-md-6">
+                                                                <label for="city">Town / City</label>
+                                                                <input type="text" id="city" name="Town" minlength="4"
+                                                                    required />
+                                                            </div>
+
+
+
+                                                            <div class="form-group billing-info mb-4 col-md-6">
+                                                                <label for="pin">Postcode / ZIP</label>
+                                                                <input type="text" id="pin" name="PIN" pattern=".{6,6}"
+                                                                    required />
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-row">
+                                                            <div class="form-group billing-info mb-4 col-md-6">
+                                                                <label for="phone">Phone</label>
+                                                                <input type="text" id="phone" name="Mobile"
+                                                                    pattern=".{10,10}" required />
+                                                            </div>
+
+
+
+                                                            <div class="form-group billing-info mb-4 col-md-6">
+                                                                <label for="email">Email Address</label>
+                                                                <input type="email" required id="email" name="Email" />
+                                                            </div>
+                                                            <input type="text" name="User" value="{{user._id}}" hidden>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <div class=" text-center pt-3">
+                                                    <input type="submit" class="btn btn-primary "
+                                                        value="Add New Address">
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    {{!-- <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary">Send message</button>
+                                    </div> --}}
+                                </div>
+                            </div>
+                        </div>
                         
+
+
                     </div>
 
                 </div>
