@@ -133,7 +133,7 @@ router.post('/login', (req, res) => {
 
 //Login with OTP
 
-router.get('/loginOtp',async (req, res) => {
+router.get('/loginOtp', async (req, res) => {
   if (req.session.userLoggedIn) {
     res.redirect('/')
   } else {
@@ -182,7 +182,7 @@ router.post('/loginOtp', (req, res) => {
 
 //OTP
 
-router.get('/login/otp',async (req, res) => {
+router.get('/login/otp', async (req, res) => {
   if (req.session.userLoggedIn) {
 
     res.redirect('/')
@@ -317,7 +317,7 @@ router.get('/forget/resend-otp', (req, res) => {
 
 //Forget Password
 
-router.get('/forgetPassword',async (req, res) => {
+router.get('/forgetPassword', async (req, res) => {
   if (req.session.userLoggedIn) {
     res.redirect('/')
   } else {
@@ -577,36 +577,36 @@ router.get('/product/:id', async (req, res) => {
   let cartCount = null
   if (req.session.user) {
     let Id = req.session.user._id
-    cartCount = await userHelper.getCartCount(Id) 
+    cartCount = await userHelper.getCartCount(Id)
   }
   let realtedProducts = await productHelper.getRelatedProducts()
-  console.log("Related", realtedProducts);
+
   let brand = await userHelper.getBrands()
   let homePro = await userHelper.getHomeProducts()
   let user = req.session.user
   let product = await productHelper.getProductDetails(id).then((product) => {
-    console.log(product, "pro in single")
+
     res.render('user/single-product', { userPage: true, brand, homePro, cartCount, user, product, realtedProducts })
   })
 
 })
 //All products
-router.get('/products',async(req,res)=>{
-  let products=await userHelper.getAllProducts()
+router.get('/products', async (req, res) => {
+  let products = await userHelper.getAllProducts()
   let brand = await userHelper.getBrands()
   let homePro = await userHelper.getHomeProducts()
-  res.render('user/all-products',{products,brand,homePro, userPage:true})
+  res.render('user/all-products', { products, brand, homePro, userPage: true })
 })
 
 //By name
 
-router.get('/products/:name',async(req,res)=>{
-  let name=req.params.name
-  console.log(name,"=name");
+router.get('/products/:name', async (req, res) => {
+  let name = req.params.name
+
   let brand = await userHelper.getBrands()
   let homePro = await userHelper.getHomeProducts()
-  let product=await userHelper.getProductsByName(name)
-  res.render('user/name-products',{userPage:true,brand,homePro,product})
+  let product = await userHelper.getProductsByName(name)
+  res.render('user/name-products', { userPage: true, brand, homePro, product })
 })
 
 
@@ -617,9 +617,9 @@ router.get('/products/:name',async(req,res)=>{
 router.get('/cart', verifyUserLogin, async (req, res, next) => {
 
   let id = req.session.user._id
-  console.log(req.session.user);
+
   let products = await userHelper.getCartProducts(id)
-  console.log(products);
+
   let user = req.session.user
   let totals = 0
   if (products.length > 0) {
@@ -635,7 +635,7 @@ router.get('/cart', verifyUserLogin, async (req, res, next) => {
   }
   if (cartCount > 0) {
 
-    res.render('user/newCart', { cart: true, userPage: true,brand,homePro, user, 'noCart': req.session.noCartPro, cartCount, products, totals })
+    res.render('user/newCart', { cart: true, userPage: true, brand, homePro, user, 'noCart': req.session.noCartPro, cartCount, products, totals })
     req.session.noCartPro = false
   } else {
     let brand = await userHelper.getBrands()
@@ -668,6 +668,7 @@ router.post('/change-product-quantity', (req, res) => {
   let id = req.body.user
   let proId = req.body.product
   userHelper.changeProductQuantity(req.body).then(async (response) => {
+    // userHelper.checkStock()
     response.total = await userHelper.getTotalAmount(id)
     response.subTotal = await userHelper.getSubTotal(id, proId)
     console.log(response, "res");
@@ -717,7 +718,7 @@ router.get('/checkout', verifyUserLogin, async (req, res) => {
   console.log(address, "address");
 
   if (cartCount > 0) {
-    res.render('user/checkout', { total, cart: true,brand,homePro, cartCount, products, address, user })
+    res.render('user/checkout', { total, cart: true, brand, homePro, cartCount, products, address, user })
   } else {
     req.session.noCartPro = true
     res.redirect('/cart')
@@ -732,21 +733,39 @@ router.post('/place-order', async (req, res) => {
   userHelper.placeOrder(req.body, products, total).then((resp) => {
     response.orderId = resp.insertedId.toString()
     req.session.orderId = resp.insertedId.toString()
+    let orderId = req.session.orderId
     console.log(req.session.orderId, "order id");
     userHelper.stockChanger(req.session.orderId).then(() => {
       req.session.ordered = true
-      res.json({ status: true })
+      if (req.body['Payment'] == 'COD') {
+        console.log("in cod");
+       
+
+        res.json({ codSuccess : true })
+      } else {
+        console.log("in online payment");
+        userHelper.generateRazorpay(orderId,total).then((response) => {
+          console.log("response=",response);
+          res.json(response)
+
+        })
+      }
+
     })
 
   })
 })
 
-router.get('/order-success', verifyUserLogin,async (req, res) => {
+router.post('/verify-payment',(req,res)=>{ 
+  console.log(req.body);
+})
+
+router.get('/order-success', verifyUserLogin, async (req, res) => {
   let user = req.session.user
   let brand = await userHelper.getBrands()
   let homePro = await userHelper.getHomeProducts()
   if (req.session.ordered) {
-    res.render('user/order-success', { user,brand,homePro })
+    res.render('user/order-success', { user, brand, homePro })
   } else {
     res.redirect('/cart')
   }
@@ -764,7 +783,7 @@ router.get('/addNewAddress', verifyUserLogin, async (req, res) => {
   }
   let user = req.session.user
   console.log(user);
-  res.render('user/add-new-address', { user,brand,homePro, cartCount })
+  res.render('user/add-new-address', { user, brand, homePro, cartCount })
 })
 
 router.post('/addNewAddress', (req, res) => {
@@ -796,7 +815,7 @@ router.get('/myOrders', verifyUserLogin, async (req, res) => {
     // let result = orders.map(({ Status }) => Status)
     // console.log(result, "res");
 
-    res.render('user/user-orders', { orders,brand,homePro, cartCount, user })
+    res.render('user/user-orders', { orders, brand, homePro, cartCount, user })
   })
 
 })
@@ -814,7 +833,7 @@ router.get('/singleOrder/:id', verifyUserLogin, async (req, res) => {
   }
   adminHelpers.getOrderProducts(oId).then((products) => {
     console.log(products, "pr o");
-    res.render('user/single-orders', { products,brand,homePro, user, cartCount })
+    res.render('user/single-orders', { products, brand, homePro, user, cartCount })
   })
 })
 
@@ -842,7 +861,7 @@ router.get('/profile', verifyUserLogin, async (req, res) => {
     address = addr.slice(len - 2, len)
   }
 
-  res.render('user/my-profile', { user,brand,homePro, address, cartCount })
+  res.render('user/my-profile', { user, brand, homePro, address, cartCount })
 })
 
 router.post('/edit-profile', (req, res) => {
@@ -863,7 +882,7 @@ router.get('/addNewAddressProfile', verifyUserLogin, async (req, res) => {
   let homePro = await userHelper.getHomeProducts()
   let user = req.session.user
   console.log(user);
-  res.render('user/add-new-addressProfile', { user, brand,homePro,cartCount })
+  res.render('user/add-new-addressProfile', { user, brand, homePro, cartCount })
 })
 
 router.post('/addNewAddressProfile', (req, res) => {
@@ -883,7 +902,7 @@ router.get('/edit-address/:id', verifyUserLogin, async (req, res) => {
   console.log(aId);
   let address = await userHelper.getSingleAddress(aId, uId)
   console.log("address=", address);
-  res.render('user/edit-address',brand,homePro, address)
+  res.render('user/edit-address', brand, homePro, address)
 })
 
 router.post('/edit-address', (req, res) => {
@@ -896,17 +915,17 @@ router.post('/edit-address', (req, res) => {
 router.get('/delete-address/:id', verifyUserLogin, (req, res) => {
   let Id = req.params.id
   let uId = req.session.user._id
-  
+
   userHelper.deleteAddress(Id, uId).then((response) => {
     console.log("deleted");
   })
 })
 
-router.get('/change-password', verifyUserLogin,async (req, res) => {
+router.get('/change-password', verifyUserLogin, async (req, res) => {
   let user = req.session.user
   let brand = await userHelper.getBrands()
   let homePro = await userHelper.getHomeProducts()
-  res.render('user/change-password', { user,brand,homePro })
+  res.render('user/change-password', { user, brand, homePro })
 })
 
 router.post('/change-password', (req, res) => {
@@ -921,7 +940,7 @@ router.post('/change-password', (req, res) => {
 })
 
 
-router.get('/logout', (req, res) => {    
+router.get('/logout', (req, res) => {
   req.session.user = null
   req.session.userLoggedIn = false
   res.redirect('/')

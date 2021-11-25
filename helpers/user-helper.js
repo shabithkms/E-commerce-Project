@@ -3,7 +3,13 @@ var collection = require('../config/collection')
 const bcrypt = require('bcrypt')
 const objectId = require('mongodb').ObjectID
 const moment = require('moment')
+const Razorpay = require('razorpay')
 const { response } = require('../app')
+const e = require('express')
+var instance = new Razorpay({
+    key_id: 'rzp_test_uHpEhuefBwxSUI',
+    key_secret: 'ri18VkqdwR8uBICnbcwaXKJK',
+});
 
 module.exports = {
 
@@ -572,6 +578,23 @@ module.exports = {
         })
 
     },
+    generateRazorpay: (orderId,total) => {
+        return new Promise((resolve, reject) => {
+            var options={
+                amount:total,
+                currency:"INR",
+                receipt:orderId.toString()
+            };
+            instance.orders.create(options,(err,order)=>{
+                if(err){
+                    console.log("error=",err);
+                }else{
+                    console.log(order);
+                    resolve(order)
+                }
+            })
+        })
+    },
     getUserOrders: (Id) => {
         return new Promise(async (resolve, reject) => {
             let orders = await db.get().collection(collection.ORDER_COLLECTION).find({ User: Id }).sort({ Date: -1 }).toArray()
@@ -644,14 +667,14 @@ module.exports = {
     getBrands: () => {
         return new Promise(async (resolve, reject) => {
             let brands = await db.get().collection(collection.BRAND_COLLECTION).find().limit(6).toArray()
-          
+
             resolve(brands)
         })
     },
     getHomeProducts: () => {
         return new Promise(async (resolve, reject) => {
-            let products = await db.get().collection(collection.PRODUCT_COLLECTION).find().limit(6).toArray() 
-            
+            let products = await db.get().collection(collection.PRODUCT_COLLECTION).find().limit(6).toArray()
+
             resolve(products)
         })
     },
@@ -667,19 +690,19 @@ module.exports = {
 
     //By Name
 
-    getProductsByName:(name)=>{
-        return new Promise (async(resolve,reject)=>{
-          let products=await  db.get().collection(collection.PRODUCT_COLLECTION).findOne({name:name})
-          resolve(products)
-          console.log("by name=",products);
+    getProductsByName: (name) => {
+        return new Promise(async (resolve, reject) => {
+            let products = await db.get().collection(collection.PRODUCT_COLLECTION).findOne({ name: name })
+            resolve(products)
+            console.log("by name=", products);
         })
     },
 
     //By Brands
-    getProductsByBrand:(name)=>{
-        return new Promise (async(resolve,reject)=>{
-          let products=await  db.get().collection(collection.PRODUCT_COLLECTION).find({brand:name}).toArray()
-          resolve(products)
+    getProductsByBrand: (name) => {
+        return new Promise(async (resolve, reject) => {
+            let products = await db.get().collection(collection.PRODUCT_COLLECTION).find({ brand: name }).toArray()
+            resolve(products)
         })
     },
 

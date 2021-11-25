@@ -34,7 +34,7 @@
                 <div class="col-md-12" onclick="">
 
                     <h6 class="">{{this.FirstName}} {{this.LastName}}</h6>
-                    <p class="">{{this.House}},{{this.Town}} - {{this.PIN}}<br>Ph : {{this.Mobile}}</p>
+                    <p class="">{{this.House}},{{this.Street}},{{this.Town}} - {{this.PIN}}<br>Ph : {{this.Mobile}}</p>
                     <div class="ml-auto">
                         <button class="btn btn-warning " style="width: fit-content;"
                             onclick="autoFill('{{this.FirstName}}','{{this.LastName}}','{{this.House}}','{{this.Street}}','{{this.Town}}','{{this.PIN}}','{{this.Mobile}}','{{this.Email}}')">
@@ -212,8 +212,8 @@
                                                         <h4>Payment methods</h4>
                                                         <input type="radio" name="Payment" value="COD"
                                                             style="width:5%;height:auto" checked>Cash on Delivery<br>
-                                                        <input type="radio" name="Payment" value="Online"
-                                                            style="width:5%;height:auto">Online Payment<br>
+                                                        <input type="radio" name="Payment" value="razorPay"
+                                                            style="width:5%;height:auto">Razor Pay<br>
                                                         <input type="radio" name="Payment" value="Paypal"
                                                             style="width:5%;height:auto">Paypal
                                                         <div id="paypal-payment-button"></div>
@@ -286,28 +286,72 @@
 
 
 <script>
-    $('#checkout-form').submit((e) => {
-        e.preventDefault()
+    $(document).ready(function () {
+        $('#checkout-form1').submit((e) => {
+            alert("hello")
+            e.preventDefault()
 
 
-        $.ajax({
-            url: '/place-order',
-            method: 'post',
-            data: $('#checkout-form').serialize(),
-            success: (response) => {
-                if (response.status) {
-                    console.log()
+            alert("hi")
+            $.ajax({
+                url: '/place-order',
+                method: 'post',
+                data: $('#checkout-form').serialize(),
+                success: (response) => {
+                    if (response.codSuccess) {
+                        console.log()
 
-                    location.href = "/order-success"
-                } else {
-                    alert("Some error")
-                    location.reload()
+                        location.href = "/order-success"
+                    } else {
+                        razorpayPayment(response)
+                    }
+
+
                 }
+            })
 
 
-            }
         })
 
+        function razorpayPayment(order) {
+            var options = {
+                "key": "rzp_test_uHpEhuefBwxSUI", // Enter the Key ID generated from the Dashboard
+                "amount": "order.amount", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+                "currency": "INR",
+                "name": "Watchin",
+                "description": "Test Transaction",
+                "image": "https://example.com/your_logo",
+                "order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+                "handler": function (response) {
+                    alert(response.razorpay_payment_id);
+                    alert(response.razorpay_order_id);
+                    alert(response.razorpay_signature)
 
-    })
+                    verifyPayment(payment, order){
+                        $.ajax({
+                            url: '/verify-payment',
+                            data: {
+                                payment,
+                                order
+                            },
+                            method: "post"
+                        })
+                    }
+                },
+                "prefill": {
+                    "name": "Gaurav Kumar",
+                    "email": "gaurav.kumar@example.com",
+                    "contact": "9999999999"
+                },
+                "notes": {
+                    "address": "Razorpay Corporate Office"
+                },
+                "theme": {
+                    "color": "#3399cc"
+                }
+            };
+            var rzp1 = new Razorpay(options);
+            rzp1.open();
+        }
+    });
 </script>

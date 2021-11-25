@@ -184,7 +184,7 @@ router.post('/edit-product/:id', verifyAdminLogin, async (req, res) => {
     }
     if (req.files.image3) {
       let image3 = req.files.image3
-      image1.mv('public/productImages/' + id + 'c.jpg')
+      image3.mv('public/productImages/' + id + 'c.jpg')
     }
     if (req.files.image4) {
       let image4 = req.files.image4

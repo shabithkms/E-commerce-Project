@@ -76,6 +76,8 @@
 
     {{/if}}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    {{!--
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script> --}}
     <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
 
     <title>Watchin E-Commerce</title>
@@ -257,50 +259,40 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.js"></script>
+
+
+<script>
+    $('#checkout-form').submit((e) => {
+        e.preventDefault()
+        $.ajax({
+            url: '/place-order',
+            method: 'post',
+            data: $('#checkout-form').serialize(),
+            success: (response) => {
+                if (response.codSuccess) {
+                    console.log("cod success")
+                    location.href = "/order-success"
+                } else {
+                    alert("Some error")
+                    location.reload()
+                }
+            }
+        })
+    })
+    
+</script>
+
+
 
 
     <script>
-        function changeQuantity(cartId, proId, userId, count) {
-            let quantity = parseInt(document.getElementById(proId).innerHTML)
-            count = parseInt(count)
-            console.log(userId)
-
-            $.ajax({
-                url: '/change-product-quantity',
-                data: {
-                    user: userId,
-                    cart: cartId,
-                    product: proId,
-                    count: count,
-                    quantity: quantity
-                },
-                method: 'post',
-                success: (response) => {
-                    console.log(response, "res")
-                    if (response.removeProduct) {
-                        Swal.fire({
-                            position: 'top-end',
-                            icon: 'error',
-                            title: 'Item removed from cart',
-                            showConfirmButton: true,
 
 
-                        }).then((result) => {
-                            console.log(result)
-                            { { !--location.reload() --} }
-                        })
 
 
-                    } else {
-                        document.getElementById(proId).innerHTML = quantity + count
-                        document.getElementById('total1').innerHTML = response.total
-                        document.getElementById('total2').innerHTML = response.total
-                        document.getElementById('subTotal' + proId).innerHTML = response.subTotal
-                    }
-                }
-
-            })
-        }
         function deleteCartPro(cartId, proId) {
             Swal.fire({
                 title: 'Are you sure?',
@@ -341,6 +333,43 @@
 
 
 
+        }
+
+    </script>
+    <script>
+        function changeQuantity(cartId, proId, userId, count) {
+            let quantity = parseInt(document.getElementById(proId).innerHTML)
+            count = parseInt(count)
+            console.log(userId)
+            $.ajax({
+                url: '/change-product-quantity',
+                data: {
+                    user: userId,
+                    cart: cartId,
+                    product: proId,
+                    count: count,
+                    quantity: quantity
+                },
+                method: 'post',
+                success: (response) => {
+                    if (response.removeProduct) {
+                        Swal.fire({
+                            position: 'top-center',
+                            icon: 'error',
+                            title: 'Item removed from cart',
+                            showConfirmButton: true,
+                        }).then((result) => {
+                            location.reload()
+                        })
+                    } else {
+                        document.getElementById(proId).innerHTML = quantity + count
+                        console.log(response)
+                        document.getElementById('total1').innerHTML = response.total
+                        document.getElementById('total2').innerHTML = response.total
+                        document.getElementById('subTotal' + proId).innerHTML = response.subTotal
+                    }
+                }
+            })
         }
     </script>
     {{/if}}
