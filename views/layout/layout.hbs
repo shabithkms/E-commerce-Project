@@ -76,8 +76,8 @@
 
     {{/if}}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    {{!--
-    <script src="https://checkout.razorpay.com/v1/checkout.js"></script> --}}
+
+
     <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
 
     <title>Watchin E-Commerce</title>
@@ -259,31 +259,81 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
-    crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"
+        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.js"></script>
 
 
-<script>
-    $('#checkout-form').submit((e) => {
-        e.preventDefault()
-        $.ajax({
-            url: '/place-order',
-            method: 'post',
-            data: $('#checkout-form').serialize(),
-            success: (response) => {
-                if (response.codSuccess) {
-                    console.log("cod success")
-                    location.href = "/order-success"
-                } else {
-                    alert("Some error")
-                    location.reload()
+    <script>
+        $('#checkout-form').submit((e) => {
+            e.preventDefault()
+            $.ajax({
+                url: '/place-order',
+                method: 'post',
+                data: $('#checkout-form').serialize(),
+                success: (response) => {
+                    if (response.codSuccess) {
+                        console.log("cod success")
+                        location.href = "/order-success"
+                    } else {
+                        razorpayPayment(response)
+                        console.log(response)
+                    }
                 }
-            }
+            })
         })
-    })
-    
-</script>
+
+        function razorpayPayment(order) {
+            var options = {
+                "key": "rzp_test_uHpEhuefBwxSUI", // Enter the Key ID generated from the Dashboard
+                "amount": "response.amount", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+                "currency": "INR",
+                "name": "Watchin",
+                "description": "Test Transaction",
+                "image": "https://example.com/your_logo",
+                "order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+                "handler": function (response) {
+
+
+                    verifyPayment(response, order)
+                },
+                "prefill": {
+                    "name": "Muhammed Shabith K",
+                    "email": "shabithkms2035@gmail.com",
+                    "contact": "7025259794"
+                },
+                "notes": {
+                    "address": "Razorpay Corporate Office"
+                },
+                "theme": {
+                    "color": "#3399cc"
+                }
+            };
+            var rzp1 = new Razorpay(options);
+            rzp1.open();
+        }
+
+        function verifyPayment(response, order) {
+
+            $.ajax({
+                url: '/verify-payment',
+                data: {
+                    response,
+                    order
+                },
+                method: 'post',
+                success: (response) => {
+                    if (response.status) {
+                        location.href = '/order-success'
+                    } else {
+                        alert("payment failed")
+                    }
+                }
+            })
+        }
+
+    </script>
 
 
 

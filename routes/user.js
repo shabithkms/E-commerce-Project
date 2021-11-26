@@ -726,7 +726,7 @@ router.get('/checkout', verifyUserLogin, async (req, res) => {
 })
 
 router.post('/place-order', async (req, res) => {
-  console.log(req.body);
+  
   let id = req.session.user._id
   let products = await userHelper.getCartProductList(id)
   let total = await userHelper.getTotalAmount(id)
@@ -742,8 +742,12 @@ router.post('/place-order', async (req, res) => {
        
 
         res.json({ codSuccess : true })
+        userHelper.clearCart(id).then(()=>{
+          console.log("cart cleared");
+        })
       } else {
         console.log("in online payment");
+        console.log("orderId=",orderId,",",total);
         userHelper.generateRazorpay(orderId,total).then((response) => {
           console.log("response=",response);
           res.json(response)
@@ -757,7 +761,20 @@ router.post('/place-order', async (req, res) => {
 })
 
 router.post('/verify-payment',(req,res)=>{ 
-  console.log(req.body);
+  let id=req.session.user._id
+  userHelper.verifyPayment(req.body).then((response)=>{
+    userHelper.changePaymentStatus(req.body['order[receipt]']).then(()=>{
+     console.log("success");
+      res.json({status:true})
+      userHelper.clearCart(id).then(()=>{
+        console.log("cart cleared");
+      })
+    })
+  }).catch((err)=>{
+    console.log("failed");
+    console.log(err,"err");
+    res.json({status:false})
+  })
 })
 
 router.get('/order-success', verifyUserLogin, async (req, res) => {
