@@ -756,9 +756,9 @@ router.post('/place-order', async (req, res) => {
       } else if (req.body['Payment'] == 'Razorpay') {
         console.log("in online payment");
         console.log("orderId=", orderId, ",", total);
-        userHelper.generateRazorpay(orderId, total).then((response) => {
-          console.log("response=", response);
-          res.json({ razorpay: true })
+        userHelper.generateRazorpay(orderId, total).then((resp) => {
+          console.log("response=", resp);
+          res.json({ resp,razorpay: true })
           // res.json(response)
 
 
@@ -845,7 +845,7 @@ router.get('/success', verifyUserLogin, (req, res) => {
     "transactions": [{
       "amount": {
         "currency": "USD",
-        "total": total
+        "total": total 
       }
     }]
   };
