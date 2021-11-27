@@ -208,7 +208,7 @@ module.exports = {
     },
     getAllOrders: () => {
         return new Promise(async (resolve, reject) => {
-            let orders = await db.get().collection(collection.ORDER_COLLECTION).find().toArray()
+            let orders = await db.get().collection(collection.ORDER_COLLECTION).find().sort({$natural:-1}).toArray()
             resolve(orders)
         })
     },
@@ -262,6 +262,51 @@ module.exports = {
                 }
             }).then(() => {
                 resolve()
+            })
+        })
+    },
+
+    //Banner Managemment
+    addBanner: (data) => {
+        return new Promise((resolve, reject) => {
+            db.get().collection(collection.BANNER_COLLECTION).insertOne(data).then((response) => {
+                resolve(response.insertedId.toString())
+            }).catch((err) => {
+                reject(err)
+                console.log(err);
+            })
+        })
+    },
+    getBannerDetails: (id) => {
+        return new Promise((resolve, reject) => {
+            db.get().collection(collection.BANNER_COLLECTION).findOne({ _id: objectId(id) }).then((banner) => {
+                resolve(banner)
+                // console.log(brand);
+            })
+        })
+    },
+    updateBanner: (id, newData) => {
+        return new Promise((resolve, reject) => {
+            db.get().collection(collection.BANNER_COLLECTION).updateOne({ _id: objectId(id) },
+                {
+                    $set: {
+                        bannerName: newData.bannerName,
+                        description: newData.description,
+                        offer:newData.offer,
+                        link:newData.link
+                    }
+                }).then((response) => {
+                    resolve(response)
+                }).catch((err) => {
+                    console.log(err);
+                    reject(err)
+                })
+        })
+    },
+    deleteBanner: (id) => {
+        return new Promise((resolve, reject) => {
+            db.get().collection(collection.BANNER_COLLECTION).deleteOne({ _id: objectId(id) }).then((response) => {
+                resolve(response)
             })
         })
     },

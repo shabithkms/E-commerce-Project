@@ -12,7 +12,7 @@
         }
     }
 
-    .btn {
+    .view {
         background-color: #a8741a;
         border-radius: 3px;
     }
@@ -181,9 +181,25 @@
                                         <div class=""> <small style="color: black;"> Order Date: <br> {{this.Date}} <br>
                                                 {{this.Time}}
                                             </small></div>
-                                        <a class="btn" href="/singleOrder/{{this._id}}">View products</a>
-                                        <div class=""> <small style="color: black;"> Order Status: <br>
-                                            </small><span style="color: black;"> {{this.Status}}</span></div>
+                                        <div class=" ">
+                                            <div>
+                                                <a class="btn text-center view" href="/singleOrder/{{this._id}}">View
+                                                    products</a>
+                                            </div>
+
+                                        </div>
+                                        <div class="d-flex mt-1">
+                                            <div class=""> <small style="color: black;"> Payment Method: <br>
+                                                </small><span style="color: black;"> {{this.PaymentMethod}}</span></div>
+                                            <div class="ml-auto"> <small style="color: black;"> Order Status: <br>
+                                                </small><span style="color: black;" id="status"> {{this.Status}}</span>
+                                            </div>
+                                            <div class="ml-auto"> <small style="color: black;"><br>
+                                                </small><span style="color: black;"> <a href="/cancelOrder/{{this._id}}"
+                                                        class="btn  btn-danger ml-auto" style="
+                                                border-radius: 3px;">Cancel</a></span></div>
+                                        </div>
+
 
 
                                     </div>
@@ -250,3 +266,16 @@
     </div>
 
 </div>
+
+<script>
+
+
+    let status = document.getElementById('status').innerHTML
+    console.log('ja', status)
+    if (status === 'Cancelled') {
+        console.log("cancel")
+        document.getElementById('status').style.color = "red";
+
+    }
+
+</script>

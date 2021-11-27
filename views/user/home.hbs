@@ -3,7 +3,29 @@
     <div id="shopify-section-1514880862152" class="shopify-section">
         <div class="slider-area">
             <div class="slider-active owl-carousel">
+                {{#each banners}}
                 <div class="single-slider single-slider-hm1 bg-img"
+                    style="background-image: url(banners/{{this._id}}.jpg)">
+                    <div class="container">
+                        <div class="slider-content slider-content-style-1 slider-animated-1">
+
+                            <p class="animated" style="color: #ffffff;">{{this.offer}}
+                                <span></span>
+                            </p>
+                            <h2 class="animated" style="color: #ffffff;">{{this.bannerName}}</h2>
+
+                            <div>
+                                <p class="animated" style="color: #ffffff;">{{this.description}}</p>
+                            </div>
+                            <a class="btn-hover slider-btn-style animated" href="{{this.link}}">Shop Now</a>
+
+                        </div>
+                    </div>
+                </div>
+                {{/each}}
+
+
+                {{!-- <div class="single-slider single-slider-hm1 bg-img"
                     style="background-image: url(images/watchImages/Banner1.jpg)">
                     <div class="container">
                         <div class="slider-content slider-content-style-1 slider-animated-1">
@@ -22,9 +44,9 @@
 
                         </div>
                     </div>
-                </div>
+                </div> --}}
 
-                <div class="single-slider single-slider-hm1 bg-img"
+                {{!-- <div class="single-slider single-slider-hm1 bg-img"
                     style="background-image: url(images/watchImages/Banner2.jpg)">
                     <div class="container">
                         <div class="slider-content slider-content-style-1 slider-animated-1">
@@ -44,7 +66,7 @@
 
                         </div>
                     </div>
-                </div>
+                </div> --}}
                 {{!-- <div class="single-slider single-slider-hm1 bg-img"
                     style="background-image: url(images/watchImages/BannerFossil.jpg)">
                     <div class="container">

@@ -67,8 +67,9 @@ router.get('/', async function (req, res, next) {
   let products = await productHelper.getAllProducts()
   let brand = await userHelper.getBrands()
   let homePro = await userHelper.getHomeProducts()
+  let banners=await userHelper.getAllBanners()
   // console.log(homePro);
-  res.render('user/home', { user, userPage: true, products, brand, homePro, cartCount })
+  res.render('user/home', { user, userPage: true, products,banners, brand, homePro, cartCount })
 
 });
 
@@ -726,7 +727,7 @@ router.get('/checkout', verifyUserLogin, async (req, res) => {
 })
 
 router.post('/place-order', async (req, res) => {
-  
+
   let id = req.session.user._id
   let products = await userHelper.getCartProductList(id)
   let total = await userHelper.getTotalAmount(id)
@@ -739,20 +740,29 @@ router.post('/place-order', async (req, res) => {
       req.session.ordered = true
       if (req.body['Payment'] == 'COD') {
         console.log("in cod");
-       
 
-        res.json({ codSuccess : true })
-        userHelper.clearCart(id).then(()=>{
+
+        res.json({ codSuccess: true })
+        userHelper.clearCart(id).then(() => {
           console.log("cart cleared");
         })
-      } else {
+      } else if (req.body['Payment'] == 'Razorpay') {
         console.log("in online payment");
-        console.log("orderId=",orderId,",",total);
-        userHelper.generateRazorpay(orderId,total).then((response) => {
-          console.log("response=",response);
+        console.log("orderId=", orderId, ",", total);
+        userHelper.generateRazorpay(orderId, total).then((response) => {
+          console.log("response=", response);
+          // res.json({ razorpay: true })
           res.json(response)
 
         })
+      } else if (req.body['Payment'] == 'Paypal') {
+        console.log("in paypal");
+        val = total / 74
+        console.log(val)
+        total = val.toFixed(2)
+        response.total = parseInt(total)
+        response.paypal = true
+        res.json(response)
       }
 
     })
@@ -760,20 +770,20 @@ router.post('/place-order', async (req, res) => {
   })
 })
 
-router.post('/verify-payment',(req,res)=>{ 
-  let id=req.session.user._id
-  userHelper.verifyPayment(req.body).then((response)=>{
-    userHelper.changePaymentStatus(req.body['order[receipt]']).then(()=>{
-     console.log("success");
-      res.json({status:true})
-      userHelper.clearCart(id).then(()=>{
+router.post('/verify-payment', (req, res) => {
+  let id = req.session.user._id
+  userHelper.verifyPayment(req.body).then((response) => {
+    userHelper.changePaymentStatus(req.body['order[receipt]']).then(() => {
+      console.log("success");
+      res.json({ status: true })
+      userHelper.clearCart(id).then(() => {
         console.log("cart cleared");
       })
     })
-  }).catch((err)=>{
+  }).catch((err) => {
     console.log("failed");
-    console.log(err,"err");
-    res.json({status:false})
+    console.log(err, "err");
+    res.json({ status: false })
   })
 })
 
@@ -826,15 +836,18 @@ router.get('/myOrders', verifyUserLogin, async (req, res) => {
   userHelper.getUserOrders(id).then((orders) => {
     console.log(orders, "order");
     let len = orders.length
-    // for(i=0;i<len;i++){
-    //   console.log(orders[i].Status);
-    // }
-    // let result = orders.map(({ Status }) => Status)
-    // console.log(result, "res");
+    
 
     res.render('user/user-orders', { orders, brand, homePro, cartCount, user })
   })
 
+})
+
+router.get('/cancelOrder/:id',(req,res)=>{
+  let id=req.params.id
+  userHelper.cancelOrder(id).then((reaponse)=>{
+    res.redirect('/myOrders')
+  })
 })
 
 router.get('/singleOrder/:id', verifyUserLogin, async (req, res) => {

@@ -372,6 +372,68 @@ router.post('/crop', (req, res) => {
   res.json({ satus: true })
 })
 
+router.get('/banners', verifyAdminLogin, async(req, res) => {
+  let banners= await userHelper.getAllBanners()
+  res.render('admin/banners', { admin: true,banners })
+})
+
+
+router.post('/add-banner', (req, res) => {
+  
+  adminHelpers.addBanner(req.body).then((id) => {
+    let image = req.files.Image3
+    image.mv('public/banners/' + id +'.jpg', (err, done) => {
+      if (!err) {
+        res.redirect('/admin/banners')
+      } else {
+        res.redirect('/admin/banners')
+      }
+
+    })
+  }).catch((err) => {
+    if (err.code == 11000) {
+      req.session.brandExist = true
+      res.redirect('/admin/add-brands')
+    }
+
+  })
+})
+
+router.get('/edit-banner/:id', verifyAdminLogin, function (req, res, next) {
+  let id = req.params.id
+  adminHelpers.getBannerDetails(id).then((banner) => {
+    res.render('admin/edit-banner', { admin: true, banner, "bannerExist": req.session.brandExist });
+  })
+});
+
+
+router.post('/edit-banner/:id', verifyAdminLogin, async (req, res) => {
+  let id = req.params.id
+  adminHelpers.updateBanner(id, req.body).then((response) => {
+    res.redirect('/admin/banners')
+    if (req.files.Image3) {
+      let image = req.files.Image3
+      image.mv('public/banners/' + id + '.jpg')
+    }
+
+  })
+  // .catch((err)=>{
+  //   if(err.code==11000){
+  //     req.session.brandExist=true
+  //     res.redirect('/admin/edit-brand/id')
+  //   }
+  // })
+
+})
+
+router.get('/delete-banner/:id', verifyAdminLogin, (req, res) => {
+  let id = req.params.id
+  adminHelpers.deleteBanner(id).then((response) => {
+    fs.unlinkSync('public/banners/' + id + '.jpg')
+    res.redirect('/admin/banners')
+  })
+})
+
 
 
 //Logout

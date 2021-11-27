@@ -6,12 +6,12 @@ const moment = require('moment')
 const Razorpay = require('razorpay')
 const { response } = require('../app')
 const e = require('express')
+const paypal=require('paypal-rest-sdk')
 var instance = new Razorpay({
     key_id: process.env.key_id,
     key_secret: process.env.key_secret,
 });
-// console.log(instance.key_id);
-// console.log(instance.key_secret);
+
 
 module.exports = {
 
@@ -588,7 +588,8 @@ module.exports = {
                 resolve()
             })
         })
-    },
+    }, 
+    //Razor pay
     generateRazorpay: (orderId,total) => {
         return new Promise((resolve, reject) => {
             var options={
@@ -628,6 +629,18 @@ module.exports = {
             }
         })
     },
+
+    //Paypal
+    generatePaypal:(order,total)=>{
+        return new Promise((resolve,reject)=>{
+            console.log(process.env.CLIENT,process.env.SECRET);
+            paypal.configure({
+                'mode': 'sandbox', //sandbox or live
+                'client_id': process.env.CLIENT,
+                'client_secret': process.env.SECRET
+              });
+        })
+    },
     changePaymentStatus:(oId)=>{
         return new Promise((resolve,reject)=>{
             db.get().collection(collection.ORDER_COLLECTION).updateOne({_id:objectId(oId)},
@@ -644,10 +657,22 @@ module.exports = {
 
     getUserOrders: (Id) => {
         return new Promise(async (resolve, reject) => {
-            let orders = await db.get().collection(collection.ORDER_COLLECTION).find({ User: Id }).sort({ Date: -1 }).toArray()
-            console.log(orders);
+            let orders = await db.get().collection(collection.ORDER_COLLECTION).find().sort({$natural:-1}).toArray()
+           
             console.log("sortted");
             resolve(orders)
+        })
+    },
+    cancelOrder:(Id)=>{
+        return new Promise((resolve,reject)=>{
+            db.get().collection(collection.ORDER_COLLECTION).updateOne({_id:objectId(Id)},
+            {
+                $set:{
+                    Status:'Cancelled'
+                }
+            }).then(()=>{
+                resolve()
+            })
         })
     },
     stockChanger: (orderId) => {
@@ -720,7 +745,7 @@ module.exports = {
     },
     getHomeProducts: () => {
         return new Promise(async (resolve, reject) => {
-            let products = await db.get().collection(collection.PRODUCT_COLLECTION).find().limit(6).toArray()
+            let products = await db.get().collection(collection.PRODUCT_COLLECTION).find().sort({$natural:-1}).limit(6).toArray()
 
             resolve(products)
         })
@@ -752,6 +777,14 @@ module.exports = {
             resolve(products)
         })
     },
+
+    //Banners
+    getAllBanners:()=>{
+        return new Promise(async(resolve,reject)=>{
+         let banners=await   db.get().collection(collection.BANNER_COLLECTION).find().toArray()
+         resolve(banners)
+        })
+    }
 
 
 }
