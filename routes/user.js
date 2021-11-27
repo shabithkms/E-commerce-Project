@@ -9,10 +9,17 @@ const productHelper = require('../helpers/product-helper');
 const adminHelpers = require('../helpers/admin-helper');
 const { Client } = require('twilio/lib/twiml/VoiceResponse');
 const { render } = require('../app');
-
+const paypal = require('paypal-rest-sdk')
+//Twilio
 const accountSID = process.env.accountSID
 const authToken = process.env.authToken
 const serviceSID = process.env.serviceSID
+//Paypal
+paypal.configure({
+  'mode': 'sandbox', //sandbox or live
+  'client_id': process.env.CLIENT,
+  'client_secret': process.env.SECRET
+});
 
 const client = require('twilio')(accountSID, authToken)
 
@@ -67,9 +74,9 @@ router.get('/', async function (req, res, next) {
   let products = await productHelper.getAllProducts()
   let brand = await userHelper.getBrands()
   let homePro = await userHelper.getHomeProducts()
-  let banners=await userHelper.getAllBanners()
+  let banners = await userHelper.getAllBanners()
   // console.log(homePro);
-  res.render('user/home', { user, userPage: true, products,banners, brand, homePro, cartCount })
+  res.render('user/home', { user, userPage: true, products, banners, brand, homePro, cartCount })
 
 });
 
@@ -751,23 +758,115 @@ router.post('/place-order', async (req, res) => {
         console.log("orderId=", orderId, ",", total);
         userHelper.generateRazorpay(orderId, total).then((response) => {
           console.log("response=", response);
-          // res.json({ razorpay: true })
-          res.json(response)
+          res.json({ razorpay: true })
+          // res.json(response)
+
 
         })
       } else if (req.body['Payment'] == 'Paypal') {
         console.log("in paypal");
+        req.session.total = req.body.Total
         val = total / 74
         console.log(val)
         total = val.toFixed(2)
+        totals = total.toString()
         response.total = parseInt(total)
         response.paypal = true
-        res.json(response)
+        var create_payment_json = {
+          "intent": "sale",
+          "payer": {
+            "payment_method": "paypal"
+          },
+          "redirect_urls": {
+            "return_url": "http://localhost:3000/success",
+            "cancel_url": "http://localhost:3000/cancelled"
+          },
+          "transactions": [{
+            "item_list": {
+              "items": [{
+                "name": "cart products",
+                "sku": "001",
+                "price": totals,
+                "currency": "USD",
+                "quantity": 1
+              }]
+            },
+            "amount": {
+              "currency": "USD",
+              "total": totals
+            },
+            "description": "This is the payment description."
+          }]
+        };
+        paypal.payment.create(create_payment_json, function (error, payment) {
+          if (error) {
+            throw error;
+          } else {
+            console.log("Create Payment Response");
+            // console.log(payment); 
+            console.log(payment.links);
+            for (let i = 0; i < payment.links.length; i++) {
+              if (payment.links[i].rel === 'approval_url') {
+                console.log("success");
+                // res.redirect(payment.links[i].href)
+                let url = payment.links[i].href
+                console.log(response, "res");
+                res.json({ url })
+
+
+
+              } else {
+                console.log("failed");
+              }
+            }
+
+          }
+        });
+
       }
 
     })
 
   })
+})
+
+router.get('/success', verifyUserLogin, (req, res) => {
+  let val = req.session.total
+  val=val/74
+  let total=val.toFixed(2)
+//  let  total =Math.floor(total/74);
+  console.log(total, "in success");
+  console.log(val, "in success");
+  
+  const payerId = req.query.PayerID;
+  const paymentId = req.query.paymentId;
+  const execute_payment_json = {
+    "payer_id": payerId,
+    "transactions": [{
+      "amount": {
+        "currency": "USD",
+        "total": total
+      }
+    }]
+  };
+  paypal.payment.execute(paymentId, execute_payment_json, function (error, payment) {
+    if (error) {
+      console.log("error response", error.response);
+      throw error;
+    } else {
+      console.log(req.session.orderId, "orderid");
+      let id = req.session.user._id
+      userHelper.changePaymentStatus(req.session.orderId).then(() => {
+        userHelper.clearCart(id).then(() => {
+          console.log("cart cleared");
+          let user = req.session.user
+          res.render('user/order-success', { user })
+        })
+      })
+
+    }
+  })
+
 })
 
 router.post('/verify-payment', (req, res) => {
@@ -834,18 +933,18 @@ router.get('/myOrders', verifyUserLogin, async (req, res) => {
     cartCount = await userHelper.getCartCount(Id)
   }
   userHelper.getUserOrders(id).then((orders) => {
-    console.log(orders, "order");
+
     let len = orders.length
-    
+
 
     res.render('user/user-orders', { orders, brand, homePro, cartCount, user })
   })
 
 })
 
-router.get('/cancelOrder/:id',(req,res)=>{
-  let id=req.params.id
-  userHelper.cancelOrder(id).then((reaponse)=>{
+router.get('/cancelOrder/:id', (req, res) => {
+  let id = req.params.id
+  userHelper.cancelOrder(id).then((reaponse) => {
     res.redirect('/myOrders')
   })
 })

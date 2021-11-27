@@ -631,16 +631,7 @@ module.exports = {
     },
 
     //Paypal
-    generatePaypal:(order,total)=>{
-        return new Promise((resolve,reject)=>{
-            console.log(process.env.CLIENT,process.env.SECRET);
-            paypal.configure({
-                'mode': 'sandbox', //sandbox or live
-                'client_id': process.env.CLIENT,
-                'client_secret': process.env.SECRET
-              });
-        })
-    },
+    
     changePaymentStatus:(oId)=>{
         return new Promise((resolve,reject)=>{
             db.get().collection(collection.ORDER_COLLECTION).updateOne({_id:objectId(oId)},

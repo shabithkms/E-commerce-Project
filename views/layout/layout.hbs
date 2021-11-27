@@ -276,9 +276,11 @@
                     if (response.codSuccess) {
                         console.log("cod success")
                         location.href = "/order-success"
-                    } else {
+                    } else if(response.razorpay) {
                         razorpayPayment(response)
                         console.log(response)
+                    }else{
+                        location.href=response.url
                     }
                 }
             })
