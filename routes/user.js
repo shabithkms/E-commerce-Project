@@ -9,7 +9,7 @@ const productHelper = require('../helpers/product-helper');
 const adminHelpers = require('../helpers/admin-helper');
 const { Client } = require('twilio/lib/twiml/VoiceResponse');
 const { render } = require('../app');
-const paypal = require('paypal-rest-sdk')
+const paypal = require('paypal-rest-sdk');
 //Twilio
 const accountSID = process.env.accountSID
 const authToken = process.env.authToken
@@ -834,7 +834,7 @@ router.get('/success', verifyUserLogin, (req, res) => {
   let val = req.session.total
   val=val/74
   let total=val.toFixed(2)
-//  let  total =Math.floor(total/74);
+
   console.log(total, "in success");
   console.log(val, "in success");
   
@@ -1030,8 +1030,8 @@ router.get('/edit-address/:id', verifyUserLogin, async (req, res) => {
   let uId = req.session.user._id
   console.log(aId);
   let address = await userHelper.getSingleAddress(aId, uId)
-  console.log("address=", address);
-  res.render('user/edit-address', brand, homePro, address)
+  // console.log("address=", address);
+  res.render('user/edit-address', {brand, homePro, address})
 })
 
 router.post('/edit-address', (req, res) => {
@@ -1047,8 +1047,10 @@ router.get('/delete-address/:id', verifyUserLogin, (req, res) => {
 
   userHelper.deleteAddress(Id, uId).then((response) => {
     console.log("deleted");
+    res.redirect('/profile')
   })
 })
+
 
 router.get('/change-password', verifyUserLogin, async (req, res) => {
   let user = req.session.user

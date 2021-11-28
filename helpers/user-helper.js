@@ -179,11 +179,11 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
             console.log(Id);
             let user = await db.get().collection(collection.USER_COLLECTION).findOne({ _id: objectId(uId) })
-
             if (user) {
-                let address = await db.get().collection(collection.USER_COLLECTION).findOne({ address: { $elemMatch: { _id: objectId(Id) } } })
+                let address = await db.get().collection(collection.USER_COLLECTION).findOne({ "address._id": { $in: [ objectId(Id) ] } })
 
-                resolve(address.address[0])
+                resolve(address)
+                console.log(address);
             }
 
         })
@@ -254,7 +254,7 @@ module.exports = {
                     })
                 } else {
                     console.log("password must be same");
-                    response({ notSame: true })
+                   
                     resolve(response)
                     console.log(response);
                 }

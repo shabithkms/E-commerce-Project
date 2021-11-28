@@ -1,16 +1,27 @@
-
 <style>
-    .active{
-        background: ;
+    .actived {
+        background:#a8741a ;
+        color: white;
+    }
+    .actived:hover{
+        background: #a8741a;
+        color: white;
+    }
+    .kms{
+        background: #a8741a;
+    }
+    .kms:hover{
+        background: #a8741a;
     }
 </style>
-<div class="container">
+<div class="container mt-3">
     <div class="row">
-        <div class="col-md-3 " >
+        <div class="col-md-3 ">
             <div class="list-group ">
-                <a href="#" class="list-group-item list-group-item-action active">PROFILE</a>
+                <a href="#" class="list-group-item list-group-item-action actived">PROFILE</a>
                 <a href="/myOrders" class="list-group-item list-group-item-action">My Orders</a>
-                <a href="/addNewAddressProfile" class="list-group-item list-group-item-action">Add New address</a>
+                {{!-- <a href="/addNewAddressProfile" class="list-group-item list-group-item-action">Add New address</a>
+                --}}
                 <a href="/change-password" class="list-group-item list-group-item-action">Change Password</a>
 
 
@@ -66,9 +77,9 @@
                                     <div class="offset-4 col-8">
                                         <a onclick="editProfile('{{user._id}}')"
                                             style="text-decoration: none; color: white;" type="" id="submit"
-                                            class="btn btn-primary">Edit
+                                            class="btn  kms">Edit
                                             Profile</a>
-                                        <button type="submit" class="btn btn-primary" id="btn"
+                                        <button type="submit" class="btn  kms" id="btn"
                                             style="display: none;">Update</button>
                                     </div>
                                 </div>
@@ -77,7 +88,7 @@
                     </div>
                     <h3>Address</h3>
                     <div class="col-md-2 mt-auto ">
-                        <button href="" class="btn btn-warning " data-toggle="modal" data-target="#exampleModalAdd"
+                        <button href="" class="btn kms " data-toggle="modal" data-target="#exampleModalAdd"
                             data-whatever="@mdo" style="text-decoration: none;width:fit-content;margin-top:30px;">Add
                             New</a>
                     </div>
@@ -86,15 +97,17 @@
                         {{#each address}}
                         <div class="col-md-3 mt-5 alert border-warning mr-2 card" style="cursor: pointer;">
 
-                            <div class="col-md-12" onclick="">
+                            <div class="col-md-12 d-flex flex-column" style="height: fit-content;">
 
                                 <h6 class="">{{this.FirstName}} {{this.LastName}}</h6>
                                 <p class="">{{this.House}},{{this.Town}} - {{this.PIN}}<br>Ph : {{this.Mobile}}</p>
-                                <div class="ml-auto ">
-                                    <a class="btn btn-warning mt-auto " href="/edit-address/{{this._id}}" style="width: fit-content;">
+                                <div class=" mt-auto ">
+                                    <a class="btn  kms mt-auto " href="/edit-address/{{this._id}}"
+                                        style="width: fit-content;">
                                         Edit
                                     </a>
-                                    <a class="btn btn-danger mt-auto" href="/delete-address/{{this._id}}" style="width: fit-content; color: white;">
+                                    <a class="btn btn-danger mt-auto" href="/delete-address/{{this._id}}"
+                                        style="width: fit-content; color: white;">
                                         Delete
                                     </a>
                                 </div>
@@ -108,7 +121,7 @@
 
 
 
-                        <div class="modal " id="exampleModalAdd" tabindex="-1" role="dialog"
+                        <div class="modal fade" id="exampleModalAdd" tabindex="-1" role="dialog"
                             aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
@@ -203,7 +216,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
 
 
                     </div>

@@ -1,6 +1,6 @@
 <div class="container">
     <div class="row p-5">
-       <p>{{address}}</p>
+       
         <div class="billing-info-wrap">
             <h3 class="mb-3 mt-3">Edit Address</h3>
             <form action="/edit-address" id="checkout-form" method="POST">
@@ -9,25 +9,25 @@
                         <div class="form-row">
                             <div class=" form-group billing-info mb-4 col-md-6">
                                 <label for="fname">First Name</label>
-                                <input type="text" id="fname" name="FirstName" value="{{this.FirstName}}" minlength="4"  />
+                                <input type="text" id="fname" name="FirstName" value="{{address.FirstName}}" minlength="4"  />
                             </div>
 
                             <div class="form-group billing-info mb-4 col-md-6">
                                 <label for="lname">Last Name</label>
-                                <input type="text" id="lname" name="LastName" value="{{this.LastName}}"  />
+                                <input type="text" id="lname" name="LastName" value="{{address.LastName}}"  />
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group billing-info mb-4 col-md-12">
                                 <label for="house">House Name</label>
-                                <input type="text" id="house" name="House"  value="{{this.House}}" minlength="4" />
+                                <input type="text" id="house" name="House"  value="{{address.House}}" minlength="4" />
                             </div>
                         </div>
 
                         <div class="form-row ">
                             <div class="form-group billing-info mb-4 col-md-12">
                                 <label for="street">Street Address</label>
-                                <input class="billing-address" placeholder="street name" value="{{this.Street}}" id="street" name="Street"
+                                <input class="billing-address" placeholder="street name" value="{{address.Street}}" id="street" name="Street"
                                     type="text" minlength="4"  />
 
                             </div>
@@ -35,30 +35,30 @@
                         <div class="form-row">
                             <div class="form-group billing-info mb-4 col-md-6">
                                 <label for="city">Town / City</label>
-                                <input type="text" id="city" name="Town" value="{{this.Town}}"  minlength="4" />
+                                <input type="text" id="city" name="Town" value="{{address.Town}}"  minlength="4" />
                             </div>
 
 
 
                             <div class="form-group billing-info mb-4 col-md-6">
                                 <label for="pin">Postcode / ZIP</label>
-                                <input type="text" id="pin" name="PIN"  value="{{this.PIN}}" />
+                                <input type="text" id="pin" name="PIN"  value="{{address.PIN}}" />
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group billing-info mb-4 col-md-6">
                                 <label for="phone">Phone</label>
-                                <input type="text" id="phone" name="Mobile" value="{{this.Mobile}}" />
+                                <input type="text" id="phone" name="Mobile" value="{{address.Mobile}}" />
                             </div>
 
 
 
                             <div class="form-group billing-info mb-4 col-md-6">
                                 <label for="email">Email Address</label>
-                                <input type="email"  id="email" value="{{this.Email}}" name="Email" />
+                                <input type="email"  id="email" value="{{address.Email}}" name="Email" />
                             </div>
-                            <input type="text" name="User" value="{{this.User}}" hidden>
-                            <input type="text" name="_id" value="{{this._id}}" hidden>
+                            <input type="text" name="User" value="{{address.User}}" hidden>
+                            <input type="text" name="_id" value="{{address._id}}" hidden>
                         </div>
 
                     </div>
