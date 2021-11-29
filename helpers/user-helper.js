@@ -6,7 +6,7 @@ const moment = require('moment')
 const Razorpay = require('razorpay')
 const { response } = require('../app')
 const e = require('express')
-const paypal=require('paypal-rest-sdk')
+const paypal = require('paypal-rest-sdk')
 var instance = new Razorpay({
     key_id: process.env.key_id,
     key_secret: process.env.key_secret,
@@ -53,7 +53,7 @@ module.exports = {
                 bcrypt.compare(userData.password, user.password).then((status) => {
                     if (status) {
                         console.log("login success");
-                        response.user = user 
+                        response.user = user
                         response.status = true
                         resolve(response)
                     } else {
@@ -180,28 +180,28 @@ module.exports = {
             console.log(Id);
             let address = await db.get().collection(collection.USER_COLLECTION).aggregate([
                 {
-                    $match:{
-                        _id:objectId(uId)
+                    $match: {
+                        _id: objectId(uId)
                     }
                 },
                 {
-                    $unwind:"$address"
+                    $unwind: "$address"
                 },
                 {
-                    $match:{
-                        "address._id":objectId(Id)
+                    $match: {
+                        "address._id": objectId(Id)
                     }
                 },
                 {
-                    $project:{
-                        address:1,
-                        _id:0
+                    $project: {
+                        address: 1,
+                        _id: 0
                     }
                 }
             ]).toArray()
             resolve(address)
-            
-            
+
+
 
         })
     },
@@ -559,14 +559,14 @@ module.exports = {
 
     placeOrder: (order, products, total) => {
         return new Promise((resolve, reject) => {
-            
+
             let Status = order.Payment === 'COD' ? 'Placed' : 'Pending'
-            let len=products.length
-            for(i=0;i<len;i++){
-              products[i].proStatus=order.Payment === 'COD' ? 'Placed' : 'Pending'
+            let len = products.length
+            for (i = 0; i < len; i++) {
+                products[i].proStatus = order.Payment === 'COD' ? 'Placed' : 'Pending'
             }
-            console.log("products=",products);
-            
+            console.log("products=", products);
+
 
 
             let dateIso = new Date()
@@ -593,60 +593,58 @@ module.exports = {
                 Status: Status
 
             }
-            
+
 
             db.get().collection(collection.ORDER_COLLECTION).insertOne(orderObj).then((response) => {
                 console.log("order inserted");
                 resolve(response)
-                
-               
-            })
+             })
 
         })
 
     },
-    clearCart:(User)=>{
-        return new Promise ((resolve,reject)=>{
-            db.get().collection(collection.CART_COLLECTION).deleteOne({ user: objectId(User) }).then(()=>{
+    clearCart: (User) => {
+        return new Promise((resolve, reject) => {
+            db.get().collection(collection.CART_COLLECTION).deleteOne({ user: objectId(User) }).then(() => {
                 resolve()
             })
         })
-    }, 
+    },
     //Razor pay
-    generateRazorpay: (orderId,total) => {
+    generateRazorpay: (orderId, total) => {
         return new Promise((resolve, reject) => {
-            var options={
-                amount:total*100,
-                currency:"INR",
-                receipt:orderId.toString()
+            var options = {
+                amount: total * 100,
+                currency: "INR",
+                receipt: orderId.toString()
             };
-            instance.orders.create(options,(err,order)=>{
-                if(err){
+            instance.orders.create(options, (err, order) => {
+                if (err) {
                     console.log("No order");
-                    console.log("error=",err);
-                }else{
-                    console.log("order=",order);
+                    console.log("error=", err);
+                } else {
+                    console.log("order=", order);
                     resolve(order)
                 }
             })
         })
     },
 
-    verifyPayment:(details)=>{
-        return new Promise((resolve,reject)=>{
-            console.log("Details=",details);
-            const crypto=require('crypto')
+    verifyPayment: (details) => {
+        return new Promise((resolve, reject) => {
+            console.log("Details=", details);
+            const crypto = require('crypto')
             // console.log(process.env.key_secret,"key");
-            let hmac=crypto.createHmac('sha256',process.env.key_secret)
-            console.log(details['response[razorpay_order_id]'],"order");
-            console.log(details['response[razorpay_payment_id]'],"payment");
-            console.log(details['response[razorpay_signature]'],"sign");
-            hmac.update(details['response[razorpay_order_id]']+'|'+details['response[razorpay_payment_id]']);
-            hmac=hmac.digest('hex')
-            if(hmac==details['response[razorpay_signature]']){
+            let hmac = crypto.createHmac('sha256', process.env.key_secret)
+            console.log(details['response[razorpay_order_id]'], "order");
+            console.log(details['response[razorpay_payment_id]'], "payment");
+            console.log(details['response[razorpay_signature]'], "sign");
+            hmac.update(details['response[razorpay_order_id]'] + '|' + details['response[razorpay_payment_id]']);
+            hmac = hmac.digest('hex')
+            if (hmac == details['response[razorpay_signature]']) {
                 console.log("hmac matched");
                 resolve()
-            }else{
+            } else {
                 console.log("hmac reject");
                 reject()
             }
@@ -654,39 +652,51 @@ module.exports = {
     },
 
     //Paypal
-    
-    changePaymentStatus:(oId)=>{
-        return new Promise((resolve,reject)=>{
-            db.get().collection(collection.ORDER_COLLECTION).updateOne({_id:objectId(oId)},
-            {
-                $set:{
-                    Status:'Placed'
-                }
-            }).then(()=>{
-                resolve()
-            })
+
+
+    changePaymentStatus: (oId) => {
+        return new Promise((resolve, reject) => {
+                let products=db.get().collection(collection.ORDER_COLLECTION).aggregate([
+                    {
+                        $match:{
+                            _id:objectId(oId)
+                        }
+                    },
+                    {
+                        $unwind:'$Products'
+                    }
+                ]).toArray()
+            db.get().collection(collection.ORDER_COLLECTION).updateOne({ _id: objectId(oId) },
+                {
+                    $set: {
+                        "Products.$.proStatus": 'Placed'
+                    }
+                }).then(() => {
+                    resolve()
+                })
+
         })
     },
 
 
     getUserOrders: (Id) => {
         return new Promise(async (resolve, reject) => {
-            let orders = await db.get().collection(collection.ORDER_COLLECTION).find().sort({$natural:-1}).toArray()
-           
+            let orders = await db.get().collection(collection.ORDER_COLLECTION).find().sort({ $natural: -1 }).toArray()
+
             console.log("sortted");
             resolve(orders)
         })
     },
-    cancelOrder:(Id)=>{
-        return new Promise((resolve,reject)=>{
-            db.get().collection(collection.ORDER_COLLECTION).updateOne({_id:objectId(Id)},
-            {
-                $set:{
-                    Status:'Cancelled'
-                }
-            }).then(()=>{
-                resolve()
-            })
+    cancelOrder: (Id) => {
+        return new Promise((resolve, reject) => {
+            db.get().collection(collection.ORDER_COLLECTION).updateOne({ _id: objectId(Id) },
+                {
+                    $set: {
+                        Status: 'Cancelled'
+                    }
+                }).then(() => {
+                    resolve()
+                })
         })
     },
     stockChanger: (orderId) => {
@@ -722,7 +732,7 @@ module.exports = {
                 }
             ]).toArray()
             let proLen = prod.length
-            
+
             for (let i = 0; i < proLen; i++) {
                 let itemMain = prod[i]
                 db.get().collection(collection.PRODUCT_COLLECTION).updateOne({ _id: objectId(itemMain.item) }, {
@@ -759,7 +769,7 @@ module.exports = {
     },
     getHomeProducts: () => {
         return new Promise(async (resolve, reject) => {
-            let products = await db.get().collection(collection.PRODUCT_COLLECTION).find().sort({$natural:-1}).limit(6).toArray()
+            let products = await db.get().collection(collection.PRODUCT_COLLECTION).find().sort({ $natural: -1 }).limit(6).toArray()
 
             resolve(products)
         })
@@ -793,10 +803,10 @@ module.exports = {
     },
 
     //Banners
-    getAllBanners:()=>{
-        return new Promise(async(resolve,reject)=>{
-         let banners=await   db.get().collection(collection.BANNER_COLLECTION).find().toArray()
-         resolve(banners)
+    getAllBanners: () => {
+        return new Promise(async (resolve, reject) => {
+            let banners = await db.get().collection(collection.BANNER_COLLECTION).find().toArray()
+            resolve(banners)
         })
     }
 

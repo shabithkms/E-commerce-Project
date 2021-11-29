@@ -70,8 +70,9 @@ router.get('/', async function (req, res, next) {
     let totalIncome=await productHelper.getTotalIncome()
     let totalUsers=await productHelper.getTotalUsers()
     let totalProducts=await productHelper.getTotalProducts()
+    let allOrderStatus=await productHelper.getAllOrderStatus()
    
-    res.render('admin/dashboard', { admin: true,newOrders ,newProducts,totalIncome,totalUsers,totalProducts});
+    res.render('admin/dashboard', { admin: true,newOrders ,newProducts,totalIncome,totalUsers,totalProducts,allOrderStatus});
   } else {
     res.redirect('/admin/login')
   }

@@ -114,7 +114,7 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
             let sort = { name: 1 }
             let limit = 4
-            let related = await db.get().collection(collection.PRODUCT_COLLECTION).find().sort(sort).limit(limit).toArray()
+            let related = await db.get().collection(collection.PRODUCT_COLLECTION).find().sort().limit(limit).toArray()
 
             resolve(related)
         })
@@ -143,7 +143,7 @@ module.exports = {
             let total= await db.get().collection(collection.ORDER_COLLECTION).aggregate([
                 {
                    $match: {
-                        Status:"Delivered"
+                        Status:"Delivered" 
                     },    
                 },
                 {
@@ -167,9 +167,30 @@ module.exports = {
     },
     getTotalProducts:()=>{
         return new Promise(async(resolve,reject)=>{
-          let products=await  db.get().collection(collection.PRODUCT_COLLECTION).count()
+          let products=await  db.get().collection(collection.PRODUCT_COLLECTION).count() 
           console.log(products);
+          
           resolve(products)
+        })
+    },
+    getAllOrderStatus:()=>{
+        return new Promise(async(resolve,reject)=>{
+            let placedProducts=await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+                
+                {
+                    $unwind:"$Products"
+                },
+                {
+                    $match:{
+                        "Products.Status":"Placed"
+                    }
+                },
+
+            ]).toArray()
+            let len=placedProducts.length
+            console.log(len);
+            console.log("placed",placedProducts);
+            resolve(len)
         })
     }
 

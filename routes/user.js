@@ -670,15 +670,21 @@ router.get('/cart', verifyUserLogin, async (req, res, next) => {
 
 
 router.get('/add-to-cart/:id', (req, res) => {
-  console.log("Api call");
+  if(req.session.userLoggedIn){
+    console.log("Api call");
 
-  let proId = req.params.id
-  let userId = req.session.user._id
-
-  userHelper.addToCart(proId, userId).then((response) => {
-    req.session.noCartPro = false
-    res.json({ status: true })
-  })
+    let proId = req.params.id
+    let userId = req.session.user._id
+  
+    userHelper.addToCart(proId, userId).then((response) => {
+      req.session.noCartPro = false
+      res.json({ status: true })
+    })
+  }else{
+    console.log("no user");
+    res.json({status:false})
+  }
+  
 })
 
 router.post('/change-product-quantity', (req, res) => {
