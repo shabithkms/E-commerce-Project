@@ -9,6 +9,7 @@ module.exports = {
 
     addProduct: (proData) => {
         return new Promise((resolve, reject) => {
+           
             console.log(proData, "1");
             proData.price = parseInt(proData.price)
             proData.cost = parseInt(proData.cost)
@@ -44,7 +45,7 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
             let prod = await db.get().collection(collection.PRODUCT_COLLECTION).findOne({ _id: objectId(id) })
             console.log(prod.stockout);
-            if (prod.stockout||newData.stock>0) {
+            if (prod.stockout || newData.stock > 0) {
                 console.log("in if");
                 db.get().collection(collection.PRODUCT_COLLECTION).updateOne({ _id: objectId(id) },
                     {
@@ -55,6 +56,7 @@ module.exports = {
                             cost: newData.cost,
                             price: newData.price,
                             stock: newData.stock,
+                            
                         },
                         $unset: {
                             stockout: ""
@@ -92,7 +94,7 @@ module.exports = {
                             cost: newData.cost,
                             price: newData.price,
                             stock: newData.stock,
-                            
+
 
                         }
                     }).then((response) => {
@@ -126,72 +128,151 @@ module.exports = {
 
     //Dashboard
 
-    getNewOrders:()=>{
-        return new Promise(async(resolve,reject)=>{
-           let neworders=await db.get().collection(collection.ORDER_COLLECTION).find().sort({$natural:-1}).limit(5).toArray()
-           resolve(neworders)
+    getNewOrders: () => {
+        return new Promise(async (resolve, reject) => {
+            let neworders = await db.get().collection(collection.ORDER_COLLECTION).find().sort({ $natural: -1 }).limit(5).toArray()
+            resolve(neworders)
         })
     },
-    getNewProducts:()=>{
-        return new Promise(async(resolve,reject)=>{
-           let newProducts=await db.get().collection(collection.PRODUCT_COLLECTION).find().sort({$natural:-1}).limit(5).toArray()
-           resolve(newProducts)
-        }) 
+    getNewProducts: () => {
+        return new Promise(async (resolve, reject) => {
+            let newProducts = await db.get().collection(collection.PRODUCT_COLLECTION).find().sort({ $natural: -1 }).limit(5).toArray()
+            resolve(newProducts)
+        })
     },
-    getTotalIncome:()=>{
-        return new Promise(async (resolve,reject)=>{
-            let total= await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+    getTotalIncome: () => {
+        return new Promise(async (resolve, reject) => {
+            let total = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
                 {
-                   $match: {
-                        Status:"Delivered" 
-                    },    
+                    $match: {
+                        Status: "Delivered"
+                    },
                 },
                 {
                     $group: {
-                        _id:null,
-                        total: { $sum:  "$Total" }
-                    }, 
-                } 
-            ]).toArray() 
+                        _id: null,
+                        total: { $sum: "$Total" }
+                    },
+                }
+            ]).toArray()
             console.log(total);
             console.log(total[0].total);
             resolve(total[0].total)
         })
     },
-    getTotalUsers:()=>{
-        return new Promise(async(resolve,reject)=>{
-          let users=await  db.get().collection(collection.USER_COLLECTION).count()
-          console.log(users);
-          resolve(users)
+    getTotalUsers: () => {
+        return new Promise(async (resolve, reject) => {
+            let users = await db.get().collection(collection.USER_COLLECTION).count()
+            console.log(users);
+            resolve(users)
         })
     },
-    getTotalProducts:()=>{
-        return new Promise(async(resolve,reject)=>{
-          let products=await  db.get().collection(collection.PRODUCT_COLLECTION).count() 
-          console.log(products);
-          
-          resolve(products)
+    getTotalProducts: () => {
+        return new Promise(async (resolve, reject) => {
+            let products = await db.get().collection(collection.PRODUCT_COLLECTION).count()
+            console.log(products);
+
+            resolve(products)
         })
     },
-    getAllOrderStatus:()=>{
-        return new Promise(async(resolve,reject)=>{
-            let placedProducts=await db.get().collection(collection.ORDER_COLLECTION).aggregate([
-                
+    getAllOrderStatus: () => {
+        let orderStatus = []
+        return new Promise(async (resolve, reject) => {
+            let pendingProducts = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+
                 {
-                    $unwind:"$Products"
-                },
-                {
-                    $match:{
-                        "Products.Status":"Placed"
+                    $match: {
+                        Status: "Pending"
                     }
-                },
+                }
 
             ]).toArray()
-            let len=placedProducts.length
-            console.log(len);
-            console.log("placed",placedProducts);
-            resolve(len)
+            let pendingLen = pendingProducts.length
+            orderStatus.push(pendingLen)
+
+            let placedProducts = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+
+                {
+                    $match: {
+                        Status: "Placed"
+                    }
+                }
+
+            ]).toArray()
+            let placedLen = placedProducts.length
+            orderStatus.push(placedLen)
+
+            let shippedProducts = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+
+                {
+                    $match: {
+                        Status: "Shipped"
+                    }
+                }
+
+            ]).toArray()
+            let shippedLen = shippedProducts.length
+            orderStatus.push(shippedLen)
+
+            let deliveredProducts = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+
+                {
+                    $match: {
+                        Status: "Delivered"
+                    }
+                }
+
+            ]).toArray()
+            let deliveredLen = deliveredProducts.length
+            orderStatus.push(deliveredLen)
+
+            console.log(orderStatus);
+            resolve(orderStatus)
+
         })
-    }
+    },
+    getAllMethods: () => {
+        let methods = []
+        return new Promise(async (resolve, reject) => {
+            let codProducts = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+
+                {
+                    $match: {
+                        PaymentMethod: "COD"
+                    }
+                }
+
+            ]).toArray()
+            let codLen = codProducts.length
+            methods.push(codLen)
+
+            let razorpayProducts = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+
+                {
+                    $match: {
+                        PaymentMethod: "Razorpay"
+                    }
+                }
+
+            ]).toArray()
+            let razorpayLen = razorpayProducts.length
+            methods.push(razorpayLen)
+
+            let paypalProducts = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+
+                {
+                    $match: {
+                        PaymentMethod: "Paypal"
+                    }
+                }
+
+            ]).toArray()
+            let paypalLen = paypalProducts.length
+            methods.push(paypalLen)
+            console.log(methods);
+            resolve(methods)
+
+        })
+    },
 
 }

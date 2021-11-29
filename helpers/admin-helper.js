@@ -208,7 +208,7 @@ module.exports = {
     },
     getAllOrders: () => {
         return new Promise(async (resolve, reject) => {
-            let orders = await db.get().collection(collection.ORDER_COLLECTION).find().sort({$natural:-1}).toArray()
+            let orders = await db.get().collection(collection.ORDER_COLLECTION).find().sort({ $natural: -1 }).toArray()
             resolve(orders)
         })
     },
@@ -292,8 +292,8 @@ module.exports = {
                     $set: {
                         bannerName: newData.bannerName,
                         description: newData.description,
-                        offer:newData.offer,
-                        link:newData.link
+                        offer: newData.offer,
+                        link: newData.link
                     }
                 }).then((response) => {
                     resolve(response)
@@ -306,6 +306,150 @@ module.exports = {
     deleteBanner: (id) => {
         return new Promise((resolve, reject) => {
             db.get().collection(collection.BANNER_COLLECTION).deleteOne({ _id: objectId(id) }).then((response) => {
+                resolve(response)
+            })
+        })
+    },
+    addCategoryOffer: (data) => {
+        let cname = data.Category
+        data.Offer = parseInt(data.Offer)
+        return new Promise(async (resolve, reject) => {
+            let product = await db.get().collection(collection.PRODUCT_COLLECTION).findOne({ category: cname })
+            console.log(product.price);
+            console.log(data.Offer);
+            let actualPrice = product.price
+            let newPrice = (((product.price) * (data.Offer)) / 100)
+            newPrice = newPrice.toFixed()
+            console.log("newPrice", newPrice);
+            db.get().collection(collection.CATEGORY_OFFERS).insertOne(data).then((response) => {
+                db.get().collection(collection.PRODUCT_COLLECTION).updateOne({ category: cname },
+                    {
+                        $set: {
+                            catOffer: true,
+                            catPercentage: data.Offer,
+                            price: (actualPrice - newPrice),
+                            actualPrice: actualPrice
+                        }
+                    }).then(() => {
+                        resolve()
+                    })
+            })
+        })
+    },
+    getAllCatOffers: () => {
+        return new Promise(async (resolve, reject) => {
+            let cOffer = await db.get().collection(collection.CATEGORY_OFFERS).find().toArray()
+            resolve(cOffer)
+        })
+    },
+    getCatOfferDetails: (id) => {
+        return new Promise((resolve, reject) => {
+            db.get().collection(collection.CATEGORY_OFFERS).findOne({ _id: objectId(id) }).then((banner) => {
+                resolve(banner)
+                // console.log(brand);
+            })
+        })
+    },
+    updateCatOffer: (id, newData) => {
+        return new Promise((resolve, reject) => {
+            db.get().collection(collection.CATEGORY_OFFERS).updateOne({ _id: objectId(id) },
+                {
+                    $set: {
+                        Category: newData.Category,
+                        Starting: newData.Starting,
+                        Expiry: newData.Expiry,
+                        Offer: newData.Offer
+                    }
+                }).then((response) => {
+                    resolve(response)
+                }).catch((err) => {
+                    console.log(err);
+                    reject(err)
+                })
+        })
+    },
+    deleteCatOffer: (id) => {
+        return new Promise(async (resolve, reject) => {
+            let categoryOffer = await db.get().collection(collection.CATEGORY_OFFERS).findOne({ _id: objectId(id) })
+            let cname = categoryOffer.Category
+            let product = await db.get().collection(collection.PRODUCT_COLLECTION).findOne({ category: cname })
+            db.get().collection(collection.CATEGORY_OFFERS).deleteOne({ _id: objectId(id) }).then(() => {
+                db.get().collection(collection.PRODUCT_COLLECTION).updateOne({ category: cname },
+                    {
+                        $set: {
+                            price: product.actualPrice
+                        },
+                        $unset: {
+                            catOffer: "",
+                            catPercentage: "",
+
+                            actualPrice: ""
+                        }
+                    }).then(() => {
+                        resolve()
+                    })
+            })
+        })
+    },
+    addProductOffer: (data) => {
+        return new Promise((resolve, reject) => {
+            let product = await db.get().collection(collection.PRODUCT_COLLECTION).findOne({ name: data.Product })
+            console.log(product.price);
+            console.log(data.Offer);
+            let actualPrice = product.price
+            let newPrice = (((product.price) * (data.Offer)) / 100)
+            newPrice = newPrice.toFixed()
+            console.log("newPrice", newPrice);
+            db.get().collection(collection.CATEGORY_OFFERS).insertOne(data).then((response) => {
+                db.get().collection(collection.PRODUCT_COLLECTION).updateOne({ category: cname },
+                    {
+                        $set: {
+                            catOffer: true,
+                            catPercentage: data.Offer,
+                            price: (actualPrice - newPrice),
+                            actualPrice: actualPrice
+                        }
+                    }).then(() => {
+                        resolve()
+                    })
+            })
+        })
+    },
+    getAllProOffers: () => {
+        return new Promise(async (resolve, reject) => {
+            let pOffer = await db.get().collection(collection.PRODUCT_OFFERS).find().toArray()
+            resolve(pOffer)
+        })
+    },
+    getProOffersDetails: (id) => {
+        return new Promise((resolve, reject) => {
+            db.get().collection(collection.PRODUCT_OFFERS).findOne({ _id: objectId(id) }).then((proOffer) => {
+                resolve(proOffer)
+                console.log(proOffer);
+            })
+        })
+    },
+    updateProOffer: (id, newData) => {
+        return new Promise((resolve, reject) => {
+            db.get().collection(collection.PRODUCT_OFFERS).updateOne({ _id: objectId(id) },
+                {
+                    $set: {
+                        Product: newData.Product,
+                        Starting: newData.Starting,
+                        Expiry: newData.Expiry,
+                        Offer: newData.Offer
+                    }
+                }).then((response) => {
+                    resolve(response)
+                }).catch((err) => {
+                    console.log(err);
+                    reject(err)
+                })
+        })
+    },
+    deleteProOffer: (id) => {
+        return new Promise((resolve, reject) => {
+            db.get().collection(collection.PRODUCT_OFFERS).deleteOne({ _id: objectId(id) }).then((response) => {
                 resolve(response)
             })
         })

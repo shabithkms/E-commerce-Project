@@ -71,8 +71,9 @@ router.get('/', async function (req, res, next) {
     let totalUsers=await productHelper.getTotalUsers()
     let totalProducts=await productHelper.getTotalProducts()
     let allOrderStatus=await productHelper.getAllOrderStatus()
+    let allMethods=await productHelper.getAllMethods()
    
-    res.render('admin/dashboard', { admin: true,newOrders ,newProducts,totalIncome,totalUsers,totalProducts,allOrderStatus});
+    res.render('admin/dashboard', { admin: true,newOrders ,newProducts,totalIncome,totalUsers,totalProducts,allOrderStatus,allMethods});
   } else {
     res.redirect('/admin/login')
   }
@@ -443,6 +444,102 @@ router.get('/delete-banner/:id', verifyAdminLogin, (req, res) => {
   adminHelpers.deleteBanner(id).then((response) => {
     fs.unlinkSync('public/banners/' + id + '.jpg')
     res.redirect('/admin/banners')
+  })
+})
+
+//Offer Section.................................................................
+
+router.get('/category-offers',verifyAdminLogin,async(req,res)=>{
+ let category=await adminHelpers.getAllCategory()
+ let catOffers=await adminHelpers.getAllCatOffers()
+  res.render('admin/category-offer',{admin:true,category,catOffers})
+})
+
+router.post('/category-offers',verifyAdminLogin,(req,res)=>{
+  console.log(req.body);
+  adminHelpers.addCategoryOffer(req.body).then(()=>{
+    res.redirect('/admin/category-offers')
+  })
+})
+
+
+router.get('/edit-catOffer/:id', verifyAdminLogin,async function (req, res, next) {
+  let id = req.params.id
+  let category=await adminHelpers.getAllCategory()
+  adminHelpers.getCatOfferDetails(id).then((catOffer) => {
+    res.render('admin/edit-catOffers', { admin: true, catOffer,category, "bannerExist": req.session.brandExist });
+  })
+});
+
+
+router.post('/edit-catOffer/:id', verifyAdminLogin, async (req, res) => {
+  let id = req.params.id
+  adminHelpers.updateCatOffer(id, req.body).then((response) => {
+    res.redirect('/admin/category-offers')
+   
+
+  })
+  // .catch((err)=>{
+  //   if(err.code==11000){
+  //     req.session.brandExist=true
+  //     res.redirect('/admin/edit-brand/id')
+  //   }
+  // })
+
+})
+
+router.get('/delete-catOffer/:id', verifyAdminLogin, (req, res) => {
+  let id = req.params.id
+  adminHelpers.deleteCatOffer(id).then((response) => {
+    
+    res.redirect('/admin/category-offers')
+  })
+})
+
+router.get('/product-offers',verifyAdminLogin,async(req,res)=>{
+  let products=await userHelper.getAllProducts()
+  let proOffers=await adminHelpers.getAllProOffers()
+   res.render('admin/product-offer',{admin:true,products,proOffers})
+ })
+ 
+ router.post('/product-offers',verifyAdminLogin,(req,res)=>{
+   console.log(req.body);
+   adminHelpers.addProductOffer(req.body).then(()=>{
+     res.redirect('/admin/product-offers')
+   })
+ })
+
+ 
+router.get('/edit-proOffer/:id', verifyAdminLogin,async function (req, res, next) {
+  let id = req.params.id
+  let products=await userHelper.getAllProducts()
+  adminHelpers.getProOffersDetails(id).then((proOffer) => {
+    res.render('admin/edit-proOffers', { admin: true, proOffer,products, "bannerExist": req.session.brandExist });
+  })
+});
+
+
+router.post('/edit-proOffer/:id', verifyAdminLogin, async (req, res) => {
+  let id = req.params.id
+  adminHelpers.updateProOffer(id, req.body).then((response) => {
+    res.redirect('/admin/product-offers')
+    
+
+  })
+  // .catch((err)=>{
+  //   if(err.code==11000){
+  //     req.session.brandExist=true
+  //     res.redirect('/admin/edit-brand/id')
+  //   }
+  // })
+
+})
+
+router.get('/delete-proOffer/:id', verifyAdminLogin, (req, res) => {
+  let id = req.params.id
+  adminHelpers.deleteProOffer(id).then((response) => {
+    
+    res.redirect('/admin/product-offers')
   })
 })
 

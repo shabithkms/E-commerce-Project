@@ -221,9 +221,12 @@
 
                             </div>
                         </form>
-
+                        {{#if this.stockout}}
+                        <p class="text-danger text-center">Out of Stock</p>
+                        {{/if}}
 
                         <div class="product-categories product-cat-tag">
+
                             <ul>
 
                                 <li class="categories-title">Category :</li>

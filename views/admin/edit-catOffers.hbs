@@ -1,0 +1,122 @@
+
+<section id="add">
+    <div class="half">
+        <div class="bg order-1 order-md-2" style="background-image: url('/adminLogin/images/bg_1.jpg');"></div>
+
+        <div class="contents order-2 order-md-1">
+            <div class="container">
+                <div class="row align-items-center justify-content-center">
+                    <div class="col-md-12">
+                        <div class="col-md-6">
+                            <div class="form-block" id="cat">
+                                <div class="text-center mb-5">
+                                    <h3>Category <strong>Offer</strong></h3>
+                                    {{#if catErr}}
+                                    <p class="text-center text-danger">{{catErr}}</p>
+                                    {{/if}}
+                                </div>
+                                <form action="/admin/edit-catOffer/{{catOffer._id}}" id="categoryPage" method="post">
+                                    <div class="form-group first">
+                                        <label for="category">Category</label>
+                                        
+                                        <select name="Category" class="custom-select p-2" required>
+                                            <option value="{{catOffer.Category}}" selected>{{catOffer.Category}}</option>
+                                            {{#each category}}
+                                            <option value="{{this.category}}">{{this.category}}</option>
+                                            {{/each}}
+                                        </select>
+                                        <label class="pt-4">Starting Date</label>
+                                        <input type="Date" class="form-control" required value="{{catOffer.Starting}}" name="Starting" id="str">
+                                        <label class="pt-4">Expiry Date</label>
+                                        <input type="Date" class="form-control" required value="{{catOffer.Expiry}}"  name="Expiry" id="exp">
+                                        <label class="pt-4">Offer Percentage</label>
+                                        <input type="number" class="form-control" onkeydown="return event.keyCode !== 69" required name="Offer" value="{{catOffer.Offer}}"  max="100">
+
+
+                                    </div>
+                                    <input type="submit" value="Edit" id="catsub" class="btn btn-block btn-primary">
+
+                                </form>
+
+                            </div>
+                        </div>
+
+
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+
+</section>
+
+
+<script>
+    $("#proSelect").select2({
+        placeholder: "Select A Product",
+        allowClear: true
+    });
+</script>
+<script>
+    $(document).ready(function () {
+
+        $('#str').blur(function () {
+            let date = document.getElementById('str').value
+            console.log(date)
+            let today = new Date()
+            var dd = today.getDate();
+            var mm = today.getMonth() + 1;
+
+            var yyyy = today.getFullYear();
+            if (dd < 10) {
+                dd = '0' + dd;
+            }
+            if (mm < 10) {
+                mm = '0' + mm;
+            }
+            today = yyyy + '-' + mm + '-' + dd;
+            console.log(today)
+            if (date < today) {
+                $('#catsub').hide()
+                Swal.fire('Choose a valid Date')
+            } else {
+                $('#catsub').show()
+            }
+        })
+        $('#exp').blur(function () {
+            let date = document.getElementById('exp').value
+            let strDate = document.getElementById('str').value
+
+            console.log(date)
+            let today = new Date()
+            var dd = today.getDate();
+            var mm = today.getMonth() + 1;
+
+            var yyyy = today.getFullYear();
+            if (dd < 10) {
+                dd = '0' + dd;
+            }
+            if (mm < 10) {
+                mm = '0' + mm;
+            }
+            today = yyyy + '-' + mm + '-' + dd;
+            console.log(today)
+            if (date < today) {
+                $('#prosub').hide()
+                Swal.fire('Choose a valid Date')
+            } else if (strDate > date) {
+                $('#prosub').hide()
+                Swal.fire('Choose a valid Date')
+            }
+            else {
+                $('#catsub').show()
+            }
+        })
+    })
+</script>

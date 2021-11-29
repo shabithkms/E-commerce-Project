@@ -656,20 +656,11 @@ module.exports = {
 
     changePaymentStatus: (oId) => {
         return new Promise((resolve, reject) => {
-                let products=db.get().collection(collection.ORDER_COLLECTION).aggregate([
-                    {
-                        $match:{
-                            _id:objectId(oId)
-                        }
-                    },
-                    {
-                        $unwind:'$Products'
-                    }
-                ]).toArray()
+                
             db.get().collection(collection.ORDER_COLLECTION).updateOne({ _id: objectId(oId) },
                 {
                     $set: {
-                        "Products.$.proStatus": 'Placed'
+                        Status:"Placed"
                     }
                 }).then(() => {
                     resolve()

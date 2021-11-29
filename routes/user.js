@@ -858,7 +858,7 @@ router.get('/success', verifyUserLogin, (req, res) => {
     "payer_id": payerId,
     "transactions": [{
       "amount": {
-        "currency": "USD",
+        "currency": "USD", 
         "total": total
       }
     }]
