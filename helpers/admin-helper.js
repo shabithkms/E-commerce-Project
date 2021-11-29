@@ -392,20 +392,21 @@ module.exports = {
         })
     },
     addProductOffer: (data) => {
-        return new Promise((resolve, reject) => {
+        return new Promise(async(resolve, reject) => { 
             let product = await db.get().collection(collection.PRODUCT_COLLECTION).findOne({ name: data.Product })
             console.log(product.price);
             console.log(data.Offer);
+            data.Offer=parseInt(data.Offer)
             let actualPrice = product.price
             let newPrice = (((product.price) * (data.Offer)) / 100)
             newPrice = newPrice.toFixed()
             console.log("newPrice", newPrice);
-            db.get().collection(collection.CATEGORY_OFFERS).insertOne(data).then((response) => {
-                db.get().collection(collection.PRODUCT_COLLECTION).updateOne({ category: cname },
+            db.get().collection(collection.PRODUCT_OFFERS).insertOne(data).then((response) => {
+                db.get().collection(collection.PRODUCT_COLLECTION).updateOne({ name: data.Product },
                     {
                         $set: {
-                            catOffer: true,
-                            catPercentage: data.Offer,
+                            proOffer: true,
+                            proPercentage: data.Offer,
                             price: (actualPrice - newPrice),
                             actualPrice: actualPrice
                         }
@@ -448,9 +449,25 @@ module.exports = {
         })
     },
     deleteProOffer: (id) => {
-        return new Promise((resolve, reject) => {
-            db.get().collection(collection.PRODUCT_OFFERS).deleteOne({ _id: objectId(id) }).then((response) => {
-                resolve(response)
+        return new Promise(async(resolve, reject) => {
+            let productOffer = await db.get().collection(collection.PRODUCT_OFFERS).findOne({ _id: objectId(id) })
+            let pname = productOffer.Product
+            let product = await db.get().collection(collection.PRODUCT_COLLECTION).findOne({ name: pname })
+            db.get().collection(collection.PRODUCT_OFFERS).deleteOne({ _id: objectId(id) }).then(() => {
+                db.get().collection(collection.PRODUCT_COLLECTION).updateOne({ name: pname },
+                    {
+                        $set: {
+                            price: product.actualPrice
+                        },
+                        $unset: {
+                            proOffer: "",
+                            proPercentage: "",
+
+                            actualPrice: ""
+                        }
+                    }).then(() => {
+                        resolve()
+                    })
             })
         })
     },
