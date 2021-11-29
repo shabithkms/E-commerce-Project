@@ -228,7 +228,7 @@ router.post('/login/otp', (req, res) => {
       if (response.valid) {
         console.log(number, "num");
         userHelper.getUserdetails(number).then((user) => {
-          console.log(user, "otpiser");
+          // console.log(user, "otpiser");
           req.session.loginHalf = false
           req.session.user = user
           req.session.userLoggedIn = true
@@ -242,7 +242,7 @@ router.post('/login/otp', (req, res) => {
       }
 
     }).catch((err) => {
-      console.log(err.code, "err");
+      console.log(err, "err");
       if (err.code == 60200) {
         req.session.invalidOtp = true
         res.redirect('/login/otp')
@@ -663,9 +663,7 @@ router.get('/cart', verifyUserLogin, async (req, res, next) => {
     res.render('user/empty-cart', { userPage: true, brand, homePro, user })
   }
 
-  // userHelper.deleteAddress(id).then((res)=>{
-  //   console.log("pulled");
-  // })
+ 
 
 
 })

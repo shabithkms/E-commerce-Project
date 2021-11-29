@@ -153,6 +153,7 @@
         });
     </script>
 
+
     <script src="/js/adminValidations.js"></script>
     <script src="/js/admin.js"></script>
     <script>
@@ -276,12 +277,12 @@
                     if (response.codSuccess) {
                         console.log("cod success")
                         location.href = "/order-success"
-                    } else if(response.razorpay) {
+                    } else if (response.razorpay) {
 
                         razorpayPayment(response.resp)
                         console.log(response)
-                    }else{
-                        location.href=response.url 
+                    } else {
+                        location.href = response.url
                     }
                 }
             })

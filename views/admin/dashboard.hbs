@@ -1,13 +1,85 @@
-<div class="row ">
+<style>
+    .iconbg{
+        background: rgb(141, 225, 15);
+        align-items: center;
+        opacity: 50%;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        margin: 10px;
+    }
+    .iconbg1{
+        background: rgb(145, 205, 231);
+        align-items: center;
+        opacity: 50%;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        margin: 10px;
+    }
+    .iconbg2{
+        
+        background: rgb(218, 166, 221);
+        align-items: center;
+        opacity: 50%;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        margin: 10px;
+    }
+    .info{
+        
+    }
+</style>
+<div class="row justify-content-center ">
 
-    <div class="shadow col-lg-4 p-3 mb-5 bg-white rounded">
-        Total Sales
+    <div class="shadow col-lg-3 p-3 mb-5 bg-white rounded">
+        <div class="row ">
+            <div class=" row iconbg justify-content-center" >
+            <div>
+                <i class="fas fa-rupee-sign fa-2x" style="color: rgb(7, 51, 3);"></i>
+            </div>
+            </div>
+            <div class="info mt-2">
+                <h5>Total Income</h5>
+                <h7>{{totalIncome}}</h7>
+            </div>
+        </div>
+       
+            
+        
     </div>
-    <div class="shadow col-lg-4 p-3 mb-5 bg-white rounded">
-        Total Sales
+    <div class="shadow col-lg-3 p-3 mb-5 ml-5 bg-white rounded">
+        <div class="row ">
+            <div class=" row iconbg1 justify-content-center" >
+            <div>
+                <i class="fas fa-users fa-2x" style="color: rgb(26, 14, 191);"></i>
+            </div>
+            </div>
+            <div class="info  mt-2">
+                <h5>Total Users</h5>
+                <h7>{{totalUsers}}</h7>
+            </div>
+        </div>
+       
+            
+        
     </div>
-    <div class="shadow col-lg-4 p-3 mb-5 bg-white rounded">
-        Total Sales
+    <div class="shadow col-lg-3 p-3 ml-5 mb-5 bg-white rounded">
+        <div class="row ">
+            <div class=" row iconbg2 justify-content-center" >
+            <div>
+                <i class="far fa-clock fa-2x" style="color: rgb(189, 19, 104);"></i>
+            </div>
+            </div>
+            <div class="info  mt-2">
+                <h5>Total Products</h5>
+                <h7>{{totalProducts}}</h7>
+            </div>
+        </div>
+       
+            
+        
     </div>
 </div>
 <div class="row">
@@ -15,8 +87,100 @@
         <canvas id="myChart1" width="250" height="250"></canvas>
     </div>
     <div class="col-md-6">
-        <canvas id="myChart2" width="400" height="400"></canvas>
+        <canvas id="myChart2" width="250" height="250"></canvas>
     </div>
+</div>
+
+{{!--Recently Added products --}}
+<div class="shadow col-lg-12 p-3 mb-5 mt-5 mt-2 bg-white rounded">
+    <h4>Recently Added Products</h4>
+</div>
+<table class="table table-striped mt-5" style="margin-top:30px;" id="adminTable">
+    <thead>
+        <tr>
+            <th scope="col">No.</th>
+            <th scope="col">Name</th>
+            <th scope="col">Price</th>
+            {{!-- <th scope="col">description</th> --}}
+            <th scope="col">Category</th>
+            <th scope="col">Image</th>
+            <th scope="col">Stock</th>
+
+
+
+
+
+        </tr>
+    </thead>
+    <tbody>
+        {{#each newProducts}}
+        <tr>
+
+            <td></td>
+            <td>{{this.name}}</td>
+            <td>{{this.price}}</td>
+            {{!-- <td>{{this.Description}}</td> --}}
+            <td>{{this.category}}</td>
+            <td><img src="/productImages/{{this._id}}a.jpg" class="img-fluid" style="width: 50px;height:50px">
+                {{!-- <img src="/product-images/{{this._id}}b.jpg" class="img-fluid" style="width: 25px;height:25px">
+                <img src="/product-images/{{this._id}}c.jpg" class="img-fluid" style="width: 25px;height:25px">
+                --}}
+            </td>
+            <td>{{this.stock}}</td>
+
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+
+
+
+{{!-- Recent Orders --}}
+<div class="shadow col-lg-12 p-3 mb-5 mt-5 mt-2 bg-white rounded">
+    <h4>Recenet Orders</h4>
+</div>
+<div class="col-md-12">
+    <table class="table table-striped" id="orderTable">
+        <thead>
+            <tr>
+                <th scope="col">No.</th>
+                <th scope="col">Date</th>
+
+                <th scope="col">User</th>
+                <th scope="col">Address</th>
+
+                <th scope="col">Amount</th>
+
+                <th scope="col">Payment</th>
+
+
+
+                {{!-- <th scope="col">Items</th> --}}
+            </tr>
+        </thead>
+        <tbody>
+            {{#each newOrders}}
+            <tr>
+                <td></td>
+                <td>{{this.Date}} <br>
+                    {{this.Time}}</td>
+
+                <td>{{this.User}}</td>
+                <td>{{this.deliveryDetails.FirstName}},{{this.deliveryDetails.House}}<br>{{this.deliveryDetails.Town}},PIN:{{this.deliveryDetails.PIN}}<br>PH:{{this.deliveryDetails.Mobile}}
+                </td>
+
+                <td>{{this.Total}}</td>
+
+                <td>{{this.PaymentMethod}}</td>
+
+                {{!-- <td><a class="btn btn-secondary text-white" style="width: 125px;height:auto;text-decoration:none"
+                        href="/admin/singleOrder/{{this._id}}">View Product</a></td> --}}
+
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+
 </div>
 
 
@@ -24,9 +188,47 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    const ctx = document.getElementById('myChart1').getContext('2d');
-    const myChart1 = new Chart(ctx, {
+    
+    const ctx1 = document.getElementById('myChart1').getContext('2d');
+    const myChart1 = new Chart(ctx1, {
         type: 'bar',
+        data: {
+            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+            datasets: [{
+                label: 'Orders',
+                data: [12, 19, 3, 5, 2, 3],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+ 
+    const ctx2 = document.getElementById('myChart2').getContext('2d');
+    const myChart2 = new Chart(ctx2, {
+        type: 'line',
         data: {
             labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
             datasets: [{

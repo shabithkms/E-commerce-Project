@@ -8,6 +8,7 @@ var collection = require('../config/collection');
 var fs = require('fs')
 var swal = require('sweetalert');
 const userHelper = require('../helpers/user-helper');
+const productHelper = require('../helpers/product-helper');
 
 const verifyAdminLogin = (req, res, next) => {
   res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
@@ -20,17 +21,6 @@ const verifyAdminLogin = (req, res, next) => {
 }
 
 
-//Home
-
-
-router.get('/', function (req, res, next) {
-  if (req.session.adminLoggedIn) {
-    res.render('admin/dashboard', { admin: true });
-  } else {
-    res.redirect('/admin/login')
-  }
-
-});
 //LOgin
 
 router.get('/login', function (req, res, next) {
@@ -69,6 +59,27 @@ router.post('/login', (req, res) => {
     }
   })
 })
+
+//Dashboard
+
+
+router.get('/', async function (req, res, next) {
+  if (req.session.adminLoggedIn) {
+    let newOrders=await productHelper.getNewOrders()
+    let newProducts=await productHelper.getNewProducts()
+    let totalIncome=await productHelper.getTotalIncome()
+    let totalUsers=await productHelper.getTotalUsers()
+    let totalProducts=await productHelper.getTotalProducts()
+   
+    res.render('admin/dashboard', { admin: true,newOrders ,newProducts,totalIncome,totalUsers,totalProducts});
+  } else {
+    res.redirect('/admin/login')
+  }
+
+});
+
+
+
 
 // User Section
 
@@ -372,17 +383,17 @@ router.post('/crop', (req, res) => {
   res.json({ satus: true })
 })
 
-router.get('/banners', verifyAdminLogin, async(req, res) => {
-  let banners= await userHelper.getAllBanners()
-  res.render('admin/banners', { admin: true,banners })
+router.get('/banners', verifyAdminLogin, async (req, res) => {
+  let banners = await userHelper.getAllBanners()
+  res.render('admin/banners', { admin: true, banners })
 })
 
 
 router.post('/add-banner', (req, res) => {
-  
+
   adminHelpers.addBanner(req.body).then((id) => {
     let image = req.files.Image3
-    image.mv('public/banners/' + id +'.jpg', (err, done) => {
+    image.mv('public/banners/' + id + '.jpg', (err, done) => {
       if (!err) {
         res.redirect('/admin/banners')
       } else {

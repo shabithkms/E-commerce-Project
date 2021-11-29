@@ -119,6 +119,58 @@ module.exports = {
             resolve(related)
         })
 
+    },
+
+
+
+
+    //Dashboard
+
+    getNewOrders:()=>{
+        return new Promise(async(resolve,reject)=>{
+           let neworders=await db.get().collection(collection.ORDER_COLLECTION).find().sort({$natural:-1}).limit(5).toArray()
+           resolve(neworders)
+        })
+    },
+    getNewProducts:()=>{
+        return new Promise(async(resolve,reject)=>{
+           let newProducts=await db.get().collection(collection.PRODUCT_COLLECTION).find().sort({$natural:-1}).limit(5).toArray()
+           resolve(newProducts)
+        }) 
+    },
+    getTotalIncome:()=>{
+        return new Promise(async (resolve,reject)=>{
+            let total= await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+                {
+                   $match: {
+                        Status:"Delivered"
+                    },    
+                },
+                {
+                    $group: {
+                        _id:null,
+                        total: { $sum:  "$Total" }
+                    }, 
+                } 
+            ]).toArray() 
+            console.log(total);
+            console.log(total[0].total);
+            resolve(total[0].total)
+        })
+    },
+    getTotalUsers:()=>{
+        return new Promise(async(resolve,reject)=>{
+          let users=await  db.get().collection(collection.USER_COLLECTION).count()
+          console.log(users);
+          resolve(users)
+        })
+    },
+    getTotalProducts:()=>{
+        return new Promise(async(resolve,reject)=>{
+          let products=await  db.get().collection(collection.PRODUCT_COLLECTION).count()
+          console.log(products);
+          resolve(products)
+        })
     }
 
 }
