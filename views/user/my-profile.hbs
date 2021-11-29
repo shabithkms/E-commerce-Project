@@ -147,7 +147,7 @@
                     </div>
                     <div class="row">
                         <div class="mb-3">
-                            <div class="profile-userpic m">
+                            {{!-- <div class="profile-userpic m">
                                 <img src="/userImages/{{user._id}}.jpg" class="img-responsive" alt="Upload">
                             </div>
 
@@ -156,15 +156,15 @@
                                     {{user.firstname}} {{user.lastname}}
                                 </div>
 
-                            </div>
+                            </div> --}}
 
                             <div class="profile-userbuttons">
 
                                 <!-- Button trigger modal -->
-                                <a class="btn kms" href="/addProfile" data-toggle="modal"
+                                {{!-- <a class="btn kms" href="/addProfile" data-toggle="modal"
                                     data-target="#exampleModalLong">
                                     Change
-                                </a>
+                                </a> --}}
 
                                 <!-- Modal -->
                                 <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog"
@@ -274,7 +274,8 @@
                                         Edit
                                     </a>
                                     <a class="btn btn-danger mt-auto" href="/delete-address/{{this._id}}"
-                                        style="width: fit-content; color: white;">
+                                        style="width: fit-content; color: white;" name="{{this.brand}}"
+                                        onclick="deleteBrand(event)">
                                         Delete
                                     </a>
                                 </div>

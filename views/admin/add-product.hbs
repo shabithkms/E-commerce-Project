@@ -98,14 +98,14 @@
 
                                 <label for="inputCost">Landing cost</label>
                                 <input type="number" class="form-control" onkeydown="return event.keyCode !== 69"
-                                    id="inputCost" name="cost">
+                                    id="landCost" name="cost">
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="inputPrice">Price</label>
                                 <input type="number" class="form-control" onkeydown="return event.keyCode !== 69"
-                                    id="inputPrice" name="price">
+                                    id="Price" name="price">
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="inputStock">Stock</label>
@@ -116,45 +116,12 @@
                         </div>
 
 
-                        {{!-- <div class="form-row  pb-3 ">
-                            <div class="form-group mt-2 col-md-4 ml-2">
-                                <label for="exampleFormControlFile1">Select Main Image</label>
-                                <img src="" style="width:100px;height:100px;display:none" id="imgView"
-                                    style="display: none;"><br><br>
-                                <input type="file" class="form-control" name="image1" id="exampleFormControlFile"
-                                    style="width: 250px;" accept="image/*" onchange="viewMainImage(event)">
-                            </div>
-
-
-                            <div class="form-group mt-2 col-md-4 ml-2">
-                                <label for="exampleFormControlFile1">Select Main Image</label>
-                                <img src="" style="width:100px;height:100px;display:none" id="imgView"
-                                    style="display: none;"><br><br>
-                                <input type="file" class="form-control" name="image1" id="file" style="width: 250px;"
-                                    accept="image/*" onchange="return fileValidation2()">
-                            </div>
-
-                            <div class="form-group mt-2 col-md-4 ml-2">
-                                <label for="exampleFormControlFile1">Select 1st Image</label>
-                                <img src="" style="width:100px;height:100px;display:none" id="imgView1"
-                                    style="display: none;"><br><br>
-                                <input type="file" class="form-control" name="image2" id="exampleFormControlFile1"
-                                    style="width: 250px;" accept="image/*" onchange="viewImage1(event)">
-                            </div>
-                            <div class="form-group mt-2 col-md-4 ml-2">
-                                <label for="exampleFormControlFile2">Select 2nd Image</label>
-                                <img src="" style="width:100px;height:100px;display:none" id="imgView2"><br><br>
-                                <input type="file" class="form-control" name="image3" id="exampleFormControlFile2"
-                                    style="width: 250px;" accept="image/*" onchange="viewImage2(event)">
-                            </div>
-                            <div class="form-group mt-2 col-md-4 ml-2">
-                                <label for="exampleFormControlFile3">Select 3rd Image</label>
-                                <img src="" style="width:100px;height:100px;display:none" id="imgView3"><br><br>
-                                <input type="file" class="form-control" name="image4" id="exampleFormControlFile3"
-                                    style="width: 250px;" accept="image/*" onchange="viewImage3(event)">
-                            </div>
-                        </div> --}}
                         <div class="row">
+                            <div class="col-12">
+                                <div id="image-box1" style="width: 500px; height: 500px; display: none;"></div>
+                                <button class="btn btn-primary mt-3" type="button" style="display: none;"
+                                    id="crop-btn1">Crop</button>
+                            </div>
                             <div class="mt-5 col-md-6">
                                 <label for="">IMAGE 1</label>
                                 <img src="" alt="" style="width: 100px; height:auto" id="imgview1">
@@ -183,11 +150,7 @@
                                 <input type="file" name="image4" id="file4" class="form-control"
                                     onchange="return fileValidation4()">
                             </div>
-                            <div class="col-12">
-                                <div id="image-box1" style="width: 500px; height: 500px; display: none;"></div>
-                                <button class="btn btn-primary mt-3" type="button" style="display: none;"
-                                    id="crop-btn1">Crop</button>
-                            </div>
+
                         </div>
                         <center>
                             <button id="confirm-btn1" type="submit" class="btn btn-primary mt-5">Add
@@ -208,3 +171,19 @@
         </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(function () {
+
+
+        $('#Price').blur(function () {
+            let cost = document.getElementById('landCost').value
+            let price = document.getElementById('Price').value
+            if (price <= cost) {
+                $('#confirm-btn1').hide()
+                Swal.fire('Choose a valid Date')
+            }
+        })
+    }
+
+</script>

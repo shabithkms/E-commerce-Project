@@ -150,10 +150,18 @@
 
 
                         <div class="details-price">
-                            <span id="ProductPrice"><span class=money>₹{{product.cost}}</span></span>
+                            <span id="ProductPrice"><span class=money>₹{{product.price}}</span></span>
 
-                            <del><span id="ComparePrice"><span class=money>₹{{product.price}}</span></span></del>
+                            <del><span id="ComparePrice"><span class=money>₹{{product.actualPrice}}</span></span></del>
 
+                        </div>
+                        <div>
+
+                            {{#if product.proOffer}}
+                            <div>
+                                <strong><span class="sale mb-3">{{product.proPercentage}}% OFF</strong> for this Product</span>
+                            </div>
+                            {{/if}}
                         </div>
 
 
@@ -164,6 +172,8 @@
                             of its history the watch was a mechanical device, driven by clockwork, powered by winding a
                             mainspring, and keeping time with an oscillating balance wheel. These are called mechanical
                             watches.</p>
+
+
 
 
 
@@ -198,12 +208,18 @@
 
                                 <div class="quickview-btn-cart">
 
+                                    {{#if product.stockout}}
+                                    <p class="text-danger text-center">Out of Stock</p>
+                                    {{else}}
                                     <a class="btn-hover-black addtocart cart-item"
                                         onclick="addToCart('{{product._id}}')" data-toggle="tooltip"
                                         title="add to cart">
                                         <i class="ion-ios-loop-strong animated rotateIn infinite"></i>
                                         <i class="ion-android-done"></i> add to cart
                                     </a>
+                                    {{/if}}
+
+
 
 
                                 </div>
@@ -211,8 +227,7 @@
 
                                 <div class="quickview-btn-wishlist">
 
-                                    <a href="../account/login.html" title="Wishlist"
-                                        class="btn-hover list-btn-wishlist animate-left">
+                                    <a href="" title="Wishlist" class="btn-hover list-btn-wishlist animate-left">
                                         <i class="ion-ios-heart-outline"></i>
                                     </a>
 
@@ -221,9 +236,7 @@
 
                             </div>
                         </form>
-                        {{#if this.stockout}}
-                        <p class="text-danger text-center">Out of Stock</p>
-                        {{/if}}
+
 
                         <div class="product-categories product-cat-tag">
 

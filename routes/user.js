@@ -76,6 +76,7 @@ router.get('/', async function (req, res, next) {
   let brand = await userHelper.getBrands()
   let homePro = await userHelper.getHomeProducts()
   let banners = await userHelper.getAllBanners()
+
   // console.log(homePro);
   res.render('user/home', { user, userPage: true, products, banners, brand, homePro, cartCount })
 
@@ -613,7 +614,7 @@ router.get('/products', async (req, res) => {
   res.render('user/all-products', { products, brand, homePro, cartCount, user, userPage: true })
 })
 
-//By name
+//By name------------------------------------------
 
 router.get('/products/:name', async (req, res) => {
   let name = req.params.name
@@ -621,12 +622,30 @@ router.get('/products/:name', async (req, res) => {
   let brand = await userHelper.getBrands()
   let homePro = await userHelper.getHomeProducts()
   let product = await userHelper.getProductsByName(name)
+  console.log(product);
   let cartCount = null
   if (req.session.user) {
     let Id = req.session.user._id
     cartCount = await userHelper.getCartCount(Id)
   }
   res.render('user/name-products', { userPage: true, brand, user, cartCount, homePro, product })
+})
+
+//By brand......................................................
+
+router.get('/brandProducts/:brand', async (req, res) => {
+  let name = req.params.brand
+  let user = req.session.user
+  let brand = await userHelper.getBrands()
+  let homePro = await userHelper.getHomeProducts()
+  let product = await userHelper.getProductsByBrand(name)
+  console.log(product);
+  let cartCount = null
+  if (req.session.user) {
+    let Id = req.session.user._id
+    cartCount = await userHelper.getCartCount(Id)
+  }
+  res.render('user/brand-products', { userPage: true, brand, user, cartCount, homePro, product })
 })
 
 
@@ -663,32 +682,32 @@ router.get('/cart', verifyUserLogin, async (req, res, next) => {
     res.render('user/empty-cart', { userPage: true, brand, homePro, user })
   }
 
- 
+
 
 
 })
 
 
 router.get('/add-to-cart/:id', (req, res) => {
-  if(req.session.userLoggedIn){
+  if (req.session.userLoggedIn) {
     console.log("Api call");
 
     let proId = req.params.id
     let userId = req.session.user._id
-  
+
     userHelper.addToCart(proId, userId).then((response) => {
       req.session.noCartPro = false
       res.json({ status: true })
     })
-  }else{
+  } else {
     console.log("no user");
-    res.json({status:false})
+    res.json({ status: false })
   }
-  
+
 })
 
 router.post('/change-product-quantity', (req, res) => {
-  console.log(req.body);
+  console.log(req.body,"jijij");
   let id = req.body.user
   let proId = req.body.product
   userHelper.changeProductQuantity(req.body).then(async (response) => {
@@ -858,7 +877,7 @@ router.get('/success', verifyUserLogin, (req, res) => {
     "payer_id": payerId,
     "transactions": [{
       "amount": {
-        "currency": "USD", 
+        "currency": "USD",
         "total": total
       }
     }]
@@ -1098,18 +1117,32 @@ router.get('/change-password', verifyUserLogin, async (req, res) => {
   let user = req.session.user
   let brand = await userHelper.getBrands()
   let homePro = await userHelper.getHomeProducts()
-  res.render('user/change-password', { user, brand, homePro })
+  let cartCount = null
+  if (req.session.user) {
+    let Id = req.session.user._id
+    cartCount = await userHelper.getCartCount(Id)
+  }
+  res.render('user/change-password', { user, brand,cartCount, homePro,"notSame":req.session.pswdNotSame, })
+  req.session.pswdNotSame=false
 })
 
-router.post('/change-password', (req, res) => {
+router.post('/change-password',verifyUserLogin, (req, res) => {
   console.log(req.body, "req");
   let id = req.session.user._id
-  userHelper.changePassword(id, req.body).then((response) => {
-    console.log(response);
-    req.session.userLoggedIn = false
-    req.session.user = null
-    res.redirect('/login')
-  })
+  let pass1=req.body.password1
+  let pass2=req.body.password2
+  if(pass1===pass2){
+    userHelper.changePassword(id, req.body).then((response) => { 
+      console.log(response);
+      req.session.userLoggedIn = false
+      req.session.user = null
+      // res.redirect('/login')
+    })
+  }else{
+    req.session.pswdNotSame=true
+    res.redirect('/change-password')
+  }
+  
 })
 
 

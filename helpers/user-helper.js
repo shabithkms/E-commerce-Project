@@ -246,35 +246,37 @@ module.exports = {
     changePassword: (Id, data) => {
         return new Promise(async (resolve, reject) => {
             // response={}
-            console.log(data);
+
             let p1 = data.password1
             let p2 = data.password2
             let user = await db.get().collection(collection.USER_COLLECTION).findOne({ _id: objectId(Id) })
             if (user) {
-                console.log(user, "user");
+
                 data1 = await bcrypt.hash(data.password1, 10)
-                if (p1 == p2) {
-                    bcrypt.compare(data.current, user.password).then((status) => {
-                        if (status) {
-                            console.log(status);
-                            db.get().collection(collection.USER_COLLECTION).updateOne({ _id: objectId(Id) }, {
-                                $set: {
-                                    password: data1
-                                }
-                            }).then((response) => {
-                                resolve(response)
-                                console.log(response, "then");
-                            })
-                        } else {
-                            console.log("current password is invalid");
-                        }
-                    })
-                } else {
-                    console.log("password must be same");
-                    // response({ notSame: true })
-                    resolve(response)
-                    console.log(response);
-                }
+
+                bcrypt.compare(data.current, user.password).then((status) => {
+                    if (status) {
+                        console.log(status);
+                        db.get().collection(collection.USER_COLLECTION).updateOne({ _id: objectId(Id) }, {
+                            $set: {
+                                password: data1
+                            }
+                        }).then((response) => {
+                            resolve(response)
+                            console.log(response, "then");
+                        })
+                    } else {
+                        response:{inValid:true}
+                        resolve(response)
+                        console.log("current password is invalid");
+                    }
+                })
+
+                console.log("password must be same");
+                // response({ notSame: true })
+                resolve(response)
+                console.log(response);
+
 
             }
 
@@ -392,13 +394,9 @@ module.exports = {
         quantity = parseInt(quantity)
         return new Promise((resolve, reject) => {
             if (count == -1 && quantity == 1) {
-                db.get().collection(collection.CART_COLLECTION).updateOne(
-                    { _id: objectId(cartId) },
-                    {
-                        $pull: { products: { item: objectId(proId) } }
-                    }).then((response) => {
-                        resolve({ removeProduct: true })
-                    })
+
+                resolve({ lastProduct: true })
+
             } else {
                 db.get().collection(collection.CART_COLLECTION).updateOne({ _id: objectId(cartId), 'products.item': objectId(proId) }, {
                     $inc: {
@@ -598,7 +596,7 @@ module.exports = {
             db.get().collection(collection.ORDER_COLLECTION).insertOne(orderObj).then((response) => {
                 console.log("order inserted");
                 resolve(response)
-             })
+            })
 
         })
 
@@ -656,11 +654,11 @@ module.exports = {
 
     changePaymentStatus: (oId) => {
         return new Promise((resolve, reject) => {
-                
+
             db.get().collection(collection.ORDER_COLLECTION).updateOne({ _id: objectId(oId) },
                 {
                     $set: {
-                        Status:"Placed"
+                        Status: "Placed"
                     }
                 }).then(() => {
                     resolve()

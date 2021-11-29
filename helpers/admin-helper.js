@@ -3,6 +3,7 @@ var collection = require('../config/collection')
 const bcrypt = require('bcrypt')
 const objectId = require('mongodb').ObjectID
 const userHelper = require('./user-helper')
+const { Db } = require('mongodb')
 
 module.exports = {
     doAdminLogin: (adminData) => {
@@ -314,25 +315,47 @@ module.exports = {
         let cname = data.Category
         data.Offer = parseInt(data.Offer)
         return new Promise(async (resolve, reject) => {
-            let product = await db.get().collection(collection.PRODUCT_COLLECTION).findOne({ category: cname })
-            console.log(product.price);
-            console.log(data.Offer);
-            let actualPrice = product.price
-            let newPrice = (((product.price) * (data.Offer)) / 100)
-            newPrice = newPrice.toFixed()
-            console.log("newPrice", newPrice);
-            db.get().collection(collection.CATEGORY_OFFERS).insertOne(data).then((response) => {
-                db.get().collection(collection.PRODUCT_COLLECTION).updateOne({ category: cname },
+            // let product = await db.get().collection(collection.PRODUCT_COLLECTION).findOne({ category: cname })
+            // console.log(product.price);
+            // console.log(data.Offer);
+            // let actualPrice = product.price
+            // let newPrice = (((product.price) * (data.Offer)) / 100)
+            // newPrice = newPrice.toFixed()
+            // console.log("newPrice", newPrice);
+            // db.get().collection(collection.CATEGORY_OFFERS).insertOne(data).then((response) => {
+            //     db.get().collection(collection.PRODUCT_COLLECTION).updateOne({ category: cname },
+            //         {
+            //             $set: {
+            //                 catOffer: true,
+            //                 catPercentage: data.Offer,
+            //                 price: (actualPrice - newPrice),
+            //                 actualPrice: actualPrice
+            //             }
+            //         }).then(() => {
+            //             resolve()
+            //         })
+            // })
+
+            db.get().collection(collection.CATEGORY_OFFERS).insertOne(data).then(async () => {
+                let products = await db.get().collection(collection.PRODUCT_COLLECTION).find({ category: data.Category, catOffer: { $exists: false } }).toArray()
+                console.log(products);
+                await products.map(async (product) => {
+                    let actualPrice = product.price
+                    let newPrice = (((product.price) * (data.Offer)) / 100)
+                    newPrice = newPrice.toFixed()
+
+                    db.get().collection(collection.PRODUCT_COLLECTION).updateOne({_id:objectId(product._id)},
                     {
-                        $set: {
-                            catOffer: true,
-                            catPercentage: data.Offer,
-                            price: (actualPrice - newPrice),
-                            actualPrice: actualPrice
+                        $set:{
+                            actualPrice:actualPrice,
+                            price:(actualPrice-newPrice),
+                            catOffer:true,
+                            catPercentage:data.Offer
                         }
-                    }).then(() => {
-                        resolve()
                     })
+                })
+
+                resolve()
             })
         })
     },
@@ -392,11 +415,11 @@ module.exports = {
         })
     },
     addProductOffer: (data) => {
-        return new Promise(async(resolve, reject) => { 
+        return new Promise(async (resolve, reject) => {
             let product = await db.get().collection(collection.PRODUCT_COLLECTION).findOne({ name: data.Product })
             console.log(product.price);
             console.log(data.Offer);
-            data.Offer=parseInt(data.Offer)
+            data.Offer = parseInt(data.Offer)
             let actualPrice = product.price
             let newPrice = (((product.price) * (data.Offer)) / 100)
             newPrice = newPrice.toFixed()
@@ -449,7 +472,7 @@ module.exports = {
         })
     },
     deleteProOffer: (id) => {
-        return new Promise(async(resolve, reject) => {
+        return new Promise(async (resolve, reject) => {
             let productOffer = await db.get().collection(collection.PRODUCT_OFFERS).findOne({ _id: objectId(id) })
             let pname = productOffer.Product
             let product = await db.get().collection(collection.PRODUCT_COLLECTION).findOne({ name: pname })
@@ -462,7 +485,6 @@ module.exports = {
                         $unset: {
                             proOffer: "",
                             proPercentage: "",
-
                             actualPrice: ""
                         }
                     }).then(() => {

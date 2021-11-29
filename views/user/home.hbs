@@ -363,7 +363,7 @@
                                 <div class="product-content">
                                     <div class="product-title-price">
                                         <div class="product-title">
-                                            <h4><a href="products/predefinidos-cuando.html">{{this.name}}</a></h4>
+                                            <h4><a href="">{{this.name}}</a></h4>
                                         </div>
                                     </div>
 
@@ -454,12 +454,12 @@
 
 
                             <div class="timer">
-                                <div data-countdown="2019/12/31"></div>
+                                <div data-countdown="2021/11/31"></div>
                             </div>
 
 
 
-                            <a class="mt-20" href="collections/all.html">SHOP NOW</a>
+                            <a class="mt-20" href="/products">SHOP NOW</a>
 
                         </div>
                     </div>
@@ -503,13 +503,16 @@
             <div class="container p-0">
                 <div class="brand-logo-active owl-carousel">
 
+                    {{#each brand}}
+
                     <div class="single-logo">
 
-                        <img src="/files/1899a.png?v=1531559829" alt="">
+                        <img src="/brandLogos/{{this._id}}.jpg" style="width: 150px;height: 150px;" alt="">
 
                     </div>
+                    {{/each}}
 
-                    <div class="single-logo">
+                    {{!-- <div class="single-logo">
 
                         <img src="/files/25d35.png?v=1531559836" alt="">
 
@@ -531,7 +534,7 @@
 
                         <img src="/files/1_4cb7c46c-7579-4a85-8289-0a8ee3dd415bfc7f.png?v=1531559866" alt="">
 
-                    </div>
+                    </div> --}}
 
                 </div>
 

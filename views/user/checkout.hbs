@@ -62,18 +62,18 @@
                             <div class="form-row">
                                 <div class=" form-group billing-info mb-4 col-md-6">
                                     <label for="fname">First Name</label>
-                                    <input type="text" id="fname" name="FirstName" minlength="4" required />
+                                    <input type="text" id="fname" name="FirstName" minlength="4"  />
                                 </div>
 
                                 <div class="form-group billing-info mb-4 col-md-6">
                                     <label for="lname">Last Name</label>
-                                    <input type="text" id="lname" name="LastName" required />
+                                    <input type="text" id="lname" name="LastName"  />
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group billing-info mb-4 col-md-12">
                                     <label for="house">House Name</label>
-                                    <input type="text" id="house" name="House" minlength="4" required />
+                                    <input type="text" id="house" name="House" minlength="4"  />
                                 </div>
                             </div>
 
@@ -81,14 +81,14 @@
                                 <div class="form-group billing-info mb-4 col-md-12">
                                     <label for="street">Street Address</label>
                                     <input class="billing-address" placeholder="street name" id="street" name="Street"
-                                        type="text" required minlength="4" />
+                                        type="text"  minlength="4" />
 
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group billing-info mb-4 col-md-6">
                                     <label for="city">Town / City</label>
-                                    <input type="text" id="city" name="Town" required minlength="4" />
+                                    <input type="text" id="city" name="Town"  minlength="4" />
                                 </div>
 
 
@@ -96,20 +96,20 @@
                                 <div class="form-group billing-info mb-4 col-md-6">
                                     <label for="pin">Postcode / ZIP</label>
                                     <input type="number" id="pin" name="PIN" maxlength="6"
-                                        onkeydown="return event.keyCode !== 69" required pattern=".{6,6}" />
+                                        onkeydown="return event.keyCode !== 69"  pattern=".{6,6}" />
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group billing-info mb-4 col-md-6">
                                     <label for="phone">Phone</label>
-                                    <input type="text" id="phone" name="Mobile" required pattern=".{10,10}" />
+                                    <input type="text" id="phone" name="Mobile"  pattern=".{10,10}" />
                                 </div>
 
 
 
                                 <div class="form-group billing-info mb-4 col-md-6">
                                     <label for="email">Email Address</label>
-                                    <input type="text" required id="email" name="Email" />
+                                    <input type="text"  id="email" name="Email" />
                                 </div>
                                 <input type="text" name="User" value="{{user._id}}" hidden>
                             </div>
@@ -280,78 +280,3 @@
         document.getElementById('email').value = email
     }
 </script>
-{{!-- <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
-    crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.js"></script>
-
-
-<script>
-    $(document).ready(function () {
-        $('#checkout-form1').submit((e) => {
-            alert("hello")
-            e.preventDefault()
-
-
-            alert("hi")
-            $.ajax({
-                url: '/place-order',
-                method: 'post',
-                data: $('#checkout-form').serialize(),
-                success: (response) => {
-                    if (response.codSuccess) {
-                        console.log()
-
-                        location.href = "/order-success"
-                    } else {
-                        razorpayPayment(response)
-                    }
-
-
-                }
-            })
-
-
-        })
-
-        function razorpayPayment(order) {
-            var options = {
-                "key": "rzp_test_uHpEhuefBwxSUI", // Enter the Key ID generated from the Dashboard
-                "amount": "order.amount", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
-                "currency": "INR",
-                "name": "Watchin",
-                "description": "Test Transaction",
-                "image": "https://example.com/your_logo",
-                "order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-                "handler": function (response) {
-                    alert(response.razorpay_payment_id);
-                    alert(response.razorpay_order_id);
-                    alert(response.razorpay_signature)
-
-                    verifyPayment(payment, order){
-                        $.ajax({
-                            url: '/verify-payment',
-                            data: {
-                                payment,
-                                order
-                            },
-                            method: "post"
-                        })
-                    }
-                },
-                "prefill": {
-                    "name": "Gaurav Kumar",
-                    "email": "gaurav.kumar@example.com",
-                    "contact": "9999999999"
-                },
-                "notes": {
-                    "address": "Razorpay Corporate Office"
-                },
-                "theme": {
-                    "color": "#3399cc"
-                }
-            };
-            var rzp1 = new Razorpay(options);
-            rzp1.open();
-        }
-    });
-</script> --}}
