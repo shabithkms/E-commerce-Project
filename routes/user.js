@@ -9,6 +9,7 @@ const productHelper = require('../helpers/product-helper');
 const adminHelpers = require('../helpers/admin-helper');
 const { Client } = require('twilio/lib/twiml/VoiceResponse');
 const { render } = require('../app');
+var fs = require('fs')
 const paypal = require('paypal-rest-sdk');
 //Twilio
 const accountSID = process.env.accountSID
@@ -600,21 +601,32 @@ router.get('/product/:id', async (req, res) => {
 })
 //All products
 router.get('/products', async (req, res) => {
+  let user = req.session.user
   let products = await userHelper.getAllProducts()
   let brand = await userHelper.getBrands()
   let homePro = await userHelper.getHomeProducts()
-  res.render('user/all-products', { products, brand, homePro, userPage: true })
+  let cartCount = null
+  if (req.session.user) {
+    let Id = req.session.user._id
+    cartCount = await userHelper.getCartCount(Id)
+  }
+  res.render('user/all-products', { products, brand, homePro, cartCount, user, userPage: true })
 })
 
 //By name
 
 router.get('/products/:name', async (req, res) => {
   let name = req.params.name
-
+  let user = req.session.user
   let brand = await userHelper.getBrands()
   let homePro = await userHelper.getHomeProducts()
   let product = await userHelper.getProductsByName(name)
-  res.render('user/name-products', { userPage: true, brand, homePro, product })
+  let cartCount = null
+  if (req.session.user) {
+    let Id = req.session.user._id
+    cartCount = await userHelper.getCartCount(Id)
+  }
+  res.render('user/name-products', { userPage: true, brand, user, cartCount, homePro, product })
 })
 
 
@@ -758,10 +770,8 @@ router.post('/place-order', async (req, res) => {
         console.log("orderId=", orderId, ",", total);
         userHelper.generateRazorpay(orderId, total).then((resp) => {
           console.log("response=", resp);
-          res.json({ resp,razorpay: true })
+          res.json({ resp, razorpay: true })
           // res.json(response)
-
-
         })
       } else if (req.body['Payment'] == 'Paypal') {
         console.log("in paypal");
@@ -832,12 +842,12 @@ router.post('/place-order', async (req, res) => {
 
 router.get('/success', verifyUserLogin, (req, res) => {
   let val = req.session.total
-  val=val/74
-  let total=val.toFixed(2)
+  val = val / 74
+  let total = val.toFixed(2)
 
   console.log(total, "in success");
   console.log(val, "in success");
-  
+
   const payerId = req.query.PayerID;
   const paymentId = req.query.paymentId;
   const execute_payment_json = {
@@ -845,7 +855,7 @@ router.get('/success', verifyUserLogin, (req, res) => {
     "transactions": [{
       "amount": {
         "currency": "USD",
-        "total": total 
+        "total": total
       }
     }]
   };
@@ -949,6 +959,7 @@ router.get('/cancelOrder/:id', (req, res) => {
   })
 })
 
+
 router.get('/singleOrder/:id', verifyUserLogin, async (req, res) => {
   let user = req.session.user
   let oId = req.params.id
@@ -960,11 +971,13 @@ router.get('/singleOrder/:id', verifyUserLogin, async (req, res) => {
     let Id = req.session.user._id
     cartCount = await userHelper.getCartCount(Id)
   }
+
   adminHelpers.getOrderProducts(oId).then((products) => {
     console.log(products, "pr o");
     res.render('user/single-orders', { products, brand, homePro, user, cartCount })
   })
 })
+
 
 //My profile
 
@@ -978,6 +991,7 @@ router.get('/profile', verifyUserLogin, async (req, res) => {
     let Id = req.session.user._id
     cartCount = await userHelper.getCartCount(Id)
   }
+
   //get Address
   var address = null
   let status = await userHelper.addressChecker(req.session.user._id)
@@ -987,9 +1001,8 @@ router.get('/profile', verifyUserLogin, async (req, res) => {
     let addr = await userHelper.getUserAddress(req.session.user._id)
     console.log(addr, "addr");
     let len = addr.length
-    address = addr.slice(len - 2, len)
+    address = addr
   }
-
   res.render('user/my-profile', { user, brand, homePro, address, cartCount })
 })
 
@@ -1030,8 +1043,8 @@ router.get('/edit-address/:id', verifyUserLogin, async (req, res) => {
   let uId = req.session.user._id
   console.log(aId);
   let address = await userHelper.getSingleAddress(aId, uId)
-  // console.log("address=", address);
-  res.render('user/edit-address', {brand, homePro, address})
+  console.log("address=", address);
+  res.render('user/edit-address', { brand, homePro, address })
 })
 
 router.post('/edit-address', (req, res) => {
@@ -1049,6 +1062,31 @@ router.get('/delete-address/:id', verifyUserLogin, (req, res) => {
     console.log("deleted");
     res.redirect('/profile')
   })
+})
+
+router.get('/addProfile', verifyUserLogin, (req, res) => {
+  res.render('user/add-profile')
+})
+
+//Add pic
+router.post('/addProfile', verifyUserLogin, (req, res) => {
+  let id = req.session.user._id
+  console.log(req.files);
+  if (req.files) {
+    let image = req.files.image3
+    image.mv('public/userImages/' + id + '.jpg', (err, done) => {
+      if (!err) {
+
+        res.redirect('/profile')
+      } else {
+        console.log(err);
+        res.redirect('/profile')
+      }
+
+    })
+  } else {
+    res.redirect('/profile')
+  }
 })
 
 

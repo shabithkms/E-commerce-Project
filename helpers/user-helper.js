@@ -178,13 +178,30 @@ module.exports = {
     getSingleAddress: (Id, uId) => {
         return new Promise(async (resolve, reject) => {
             console.log(Id);
-            let user = await db.get().collection(collection.USER_COLLECTION).findOne({ _id: objectId(uId) })
-            if (user) {
-                let address = await db.get().collection(collection.USER_COLLECTION).findOne({ "address._id": { $in: [ objectId(Id) ] } })
-
-                resolve(address)
-                console.log(address);
-            }
+            let address = await db.get().collection(collection.USER_COLLECTION).aggregate([
+                {
+                    $match:{
+                        _id:objectId(uId)
+                    }
+                },
+                {
+                    $unwind:"$address"
+                },
+                {
+                    $match:{
+                        "address._id":objectId(Id)
+                    }
+                },
+                {
+                    $project:{
+                        address:1,
+                        _id:0
+                    }
+                }
+            ]).toArray()
+            resolve(address)
+            
+            
 
         })
     },
@@ -254,7 +271,7 @@ module.exports = {
                     })
                 } else {
                     console.log("password must be same");
-                   
+                    // response({ notSame: true })
                     resolve(response)
                     console.log(response);
                 }
@@ -544,6 +561,12 @@ module.exports = {
         return new Promise((resolve, reject) => {
             
             let Status = order.Payment === 'COD' ? 'Placed' : 'Pending'
+            let len=products.length
+            for(i=0;i<len;i++){
+              products[i].proStatus=order.Payment === 'COD' ? 'Placed' : 'Pending'
+            }
+            console.log("products=",products);
+            
 
 
             let dateIso = new Date()
