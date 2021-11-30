@@ -574,10 +574,10 @@ module.exports = {
     placeOrder: (order, products, total) => {
         return new Promise((resolve, reject) => {
 
-            let Status = order.Payment === 'COD' ? 'Placed' : 'Pending'
+            
             let len = products.length
             for (i = 0; i < len; i++) {
-                products[i].proStatus = order.Payment === 'COD' ? 'Placed' : 'Pending'
+                products[i].proStatus = order.Payment =="Placed"
             }
             console.log("products=", products);
 
@@ -609,7 +609,7 @@ module.exports = {
                 Date: date,
                 Time: time,
                 buyNow:order.buyNow,
-                Status: Status
+                Status: "Placed"
 
             }
 

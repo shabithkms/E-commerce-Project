@@ -352,7 +352,7 @@
                         location.href = "/order-success"
                     } else if (response.razorpay) {
 
-                        razorpayPayment(response.resp)
+                        razorpayBuyNowPayment(response.resp)
                         console.log(response)
                     } else {
                         location.href = response.url
@@ -361,7 +361,7 @@
             })
         })
 
-        function razorpayPayment(order) {
+        function razorpayBuyNowPayment(order) {
             var options = {
                 "key": "rzp_test_uHpEhuefBwxSUI", // Enter the Key ID generated from the Dashboard
                 "amount": "response.amount", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
@@ -373,7 +373,7 @@
                 "handler": function (response) {
 
 
-                    verifyPayment(response, order)
+                    verifyBuyNowPayment(response, order)
                 },
                 "prefill": {
                     "name": "Muhammed Shabith K",
@@ -391,7 +391,7 @@
             rzp1.open();
         }
 
-        function verifyPayment(response, order) {
+        function verifyBuyNowPayment(response, order) {
 
             $.ajax({
                 url: '/verify-buyNowPayment',

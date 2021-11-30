@@ -770,111 +770,111 @@ router.get('/checkout', verifyUserLogin, async (req, res) => {
 })
 
 router.post('/place-order', async (req, res) => {
-
-  let id = req.session.user._id
-  let products = await userHelper.getCartProductList(id)
-  let total = await userHelper.getTotalAmount(id)
-  // userHelper.placeOrder(req.body, products, total).then((resp) => {
-    let newId=new ObjectId()
-    console.log(newId),"new";
-    response.orderId = newId
-    // req.session.orderId = resp.insertedId.toString()
-    let orderId = req.session.orderId
-    console.log(req.session.orderId, "order id");
-    // userHelper.stockChanger(req.session.orderId).then(() => {
-      req.session.ordered = true
-      if (req.body['Payment'] == 'COD') {
-        console.log("in cod");
-
-
+  req.session.placeOrderData = req.body
+  let newId = new objectId()
+  console.log(newId)
+  let total = await userHelper.getTotalAmount(req.session.user._id)
+  if (req.body['Payment'] == 'COD') {
+    console.log("in cod");
+    let id = req.session.user._id
+    let products = await userHelper.getCartProductList(id)
+    let total = await userHelper.getTotalAmount(id)
+    userHelper.placeOrder(req.body, products, total).then((resp) => {
+      req.session.orderId = resp.insertedId.toString()
+      let orderId = req.session.orderId
+      console.log(req.session.orderId, "order id");
+      userHelper.stockChanger(req.session.orderId).then(() => {
+        req.session.ordered = true
         res.json({ codSuccess: true })
         userHelper.clearCart(id).then(() => {
           console.log("cart cleared");
         })
-      } else if (req.body['Payment'] == 'Razorpay') {
-        console.log("in online payment");
-        console.log("orderId=", orderId, ",", total);
-        userHelper.generateRazorpay(orderId, total).then((resp) => {
-          console.log("response=", resp);
-          res.json({ resp, razorpay: true })
-          // res.json(response)
-        })
-      } else if (req.body['Payment'] == 'Paypal') {
-        console.log("in paypal");
-        req.session.total = req.body.Total
-        val = total / 74
-        console.log(val)
-        total = val.toFixed(2)
-        totals = total.toString()
-        response.total = parseInt(total)
-        response.paypal = true
-        var create_payment_json = {
-          "intent": "sale",
-          "payer": {
-            "payment_method": "paypal"
-          },
-          "redirect_urls": {
-            "return_url": "http://localhost:3000/success",
-            "cancel_url": "http://localhost:3000/cancelled"
-          },
-          "transactions": [{
-            "item_list": {
-              "items": [{
-                "name": "cart products",
-                "sku": "001",
-                "price": totals,
-                "currency": "USD",
-                "quantity": 1
-              }]
-            },
-            "amount": {
-              "currency": "USD",
-              "total": totals
-            },
-            "description": "This is the payment description."
+      })
+    })
+  } else if (req.body['Payment'] == 'Razorpay') {
+
+    userHelper.generateRazorpay(newId, total).then((resp) => {
+      console.log("response=", resp);
+      res.json({ resp, razorpay: true })
+
+    })
+  } else if (req.body['Payment'] == 'Paypal') {
+    console.log("in paypal");
+    req.session.total = req.body.Total
+    val = total / 74
+    console.log(val)
+    total = val.toFixed(2)
+    totals = total.toString()
+    response.total = parseInt(total)
+    response.paypal = true
+    var create_payment_json = {
+      "intent": "sale",
+      "payer": {
+        "payment_method": "paypal"
+      },
+      "redirect_urls": {
+        "return_url": "http://localhost:3000/success",
+        "cancel_url": "http://localhost:3000/cancelled"
+      },
+      "transactions": [{
+        "item_list": {
+          "items": [{
+            "name": "cart products",
+            "sku": "001",
+            "price": totals,
+            "currency": "USD",
+            "quantity": 1
           }]
-        };
-        paypal.payment.create(create_payment_json, function (error, payment) {
-          if (error) {
-            throw error;
+        },
+        "amount": {
+          "currency": "USD",
+          "total": totals
+        },
+        "description": "This is the payment description."
+      }]
+    };
+    paypal.payment.create(create_payment_json, function (error, payment) {
+      if (error) {
+        throw error;
+      } else {
+        console.log("Create Payment Response");
+        // console.log(payment); 
+        console.log(payment.links);
+        for (let i = 0; i < payment.links.length; i++) {
+          if (payment.links[i].rel === 'approval_url') {
+            console.log("success");
+            // res.redirect(payment.links[i].href)
+            let url = payment.links[i].href
+            console.log(response, "res");
+            res.json({ url })
+
+
+
           } else {
-            console.log("Create Payment Response");
-            // console.log(payment); 
-            console.log(payment.links);
-            for (let i = 0; i < payment.links.length; i++) {
-              if (payment.links[i].rel === 'approval_url') {
-                console.log("success");
-                // res.redirect(payment.links[i].href)
-                let url = payment.links[i].href
-                console.log(response, "res");
-                res.json({ url })
-
-
-
-              } else {
-                console.log("failed");
-              }
-            }
-
+            console.log("failed");
           }
-        });
+        }
 
       }
+    });
 
-    // })
+  }
 
-  // })
+
 })
+
+//Buynow section--------------------------------------------------
 
 router.get('/buyNow/:id', verifyUserLogin, async (req, res) => {
   let pId = req.params.id
+  req.session.proId=pId
   let userId = req.session.user._id
   let user = req.session.user
   let product = await userHelper.getBuyNowProduct(pId)
   let total = product.price
   let brand = await userHelper.getBrands()
   let homePro = await userHelper.getHomeProducts()
-  
+
   req.session.pId = pId
   //cart count
   let cartCount = null
@@ -896,100 +896,109 @@ router.get('/buyNow/:id', verifyUserLogin, async (req, res) => {
   res.render('user/buy-now', { total, cart: true, pId, brand, homePro, cartCount, product, address, user })
 })
 
+
 router.post('/buyNow', async (req, res) => {
-  console.log(req.body);
-  console.log(req.session.pId);
-  let id = req.session.user._id
-  let product = await userHelper.getBuyNowProduct(req.body.ProId)
-  let total = product.price
-  userHelper.placeOrder(req.body, product, total).then((resp) => {
-    response.orderId = resp.insertedId.toString()
-    req.session.orderId = resp.insertedId.toString()
-    let orderId = req.session.orderId
-    console.log(req.session.orderId, "order id");
-    userHelper.stockChanger(req.session.orderId).then(() => {
-      req.session.ordered = true
-      if (req.body['Payment'] == 'COD') {
-        console.log("in cod");
+  if (req.session.userLoggedIn) {
+    req.session.buyNowData = req.body
+    console.log(req.session.buyNowData);
+    let newId = new objectId()
+    let product = await userHelper.getBuyNowProduct(req.body.ProId)
+    let total = product.price
+    if (req.body['Payment'] == 'COD') {
+      console.log("in cod");
+      let id = req.session.user._id
+      let product = await userHelper.getBuyNowProduct(req.body.ProId)
+      let total = product.price
+      userHelper.placeOrder(req.body, product, total).then((resp) => {
 
-
-        res.json({ codSuccess: true })
-        
-      } else if (req.body['Payment'] == 'Razorpay') {
-        console.log("in online payment");
-        console.log("orderId=", orderId, ",", total);
-        userHelper.generateRazorpay(orderId, total).then((resp) => {
-          console.log("response=", resp);
-          res.json({ resp, razorpay: true })
-          // res.json(response)
+        req.session.orderId = resp.insertedId.toString()
+        let orderId = req.session.orderId
+        console.log(req.session.orderId, "order id");
+        userHelper.stockChanger(req.session.orderId).then(() => {
+          req.session.ordered = true
+          res.json({ codSuccess: true })
+          userHelper.clearCart(id).then(() => {
+            console.log("cart cleared");
+          })
         })
-      } else if (req.body['Payment'] == 'Paypal') {
-        console.log("in paypal");
-        req.session.total = req.body.Total
-        val = total / 74
-        console.log(val)
-        total = val.toFixed(2)
-        totals = total.toString()
-        response.total = parseInt(total)
-        response.paypal = true
-        var create_payment_json = {
-          "intent": "sale",
-          "payer": {
-            "payment_method": "paypal"
-          },
-          "redirect_urls": {
-            "return_url": "http://localhost:3000/buyNowSuccess",
-            "cancel_url": "http://localhost:3000/buyNowCancelled"
-          },
-          "transactions": [{
-            "item_list": {
-              "items": [{
-                "name": "cart products",
-                "sku": "001",
-                "price": totals,
-                "currency": "USD",
-                "quantity": 1
-              }]
-            },
-            "amount": {
+      })
+    } else if (req.body['Payment'] == 'Razorpay') {
+      console.log("in online payment");
+
+      userHelper.generateRazorpay(newId, total).then((resp) => {
+        console.log("response=", resp);
+        res.json({ resp, razorpay: true })
+
+      })
+    } else if (req.body['Payment'] == 'Paypal') {
+      console.log("in paypal");
+      req.session.total = req.body.Total
+      console.log(req.session.buyNowData);
+      val = total / 74
+      console.log(val)
+      total = val.toFixed(2)
+      totals = total.toString()
+      response.total = parseInt(total)
+      response.paypal = true
+      var create_payment_json = {
+        "intent": "sale",
+        "payer": {
+          "payment_method": "paypal"
+        },
+        "redirect_urls": {
+          "return_url": "http://localhost:3000/buyNowSuccess",
+          "cancel_url": "http://localhost:3000/buyNowCancelled"
+        },
+        "transactions": [{
+          "item_list": {
+            "items": [{
+              "name": "cart products",
+              "sku": "001",
+              "price": totals,
               "currency": "USD",
-              "total": totals
-            },
-            "description": "This is the payment description."
-          }]
-        };
-        paypal.payment.create(create_payment_json, function (error, payment) {
-          if (error) {
-            throw error;
-          } else {
-            console.log("Create Payment Response");
-            // console.log(payment); 
-            console.log(payment.links);
-            for (let i = 0; i < payment.links.length; i++) {
-              if (payment.links[i].rel === 'approval_url') {
-                console.log("success");
-                // res.redirect(payment.links[i].href)
-                let url = payment.links[i].href
-                console.log(response, "res");
-                res.json({ url })
+              "quantity": 1
+            }]
+          },
+          "amount": {
+            "currency": "USD",
+            "total": totals
+          },
+          "description": "This is the payment description."
+        }]
+      };
+      paypal.payment.create(create_payment_json, function (error, payment) {
+        if (error) {
+          throw error;
+        } else {
+          console.log("Create Payment Response");
+          // console.log(payment); 
+          console.log(payment.links);
+          for (let i = 0; i < payment.links.length; i++) {
+            if (payment.links[i].rel === 'approval_url') {
+              console.log("success");
+              // res.redirect(payment.links[i].href)
+              let url = payment.links[i].href
+              // console.log(response, "res");
+              res.json({ url })
 
 
 
-              } else {
-                console.log("failed");
-              }
+            } else {
+              console.log("failed");
             }
-
           }
-        });
 
-      }
+        }
+      });
 
-    })
-
-  })
+    }
+  } else {
+    res.redirect('/login')
+  }
 
 })
+
+//Paypal Buynow success---------------------------------------------------
 
 router.get('/buyNowSuccess', verifyUserLogin, (req, res) => {
   let val = req.session.total
@@ -1010,25 +1019,42 @@ router.get('/buyNowSuccess', verifyUserLogin, (req, res) => {
       }
     }]
   };
-  paypal.payment.execute(paymentId, execute_payment_json, function (error, payment) {
+  paypal.payment.execute(paymentId, execute_payment_json, async function (error, payment) {
     if (error) {
       console.log("error response", error.response);
       throw error;
     } else {
-      console.log(req.session.orderId, "orderid");
+      let data=req.session.buyNowData
+      console.log(data);
       let id = req.session.user._id
-      userHelper.changePaymentStatus(req.session.orderId).then(() => {
-        
-          console.log("cart cleared");
-          let user = req.session.user
-          res.render('user/order-success', { user })
-        
+      let pId=req.session.proId
+      console.log(req.session.proId,"proid");
+      let product = await userHelper.getBuyNowProduct(pId) 
+      let total = product.price
+      console.log(id,data,product,total); 
+      userHelper.placeOrder(data, product, total).then((resp) => {
+
+        req.session.orderId = resp.insertedId.toString()
+        let orderId = req.session.orderId
+        console.log(req.session.orderId, "order id");
+        userHelper.stockChanger(req.session.orderId).then(() => {
+          req.session.ordered = true
+          
+          userHelper.clearCart(id).then(() => {
+            let user = req.session.user
+            console.log("cart cleared");
+            res.render('user/order-success', { user })
+            req.session.buyNowData = null
+          })
+        })
       })
 
     }
   })
 
 })
+
+// Paypal Order Success------------------------------------------------
 
 router.get('/success', verifyUserLogin, (req, res) => {
   let val = req.session.total
@@ -1049,42 +1075,68 @@ router.get('/success', verifyUserLogin, (req, res) => {
       }
     }]
   };
-  paypal.payment.execute(paymentId, execute_payment_json, function (error, payment) {
+  paypal.payment.execute(paymentId, execute_payment_json, async function (error, payment) {
     if (error) {
       console.log("error response", error.response);
       throw error;
     } else {
       console.log(req.session.orderId, "orderid");
       let id = req.session.user._id
-      userHelper.changePaymentStatus(req.session.orderId).then(() => {
-        userHelper.clearCart(id).then(() => {
-          console.log("cart cleared");
-          let user = req.session.user
-          res.render('user/order-success', { user })
+      let data = req.session.placeOrderData
+      let products = await userHelper.getCartProductList(id)
+      let total = await userHelper.getTotalAmount(id)
+      userHelper.placeOrder(data, products, total).then((resp) => {
+        req.session.orderId = resp.insertedId.toString()
+        let orderId = req.session.orderId
+        console.log(req.session.orderId, "order id");
+        userHelper.stockChanger(req.session.orderId).then(() => {
+
+          userHelper.clearCart(id).then(() => {
+            let user = req.session.user
+            console.log("cart cleared");
+            res.render('user/order-success', { user })
+            req.session.placeOrderData = null
+          })
         })
       })
+
 
     }
   })
 
 })
 
-router.get('/buyNowCancelled',verifyUserLogin,(req,res)=>{
-  let user=req.session.user
-  res.render('user/cancel',{ user })
+router.get('/buyNowCancelled', verifyUserLogin, (req, res) => {
+  let user = req.session.user
+  res.render('user/cancel', { user })
 })
-router.get('/cancelled',verifyUserLogin,(req,res)=>{
-  let user=req.session.user
-  res.render('user/cancel',{ user })
+router.get('/cancelled', verifyUserLogin, (req, res) => {
+  let user = req.session.user
+  res.render('user/cancel', { user })
 })
 
 router.post('/verify-buyNowPayment', (req, res) => {
   let id = req.session.user._id
-  userHelper.verifyPayment(req.body).then((response) => {
-    userHelper.changePaymentStatus(req.body['order[receipt]']).then(() => {
-      console.log("success");
-      res.json({ status: true })
-     
+  userHelper.verifyPayment(req.body).then(async (response) => {
+    let id = req.session.user._id
+    let data = req.session.buyNowData
+
+    let ProId = data.ProId
+    let product = await userHelper.getBuyNowProduct(ProId)
+    let total = product.price
+   
+    userHelper.placeOrder(data, product, total).then((resp) => {
+      req.session.orderId = resp.insertedId.toString()
+      let orderId = req.session.orderId
+      console.log(req.session.orderId, "order id");
+      userHelper.stockChanger(req.session.orderId).then(() => {
+        req.session.ordered = true
+        userHelper.clearCart(id).then(() => {
+          console.log("cart cleared");
+          req.session.buyNowData = null
+          res.json({ status: true })
+        })
+      })
     })
   }).catch((err) => {
     console.log("failed");
@@ -1096,18 +1148,32 @@ router.post('/verify-buyNowPayment', (req, res) => {
 
 router.post('/verify-payment', (req, res) => {
   let id = req.session.user._id
-  userHelper.verifyPayment(req.body).then((response) => {
-    userHelper.changePaymentStatus(req.body['order[receipt]']).then(() => {
-      console.log("success");
-      res.json({ status: true })
-      userHelper.clearCart(id).then(() => {
-        console.log("cart cleared");
+  userHelper.verifyPayment(req.body).then(async (response) => {
+    let id = req.session.user._id
+    let products = await userHelper.getCartProductList(id)
+    let total = await userHelper.getTotalAmount(id)
+    let data = req.session.placeOrderData
+    userHelper.placeOrder(data, products, total).then((resp) => {
+      let newId = new objectId()
+      console.log(newId)
+      req.session.orderId = resp.insertedId.toString()
+      let orderId = req.session.orderId
+      console.log(req.session.orderId, "order id");
+      userHelper.stockChanger(req.session.orderId).then(() => {
+        req.session.ordered = true
+        console.log("success");
+        userHelper.clearCart(id).then(() => {
+          console.log("cart cleared");
+          res.json({ status: true })
+          req.session.placeOrderData = null
+        })
+
+      }).catch((err) => {
+        console.log("failed");
+        console.log(err, "err");
+        res.json({ status: false })
       })
     })
-  }).catch((err) => {
-    console.log("failed");
-    console.log(err, "err");
-    res.json({ status: false })
   })
 })
 
