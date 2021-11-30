@@ -707,7 +707,7 @@ router.get('/add-to-cart/:id', (req, res) => {
 })
 
 router.post('/change-product-quantity', (req, res) => {
-  console.log(req.body,"jijij");
+  console.log(req.body, "jijij");
   let id = req.body.user
   let proId = req.body.product
   userHelper.changeProductQuantity(req.body).then(async (response) => {
@@ -863,6 +863,38 @@ router.post('/place-order', async (req, res) => {
   })
 })
 
+router.get('/buyNow/:id', verifyUserLogin,async (req, res) => {
+  let userId = req.session.user._id
+  let user = req.session.user
+  let total = await userHelper.getTotalAmount(userId)
+  let products = await userHelper.getCartProducts(userId)
+  let brand = await userHelper.getBrands()
+  let homePro = await userHelper.getHomeProducts()
+  let pId=req.params.id 
+  //cart count
+  let cartCount = null
+  if (req.session.user) {
+    let Id = req.session.user._id
+    cartCount = await userHelper.getCartCount(Id)
+  }
+  //get Address
+  var address = null
+  let status = await userHelper.addressChecker(req.session.user._id)
+  console.log(status);
+  if (status.address) {
+    console.log(status.address, "st a");
+    let addr = await userHelper.getUserAddress(req.session.user._id)
+    console.log(addr, "addr");
+    let len = addr.length
+    address = addr.slice(len - 2, len)
+  }
+  res.render('user/buy-now', { total, cart: true, brand, homePro, cartCount, products, address, user })
+})
+
+router.post('/buyNow',(req,res)=>{
+  console.log(req.body);
+})
+
 router.get('/success', verifyUserLogin, (req, res) => {
   let val = req.session.total
   val = val / 74
@@ -1002,7 +1034,7 @@ router.get('/singleOrder/:id', verifyUserLogin, async (req, res) => {
 })
 
 
-//My profile
+//My profile----------------------------------------------
 
 router.get('/profile', verifyUserLogin, async (req, res) => {
   let id = req.session.user._id
@@ -1122,27 +1154,36 @@ router.get('/change-password', verifyUserLogin, async (req, res) => {
     let Id = req.session.user._id
     cartCount = await userHelper.getCartCount(Id)
   }
-  res.render('user/change-password', { user, brand,cartCount, homePro,"notSame":req.session.pswdNotSame, })
-  req.session.pswdNotSame=false
+  res.render('user/change-password', { user, brand, cartCount, homePro, "notSame": req.session.pswdNotSame, "invalid": req.session.invalidpswd })
+  req.session.pswdNotSame = false
+  req.session.invalidpswd = false
 })
 
-router.post('/change-password',verifyUserLogin, (req, res) => {
+router.post('/change-password', verifyUserLogin, (req, res) => {
   console.log(req.body, "req");
   let id = req.session.user._id
-  let pass1=req.body.password1
-  let pass2=req.body.password2
-  if(pass1===pass2){
-    userHelper.changePassword(id, req.body).then((response) => { 
-      console.log(response);
-      req.session.userLoggedIn = false
-      req.session.user = null
-      // res.redirect('/login')
+  let pass1 = req.body.password1
+  let pass2 = req.body.password2
+  console.log(pass1, " ", pass2);
+  if (pass1 == pass2) {
+    userHelper.changePassword(id, req.body).then((response) => {
+      if (response.status) {
+        console.log(response);
+        req.session.userLoggedIn = false
+        req.session.user = null
+        res.redirect('/login')
+      } else {
+        req.session.invalidpswd = true
+        res.redirect('/change-password')
+      }
+
+
     })
-  }else{
-    req.session.pswdNotSame=true
+  } else {
+    req.session.pswdNotSame = true
     res.redirect('/change-password')
   }
-  
+
 })
 
 

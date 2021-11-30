@@ -245,7 +245,7 @@ module.exports = {
     },
     changePassword: (Id, data) => {
         return new Promise(async (resolve, reject) => {
-            // response={}
+           let response={}
 
             let p1 = data.password1
             let p2 = data.password2
@@ -257,26 +257,24 @@ module.exports = {
                 bcrypt.compare(data.current, user.password).then((status) => {
                     if (status) {
                         console.log(status);
+                        response.status=true 
                         db.get().collection(collection.USER_COLLECTION).updateOne({ _id: objectId(Id) }, {
                             $set: {
                                 password: data1
                             }
-                        }).then((response) => {
+                        }).then(() => {
                             resolve(response)
                             console.log(response, "then");
                         })
                     } else {
-                        response:{inValid:true}
+                        response.status=false
                         resolve(response)
                         console.log("current password is invalid");
                     }
                 })
 
-                console.log("password must be same");
-                // response({ notSame: true })
-                resolve(response)
-                console.log(response);
-
+                
+               
 
             }
 

@@ -339,6 +339,79 @@
 
     </script>
 
+    <script>
+        $('#buyNow-form').submit((e) => {
+            e.preventDefault()
+            $.ajax({
+                url: '/buyNow',
+                method: 'post',
+                data: $('#checkout-form').serialize(),
+                success: (response) => {
+                    if (response.codSuccess) {
+                        console.log("cod success")
+                        location.href = "/order-success"
+                    } else if (response.razorpay) {
+
+                        razorpayPayment(response.resp)
+                        console.log(response)
+                    } else {
+                        location.href = response.url
+                    }
+                }
+            })
+        })
+
+        function razorpayPayment(order) {
+            var options = {
+                "key": "rzp_test_uHpEhuefBwxSUI", // Enter the Key ID generated from the Dashboard
+                "amount": "response.amount", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+                "currency": "INR",
+                "name": "Watchin",
+                "description": "Test Transaction",
+                "image": "https://example.com/your_logo",
+                "order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+                "handler": function (response) {
+
+
+                    verifyPayment(response, order)
+                },
+                "prefill": {
+                    "name": "Muhammed Shabith K",
+                    "email": "shabithkms2035@gmail.com",
+                    "contact": "7025259794"
+                },
+                "notes": {
+                    "address": "Razorpay Corporate Office"
+                },
+                "theme": {
+                    "color": "#3399cc"
+                }
+            };
+            var rzp1 = new Razorpay(options);
+            rzp1.open();
+        }
+
+        function verifyPayment(response, order) {
+
+            $.ajax({
+                url: '/verify-payment',
+                data: {
+                    response,
+                    order
+                },
+                method: 'post',
+                success: (response) => {
+                    if (response.status) {
+                        location.href = '/order-success'
+                    } else {
+                        alert("payment failed")
+                    }
+                }
+            })
+        }
+
+    </script>
+
 
 
 

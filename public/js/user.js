@@ -175,33 +175,67 @@ $(document).ready(function () {
 
 
         },
-        // messages: {
-        //     firstName: {
-        //         required: "Enter your firstname",
-        //         minlength: "Enter at least 4 characters",
-        //         maxlength: "Enter maximumm 20 caharacters"
-
-        //     },
-        //     lastName: {
-        //         required: "Enter your lastname",
-        //         minlength: "Enter minimum 4 characters",
-        //         maxlength: "Enter maximum 15 characters"
-
-        //     },
-        //     mobileNo: {
-        //         required: "Enter your mobile number",
-        //         nnumber: "Enter a valid number",
-        //         minlength: "Enter 10 numbers"
-        //     },
-        //     email: {
-        //         required: "Enter your Email",
-        //         email: "Enter a valid Email"
-        //     },
-        //     password: {
-        //         required: "Enter a password",
-        //         minlength: "Password must be in 4-20 characters"
-        //     }
-        // }
+        
     })
 
+})
+
+$(document).ready(function () {
+    $('#change-password').validate({
+        rules: {
+            password1: {
+                required: true,
+                minlength: 5,
+                maxlength: 20
+
+            },
+            password2: {
+                required: true,
+                minlength: 5,
+                maxlength: 20,
+            },
+            current:{
+                required:true,
+                minlength:5,
+                maxlength:20
+            }
+
+
+
+        }
+
+    })
+})
+
+
+$(document).ready(function () {
+    $('#profile').validate({
+        rules: {
+            firstname: {
+                required: true,
+                minlength: 5,
+                maxlength: 20
+
+            },
+            lastname: {
+                required: true,
+                minlength: 5,
+                maxlength: 20,
+            },
+            mobileNo:{
+                required:true,
+                number:true,
+                minlength:5,
+                maxlength:20
+            },
+            email:{
+                email:true,
+                required:true
+            },
+
+
+
+        }
+
+    })
 })
