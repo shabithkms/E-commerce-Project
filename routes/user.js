@@ -10,6 +10,7 @@ const adminHelpers = require('../helpers/admin-helper');
 const { Client } = require('twilio/lib/twiml/VoiceResponse');
 const { render } = require('../app');
 var fs = require('fs')
+const objectId = require('mongodb').ObjectID
 const paypal = require('paypal-rest-sdk');
 //Twilio
 const accountSID = process.env.accountSID
@@ -773,12 +774,14 @@ router.post('/place-order', async (req, res) => {
   let id = req.session.user._id
   let products = await userHelper.getCartProductList(id)
   let total = await userHelper.getTotalAmount(id)
-  userHelper.placeOrder(req.body, products, total).then((resp) => {
-    response.orderId = resp.insertedId.toString()
-    req.session.orderId = resp.insertedId.toString()
+  // userHelper.placeOrder(req.body, products, total).then((resp) => {
+    let newId=new ObjectId()
+    console.log(newId),"new";
+    response.orderId = newId
+    // req.session.orderId = resp.insertedId.toString()
     let orderId = req.session.orderId
     console.log(req.session.orderId, "order id");
-    userHelper.stockChanger(req.session.orderId).then(() => {
+    // userHelper.stockChanger(req.session.orderId).then(() => {
       req.session.ordered = true
       if (req.body['Payment'] == 'COD') {
         console.log("in cod");
@@ -858,19 +861,21 @@ router.post('/place-order', async (req, res) => {
 
       }
 
-    })
+    // })
 
-  })
+  // })
 })
 
-router.get('/buyNow/:id', verifyUserLogin,async (req, res) => {
+router.get('/buyNow/:id', verifyUserLogin, async (req, res) => {
+  let pId = req.params.id
   let userId = req.session.user._id
   let user = req.session.user
-  let total = await userHelper.getTotalAmount(userId)
-  let products = await userHelper.getCartProducts(userId)
+  let product = await userHelper.getBuyNowProduct(pId)
+  let total = product.price
   let brand = await userHelper.getBrands()
   let homePro = await userHelper.getHomeProducts()
-  let pId=req.params.id 
+  
+  req.session.pId = pId
   //cart count
   let cartCount = null
   if (req.session.user) {
@@ -882,17 +887,147 @@ router.get('/buyNow/:id', verifyUserLogin,async (req, res) => {
   let status = await userHelper.addressChecker(req.session.user._id)
   console.log(status);
   if (status.address) {
-    console.log(status.address, "st a");
+    // console.log(status.address, "st a");
     let addr = await userHelper.getUserAddress(req.session.user._id)
-    console.log(addr, "addr");
+    // console.log(addr, "addr");
     let len = addr.length
     address = addr.slice(len - 2, len)
   }
-  res.render('user/buy-now', { total, cart: true, brand, homePro, cartCount, products, address, user })
+  res.render('user/buy-now', { total, cart: true, pId, brand, homePro, cartCount, product, address, user })
 })
 
-router.post('/buyNow',(req,res)=>{
+router.post('/buyNow', async (req, res) => {
   console.log(req.body);
+  console.log(req.session.pId);
+  let id = req.session.user._id
+  let product = await userHelper.getBuyNowProduct(req.body.ProId)
+  let total = product.price
+  userHelper.placeOrder(req.body, product, total).then((resp) => {
+    response.orderId = resp.insertedId.toString()
+    req.session.orderId = resp.insertedId.toString()
+    let orderId = req.session.orderId
+    console.log(req.session.orderId, "order id");
+    userHelper.stockChanger(req.session.orderId).then(() => {
+      req.session.ordered = true
+      if (req.body['Payment'] == 'COD') {
+        console.log("in cod");
+
+
+        res.json({ codSuccess: true })
+        
+      } else if (req.body['Payment'] == 'Razorpay') {
+        console.log("in online payment");
+        console.log("orderId=", orderId, ",", total);
+        userHelper.generateRazorpay(orderId, total).then((resp) => {
+          console.log("response=", resp);
+          res.json({ resp, razorpay: true })
+          // res.json(response)
+        })
+      } else if (req.body['Payment'] == 'Paypal') {
+        console.log("in paypal");
+        req.session.total = req.body.Total
+        val = total / 74
+        console.log(val)
+        total = val.toFixed(2)
+        totals = total.toString()
+        response.total = parseInt(total)
+        response.paypal = true
+        var create_payment_json = {
+          "intent": "sale",
+          "payer": {
+            "payment_method": "paypal"
+          },
+          "redirect_urls": {
+            "return_url": "http://localhost:3000/buyNowSuccess",
+            "cancel_url": "http://localhost:3000/buyNowCancelled"
+          },
+          "transactions": [{
+            "item_list": {
+              "items": [{
+                "name": "cart products",
+                "sku": "001",
+                "price": totals,
+                "currency": "USD",
+                "quantity": 1
+              }]
+            },
+            "amount": {
+              "currency": "USD",
+              "total": totals
+            },
+            "description": "This is the payment description."
+          }]
+        };
+        paypal.payment.create(create_payment_json, function (error, payment) {
+          if (error) {
+            throw error;
+          } else {
+            console.log("Create Payment Response");
+            // console.log(payment); 
+            console.log(payment.links);
+            for (let i = 0; i < payment.links.length; i++) {
+              if (payment.links[i].rel === 'approval_url') {
+                console.log("success");
+                // res.redirect(payment.links[i].href)
+                let url = payment.links[i].href
+                console.log(response, "res");
+                res.json({ url })
+
+
+
+              } else {
+                console.log("failed");
+              }
+            }
+
+          }
+        });
+
+      }
+
+    })
+
+  })
+
+})
+
+router.get('/buyNowSuccess', verifyUserLogin, (req, res) => {
+  let val = req.session.total
+  val = val / 74
+  let total = val.toFixed(2)
+
+  console.log(total, "in success");
+  console.log(val, "in success");
+
+  const payerId = req.query.PayerID;
+  const paymentId = req.query.paymentId;
+  const execute_payment_json = {
+    "payer_id": payerId,
+    "transactions": [{
+      "amount": {
+        "currency": "USD",
+        "total": total
+      }
+    }]
+  };
+  paypal.payment.execute(paymentId, execute_payment_json, function (error, payment) {
+    if (error) {
+      console.log("error response", error.response);
+      throw error;
+    } else {
+      console.log(req.session.orderId, "orderid");
+      let id = req.session.user._id
+      userHelper.changePaymentStatus(req.session.orderId).then(() => {
+        
+          console.log("cart cleared");
+          let user = req.session.user
+          res.render('user/order-success', { user })
+        
+      })
+
+    }
+  })
+
 })
 
 router.get('/success', verifyUserLogin, (req, res) => {
@@ -933,6 +1068,31 @@ router.get('/success', verifyUserLogin, (req, res) => {
   })
 
 })
+
+router.get('/buyNowCancelled',verifyUserLogin,(req,res)=>{
+  let user=req.session.user
+  res.render('user/cancel',{ user })
+})
+router.get('/cancelled',verifyUserLogin,(req,res)=>{
+  let user=req.session.user
+  res.render('user/cancel',{ user })
+})
+
+router.post('/verify-buyNowPayment', (req, res) => {
+  let id = req.session.user._id
+  userHelper.verifyPayment(req.body).then((response) => {
+    userHelper.changePaymentStatus(req.body['order[receipt]']).then(() => {
+      console.log("success");
+      res.json({ status: true })
+     
+    })
+  }).catch((err) => {
+    console.log("failed");
+    console.log(err, "err");
+    res.json({ status: false })
+  })
+})
+
 
 router.post('/verify-payment', (req, res) => {
   let id = req.session.user._id

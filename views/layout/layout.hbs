@@ -345,7 +345,7 @@
             $.ajax({
                 url: '/buyNow',
                 method: 'post',
-                data: $('#checkout-form').serialize(),
+                data: $('#buyNow-form').serialize(),
                 success: (response) => {
                     if (response.codSuccess) {
                         console.log("cod success")
@@ -394,7 +394,7 @@
         function verifyPayment(response, order) {
 
             $.ajax({
-                url: '/verify-payment',
+                url: '/verify-buyNowPayment',
                 data: {
                     response,
                     order

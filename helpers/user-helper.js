@@ -551,6 +551,24 @@ module.exports = {
 
     //Cart ends...
 
+    //Buy Now----------------------------------------
+
+    getBuyNowProduct:(proId)=>{
+        return new Promise(async(resolve,reject)=>{
+            let qty=1
+            let product=await db.get().collection(collection.PRODUCT_COLLECTION).aggregate([
+                {
+                    $match:{
+                        _id:objectId(proId)
+                    }
+                },
+                
+            ]).toArray()
+            console.log("buynow=",product[0]);
+            resolve(product[0])
+        })
+    },
+
     //Order section starting
 
     placeOrder: (order, products, total) => {
@@ -563,7 +581,11 @@ module.exports = {
             }
             console.log("products=", products);
 
-
+            if(order.buyNow){
+                order.buyNow=true
+            }else{
+                order.buyNow=false 
+            }
 
             let dateIso = new Date()
             let date = moment(dateIso).format('DD/MM/YYYY')
@@ -586,6 +608,7 @@ module.exports = {
                 Discount: order.Discount,
                 Date: date,
                 Time: time,
+                buyNow:order.buyNow,
                 Status: Status
 
             }
