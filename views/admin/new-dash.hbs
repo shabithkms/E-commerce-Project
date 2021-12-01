@@ -1,0 +1,204 @@
+<div class="main">
+    <!-- First line-->
+
+    <!-- Second Line -->
+    <div class="cardBox">
+        <!-- First box -->
+        <div class="card">
+            <div>
+                <div class="numbers">{{totalIncome}}</div>
+                <div class="cardName">Total Revenue</div>
+            </div>
+            <div class="iconBox">
+                <i class="fas fa-rupee-sign"></i>
+            </div>
+        </div>
+        <!-- Second box -->
+        <div class="card">
+            <div>
+                <div class="numbers">{{totalUsers}}</div>
+                <div class="cardName">Total Users</div>
+            </div>
+            <div class="iconBox">
+                <i class="fas fa-users "></i>
+            </div>
+        </div>
+        <!-- Third box -->
+        <div class="card">
+            <div>
+                <div class="numbers">{{totalProducts}}</div>
+                <div class="cardName">Total Products</div>
+            </div>
+            <div class="iconBox">
+                <i class="fab fa-product-hunt"></i>
+            </div>
+        </div>
+        <!-- Fourth box -->
+        <div class="card">
+            <div>
+                <div class="numbers">{{totalOrders}}</div>
+                <div class="cardName">Total Orders</div>
+            </div>
+            <div class="iconBox">
+                <i class="fas fa-shopping-cart"></i>
+            </div>
+        </div>
+    </div>
+    <!--Stats charts-->
+    <div class="graphBox">
+        <div class="box">
+            <canvas id="myChart"></canvas>
+        </div>
+        <div class="box">
+            <canvas id="earning"></canvas>
+        </div>
+    </div>
+    <!--Details-->
+    <div class="details">
+        <!--Order-->
+        <div class="recentOrders">
+            <div class="cardHeader">
+                <h2>Recent Products</h2>
+                <a href="/admin/products" class="btn">View All</a>
+            </div>
+            <table id="proTable">
+                <thead>
+                    <tr>
+                        <td>No</td>
+                        <td>Name</td>
+                        <td>Category</td>
+                        <td>Price</td>
+                        <td>Status</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each newProducts}}
+                    <tr>
+                        <td></td>
+                        <td>{{this.name}}</td>
+                        <td>{{this.category}}</td>
+                        <td>₹{{this.price}}</td>
+                        {{#if this.stockout}}
+                        <td><span class="text-danger">Out of stock</span></td>
+                        {{else}}
+                        <td><span class="text-success">In stock</span></td>
+                        {{/if}}
+                        
+                    </tr>
+                    {{/each}}
+
+
+                </tbody>
+            </table>
+        </div>
+        <!--Customers-->
+        <div class="recentCustomers">
+            <div class="cardHeader">
+                <h2>Recent Users</h2>
+            </div>
+            <table>
+                <tbody>
+                    {{#each newUsers}}
+                    <tr>
+                        <td width="60px">
+                            <div class="imgBox"><img
+                                    src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fcommons.wikimedia.org%2Fwiki%2FFile%3ASample_User_Icon.png&psig=AOvVaw0YnnVC4wRROEAMiLewmhNm&ust=1638435490541000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCKjcmv2dwvQCFQAAAAAdAAAAABAJ"
+                                    alt="#"></div>
+                        </td>
+                        <td>
+                            <h3>{{this.firstname}} {{this.lastname}}</h3>
+                        </td>
+                    </tr>
+                    {{/each}}
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="detail ">
+        <div class="recentOrder">
+            <div class="cardHeader">
+                <h2>Recent Orders</h2>
+                <a href="/admin/orders" class="btn">View All</a>
+            </div>
+            <table id="orderTable">
+                <thead>
+                    <tr>
+                        <td>No</td>
+                        <td>User</td>
+                        <td>Date</td>
+                        <td>Price</td>
+                        <td>Payment</td>
+                        <td>Status</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each newOrders}}
+                    <tr>
+                        <td></td>
+                        <td>{{this.User}}</td>
+                        <td>{{this.Date}}<br>{{this.Time}}</td>
+                        <td>₹{{this.Total}}</td>
+                        <td>{{this.PaymentMethod}}</td>
+                        <td>{{this.Status}}</td>
+                        
+                        
+                    </tr>
+                    {{/each}}
+
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
+<!-- <script src="./my_chart.js"></script> -->
+
+<script type="text/javascript">
+
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ['COD', 'Razorpay', 'Paypal'],
+            datasets: [{
+                label: 'Paymnet methods',
+                data: [{{ allMethods }}],
+            backgroundColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)'
+            ],
+        }]
+    },
+        options: {
+        responsive: true,
+    }
+    });
+
+    var earning = document.getElementById('earning').getContext('2d');
+    var myChart = new Chart(earning, {
+        type: 'bar',
+        data: {
+            labels: ['Pending', 'Placed', 'Shipped', 'Delivered'],
+            datasets: [{
+                label: 'Order Status',
+                data: [{{ allOrderStatus }}],
+            backgroundColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+
+            ],
+        }]
+    },
+        options: {
+        responsive: true,
+    }
+    });
+</script>

@@ -30,7 +30,10 @@
     </link>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.11/cropper.css">
     <link href="/css/cropper.min.css" rel="stylesheet" type="text/css" />
-
+    {{#if dashboard}}
+    <link rel="stylesheet" href="/admin/css/dashboard.css">
+    
+    {{/if}}
 
     {{else}}
     {{#if login}}
@@ -149,6 +152,12 @@
             $('#orderTable').DataTable();
         });
         $('#orderTable tbody tr').each(function (idx) {
+            $(this).children("td:eq(0)").html(idx + 1);
+        });
+        $(document).ready(function () {
+            $('#proTable').DataTable();
+        });
+        $('#proTable tbody tr').each(function (idx) {
             $(this).children("td:eq(0)").html(idx + 1);
         });
     </script>
@@ -404,7 +413,8 @@
                     if (response.status) {
                         location.href = '/order-success'
                     } else {
-                        alert("payment failed")
+                        location.href='/'
+                        
                     }
                 }
             })

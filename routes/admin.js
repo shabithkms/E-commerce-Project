@@ -65,15 +65,17 @@ router.post('/login', (req, res) => {
 
 router.get('/', async function (req, res, next) {
   if (req.session.adminLoggedIn) {
-    let newOrders=await productHelper.getNewOrders()
-    let newProducts=await productHelper.getNewProducts()
-    let totalIncome=await productHelper.getTotalIncome()
-    let totalUsers=await productHelper.getTotalUsers()
-    let totalProducts=await productHelper.getTotalProducts()
-    let allOrderStatus=await productHelper.getAllOrderStatus()
-    let allMethods=await productHelper.getAllMethods()
-   
-    res.render('admin/dashboard', { admin: true,newOrders ,newProducts,totalIncome,totalUsers,totalProducts,allOrderStatus,allMethods});
+    let newOrders = await productHelper.getNewOrders()
+    let newProducts = await productHelper.getNewProducts()
+    let newUsers=await productHelper.getNewUsers()
+    let totalIncome = await productHelper.getTotalIncome()
+    let totalUsers = await productHelper.getTotalUsers()
+    let totalProducts = await productHelper.getTotalProducts()
+    let totalOrders=await productHelper.getTotalOrders()
+    let allOrderStatus = await productHelper.getAllOrderStatus()
+    let allMethods = await productHelper.getAllMethods()
+
+    res.render('admin/new-dash', { admin: true, dashboard: true, newOrders,newUsers, newProducts, totalIncome, totalUsers, totalProducts,totalOrders, allOrderStatus, allMethods });
   } else {
     res.redirect('/admin/login')
   }
@@ -449,25 +451,25 @@ router.get('/delete-banner/:id', verifyAdminLogin, (req, res) => {
 
 //Offer Section.................................................................
 
-router.get('/category-offers',verifyAdminLogin,async(req,res)=>{
- let category=await adminHelpers.getAllCategory()
- let catOffers=await adminHelpers.getAllCatOffers()
-  res.render('admin/category-offer',{admin:true,category,catOffers})
+router.get('/category-offers', verifyAdminLogin, async (req, res) => {
+  let category = await adminHelpers.getAllCategory()
+  let catOffers = await adminHelpers.getAllCatOffers()
+  res.render('admin/category-offer', { admin: true, category, catOffers })
 })
 
-router.post('/category-offers',verifyAdminLogin,(req,res)=>{
+router.post('/category-offers', verifyAdminLogin, (req, res) => {
   console.log(req.body);
-  adminHelpers.addCategoryOffer(req.body).then(()=>{
+  adminHelpers.addCategoryOffer(req.body).then(() => {
     res.redirect('/admin/category-offers')
   })
 })
 
 
-router.get('/edit-catOffer/:id', verifyAdminLogin,async function (req, res, next) {
+router.get('/edit-catOffer/:id', verifyAdminLogin, async function (req, res, next) {
   let id = req.params.id
-  let category=await adminHelpers.getAllCategory()
+  let category = await adminHelpers.getAllCategory()
   adminHelpers.getCatOfferDetails(id).then((catOffer) => {
-    res.render('admin/edit-catOffers', { admin: true, catOffer,category, "bannerExist": req.session.brandExist });
+    res.render('admin/edit-catOffers', { admin: true, catOffer, category, "bannerExist": req.session.brandExist });
   })
 });
 
@@ -476,7 +478,7 @@ router.post('/edit-catOffer/:id', verifyAdminLogin, async (req, res) => {
   let id = req.params.id
   adminHelpers.updateCatOffer(id, req.body).then((response) => {
     res.redirect('/admin/category-offers')
-   
+
 
   })
   // .catch((err)=>{
@@ -491,30 +493,30 @@ router.post('/edit-catOffer/:id', verifyAdminLogin, async (req, res) => {
 router.get('/delete-catOffer/:id', verifyAdminLogin, (req, res) => {
   let id = req.params.id
   adminHelpers.deleteCatOffer(id).then((response) => {
-    
+
     res.redirect('/admin/category-offers')
   })
 })
 
-router.get('/product-offers',verifyAdminLogin,async(req,res)=>{
-  let products=await userHelper.getAllProducts()
-  let proOffers=await adminHelpers.getAllProOffers()
-   res.render('admin/product-offer',{admin:true,products,proOffers})
- })
- 
- router.post('/product-offers',verifyAdminLogin,(req,res)=>{
-   console.log(req.body);
-   adminHelpers.addProductOffer(req.body).then(()=>{
-     res.redirect('/admin/product-offers')
-   })
- })
+router.get('/product-offers', verifyAdminLogin, async (req, res) => {
+  let products = await userHelper.getAllProducts()
+  let proOffers = await adminHelpers.getAllProOffers()
+  res.render('admin/product-offer', { admin: true, products, proOffers })
+})
 
- 
-router.get('/edit-proOffer/:id', verifyAdminLogin,async function (req, res, next) {
+router.post('/product-offers', verifyAdminLogin, (req, res) => {
+  console.log(req.body);
+  adminHelpers.addProductOffer(req.body).then(() => {
+    res.redirect('/admin/product-offers')
+  })
+})
+
+
+router.get('/edit-proOffer/:id', verifyAdminLogin, async function (req, res, next) {
   let id = req.params.id
-  let products=await userHelper.getAllProducts()
+  let products = await userHelper.getAllProducts()
   adminHelpers.getProOffersDetails(id).then((proOffer) => {
-    res.render('admin/edit-proOffers', { admin: true, proOffer,products, "bannerExist": req.session.brandExist });
+    res.render('admin/edit-proOffers', { admin: true, proOffer, products, "bannerExist": req.session.brandExist });
   })
 });
 
@@ -523,7 +525,7 @@ router.post('/edit-proOffer/:id', verifyAdminLogin, async (req, res) => {
   let id = req.params.id
   adminHelpers.updateProOffer(id, req.body).then((response) => {
     res.redirect('/admin/product-offers')
-    
+
 
   })
   // .catch((err)=>{
@@ -538,7 +540,7 @@ router.post('/edit-proOffer/:id', verifyAdminLogin, async (req, res) => {
 router.get('/delete-proOffer/:id', verifyAdminLogin, (req, res) => {
   let id = req.params.id
   adminHelpers.deleteProOffer(id).then((response) => {
-    
+
     res.redirect('/admin/product-offers')
   })
 })

@@ -655,11 +655,8 @@ router.get('/brandProducts/:brand', async (req, res) => {
 //Cart section starting
 
 router.get('/cart', verifyUserLogin, async (req, res, next) => {
-
   let id = req.session.user._id
-
   let products = await userHelper.getCartProducts(id)
-
   let user = req.session.user
   let totals = 0
   if (products.length > 0) {
@@ -667,14 +664,11 @@ router.get('/cart', verifyUserLogin, async (req, res, next) => {
   }
   let brand = await userHelper.getBrands()
   let homePro = await userHelper.getHomeProducts()
-
-
   if (req.session.user) {
     let Id = req.session.user._id
     cartCount = await userHelper.getCartCount(Id)
   }
   if (cartCount > 0) {
-
     res.render('user/newCart', { cart: true, userPage: true, brand, homePro, user, 'noCart': req.session.noCartPro, cartCount, products, totals })
     req.session.noCartPro = false
   } else {
@@ -682,20 +676,14 @@ router.get('/cart', verifyUserLogin, async (req, res, next) => {
     let homePro = await userHelper.getHomeProducts()
     res.render('user/empty-cart', { userPage: true, brand, homePro, user })
   }
-
-
-
-
 })
 
 
 router.get('/add-to-cart/:id', (req, res) => {
   if (req.session.userLoggedIn) {
     console.log("Api call");
-
     let proId = req.params.id
     let userId = req.session.user._id
-
     userHelper.addToCart(proId, userId).then((response) => {
       req.session.noCartPro = false
       res.json({ status: true })
@@ -704,7 +692,6 @@ router.get('/add-to-cart/:id', (req, res) => {
     console.log("no user");
     res.json({ status: false })
   }
-
 })
 
 router.post('/change-product-quantity', (req, res) => {
@@ -717,10 +704,8 @@ router.post('/change-product-quantity', (req, res) => {
     response.subTotal = await userHelper.getSubTotal(id, proId)
     console.log(response, "res");
     res.json(response)
-
   })
 })
-
 router.post('/delete-cart-product', (req, res) => {
   let cartId = req.body.cart
   let proId = req.body.product
@@ -732,7 +717,7 @@ router.post('/delete-cart-product', (req, res) => {
   })
 })
 
-//Checkout
+//Checkout---------------------------------------------------------------
 
 router.get('/checkout', verifyUserLogin, async (req, res) => {
   let userId = req.session.user._id
@@ -867,7 +852,7 @@ router.post('/place-order', async (req, res) => {
 
 router.get('/buyNow/:id', verifyUserLogin, async (req, res) => {
   let pId = req.params.id
-  req.session.proId=pId
+  req.session.proId = pId
   let userId = req.session.user._id
   let user = req.session.user
   let product = await userHelper.getBuyNowProduct(pId)
@@ -917,9 +902,7 @@ router.post('/buyNow', async (req, res) => {
         userHelper.stockChanger(req.session.orderId).then(() => {
           req.session.ordered = true
           res.json({ codSuccess: true })
-          userHelper.clearCart(id).then(() => {
-            console.log("cart cleared");
-          })
+
         })
       })
     } else if (req.body['Payment'] == 'Razorpay') {
@@ -1024,28 +1007,25 @@ router.get('/buyNowSuccess', verifyUserLogin, (req, res) => {
       console.log("error response", error.response);
       throw error;
     } else {
-      let data=req.session.buyNowData
+      let data = req.session.buyNowData
       console.log(data);
       let id = req.session.user._id
-      let pId=req.session.proId
-      console.log(req.session.proId,"proid");
-      let product = await userHelper.getBuyNowProduct(pId) 
+      let pId = req.session.proId
+      console.log(req.session.proId, "proid");
+      let product = await userHelper.getBuyNowProduct(pId)
       let total = product.price
-      console.log(id,data,product,total); 
+      console.log(id, data, product, total);
       userHelper.placeOrder(data, product, total).then((resp) => {
-
         req.session.orderId = resp.insertedId.toString()
         let orderId = req.session.orderId
         console.log(req.session.orderId, "order id");
         userHelper.stockChanger(req.session.orderId).then(() => {
           req.session.ordered = true
-          
-          userHelper.clearCart(id).then(() => {
-            let user = req.session.user
-            console.log("cart cleared");
-            res.render('user/order-success', { user })
-            req.session.buyNowData = null
-          })
+          let user = req.session.user
+          console.log("cart cleared");
+          res.render('user/order-success', { user })
+          req.session.buyNowData = null
+
         })
       })
 
@@ -1112,10 +1092,10 @@ router.get('/buyNowCancelled', verifyUserLogin, (req, res) => {
 })
 router.get('/cancelled', verifyUserLogin, (req, res) => {
   let user = req.session.user
-  res.render('user/cancel', { user })
+  res.render('user/cancel', { user }) 
 })
-
-router.post('/verify-buyNowPayment', (req, res) => {
+ 
+router.post('/verify-buyNowPayment', (req, res) => { 
   let id = req.session.user._id
   userHelper.verifyPayment(req.body).then(async (response) => {
     let id = req.session.user._id
@@ -1124,18 +1104,16 @@ router.post('/verify-buyNowPayment', (req, res) => {
     let ProId = data.ProId
     let product = await userHelper.getBuyNowProduct(ProId)
     let total = product.price
-   
+
     userHelper.placeOrder(data, product, total).then((resp) => {
       req.session.orderId = resp.insertedId.toString()
       let orderId = req.session.orderId
       console.log(req.session.orderId, "order id");
       userHelper.stockChanger(req.session.orderId).then(() => {
         req.session.ordered = true
-        userHelper.clearCart(id).then(() => {
-          console.log("cart cleared");
-          req.session.buyNowData = null
-          res.json({ status: true })
-        })
+        console.log("cart cleared");
+        req.session.buyNowData = null
+        res.json({ status: true })
       })
     })
   }).catch((err) => {
@@ -1349,7 +1327,8 @@ router.get('/addProfile', verifyUserLogin, (req, res) => {
   res.render('user/add-profile')
 })
 
-//Add pic
+//Add pic----------------------
+
 router.post('/addProfile', verifyUserLogin, (req, res) => {
   let id = req.session.user._id
   console.log(req.files);
@@ -1370,6 +1349,7 @@ router.post('/addProfile', verifyUserLogin, (req, res) => {
   }
 })
 
+//Cahnge passsword------------------------------------------------
 
 router.get('/change-password', verifyUserLogin, async (req, res) => {
   let user = req.session.user

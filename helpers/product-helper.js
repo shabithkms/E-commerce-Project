@@ -9,7 +9,7 @@ module.exports = {
 
     addProduct: (proData) => {
         return new Promise((resolve, reject) => {
-           
+
             console.log(proData, "1");
             proData.price = parseInt(proData.price)
             proData.cost = parseInt(proData.cost)
@@ -56,7 +56,7 @@ module.exports = {
                             cost: newData.cost,
                             price: newData.price,
                             stock: newData.stock,
-                            
+
                         },
                         $unset: {
                             stockout: ""
@@ -134,6 +134,12 @@ module.exports = {
             resolve(neworders)
         })
     },
+    getNewUsers: () => {
+        return new Promise(async (resolve, reject) => {
+            let newUsers = await db.get().collection(collection.USER_COLLECTION).find().sort({ $natural: -1 }).limit(5).toArray()
+            resolve(newUsers)
+        })
+    },
     getNewProducts: () => {
         return new Promise(async (resolve, reject) => {
             let newProducts = await db.get().collection(collection.PRODUCT_COLLECTION).find().sort({ $natural: -1 }).limit(5).toArray()
@@ -155,9 +161,14 @@ module.exports = {
                     },
                 }
             ]).toArray()
-            console.log(total);
-            console.log(total[0].total);
-            resolve(total[0].total)
+            if (total) {
+                console.log(total);
+                console.log(total[0].total);
+                resolve(total[0].total)
+            } else {
+                resolve()
+            }
+
         })
     },
     getTotalUsers: () => {
@@ -173,6 +184,13 @@ module.exports = {
             console.log(products);
 
             resolve(products)
+        })
+    },
+    getTotalOrders: () => {
+        return new Promise(async (resolve, reject) => {
+            let orders = await db.get().collection(collection.ORDER_COLLECTION).count()
+            console.log(orders);
+            resolve(orders)
         })
     },
     getAllOrderStatus: () => {
