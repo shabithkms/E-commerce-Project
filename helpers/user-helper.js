@@ -245,7 +245,7 @@ module.exports = {
     },
     changePassword: (Id, data) => {
         return new Promise(async (resolve, reject) => {
-           let response={}
+            let response = {}
 
             let p1 = data.password1
             let p2 = data.password2
@@ -257,7 +257,7 @@ module.exports = {
                 bcrypt.compare(data.current, user.password).then((status) => {
                     if (status) {
                         console.log(status);
-                        response.status=true 
+                        response.status = true
                         db.get().collection(collection.USER_COLLECTION).updateOne({ _id: objectId(Id) }, {
                             $set: {
                                 password: data1
@@ -267,14 +267,14 @@ module.exports = {
                             console.log(response, "then");
                         })
                     } else {
-                        response.status=false
+                        response.status = false
                         resolve(response)
                         console.log("current password is invalid");
                     }
                 })
 
-                
-               
+
+
 
             }
 
@@ -553,38 +553,48 @@ module.exports = {
 
     //Buy Now----------------------------------------
 
-    getBuyNowProduct:(proId)=>{
-        return new Promise(async(resolve,reject)=>{
-            let qty=1
-            let product=await db.get().collection(collection.PRODUCT_COLLECTION).aggregate([
-                {
-                    $match:{
-                        _id:objectId(proId)
-                    }
-                },
-                
-            ]).toArray()
-            console.log("buynow=",product[0]);
-            resolve(product[0])
+    getBuyNowProduct: (proId) => {
+        return new Promise(async (resolve, reject) => {
+
+            let proObj = {
+                item: objectId(proId),
+                quantity: 1
+            }
+            let product = [proObj]
+            resolve(product)
+        })
+    },
+    getBuyNowProductDetails: (pId) => {
+        return new Promise(async (resolve, reject) => {
+            let product = await db.get().collection(collection.PRODUCT_COLLECTION).findOne({ _id: objectId(pId) })
+            // console.log(product.price);
+            resolve(product)
+        })
+    },
+    getBuyNowTotal: (pId) => {
+        return new Promise(async (resolve, reject) => {
+            let product = await db.get().collection(collection.PRODUCT_COLLECTION).findOne({ _id: objectId(pId) })
+            console.log(product.price);
+            resolve(product.price)
         })
     },
 
     //Order section starting
 
     placeOrder: (order, products, total) => {
-        return new Promise((resolve, reject) => {
-
-            
+        return new Promise((resolve, reject) => { 
+            //  total = parseInt(total)
+            console.log("in placeorder",total);
             let len = products.length
-            for (i = 0; i < len; i++) {
-                products[i].proStatus = order.Payment =="Placed"
-            }
+            // for (i = 0; i < len; i++) {
+            //     products[i].proStatus = order.Payment == "Placed"
+            // }
             console.log("products=", products);
 
-            if(order.buyNow){
-                order.buyNow=true
-            }else{
-                order.buyNow=false 
+            if (order.buyNow) {
+                order.buyNow = true
+            } else {
+                order.buyNow = false
             }
 
             let dateIso = new Date()
@@ -608,7 +618,7 @@ module.exports = {
                 Discount: order.Discount,
                 Date: date,
                 Time: time,
-                buyNow:order.buyNow,
+                buyNow: order.buyNow,
                 Status: "Placed"
 
             }
@@ -702,7 +712,8 @@ module.exports = {
             db.get().collection(collection.ORDER_COLLECTION).updateOne({ _id: objectId(Id) },
                 {
                     $set: {
-                        Status: 'Cancelled'
+                        Status: 'Cancelled',
+                        Cancelled: true
                     }
                 }).then(() => {
                     resolve()

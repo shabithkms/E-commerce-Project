@@ -1,487 +1,205 @@
-<style>
-    
-    .iconbg {
-        background: rgb(141, 225, 15);
-        align-items: center;
-        opacity: 50%;
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        margin: 10px;
-    }
+<div class="main">
+    <!-- First line-->
 
-    .iconbg1 {
-        background: rgb(145, 205, 231);
-        align-items: center;
-        opacity: 50%;
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        margin: 10px;
-    }
-
-    .iconbg2 {
-
-        background: rgb(218, 166, 221);
-        align-items: center;
-        opacity: 50%;
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        margin: 10px;
-    }
-
-    .info {}
-</style>
-<div class="row justify-content-center ">
-
-    <div class="shadow col-lg-3 p-3 mb-5 bg-white rounded">
-        <div class="row ">
-            <div class=" row iconbg justify-content-center">
-                <div>
-                    <i class="fas fa-rupee-sign fa-2x" style="color: rgb(7, 51, 3);"></i>
-                </div>
+    <!-- Second Line -->
+    <div class="cardBox">
+        <!-- First box -->
+        <div class="card shadow">
+            <div>
+                <div class="numbers">₹ {{totalIncome}}</div>
+                <div class="cardName">Total Revenue</div>
             </div>
-            <div class="info mt-2">
-                <h5>Total Income</h5>
-                <h6 class="ml-2">
-                    <bold>{{totalIncome}}</bold>
-                </h6>
+            <div class="iconBox">
+                <i class="fas fa-rupee-sign"></i>
             </div>
         </div>
-
-
-
-    </div>
-    <div class="shadow col-lg-3 p-3 mb-5 ml-5 bg-white rounded">
-        <div class="row ">
-            <div class=" row iconbg1 justify-content-center">
-                <div>
-                   
-                </div>
+        <!-- Second box -->
+        <div class="card shadow">
+            <div>
+                <div class="numbers">{{totalUsers}}</div>
+                <div class="cardName">Total Users</div>
             </div>
-            <div class="info  mt-2">
-                <h5>Total Users</h5>
-                <h6 class="ml-2">
-                    <bold>{{totalUsers}}</bold>
-                </h6>
+            <div class="iconBox">
+                <i class="fas fa-users "></i>
             </div>
         </div>
-
-
-
-    </div>
-    <div class="shadow col-lg-3 p-3 ml-5 mb-5 bg-white rounded">
-        <div class="row ">
-            <div class=" row iconbg2 justify-content-center">
-                <div>
-                   
-                </div>
+        <!-- Third box -->
+        <div class="card shadow">
+            <div>
+                <div class="numbers">{{totalProducts}}</div>
+                <div class="cardName">Total Products</div>
             </div>
-            <div class="info  mt-2">
-                <h5>Total Products</h5>
-                <h6 class="ml-2">
-                    <bold>{{totalProducts}}</bold>
-                </h6>
+            <div class="iconBox">
+                <i class="fab fa-product-hunt"></i>
             </div>
         </div>
-
-
-
-    </div>
-</div>
-<div class="row mt-5">
-    <div class="col-md-6">
-        <h6>Order Status</h6>
-        <canvas id="myChart1" width="250" height="250"></canvas>
-    </div>
-    <div class="col-md-6">
-        <h6>Payment Methods</h6>
-        <canvas id="myChart2" width="250" height="250"></canvas>
-    </div>
-
-    <div class="card card-success">
-        
-        <div class="card-body">
-            <div class="chart">
-                <canvas id="donutChart"
-                    style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+        <!-- Fourth box -->
+        <div class="card shadow">
+            <div>
+                <div class="numbers">{{totalOrders}}</div>
+                <div class="cardName">Total Orders</div>
+            </div>
+            <div class="iconBox">
+                <i class="fas fa-shopping-cart"></i>
             </div>
         </div>
-        <!-- /.card-body -->
+    </div>
+    <!--Stats charts-->
+    <div class="graphBox">
+        <div class="box">
+            <canvas id="myChart"></canvas>
+        </div>
+        <div class="box">
+            <canvas id="earning"></canvas>
+        </div>
+    </div>
+    <!--Details-->
+    <div class="details">
+        <!--Order-->
+        <div class="recentOrders">
+            <div class="cardHeader">
+                <h2>Recent Products</h2>
+                <a href="/admin/products" class="btn">View All</a>
+            </div>
+            <table id="proTable">
+                <thead>
+                    <tr>
+                        <td>No</td>
+                        <td>Name</td>
+                        <td>Category</td>
+                        <td>Price</td>
+                        <td>Status</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each newProducts}}
+                    <tr>
+                        <td></td>
+                        <td>{{this.name}}</td>
+                        <td>{{this.category}}</td>
+                        <td>₹ {{this.price}}</td>
+                        {{#if this.stockout}}
+                        <td><span class="text-danger">Out of stock</span></td>
+                        {{else}}
+                        <td><span class="text-success">In stock</span></td>
+                        {{/if}}
+
+                    </tr>
+                    {{/each}}
+
+
+                </tbody>
+            </table>
+        </div>
+        <!--Customers-->
+        <div class="recentCustomers">
+            <div class="cardHeader">
+                <h2>Recent Users</h2>
+            </div>
+            <table>
+                <tbody>
+                    {{#each newUsers}}
+                    <tr>
+                        <td width="60px">
+                            <div class="imgBox"><img
+                                    src="https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png"
+                                    alt="#"></div>
+                        </td>
+                        <td>
+                            <h3>{{this.firstname}} {{this.lastname}}</h3>
+                        </td>
+                    </tr>
+                    {{/each}}
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="detail ">
+        <div class="recentOrder">
+            <div class="cardHeader">
+                <h2>Recent Orders</h2>
+                <a href="/admin/orders" class="btn">View All</a>
+            </div>
+            <table id="orderTable">
+                <thead>
+                    <tr>
+                        <td>No</td>
+                        <td>User</td>
+                        <td>Date</td>
+                        <td>Price</td>
+                        <td>Payment</td>
+                        <td>Status</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each newOrders}}
+                    <tr>
+                        <td></td>
+                        <td>{{this.User}}</td>
+                        <td>{{this.Date}}<br>{{this.Time}}</td>
+                        <td>₹{{this.Total}}</td>
+                        <td>{{this.PaymentMethod}}</td>
+                        <td>{{this.Status}}</td>
+
+
+                    </tr>
+                    {{/each}}
+
+
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
-{{!-- <div class="row mt-5">
-    <div class="col-md-6">
-        <h6>Order Status</h6>
-        <canvas id="myChart3" width="250" height="250"></canvas>
-    </div>
-    <div class="col-md-6">
-        <h6>Payment Methods</h6>
-        <canvas id="myChart4" width="250" height="250"></canvas>
-    </div>
-</div> --}}
 
 
 
-{{!--Recently Added products --}}
-<div class="shadow col-lg-12 p-3 mb-5 mt-5 mt-2 bg-white rounded">
-    <h4>Recently Added Products</h4>
-</div>
-<table class="table table-striped mt-5" style="margin-top:30px;" id="adminTable">
-    <thead>
-        <tr>
-            <th scope="col">No.</th>
-            <th scope="col">Name</th>
-            <th scope="col">Price</th>
-            {{!-- <th scope="col">description</th> --}}
-            <th scope="col">Category</th>
-            <th scope="col">Image</th>
-            <th scope="col">Stock</th>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
+<!-- <script src="./my_chart.js"></script> -->
 
+<script type="text/javascript">
 
-
-
-
-        </tr>
-    </thead>
-    <tbody>
-        {{#each newProducts}}
-        <tr>
-
-            <td></td>
-            <td>{{this.name}}</td>
-            <td>{{this.price}}</td>
-            {{!-- <td>{{this.Description}}</td> --}}
-            <td>{{this.category}}</td>
-            <td><img src="/productImages/{{this._id}}a.jpg" class="img-fluid" style="width: 50px;height:50px">
-                {{!-- <img src="/product-images/{{this._id}}b.jpg" class="img-fluid" style="width: 25px;height:25px">
-                <img src="/product-images/{{this._id}}c.jpg" class="img-fluid" style="width: 25px;height:25px">
-                --}}
-            </td>
-            <td>{{this.stock}}</td>
-
-        </tr>
-        {{/each}}
-    </tbody>
-</table>
-
-
-
-{{!-- Recent Orders --}}
-<div class="shadow col-lg-12 p-3 mb-5 mt-5 mt-2 bg-white rounded">
-    <h4>Recent Orders</h4>
-</div>
-<div class="col-md-12">
-    <table class="table table-striped" id="orderTable">
-        <thead>
-            <tr>
-                <th scope="col">No.</th>
-                <th scope="col">Date</th>
-
-                <th scope="col">User</th>
-                <th scope="col">Address</th>
-
-                <th scope="col">Amount</th>
-
-                <th scope="col">Payment</th>
-
-
-
-                {{!-- <th scope="col">Items</th> --}}
-            </tr>
-        </thead>
-        <tbody>
-            {{#each newOrders}}
-            <tr>
-                <td></td>
-                <td>{{this.Date}} <br>
-                    {{this.Time}}</td>
-
-                <td>{{this.User}}</td>
-                <td>{{this.deliveryDetails.FirstName}},{{this.deliveryDetails.House}}<br>{{this.deliveryDetails.Town}},PIN:{{this.deliveryDetails.PIN}}<br>PH:{{this.deliveryDetails.Mobile}}
-                </td>
-
-                <td>{{this.Total}}</td>
-
-                <td>{{this.PaymentMethod}}</td>
-
-                {{!-- <td><a class="btn btn-secondary text-white" style="width: 125px;height:auto;text-decoration:none"
-                        href="/admin/singleOrder/{{this._id}}">View Product</a></td> --}}
-
-            </tr>
-            {{/each}}
-        </tbody>
-    </table>
-
-</div>
-
-
-
- <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="/admin/js/chart.js"></script>
-<script>
-
-    const ctx1 = document.getElementById('myChart1').getContext('2d');
-    const myChart1 = new Chart(ctx1, {
-        type: 'bar',
-        data: {
-            labels: ['Pending', 'Placed', 'Shipped', 'Delivered'],
-            datasets: [{
-                label: 'Order Status',
-                data: [{{ allOrderStatus }}],
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 1
-        }]
-    },
-        options: {
-        scales: {
-            y: {
-                beginAtZero: true
-            }
-        }
-    }
-    });
-
-
-    const ctx2 = document.getElementById('myChart2').getContext('2d');
-    const myChart2 = new Chart(ctx2, {
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var myChart = new Chart(ctx, {
         type: 'doughnut',
         data: {
             labels: ['COD', 'Razorpay', 'Paypal'],
             datasets: [{
-                label: 'Payment Methods',
+                label: 'Paymnet methods',
                 data: [{{ allMethods }}],
             backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
                 'rgba(255, 99, 132, 1)',
                 'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
+                'rgba(255, 206, 86, 1)'
             ],
-            borderWidth: 1
         }]
     },
         options: {
-        scales: {
-            y: {
-                beginAtZero: true
-            }
-        }
-    }
+        responsive: true,
+    },
+    
     });
-    const ctx3 = document.getElementById('myChart3').getContext('2d');
-    const myChart3 = new Chart(ctx3, {
-        type: 'pie',
+
+    var earning = document.getElementById('earning').getContext('2d');
+    var myChart = new Chart(earning, {
+        type: 'bar',
         data: {
-            labels: ['COD', 'Razorpay', 'Paypal'],
+            labels: ['Placed', 'Shipped', 'Delivered', 'Cancelled',],
             datasets: [{
-                label: 'Payment Methods',
-                data: [{{ allMethods }}],
+                label: 'Order Status',
+                data: [{{ allOrderStatus }}],
             backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
                 'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
+                'rgba(54, 162, 235, 1)',
+                'rgba(60, 170, 70, 1)',
+                'rgba(255, 0, 0, 1)',
+
             ],
-            borderWidth: 1
         }]
     },
         options: {
-        scales: {
-            y: {
-                beginAtZero: true
-            }
-        }
+        responsive: true,
     }
     });
-    const ctx4 = document.getElementById('myChart4').getContext('2d');
-    const myChart4 = new Chart(ctx4, {
-        type: 'pie',
-        data: {
-            labels: ['COD', 'Razorpay', 'Paypal'],
-            datasets: [{
-                label: 'Payment Methods',
-                data: [{{ allMethods }}],
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 1
-        }]
-    },
-        options: {
-        scales: {
-            y: {
-                beginAtZero: true
-            }
-        }
-    }
-    });
-    $(function () {
-        
-        
-
-        //-------------
-        //- LINE CHART -
-        //--------------
-        var lineChartCanvas = $('#lineChart').get(0).getContext('2d')
-        var lineChartOptions = $.extend(true, {}, areaChartOptions)
-        var lineChartData = $.extend(true, {}, areaChartData)
-        lineChartData.datasets[0].fill = false;
-        lineChartData.datasets[1].fill = false;
-        lineChartOptions.datasetFill = false
-
-        var lineChart = new Chart(lineChartCanvas, {
-            type: 'line',
-            data: lineChartData,
-            options: lineChartOptions
-        })
-
-        //-------------
-        //- DONUT CHART -
-        //-------------
-        // Get context with jQuery - using jQuery's .get() method.
-        var donutChartCanvas = $('#donutChart').get(0).getContext('2d')
-        var donutData = {
-            labels: [
-                'Chrome',
-                'IE',
-                'FireFox',
-                'Safari',
-                'Opera',
-                'Navigator',
-            ],
-            datasets: [
-                {
-                    data: [700, 500, 400, 600, 300, 100],
-                    backgroundColor: ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc', '#d2d6de'],
-                }
-            ]
-        }
-        var donutOptions = {
-            maintainAspectRatio: false,
-            responsive: true,
-        }
-        //Create pie or douhnut chart
-        // You can switch between pie and douhnut using the method below.
-        new Chart(donutChartCanvas, {
-            type: 'doughnut',
-            data: donutData,
-            options: donutOptions
-        })
-
-        //-------------
-        //- PIE CHART -
-        //-------------
-        // Get context with jQuery - using jQuery's .get() method.
-        var pieChartCanvas = $('#pieChart').get(0).getContext('2d')
-        var pieData = donutData;
-        var pieOptions = {
-            maintainAspectRatio: false,
-            responsive: true,
-        }
-        //Create pie or douhnut chart
-        // You can switch between pie and douhnut using the method below.
-        new Chart(pieChartCanvas, {
-            type: 'pie',
-            data: pieData,
-            options: pieOptions
-        })
-
-        //-------------
-        //- BAR CHART -
-        //-------------
-        var barChartCanvas = $('#barChart').get(0).getContext('2d')
-        var barChartData = $.extend(true, {}, areaChartData)
-        var temp0 = areaChartData.datasets[0]
-        var temp1 = areaChartData.datasets[1]
-        barChartData.datasets[0] = temp1
-        barChartData.datasets[1] = temp0
-
-        var barChartOptions = {
-            responsive: true,
-            maintainAspectRatio: false,
-            datasetFill: false
-        }
-
-        new Chart(barChartCanvas, {
-            type: 'bar',
-            data: barChartData,
-            options: barChartOptions
-        })
-
-        //---------------------
-        //- STACKED BAR CHART -
-        //---------------------
-        var stackedBarChartCanvas = $('#stackedBarChart').get(0).getContext('2d')
-        var stackedBarChartData = $.extend(true, {}, barChartData)
-
-        var stackedBarChartOptions = {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-                xAxes: [{
-                    stacked: true,
-                }],
-                yAxes: [{
-                    stacked: true
-                }]
-            }
-        }
-
-        new Chart(stackedBarChartCanvas, {
-            type: 'bar',
-            data: stackedBarChartData,
-            options: stackedBarChartOptions
-        })
-    })
 </script>

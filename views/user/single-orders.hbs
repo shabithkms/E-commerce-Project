@@ -176,16 +176,17 @@
                                         </div>
                                         <div class="col my-auto">
                                             <p>Price:</p>
-                                            <h6 class="mb-0">{{this.product.price}}</h6>
+                                            <h6 class="mb-0">&#8377;{{this.product.price}}</h6>
                                         </div>
                                         {{!-- <small>Category:</small> <br> --}}
                                         <div class="col-auto my-auto cat"> <small>{{this.product.category}}</small>
                                         </div>
 
                                         <div class="col my-auto"> <small>Qty :{{this.quantity}}</small></div>
-                                        {{!-- <div class="col my-auto">
-                                            <h6 class="mb-0">&#8377;{{this.subtotal}}</h6>
-                                        </div> --}}
+                                        
+                                    </div>
+                                    <div class="mt-5 ">
+                                        <a href="/product/{{this.product._id}}" class="btn ">More</a>
                                     </div>
                                 </div>
                             </div>

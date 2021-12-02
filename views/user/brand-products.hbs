@@ -90,7 +90,9 @@
 
 
                             <div class="product-categori">
-
+                                {{#if this.stockout}}
+                                        <span class="text-danger">Out of stock</span>
+                                {{else}}
                                 <button class="add_cart btn btn-light cart-item "
                                     style="width: 130px; border: 1px solid black !important;"
                                     onclick="addToCart('{{this._id}}')" title="Add to cart">
@@ -100,13 +102,14 @@
                                     <i class="ion-android-done"></i> Add to Cart
                                 </button>
                                 <br>
-                                <button class="add_cart btn btn-light cart-item mt-1"
+                                <a class="add_cart btn btn-light cart-item mt-1" href="/buyNow/{{this._id}}"
                                     style="width: 130px; border: 1px solid black !important;">
 
                                     <i class="ion-bag"></i>
                                     <i class="ion-ios-loop-strong animated rotateIn infinite"></i>
                                     <i class="ion-android-done"></i> Buy Now
-                                </button>
+                                </a>
+                                {{/if}}
 
                             </div>
 

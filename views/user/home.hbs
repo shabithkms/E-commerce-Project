@@ -208,6 +208,9 @@
 
                                                 <div class="product-categori">
 
+                                                    {{#if this.stockout}}
+                                                    <span class="text-danger">Out of stock</span>
+                                                    {{else}}
                                                     <button class="add_cart btn btn-light cart-item "
                                                         style="width: 130px; border: 1px solid black !important;"
                                                         onclick="addToCart('{{this._id}}')" title="Add to cart">
@@ -225,6 +228,7 @@
                                                         <i class="ion-ios-loop-strong animated rotateIn infinite"></i>
                                                         <i class="ion-android-done"></i> Buy Now
                                                     </a>
+                                                    {{/if}}
 
                                                 </div>
 
@@ -279,7 +283,7 @@
 
 
 
-                    <a class="btn-hover limited-btn mt-50" href="collections/all.html">SHOP NOW</a>
+                    <a class="btn-hover limited-btn mt-50" href="/products">SHOP NOW</a>
 
                 </div>
             </div>
@@ -342,7 +346,7 @@
 
                             <div class="single-product mb-35">
                                 <div class="product-img">
-                                    <a href="">
+                                    <a href="/product/{{this._id}}">
                                         <img src="/productImages/{{this._id}}a.jpg" alt="">
                                     </a>
 
@@ -387,22 +391,26 @@
 
                                         <div class="product-categori">
 
-                                            <button class="add_cart btn btn-light cart-item "
-                                                style="width: 130px; border: 1px solid black !important;"
-                                                onclick="addToCart('{{this._id}}')" title="Add to cart">
+                                             {{#if this.stockout}}
+                                        <span class="text-danger">Out of stock</span>
+                                {{else}}
+                                <button class="add_cart btn btn-light cart-item "
+                                    style="width: 130px; border: 1px solid black !important;"
+                                    onclick="addToCart('{{this._id}}')" title="Add to cart">
 
-                                                <i class="ion-bag"></i>
-                                                <i class="ion-ios-loop-strong animated rotateIn infinite"></i>
-                                                <i class="ion-android-done"></i> Add to Cart
-                                            </button>
-                                            <br>
-                                            <a class="add_cart btn btn-light cart-item mt-1" href="/buyNow/{{this._id}}"
-                                                style="width: 130px; border: 1px solid black !important;">
+                                    <i class="ion-bag"></i>
+                                    <i class="ion-ios-loop-strong animated rotateIn infinite"></i>
+                                    <i class="ion-android-done"></i> Add to Cart
+                                </button>
+                                <br>
+                                <a class="add_cart btn btn-light cart-item mt-1" href="/buyNow/{{this._id}}"
+                                    style="width: 130px; border: 1px solid black !important;">
 
-                                                <i class="ion-bag"></i>
-                                                <i class="ion-ios-loop-strong animated rotateIn infinite"></i>
-                                                <i class="ion-android-done"></i> Buy Now
-                                            </a>
+                                    <i class="ion-bag"></i>
+                                    <i class="ion-ios-loop-strong animated rotateIn infinite"></i>
+                                    <i class="ion-android-done"></i> Buy Now
+                                </a>
+                                {{/if}}
 
                                         </div>
 

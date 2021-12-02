@@ -9,7 +9,6 @@ module.exports = {
 
     addProduct: (proData) => {
         return new Promise((resolve, reject) => {
-
             console.log(proData, "1");
             proData.price = parseInt(proData.price)
             proData.cost = parseInt(proData.cost)
@@ -116,15 +115,11 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
             let sort = { name: 1 }
             let limit = 4
-            let related = await db.get().collection(collection.PRODUCT_COLLECTION).find().sort().limit(limit).toArray()
-
+            let related = await db.get().collection(collection.PRODUCT_COLLECTION).find().sort({ $natural: -1 }).limit(limit).toArray()
             resolve(related)
         })
 
     },
-
-
-
 
     //Dashboard
 
@@ -147,6 +142,7 @@ module.exports = {
         })
     },
     getTotalIncome: () => {
+        let Total = 0
         return new Promise(async (resolve, reject) => {
             let total = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
                 {
@@ -161,12 +157,14 @@ module.exports = {
                     },
                 }
             ]).toArray()
-            if (total) {
+            console.log(total[0]);
+            let newTotal = total[0].total
+            if (newTotal > 0) {
                 console.log(total);
                 console.log(total[0].total);
                 resolve(total[0].total)
             } else {
-                resolve()
+                resolve(Total)
             }
 
         })
@@ -196,17 +194,7 @@ module.exports = {
     getAllOrderStatus: () => {
         let orderStatus = []
         return new Promise(async (resolve, reject) => {
-            let pendingProducts = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
 
-                {
-                    $match: {
-                        Status: "Pending"
-                    }
-                }
-
-            ]).toArray()
-            let pendingLen = pendingProducts.length
-            orderStatus.push(pendingLen)
 
             let placedProducts = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
 
@@ -243,6 +231,18 @@ module.exports = {
             ]).toArray()
             let deliveredLen = deliveredProducts.length
             orderStatus.push(deliveredLen)
+
+            let pendingProducts = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+
+                {
+                    $match: {
+                        Status: "Cancelled"
+                    }
+                }
+
+            ]).toArray()
+            let pendingLen = pendingProducts.length
+            orderStatus.push(pendingLen)
 
             console.log(orderStatus);
             resolve(orderStatus)

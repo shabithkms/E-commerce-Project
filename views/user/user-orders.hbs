@@ -5,11 +5,6 @@
         font-family: 'Lato', sans-serif;
         color: rgba(116, 116, 116, 0.667);
 
-            {
-                {
-                 !-- background: linear-gradient(140deg, #fff, 50%, #BA68C8) --
-            }
-        }
     }
 
     .view {
@@ -188,16 +183,55 @@
                                             </div>
 
                                         </div>
-                                        <div class="d-flex mt-1">
+                                        <div class="d-flex mt-1 " style="justify-content: space-between;">
                                             <div class=""> <small style="color: black;"> Payment Method: <br>
-                                                </small><span style="color: black;"> {{this.PaymentMethod}}</span></div>
-                                            <div class="ml-auto"> <small style="color: black;"> Order Status: <br>
+                                                </small><span class="text-dark"> {{this.PaymentMethod}}</span></div>
+
+                                            {{#if this.Delivered}}
+                                            <div class=""> <small style="color: black;"> Order Status: <br>
+                                                </small><span class="text-success" id="status"> {{this.Status}}</span>
+                                            </div>
+                                            {{else}}
+                                            {{#if this.Cancelled}}
+                                            <div class=""> <small style="color: black;"> Order Status: <br>
+                                                </small><span class="text-danger" id="status"> {{this.Status}}</span>
+                                            </div>
+                                            {{else}}
+                                            <div class=""> <small style="color: black;"> Order Status: <br>
                                                 </small><span style="color: black;" id="status"> {{this.Status}}</span>
                                             </div>
-                                            <div class="ml-auto"> <small style="color: black;"><br>
+
+                                            {{/if}}
+                                            {{/if}}
+
+
+
+                                            {{#if this.Delivered}}
+                                            <div class="ml-auto" style="display: none;"> <small
+                                                    style="color: black;"><br>
                                                 </small><span style="color: black;"> <a href="/cancelOrder/{{this._id}}"
-                                                        class="btn  btn-danger ml-auto" onclick="deleteBrand(event)" style="
+                                                        class="btn  btn-danger ml-auto" onclick="deleteBrand(event)"
+                                                        style="
                                                 border-radius: 3px;">Cancel</a></span></div>
+                                            {{else}}
+                                            {{#if this.Cancelled}}
+                                            <div class="ml-auto" style="display: none;"> <small
+                                                    style="color: black;"><br>
+                                                </small><span style="color: black;"> <a href="/cancelOrder/{{this._id}}"
+                                                        class="btn  btn-danger ml-auto" onclick="deleteBrand(event)"
+                                                        style="
+                                                border-radius: 3px;">Cancel</a></span></div>
+                                            {{else}}
+
+                                            <div class="ml-auto" > <small
+                                                    style="color: black;"><br>
+                                                </small><span style="color: black;"> <a href="/cancelOrder/{{this._id}}"
+                                                        class="btn  btn-danger ml-auto" onclick="deleteBrand(event)"
+                                                        style="
+                                                border-radius: 3px;">Cancel</a></span></div>
+                                            {{/if}}
+                                            {{/if}}
+
                                         </div>
 
 

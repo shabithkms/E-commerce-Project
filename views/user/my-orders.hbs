@@ -1,0 +1,427 @@
+<style>
+    .actived {
+        background: #a8741a;
+        color: white;
+    }
+
+    .actived:hover {
+        background: #a8741a;
+        color: white;
+    }
+
+    .kms {
+        background: #a8741a;
+    }
+
+
+    .kms:hover {
+        background: #a8741a;
+    }
+
+    /* Profile container */
+    .profile {
+        margin: 20px 0;
+    }
+
+    /* Profile sidebar */
+    .profile-sidebar {
+        padding: 20px 0 10px 0;
+        background: #fff;
+    }
+
+    .profile-userpic img {
+        float: none;
+        margin: 0 auto;
+
+
+        width: 120px;
+        height: 120px;
+        -webkit-border-radius: 50% !important;
+        -moz-border-radius: 50% !important;
+        border-radius: 50% !important;
+    }
+
+    .profile-usertitle {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .profile-usertitle-name {
+        color: #5a7391;
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 7px;
+    }
+
+    .profile-usertitle-job {
+        text-transform: uppercase;
+        color: #5b9bd1;
+        font-size: 12px;
+        font-weight: 600;
+        margin-bottom: 15px;
+    }
+
+    .profile-userbuttons {
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    .profile-userbuttons .btn:last-child {
+        margin-right: 0px;
+    }
+
+    .profile-usermenu {
+        margin-top: 30px;
+    }
+
+    .profile-usermenu ul li {
+        border-bottom: 1px solid #f0f4f7;
+    }
+
+    .profile-usermenu ul li:last-child {
+        border-bottom: none;
+    }
+
+    .profile-usermenu ul li a {
+        color: #93a3b5;
+        font-size: 14px;
+        font-weight: 400;
+    }
+
+    .profile-usermenu ul li a i {
+        margin-right: 8px;
+        font-size: 14px;
+    }
+
+    .profile-usermenu ul li a:hover {
+        background-color: #fafcfd;
+        color: #5b9bd1;
+    }
+
+    .profile-usermenu ul li.active {
+        border-bottom: none;
+    }
+
+    .profile-usermenu ul li.active a {
+        color: #5b9bd1;
+        background-color: #f6f9fb;
+        border-left: 2px solid #5b9bd1;
+        margin-left: -2px;
+    }
+
+    /* Profile Content */
+    .profile-content {
+        padding: 20px;
+        background: #fff;
+        min-height: 460px;
+    }
+
+    .view {
+        background-color: #a8741a;
+        border-radius: 3px;
+    }
+
+    .btn :hover {
+        background-color: black;
+    }
+
+    h6 {}
+
+        {
+            {
+             !-- .container-fluid {
+                margin-top: 100px;
+            }
+
+            --
+        }
+    }
+
+    p {
+        font-size: 14px;
+        margin-bottom: 7px
+    }
+
+    .small {
+        letter-spacing: 0.5px !important
+    }
+
+
+    }
+
+    hr {
+        background-color: rgba(248, 248, 248, 0.667)
+    }
+
+    .bold {
+        font-weight: 500
+    }
+
+    .change-color {
+        color: #a8741a !important
+    }
+
+    .card-2 {
+        box-shadow: 1px 1px 3px 0px rgb(112, 115, 139)
+    }
+
+    .fa-circle.active {
+        font-size: 8px;
+        color: #a8741a
+    }
+
+    .fa-circle {
+        font-size: 8px;
+        color: #aaa
+    }
+
+    .rounded {
+        border-radius: 2.25rem !important
+    }
+
+    .progress-bar {
+        background-color: #a8741a !important
+    }
+
+    .progress {
+        height: 5px !important;
+        margin-bottom: 0
+    }
+
+    .invoice {
+        position: relative;
+        top: -70px
+    }
+
+    .Glasses {
+        position: relative;
+        top: -12px !important
+    }
+
+    .card-footer {
+        background-color: #AB47BC;
+        color: #fff
+    }
+
+    h2 {
+        color: #000;
+        letter-spacing: 2px !important
+    }
+
+    .display-3 {
+        font-weight: 500 !important
+    }
+
+    @media (max-width: 479px) {
+        .invoice {
+            position: relative;
+            top: 7px
+        }
+
+        .border-line {
+            border-right: 0px solid rgb(226, 206, 226) !important
+        }
+    }
+
+    @media (max-width: 700px) {
+        h2 {
+            color: #000;
+            font-size: 17px
+        }
+
+        .display-3 {
+            font-size: 28px;
+            font-weight: 500 !important
+        }
+    }
+
+    .card-footer small {
+        letter-spacing: 7px !important;
+        font-size: 12px
+    }
+
+    .border-line {
+        border-right: 1px solid rgb(226, 206, 226)
+    }
+
+    .card {
+        display: flex;
+        flex-direction: row;
+    }
+</style>
+<div class="container mt-3 " style="height: 100%;padding-bottom: 8em;"> 
+    <div class="row">
+        <div class="col-md-3 ">
+
+
+
+            <div class="profile-sidebar">
+
+
+
+                <div class="list-group ">
+                    <a href="/profile" class="list-group-item list-group-item-action ">PROFILE</a>
+                    <a href="/myOrders" class="list-group-item list-group-item-action actived">My Orders</a>
+
+                    <a href="/change-password" class="list-group-item list-group-item-action">Change Password</a>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-9">
+            <div class="header text-center mb-2">
+                <h4>
+                    <strong>My Orders</strong>
+                </h4>
+            </div>
+            <div class="card card-1 row ">
+                {{#each orders}}
+                <div class="card-body col-md-6">
+                    {{!-- <div class="row justify-content-between mb-3">
+                        <div class="col-auto">
+                            <h6 class="color-1 mb-0 change-color">Orders</h6>
+                        </div>
+
+                    </div> --}}
+
+                    <div class="">
+
+
+                        <div class="col-auto "> <small>Order ID : {{this._id}}</small> </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="card card-2">
+                                    <div class="card-body">
+                                        <div class="media">
+                                            <div class="sq align-self-center ">
+                                                <span style="color: black;">Delivery Address:</span> <br>
+                                                {{this.deliveryDetails.FirstName}} {{this.deliveryDetails.LastName}}
+                                                <br>
+                                                {{this.deliveryDetails.House}} <br>
+                                                {{this.deliveryDetails.Town}},{{this.deliveryDetails.PIN}} <br>
+                                                {{this.deliveryDetails.Mobile}} <br>
+                                                <div class=""> <small style="color: black;"> Order Date: <br>
+                                                        {{this.Date}} <br>
+                                                        {{this.Time}}
+                                                    </small></div>
+                                                <div class=" ">
+                                                    <div>
+                                                        <a class="btn text-center view"
+                                                            href="/singleOrder/{{this._id}}">View
+                                                            products</a>
+                                                    </div>
+
+                                                </div>
+                                                <div class="d-flex mt-1 " style="justify-content: space-between;">
+                                                    <div class=""> <small style="color: black;"> Payment Method: <br>
+                                                        </small><span class="text-dark"> {{this.PaymentMethod}}</span>
+                                                    </div>
+
+                                                    {{#if this.Delivered}}
+                                                    <div class=""> <small style="color: black;"> Order Status: <br>
+                                                        </small><span class="text-success" id="status">
+                                                            {{this.Status}}</span>
+                                                    </div>
+                                                    {{else}}
+                                                    {{#if this.Cancelled}}
+                                                    <div class=""> <small style="color: black;"> Order Status: <br>
+                                                        </small><span class="text-danger" id="status">
+                                                            {{this.Status}}</span>
+                                                    </div>
+                                                    {{else}}
+                                                    <div class=""> <small style="color: black;"> Order Status: <br>
+                                                        </small><span style="color: black;" id="status">
+                                                            {{this.Status}}</span>
+                                                    </div>
+
+                                                    {{/if}}
+                                                    {{/if}}
+
+
+
+                                                    {{#if this.Delivered}}
+
+                                                    {{else}}
+                                                    {{#if this.Cancelled}}
+
+                                                    {{else}}
+
+                                                    <div class="ml-auto"> <small style="color: black;"><br> </small>
+                                                        <a href="/cancelOrder/{{this._id}}"
+                                                            class="btn  btn-danger ml-auto" onclick="cancelOrder(event)"
+                                                            style="
+                                                border-radius: 3px;">Cancel</a>
+                                                    </div>
+                                                    {{/if}}
+                                                    {{/if}}
+
+                                                </div>
+
+
+
+                                            </div>
+                                            <div class="media-body my-auto text-right">
+                                                <div class="row my-auto flex-column flex-md-row">
+                                                    <div class="col my-auto">
+                                                        <h6 class="mb-0"> </h6>
+                                                    </div>
+
+                                                    {{!-- <div class="col my-auto"> <small>Size : M</small></div> --}}
+                                                    <div class="col my-auto"> <small></small></div>
+                                                    <div class="col my-auto">
+                                                        <h5>Total :</h5>
+                                                        <h6 class="mb-0">&#8377;{{this.Total}}.00</h6>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {{!--
+                                        <hr class="my-3 "> --}}
+                                        <div class="row flex-column">
+                                            {{!-- <div class="col-md-3 mb-3"> <small> Order Status <span><i
+                                                            class=" ml-2 fa fa-refresh"
+                                                            aria-hidden="true"></i></span></small>
+                                            </div>
+                                            <div class="col-md-3 mb-3">
+                                                <h5>{{this.Status}}</h5><i class=" ml-2 fa fa-refresh"
+                                                    aria-hidden="true"></i></span></small>
+                                            </div>
+                                            <div class="col mt-auto">
+                                                <div class="progress my-auto">
+                                                    <div class="progress-bar progress-bar rounded" style="width: 10%"
+                                                        role="progressbar" aria-valuenow="25" aria-valuemin="0"
+                                                        aria-valuemax="100">
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="media row justify-content-between ">
+                                                    <div class="col-auto text-right"><span> <small
+                                                                class="text-right mr-sm-2">Placed</small> <i
+                                                                class="fa fa-circle active"></i> </span></div>
+                                                    <div class="flex-col"> <span> <small
+                                                                class="text-right mr-sm-2">Shipped</small><i
+                                                                class="fa fa-circle "></i></span></div>
+                                                    <div class="col-auto flex-col-auto"><small
+                                                            class="text-right mr-sm-2">Delivered</small><span> <i
+                                                                class="fa fa-circle"></i></span></div>
+                                                </div>
+                                            </div> --}}
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+</div>

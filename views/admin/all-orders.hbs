@@ -19,7 +19,7 @@
 
                                 <th scope="col">Amount</th>
                                 
-                                <th scope="col">Payment</th>
+                               
 
                                 <th scope="col">Status</th>
                                
@@ -37,27 +37,28 @@
                                 <td>{{this.deliveryDetails.FirstName}},{{this.deliveryDetails.House}}<br>{{this.deliveryDetails.Town}},PIN:{{this.deliveryDetails.PIN}}<br>PH:{{this.deliveryDetails.Mobile}}
                                 </td>
 
-                                <td>{{this.Total}}</td>
+                                <td>₹{{this.Total}} <br>
+                                {{this.PaymentMethod}}</td>
                                 
-                                <td>{{this.PaymentMethod}}</td>
-                                <td id="{{this._id}}" style="display: none;">{{this.Status}}</td>
+                                
+                                {{!-- <td id="{{thisd}}" style="display: none;">{{this.Status}}</td> --}}
                                 <td>
                                     <div class="dropdown">
-                                        <button class="btn btn-dark dropdown-toggle p-1" type="button"
-                                            id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-                                            aria-expanded="false" style="height: 2em;width:7em"
+                                        <button class="btn btn-dark dropdown-toggle p-1" type="button" 
+                                            id="{{this._id}}" data-toggle="dropdown" aria-haspopup="true"
+                                            aria-expanded="false" style="height: 2em;width:7em" value="{{this.Status}}"
                                             onclick="statusChecker('{{this._id}}')">
                                             {{this.Status}}
                                         </button>
 
                                         <div class="dropdown-menu " aria-labelledby="dropdownMenuButton">
-                                            <a class="dropdown-item" href="/admin/placed/{{this._id}}"
+                                            <a class="dropdown-item" href="/admin/placed/{{this._id}}" onclick="changeStatus(event)"
                                                 style="text-decoration: none;" id="{{this._id}}placed">Placed</a>
-                                            <a class="dropdown-item" href="/admin/shipped/{{this._id}}"
+                                            <a class="dropdown-item" href="/admin/shipped/{{this._id}}" onclick="changeStatus(event)"
                                                 style="text-decoration: none;" id="{{this._id}}ship">Shipped</a>
-                                            <a class="dropdown-item" href="/admin/delivered/{{this._id}}"
+                                            <a class="dropdown-item" href="/admin/delivered/{{this._id}}" onclick="changeStatus(event)"
                                                 style="text-decoration: none;" id="{{this._id}}deliver">Delivered</a>
-                                            <a class="dropdown-item" href="/admin/cancelled/{{this._id}}"
+                                            <a class="dropdown-item" href="/admin/cancelled/{{this._id}}" onclick="changeStatus(event)"
                                                 style="text-decoration: none;" id="{{this._id}}cancel">Cancelled</a>
                                         </div>
                                     </div>
@@ -83,7 +84,8 @@
 <script>
     function statusChecker(orderId) {
         console.log("llog", orderId)
-        let status = document.getElementById(orderId).innerHTML
+        let status = document.getElementById(orderId).value
+      
         console.log('ja', status)
         if (status === 'Placed') {
             console.log("Placed")
@@ -98,11 +100,13 @@
             document.getElementById(orderId + 'placed').style.display = "none";
             document.getElementById(orderId + 'ship').style.display = "none";
             document.getElementById(orderId + 'cancel').style.display = "none";
+            document.getElementById(orderId + 'deliver').style.display = "none";
 
         } else if (status === 'Cancelled') {
             document.getElementById(orderId + 'placed').style.display = "none";
             document.getElementById(orderId + 'ship').style.display = "none";
-            {{!-- document.getElementById(orderId + 'deliver').style.display = "none"; --}}
+            document.getElementById(orderId + 'deliver').style.display = "none";
+             document.getElementById(orderId + 'cancel').style.display = "none";
         }
     }
 </script>

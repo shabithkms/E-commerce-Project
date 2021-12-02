@@ -75,7 +75,7 @@ router.get('/', async function (req, res, next) {
     let allOrderStatus = await productHelper.getAllOrderStatus()
     let allMethods = await productHelper.getAllMethods()
 
-    res.render('admin/new-dash', { admin: true, dashboard: true, newOrders,newUsers, newProducts, totalIncome, totalUsers, totalProducts,totalOrders, allOrderStatus, allMethods });
+    res.render('admin/dashboard', { admin: true, dashboard: true, newOrders,newUsers, newProducts, totalIncome, totalUsers, totalProducts,totalOrders, allOrderStatus, allMethods });
   } else {
     res.redirect('/admin/login')
   }
@@ -358,6 +358,7 @@ router.get('/singleOrder/:id', verifyAdminLogin, (req, res) => {
   })
 })
 
+//Order Status changing-------------------
 
 router.get('/shipped/:id', (req, res) => {
   status = 'Shipped'
@@ -386,6 +387,8 @@ router.post('/crop', (req, res) => {
   // console.log(newImage,"cr");
   res.json({ satus: true })
 })
+
+//Banner section-----------------------------------------
 
 router.get('/banners', verifyAdminLogin, async (req, res) => {
   let banners = await userHelper.getAllBanners()

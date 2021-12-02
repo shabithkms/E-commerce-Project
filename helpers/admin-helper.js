@@ -251,19 +251,40 @@ module.exports = {
 
             ]).toArray()
             console.log(orderItem, "0");
-
             resolve(orderItem)
         })
     },
     changeOrderStatus: (orderId, stat) => {
         return new Promise((resolve, reject) => {
-            db.get().collection(collection.ORDER_COLLECTION).updateOne({ _id: objectId(orderId) }, {
-                $set: {
-                    Status: stat
-                }
-            }).then(() => {
-                resolve()
-            })
+            console.log(stat, "in change");
+            if (stat == "Delivered") {
+                db.get().collection(collection.ORDER_COLLECTION).updateOne({ _id: objectId(orderId) }, {
+                    $set: {
+                        Status: stat,
+                        Delivered: true
+                    }
+                }).then(() => {
+                    resolve()
+                })
+            } else if (stat == "Cancelled") {
+                db.get().collection(collection.ORDER_COLLECTION).updateOne({ _id: objectId(orderId) }, {
+                    $set: {
+                        Status: stat,
+                        Cancelled: true
+                    }
+                }).then(() => {
+                    resolve()
+                })
+            } else {
+                db.get().collection(collection.ORDER_COLLECTION).updateOne({ _id: objectId(orderId) }, {
+                    $set: {
+                        Status: stat
+                    }
+                }).then(() => {
+                    resolve() 
+                })
+            }
+
         })
     },
 
@@ -344,15 +365,15 @@ module.exports = {
                     let newPrice = (((product.price) * (data.Offer)) / 100)
                     newPrice = newPrice.toFixed()
 
-                    db.get().collection(collection.PRODUCT_COLLECTION).updateOne({_id:objectId(product._id)},
-                    {
-                        $set:{
-                            actualPrice:actualPrice,
-                            price:(actualPrice-newPrice),
-                            catOffer:true,
-                            catPercentage:data.Offer
-                        }
-                    })
+                    db.get().collection(collection.PRODUCT_COLLECTION).updateOne({ _id: objectId(product._id) },
+                        {
+                            $set: {
+                                actualPrice: actualPrice,
+                                price: (actualPrice - newPrice),
+                                catOffer: true,
+                                catPercentage: data.Offer
+                            }
+                        })
                 })
 
                 resolve()

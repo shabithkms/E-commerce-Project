@@ -591,7 +591,6 @@ router.get('/product/:id', async (req, res) => {
     cartCount = await userHelper.getCartCount(Id)
   }
   let realtedProducts = await productHelper.getRelatedProducts()
-
   let brand = await userHelper.getBrands()
   let homePro = await userHelper.getHomeProducts()
   let user = req.session.user
@@ -763,6 +762,7 @@ router.post('/place-order', async (req, res) => {
     console.log("in cod");
     let id = req.session.user._id
     let products = await userHelper.getCartProductList(id)
+    console.log(products,"cartt pro");
     let total = await userHelper.getTotalAmount(id)
     userHelper.placeOrder(req.body, products, total).then((resp) => {
       req.session.orderId = resp.insertedId.toString()
@@ -855,11 +855,10 @@ router.get('/buyNow/:id', verifyUserLogin, async (req, res) => {
   req.session.proId = pId
   let userId = req.session.user._id
   let user = req.session.user
-  let product = await userHelper.getBuyNowProduct(pId)
-  let total = product.price
+  let productDetails = await userHelper.getBuyNowProductDetails(pId)
+  let total = await userHelper.getBuyNowTotal(pId)
   let brand = await userHelper.getBrands()
   let homePro = await userHelper.getHomeProducts()
-
   req.session.pId = pId
   //cart count
   let cartCount = null
@@ -869,7 +868,7 @@ router.get('/buyNow/:id', verifyUserLogin, async (req, res) => {
   }
   //get Address
   var address = null
-  let status = await userHelper.addressChecker(req.session.user._id)
+  let status = await userHelper.addressChecker(req.session.user._id) 
   console.log(status);
   if (status.address) {
     // console.log(status.address, "st a");
@@ -878,7 +877,7 @@ router.get('/buyNow/:id', verifyUserLogin, async (req, res) => {
     let len = addr.length
     address = addr.slice(len - 2, len)
   }
-  res.render('user/buy-now', { total, cart: true, pId, brand, homePro, cartCount, product, address, user })
+  res.render('user/buy-now', { total, cart: true, pId, brand, homePro, cartCount, productDetails, address, user })
 })
 
 
@@ -888,12 +887,13 @@ router.post('/buyNow', async (req, res) => {
     console.log(req.session.buyNowData);
     let newId = new objectId()
     let product = await userHelper.getBuyNowProduct(req.body.ProId)
-    let total = product.price
+    let total = await userHelper.getBuyNowTotal(req.body.ProId)
     if (req.body['Payment'] == 'COD') {
       console.log("in cod");
       let id = req.session.user._id
       let product = await userHelper.getBuyNowProduct(req.body.ProId)
-      let total = product.price
+      let total = await userHelper.getBuyNowTotal(req.body.ProId)
+      console.log("in buy now userjs post=",total);
       userHelper.placeOrder(req.body, product, total).then((resp) => {
 
         req.session.orderId = resp.insertedId.toString()
@@ -1013,7 +1013,7 @@ router.get('/buyNowSuccess', verifyUserLogin, (req, res) => {
       let pId = req.session.proId
       console.log(req.session.proId, "proid");
       let product = await userHelper.getBuyNowProduct(pId)
-      let total = product.price
+      let total = await userHelper.getBuyNowTotal(pId)
       console.log(id, data, product, total);
       userHelper.placeOrder(data, product, total).then((resp) => {
         req.session.orderId = resp.insertedId.toString()
@@ -1086,14 +1086,7 @@ router.get('/success', verifyUserLogin, (req, res) => {
 
 })
 
-router.get('/buyNowCancelled', verifyUserLogin, (req, res) => {
-  let user = req.session.user
-  res.render('user/cancel', { user })
-})
-router.get('/cancelled', verifyUserLogin, (req, res) => {
-  let user = req.session.user
-  res.render('user/cancel', { user }) 
-})
+
  
 router.post('/verify-buyNowPayment', (req, res) => { 
   let id = req.session.user._id
@@ -1103,7 +1096,7 @@ router.post('/verify-buyNowPayment', (req, res) => {
 
     let ProId = data.ProId
     let product = await userHelper.getBuyNowProduct(ProId)
-    let total = product.price
+    let total = await userHelper.getBuyNowTotal(ProId)
 
     userHelper.placeOrder(data, product, total).then((resp) => {
       req.session.orderId = resp.insertedId.toString()
@@ -1164,9 +1157,21 @@ router.get('/order-success', verifyUserLogin, async (req, res) => {
   } else {
     res.redirect('/cart')
   }
-
   req.session.ordered = false
 })
+
+
+//Cancelled
+
+router.get('/buyNowCancelled', verifyUserLogin, (req, res) => {
+  let user = req.session.user
+  res.render('user/cancel', { user })
+})
+router.get('/cancelled', verifyUserLogin, (req, res) => {
+  let user = req.session.user
+  res.render('user/cancel', { user }) 
+})
+
 
 router.get('/addNewAddress', verifyUserLogin, async (req, res) => {
   let cartCount = null
@@ -1206,7 +1211,7 @@ router.get('/myOrders', verifyUserLogin, async (req, res) => {
     let len = orders.length
 
 
-    res.render('user/user-orders', { orders, brand, homePro, cartCount, user })
+    res.render('user/my-orders', { orders, brand, homePro, cartCount, user })
   })
 
 })
@@ -1219,8 +1224,8 @@ router.get('/cancelOrder/:id', (req, res) => {
 })
 
 
-router.get('/singleOrder/:id', verifyUserLogin, async (req, res) => {
-  let user = req.session.user
+router.get('/singleOrder/:id', verifyUserLogin, async (req, res) => {  
+  let user = req.session.user 
   let oId = req.params.id
   let brand = await userHelper.getBrands()
   let homePro = await userHelper.getHomeProducts()
@@ -1232,6 +1237,7 @@ router.get('/singleOrder/:id', verifyUserLogin, async (req, res) => {
   }
 
   adminHelpers.getOrderProducts(oId).then((products) => {
+    console.log(oId);
     console.log(products, "pr o");
     res.render('user/single-orders', { products, brand, homePro, user, cartCount })
   })

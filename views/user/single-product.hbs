@@ -211,6 +211,12 @@
                                         <i class="ion-ios-loop-strong animated rotateIn infinite"></i>
                                         <i class="ion-android-done"></i> add to cart
                                     </a>
+                                    <a class="btn-hover-black addtocart cart-item"
+                                        href="/buyNow/{{product._id}}" data-toggle="tooltip"
+                                        title="add to cart">
+                                        <i class="ion-ios-loop-strong animated rotateIn infinite"></i>
+                                        <i class="ion-android-done"></i>Buy Now
+                                    </a>
                                     {{/if}}
 
 
@@ -387,18 +393,26 @@
 
                             <div class="product-categori">
 
-                                <button class="add_cart cart-item" onclick="addToCart('{{this._id}}')">
+                                 {{#if this.stockout}}
+                                        <span class="text-danger">Out of stock</span>
+                                {{else}}
+                                <button class="add_cart btn btn-light cart-item "
+                                    style="width: 130px; border: 1px solid black !important;"
+                                    onclick="addToCart('{{this._id}}')" title="Add to cart">
 
                                     <i class="ion-bag"></i>
                                     <i class="ion-ios-loop-strong animated rotateIn infinite"></i>
                                     <i class="ion-android-done"></i> Add to Cart
                                 </button>
                                 <br>
-                                <a href="" class="add_cart cart-item mt-1" title="Add to Cart">
+                                <a class="add_cart btn btn-light cart-item mt-1" href="/buyNow/{{this._id}}"
+                                    style="width: 130px; border: 1px solid black !important;">
+
                                     <i class="ion-bag"></i>
                                     <i class="ion-ios-loop-strong animated rotateIn infinite"></i>
-                                    <i class="ion-android-done"></i> Buy now
+                                    <i class="ion-android-done"></i> Buy Now
                                 </a>
+                                {{/if}}
 
                             </div>
 
