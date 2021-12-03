@@ -52,21 +52,6 @@
                                                 {{/each}}
 
 
-
-                                                {{!-- <li><a href="products/usado-hot-desde.html">Omega SA</a></li>
-
-                                                <li><a href="products/lorem-ipsum.html">Jaeger-LeCoultre</a></li>
-
-                                                <li><a href="products/humor-new-agregado.html">Rolex</a></li>
-
-                                                <li><a href="products/medio-del-texto.html">Audemars Piguet</a></li>
-
-                                                <li><a href="products/oscuras-hot-lengua.html">Vacheron</a></li>
-
-                                                <li><a href="products/menos-new-normal.html">Breitling SA</a></li>
-
-                                                <li><a href="products/finibus-bonorum.html">TAG Heuer</a></li> --}}
-
                                             </ul>
                                         </li>
 
@@ -78,7 +63,7 @@
                                                 {{#each homePro}}
                                                 <li><a href="/products/{{this.name}}">{{this.name}}</a></li>
                                                 {{/each}}
-                                                
+
 
                                             </ul>
                                         </li>
@@ -150,8 +135,7 @@
 
 
 
-                                        {{!-- <li class="submenus"><a href="pages/size-chart.html">Size Chart</a></li>
-                                        --}}
+
 
 
                                     </ul>
@@ -166,10 +150,17 @@
                     </div>
                     <div class="col-lg-2 col-xl-3 col-md-6 col-6">
                         <div class="header-search-cart">
+
                             <div class="header-search common-style">
                                 <button class="sidebar-trigger-search">
                                     <span class="ion-ios-search-strong"></span>
                                 </button>
+                            </div>
+                            <div class="header-wishlist common-style">
+                                <button class="relative">
+                                    <a href="/wishlist" class="text-dark">
+                                      <span class="fas fa-heart"></ion-icon></i>
+                                    </a></button>
                             </div>
                             <div class="header-cart common-style">
                                 <button class=" relative">
@@ -219,6 +210,7 @@
                                     <li><a href="/profile">My Account</a></li>
                                     <li><a href="/cart">My Cart</a></li>
                                     <li><a href="/wishlist">Wishlist</a></li>
+                                    <li><a href="/myOrders">My Orders</a></li>
                                     {{!-- <li><a href="/checkout">Checkout</a></li> --}}
                                     {{else}}
                                     <li><a href="/login">Log In</a></li>
@@ -334,6 +326,7 @@
 
                             <li><a href="/profile">My Account</a></li>
                             <li><a href="/cart">My Cart</a></li>
+                            <li><a href="/wishlist">Wishlist</a></li>
                             <li><a href="/myOrders">My Orders</a></li>
                             <li><a href="/logout">Logout</a></li>
                             {{!-- <li><a href="/checkout">Checkout</a></li> --}}

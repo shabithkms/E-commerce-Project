@@ -284,8 +284,6 @@ module.exports = {
     //User section ends...
 
 
-
-
     // Cart section Starting
 
     addToCart: (proId, userId) => {
@@ -334,6 +332,89 @@ module.exports = {
             }
         })
     },
+
+    //Wishlist-----------------------------------------------------
+
+    addToWishlist: (proId, userId) => {
+        let wishObj= {
+            item: objectId(proId)
+        }
+        return new Promise(async (resolve, reject) => {
+            let userWish = await db.get().collection(collection.WISHLIST_COLLECTION).findOne({ user: objectId(userId) })
+            if (userWish) {
+                let proExist = await userWish.products.findIndex(product => product.item == proId)
+                if (proExist != -1) {
+                    db.get().collection(collection.WISHLIST_COLLECTION).updateOne({ user: objectId(userId) },
+                        {
+                            $pull: {
+                                item: objectId(proId)
+                            }
+                        }).then((response) => {
+                            console.log("pulled");
+                            console.log(response);
+                            resolve({pulled:true})
+                        })
+                } else {
+                    db.get().collection(collection.WISHLIST_COLLECTION).updateOne({ user: objectId(userId) },
+                        {
+                            $push: {
+                                products: wishObj
+                            }
+                        }).thn(() => {
+                            console.log("pushed");
+                            resolve({pushed:true})
+                        })
+                }
+            } else {
+                let wish = {
+                    user:objectId(userId),
+                    products: [wishObj]
+                }
+                db.get().collection(collection.WISHLIST_COLLECTION).insertOne(wish).then((reponse) => {
+                    resolve(response)
+                    console.log(" Craeted new wishlist" );
+                })
+            }
+
+        })
+    },
+    getWishlistProducts:(user)=>{
+        return new Promise(async(resolve,reject)=>{
+            let wishProducts=await db.get().collection(collection.WISHLIST_COLLECTION).aggregate([
+                {
+                    $match:{
+                        user:objectId(user)
+                    }
+                },
+                {
+                    $unwind:'$products'
+                },
+                {
+                    $project:{
+                        item:'$products.item'
+                    }
+                },
+                {
+                    $lookup:{
+                        from:collection.PRODUCT_COLLECTION,
+                        localField:'item',
+                        foreignField:'_id',
+                        as:'product'
+                    }
+                },
+                {
+                    $project:{
+                        item:1,
+                        product:{$arrayElemAt:['$product',0]} 
+                    
+                    }
+                }
+                
+            ]).toArray()
+            resolve(wishProducts)
+        })
+    },
+
     getCartProducts: (Id) => {
         return new Promise(async (resolve, reject) => {
             let cartItems = await db.get().collection(collection.CART_COLLECTION).aggregate([
@@ -582,9 +663,9 @@ module.exports = {
     //Order section starting
 
     placeOrder: (order, products, total) => {
-        return new Promise((resolve, reject) => { 
+        return new Promise((resolve, reject) => {
             //  total = parseInt(total)
-            console.log("in placeorder",total);
+            console.log("in placeorder", total);
             let len = products.length
             // for (i = 0; i < len; i++) {
             //     products[i].proStatus = order.Payment == "Placed"
@@ -783,7 +864,7 @@ module.exports = {
 
     getBrands: () => {
         return new Promise(async (resolve, reject) => {
-            let brands = await db.get().collection(collection.BRAND_COLLECTION).find().limit(6).toArray()
+            let brands = await db.get().collection(collection.BRAND_COLLECTION).find().sort({ $natural: -1 }).limit(6).toArray()
 
             resolve(brands)
         })

@@ -155,7 +155,7 @@
                             <div class="rhs_product_tab rhs_match_height">
 
                                 {{#each products}}
-                                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-xs-12 mb-4">
+                                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-xs-12 mb-4 ">
 
 
                                     <div class="single-product mb-35">
@@ -168,7 +168,7 @@
 
                                             <div class="product-action">
 
-                                                <a class="animate-left" href="#" title="Wishlist">
+                                                <a class="animate-left" href="" onclick="addToWishlist('{{this._id}}')" title="Wishlist">
                                                     <i class="ion-ios-heart-outline"></i>
                                                 </a>
 
@@ -206,7 +206,7 @@
                                                 </div>
 
 
-                                                <div class="product-categori">
+                                                <div class="product-categori ">
 
                                                     {{#if this.stockout}}
                                                     <span class="text-danger">Out of stock</span>
@@ -354,14 +354,11 @@
 
                                     <div class="product-action">
 
-                                        <a class="animate-left" href="#" title="Wishlist">
+                                        <a class="animate-left" href="/add-to-wishlist" title="Wishlist">
                                             <i class="ion-ios-heart-outline"></i>
                                         </a>
 
-                                        {{!-- <a title="Quick View" data-toggle="modal" data-target="#exampleModal"
-                                            class="animate-right" href="javascript:void(0);"
-                                            onclick="quiqview('predefinidos-cuando')"><i
-                                                class="ion-ios-eye-outline"></i></a> --}}
+
                                     </div>
                                 </div>
 
@@ -383,34 +380,34 @@
 
                                         <div class="product-price">
 
-                                            <span><del><span class=money>₹190.00</span></del></span>
+                                            <span class="price--sale"><span class=money>₹ {{this.cost}}</span></span>
+                                            <span><del><span class=money>₹ {{this.price}}</span></del></span>
 
-                                            <span class="price--sale"><span class=money>₹110.00</span></span>
                                         </div>
 
 
                                         <div class="product-categori">
 
-                                             {{#if this.stockout}}
-                                        <span class="text-danger">Out of stock</span>
-                                {{else}}
-                                <button class="add_cart btn btn-light cart-item "
-                                    style="width: 130px; border: 1px solid black !important;"
-                                    onclick="addToCart('{{this._id}}')" title="Add to cart">
+                                            {{#if this.stockout}}
+                                            <span class="text-danger">Out of stock</span>
+                                            {{else}}
+                                            <button class="add_cart btn btn-light cart-item "
+                                                style="width: 130px; border: 1px solid black !important;"
+                                                onclick="addToCart('{{this._id}}')" title="Add to cart">
 
-                                    <i class="ion-bag"></i>
-                                    <i class="ion-ios-loop-strong animated rotateIn infinite"></i>
-                                    <i class="ion-android-done"></i> Add to Cart
-                                </button>
-                                <br>
-                                <a class="add_cart btn btn-light cart-item mt-1" href="/buyNow/{{this._id}}"
-                                    style="width: 130px; border: 1px solid black !important;">
+                                                <i class="ion-bag"></i>
+                                                <i class="ion-ios-loop-strong animated rotateIn infinite"></i>
+                                                <i class="ion-android-done"></i> Add to Cart
+                                            </button>
+                                            <br>
+                                            <a class="add_cart btn btn-light cart-item mt-1" href="/buyNow/{{this._id}}"
+                                                style="width: 130px; border: 1px solid black !important;">
 
-                                    <i class="ion-bag"></i>
-                                    <i class="ion-ios-loop-strong animated rotateIn infinite"></i>
-                                    <i class="ion-android-done"></i> Buy Now
-                                </a>
-                                {{/if}}
+                                                <i class="ion-bag"></i>
+                                                <i class="ion-ios-loop-strong animated rotateIn infinite"></i>
+                                                <i class="ion-android-done"></i> Buy Now
+                                            </a>
+                                            {{/if}}
 
                                         </div>
 
@@ -521,29 +518,7 @@
                     </div>
                     {{/each}}
 
-                    {{!-- <div class="single-logo">
-
-                        <img src="/files/25d35.png?v=1531559836" alt="">
-
-                    </div>
-
-                    <div class="single-logo">
-
-                        <img src="/files/3a36d.png?v=1531559842" alt="">
-
-                    </div>
-
-                    <div class="single-logo">
-
-                        <img src="/files/4d1e0.png?v=1531559857" alt="">
-
-                    </div>
-
-                    <div class="single-logo">
-
-                        <img src="/files/1_4cb7c46c-7579-4a85-8289-0a8ee3dd415bfc7f.png?v=1531559866" alt="">
-
-                    </div> --}}
+                   
 
                 </div>
 

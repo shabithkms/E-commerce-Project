@@ -597,9 +597,6 @@
     <script src="/javascripts/jquery.matchHeightf621.js"></script>
     <!-- Ajax Cart js -->
 
-
-    <script
-        src="j/avascripts/option_selection-fe6b72c2bbdd3369ac0bfefe8648e3c889efca213baefd4cfb0dd9363563831f.js"></script>
     <script src="/javascripts/api.jquery-e94e010e92e659b566dbc436fdfe5242764380e00398907a14955ba301a4749f.js"></script>
     <script src="/javascripts/cart.apibf35.js?v=17438701452047261962"></script>
     <script src="/javascripts/themed240.js?v=3952815461228766799"></script>
@@ -665,6 +662,33 @@
             })
         }
 
+        function addToWishlist(proId) {
+
+            $.ajax({
+                url: '/add-to-wishlist/' + proId,
+                method: 'get',
+                success: (response) => {
+                    console.log(response)
+                    if (response.pulled) {
+                        Toast.fire({
+                            icon: 'error',
+                            title: 'item removed from Wishlist'
+                        })
+
+                    } else if (response.status) {
+                        console.log(response)
+                        location.replace('/login')
+                    } else {
+                        Toast.fire({
+                            icon: 'success',
+                            title: 'item added to Wishlist'
+                        })
+                    }
+
+                }
+            })
+        }
+
 
     </script>
     <script>
@@ -674,7 +698,7 @@
             var name = event.currentTarget.name;
             Swal.fire({
                 title: 'Are you sure?',
-                text: "Do you want to Cancel this order " ,
+                text: "Do you want to Cancel this order ",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',

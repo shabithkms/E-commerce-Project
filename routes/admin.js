@@ -56,7 +56,7 @@ router.post('/login', (req, res) => {
       }
       // req.session.loginErr=true
       // res.redirect('/admin/login')
-    }
+    } 
   })
 })
 
@@ -67,15 +67,15 @@ router.get('/', async function (req, res, next) {
   if (req.session.adminLoggedIn) {
     let newOrders = await productHelper.getNewOrders()
     let newProducts = await productHelper.getNewProducts()
-    let newUsers=await productHelper.getNewUsers()
+    let newUsers = await productHelper.getNewUsers()
     let totalIncome = await productHelper.getTotalIncome()
     let totalUsers = await productHelper.getTotalUsers()
     let totalProducts = await productHelper.getTotalProducts()
-    let totalOrders=await productHelper.getTotalOrders()
+    let totalOrders = await productHelper.getTotalOrders()
     let allOrderStatus = await productHelper.getAllOrderStatus()
     let allMethods = await productHelper.getAllMethods()
 
-    res.render('admin/dashboard', { admin: true, dashboard: true, newOrders,newUsers, newProducts, totalIncome, totalUsers, totalProducts,totalOrders, allOrderStatus, allMethods });
+    res.render('admin/dashboard', { admin: true, dashboard: true, newOrders, newUsers, newProducts, totalIncome, totalUsers, totalProducts, totalOrders, allOrderStatus, allMethods });
   } else {
     res.redirect('/admin/login')
   }
@@ -211,14 +211,11 @@ router.post('/edit-product/:id', verifyAdminLogin, async (req, res) => {
 router.get('/delete-product/:id', verifyAdminLogin, (req, res) => {
   let id = req.params.id
   productHelpers.deleteProduct(id).then((response) => {
-
     console.log(id, "Id in deelete");
-    fs.unlinkSync('public/productImages/' + id + 'a.jpg')
     fs.unlinkSync('public/productImages/' + id + 'b.jpg')
     fs.unlinkSync('public/productImages/' + id + 'c.jpg')
     fs.unlinkSync('public/productImages/' + id + 'd.jpg')
     res.redirect('/admin/products')
-
   })
 })
 

@@ -143,9 +143,9 @@
 
 
                         <div class="details-price">
-                            <span id="ProductPrice"><span class=money>₹{{product.price}}</span></span>
+                            <span id="ProductPrice"><span class=money>₹{{product.cost}}</span></span>
 
-                            <del><span id="ComparePrice"><span class=money>₹{{product.actualPrice}}</span></span></del>
+                            <del><span id="ComparePrice"><span class=money>₹{{product.price}}</span></span></del>
 
                         </div>
                         <div>
@@ -211,9 +211,8 @@
                                         <i class="ion-ios-loop-strong animated rotateIn infinite"></i>
                                         <i class="ion-android-done"></i> add to cart
                                     </a>
-                                    <a class="btn-hover-black addtocart cart-item"
-                                        href="/buyNow/{{product._id}}" data-toggle="tooltip"
-                                        title="add to cart">
+                                    <a class="btn-hover-black addtocart cart-item" href="/buyNow/{{product._id}}"
+                                        data-toggle="tooltip" title="add to cart">
                                         <i class="ion-ios-loop-strong animated rotateIn infinite"></i>
                                         <i class="ion-android-done"></i>Buy Now
                                     </a>
@@ -241,19 +240,29 @@
                         <div class="product-categories product-cat-tag">
 
                             <ul>
-
                                 <li class="categories-title">Category :</li>
+                                <li><a href="">{{product.category}}</a></li> <br>
+                                <li><a href="">100% Original Products</a></li> <br>
+                                <li><a href="">Cash on delivery might be available</a></li>
+                            </ul>
+                        </div>
 
 
 
 
-                                <li><a href="">{{product.category}}</a></li>
+                        <div class="product-tags product-cat-tag">
+                            <ul>
 
-                                {{!-- <li><a href="../collections/featured.html">Featured</a></li>
+                                <li class="categories-title text-dark">Product details:</li> <br>
+                                <li><a href="">Pack Contains: single watch</a></li> <br>
+                                <li><a href="">Movement: quartz</a></li> <br>
+                                <li><a href="">Power Source: battery</a></li> <br>
+                                <li><a href="">Water resistance: 100 m</a></li> <br>
+                                <li><a href="">Comes in a signature {{product.brand}} case</a></li> <br>
+                                <li><a href="">Warranty: 2 years</a></li> <br>
+                                <li><a href="">Warranty provided by Brand Owner / Manufacturer</a></li> <br>
+                                        
 
-                                <li><a href="../collections/new-arrival.html">New Arrival</a></li>
-
-                                <li><a href="../collections/on-sale.html">On Sale</a></li> --}}
 
                             </ul>
                         </div>
@@ -261,60 +270,7 @@
 
 
 
-                        {{!-- <div class="product-tags product-cat-tag">
-                            <ul>
 
-                                <li class="categories-title">Tags :</li>
-
-
-
-
-                                <li><a href="../collections/all/black.html">black,</a></li>
-
-                                <li><a href="../collections/all/brown.html">brown,</a></li>
-
-                                <li><a href="../collections/all/cotton.html">Cotton</a></li>
-
-
-                            </ul>
-                        </div> --}}
-
-
-
-
-                        {{!-- <div class="product-share">
-
-
-                            <ul>
-
-                                <li class="categories-title">Share:</li>
-
-
-                                <li><a target="_blank"
-                                        href="http://www.facebook.com/sharer.php?u=https://watchin-1.myshopify.com/products/adquiera-mas"
-                                        title="Share on Facebook" tabindex="0">
-                                        <i class="ion-social-facebook"></i>
-                                    </a></li>
-                                <li><a target="_blank"
-                                        href="http://twitter.com/share?text=Adquiera%20Mas&amp;url=https://watchin-1.myshopify.com/products/adquiera-mas;source=webclient"
-                                        title="Share on Twitter" tabindex="0">
-                                        <i class="ion-social-twitter"></i>
-                                    </a></li>
-                                <li><a target="_blank"
-                                        href="http://plus.google.com/share?url=https://watchin-1.myshopify.com/products/adquiera-mas"
-                                        title="Share on Google+" tabindex="0">
-                                        <i class="ion-social-instagram-outline"></i>
-                                    </a></li>
-
-                                <li><a target="_blank"
-                                        href="../../pinterest.com/pin/create/button/index1576.html?url=https://watchin-1.myshopify.com/products/adquiera-mas&amp;media=http://cdn.shopify.com/s/files/1/0012/9266/4921/products/1_1024x1024.jpg?v=1531545383&amp;description=Adquiera%20Mas"
-                                        title="Share on Pinterest" tabindex="0">
-                                        <i class="ion-social-pinterest-outline"></i>
-                                    </a></li>
-
-                            </ul>
-
-                        </div> --}}
 
                     </div>
                 </div>
@@ -393,8 +349,8 @@
 
                             <div class="product-categori">
 
-                                 {{#if this.stockout}}
-                                        <span class="text-danger">Out of stock</span>
+                                {{#if this.stockout}}
+                                <span class="text-danger">Out of stock</span>
                                 {{else}}
                                 <button class="add_cart btn btn-light cart-item "
                                     style="width: 130px; border: 1px solid black !important;"

@@ -78,6 +78,8 @@ router.get('/', async function (req, res, next) {
   let homePro = await userHelper.getHomeProducts()
   let banners = await userHelper.getAllBanners()
 
+  console.log("in home",products);
+
   // console.log(homePro);
   res.render('user/home', { user, userPage: true, products, banners, brand, homePro, cartCount })
 
@@ -635,6 +637,8 @@ router.get('/products/:name', async (req, res) => {
 
 router.get('/brandProducts/:brand', async (req, res) => {
   let name = req.params.brand
+  let brandName = name.toUpperCase()
+  console.log(brandName);
   let user = req.session.user
   let brand = await userHelper.getBrands()
   let homePro = await userHelper.getHomeProducts()
@@ -645,7 +649,7 @@ router.get('/brandProducts/:brand', async (req, res) => {
     let Id = req.session.user._id
     cartCount = await userHelper.getCartCount(Id)
   }
-  res.render('user/brand-products', { userPage: true, brand, user, cartCount, homePro, product })
+  res.render('user/brand-products', { userPage: true, brand, user, brandName, cartCount, homePro, product })
 })
 
 
@@ -716,6 +720,40 @@ router.post('/delete-cart-product', (req, res) => {
   })
 })
 
+//Wishlist----------------------------------------------------------
+router.get('/wishlist',verifyUserLogin,async(req,res)=>{
+  let brand = await userHelper.getBrands()
+    let homePro = await userHelper.getHomeProducts()
+    let user=req.session.user 
+  userHelper.getWishlistProducts(req.session.user._id).then((wishlistProducts)=>{
+    res.render('user/wishlist',{userPage:true,user,brand,homePro,wishlistProducts})
+  })
+})
+router.get('/add-to-wishlist/:id',async (req, res) => {
+  console.log("ajax call");
+  
+  let pId =await req.params.id
+  
+  console.log(pId);
+  console.log(req.session.userLoggedIn);
+  if (req.session.userLoggedIn) {
+    let user =await req.session.user._id
+    console.log("Api call");
+
+    userHelper.addToWishlist(pId, user).then((response) => {
+      console.log("in userjs",response);
+      if(response.pulled){
+        res.json(response)
+      }else{
+        res.json(response)
+      }
+    })
+  } else {
+    console.log("no user");
+    res.json({ status: true })
+  }
+})
+
 //Checkout---------------------------------------------------------------
 
 router.get('/checkout', verifyUserLogin, async (req, res) => {
@@ -762,7 +800,7 @@ router.post('/place-order', async (req, res) => {
     console.log("in cod");
     let id = req.session.user._id
     let products = await userHelper.getCartProductList(id)
-    console.log(products,"cartt pro");
+    console.log(products, "cartt pro");
     let total = await userHelper.getTotalAmount(id)
     userHelper.placeOrder(req.body, products, total).then((resp) => {
       req.session.orderId = resp.insertedId.toString()
@@ -868,7 +906,7 @@ router.get('/buyNow/:id', verifyUserLogin, async (req, res) => {
   }
   //get Address
   var address = null
-  let status = await userHelper.addressChecker(req.session.user._id) 
+  let status = await userHelper.addressChecker(req.session.user._id)
   console.log(status);
   if (status.address) {
     // console.log(status.address, "st a");
@@ -893,7 +931,7 @@ router.post('/buyNow', async (req, res) => {
       let id = req.session.user._id
       let product = await userHelper.getBuyNowProduct(req.body.ProId)
       let total = await userHelper.getBuyNowTotal(req.body.ProId)
-      console.log("in buy now userjs post=",total);
+      console.log("in buy now userjs post=", total);
       userHelper.placeOrder(req.body, product, total).then((resp) => {
 
         req.session.orderId = resp.insertedId.toString()
@@ -1087,8 +1125,8 @@ router.get('/success', verifyUserLogin, (req, res) => {
 })
 
 
- 
-router.post('/verify-buyNowPayment', (req, res) => { 
+
+router.post('/verify-buyNowPayment', (req, res) => {
   let id = req.session.user._id
   userHelper.verifyPayment(req.body).then(async (response) => {
     let id = req.session.user._id
@@ -1169,7 +1207,7 @@ router.get('/buyNowCancelled', verifyUserLogin, (req, res) => {
 })
 router.get('/cancelled', verifyUserLogin, (req, res) => {
   let user = req.session.user
-  res.render('user/cancel', { user }) 
+  res.render('user/cancel', { user })
 })
 
 
@@ -1224,8 +1262,8 @@ router.get('/cancelOrder/:id', (req, res) => {
 })
 
 
-router.get('/singleOrder/:id', verifyUserLogin, async (req, res) => {  
-  let user = req.session.user 
+router.get('/singleOrder/:id', verifyUserLogin, async (req, res) => {
+  let user = req.session.user
   let oId = req.params.id
   let brand = await userHelper.getBrands()
   let homePro = await userHelper.getHomeProducts()
