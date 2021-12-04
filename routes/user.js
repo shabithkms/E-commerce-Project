@@ -77,16 +77,12 @@ router.get('/', async function (req, res, next) {
   let brand = await userHelper.getBrands()
   let homePro = await userHelper.getHomeProducts()
   let banners = await userHelper.getAllBanners()
-
-  console.log("in home",products);
-
-  // console.log(homePro);
   res.render('user/home', { user, userPage: true, products, banners, brand, homePro, cartCount })
-
 });
 
 
-//Login Page
+//Login Page------------------------
+
 router.get('/login', async (req, res) => {
 
   res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
@@ -115,14 +111,11 @@ router.post('/login', (req, res) => {
     if (response.status) {
       let status = response.user.status
 
-
       console.log(status);
       if (status) {
         req.session.user = response.user
         req.session.userLoggedIn = true
         res.redirect('/')
-
-
       } else {
         req.session.blockErr = true
         req.session.user = null
@@ -244,7 +237,6 @@ router.post('/login/otp', (req, res) => {
         req.session.invalidOtp = true
         res.redirect('/login/otp')
       }
-
     }).catch((err) => {
       console.log(err, "err");
       if (err.code == 60200) {
@@ -254,9 +246,7 @@ router.post('/login/otp', (req, res) => {
         req.session.maxOtp = true
         res.redirect('/login/otp')
       }
-
     })
-
 })
 
 //Resend OTP
@@ -721,30 +711,46 @@ router.post('/delete-cart-product', (req, res) => {
 })
 
 //Wishlist----------------------------------------------------------
-router.get('/wishlist',verifyUserLogin,async(req,res)=>{
+router.get('/wishlist', verifyUserLogin, async (req, res) => {
   let brand = await userHelper.getBrands()
-    let homePro = await userHelper.getHomeProducts()
-    let user=req.session.user 
-  userHelper.getWishlistProducts(req.session.user._id).then((wishlistProducts)=>{
-    res.render('user/wishlist',{userPage:true,user,brand,homePro,wishlistProducts})
+  let homePro = await userHelper.getHomeProducts()
+  let user = req.session.user
+  let cartCount = null
+  if (req.session.user) {
+    let Id = req.session.user._id
+    cartCount = await userHelper.getCartCount(Id)
+  }
+
+  userHelper.getWishlistProducts(req.session.user._id).then(async(wishlistProducts) => {
+    let len = wishlistProducts.length
+    console.log(len);
+    if (len > 0) {
+      res.render('user/wishlist', { userPage: true, user, cartCount, brand, homePro, wishlistProducts })
+    } else {
+      let brand = await userHelper.getBrands()
+      let homePro = await userHelper.getHomeProducts()
+      res.render('user/empty-wishlist', { userPage: true, brand, homePro, user }) 
+    }
+
   })
 })
-router.get('/add-to-wishlist/:id',async (req, res) => {
+
+router.get('/add-to-wishlist/:id', async (req, res) => {
   console.log("ajax call");
-  
-  let pId =await req.params.id
-  
+
+  let pId = await req.params.id
+
   console.log(pId);
   console.log(req.session.userLoggedIn);
   if (req.session.userLoggedIn) {
-    let user =await req.session.user._id
+    let user = await req.session.user._id
     console.log("Api call");
 
     userHelper.addToWishlist(pId, user).then((response) => {
-      console.log("in userjs",response);
-      if(response.pulled){
-        res.json(response)
-      }else{
+      console.log("in userjs", response);
+      if (response.pulled) {
+        res.json({ pulled: true })
+      } else {
         res.json(response)
       }
     })
@@ -752,6 +758,16 @@ router.get('/add-to-wishlist/:id',async (req, res) => {
     console.log("no user");
     res.json({ status: true })
   }
+})
+
+router.post('/delete-wishlist-product', (req, res) => {
+  console.log("api call");
+  let proId = req.body.product
+  let userId = req.session.user._id
+
+  userHelper.deleteWishlistProduct(userId, proId).then((response) => {
+    res.json(response)
+  })
 })
 
 //Checkout---------------------------------------------------------------
