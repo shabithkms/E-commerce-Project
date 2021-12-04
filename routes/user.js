@@ -575,6 +575,24 @@ router.post('/signup/otp', async (req, res) => {
 //Product secction starting
 
 //By Id
+// router.get('/product/:id', async (req, res) => {
+//   let id = req.params.id
+//   let cartCount = null
+//   if (req.session.user) {
+//     let Id = req.session.user._id
+//     cartCount = await userHelper.getCartCount(Id)
+//   }
+//   let realtedProducts = await productHelper.getRelatedProducts()
+//   let brand = await userHelper.getBrands()
+//   let homePro = await userHelper.getHomeProducts()
+//   let user = req.session.user
+//   let product = await productHelper.getProductDetails(id).then((product) => {
+
+//     res.render('user/newSingle', { userPage: true, brand, homePro, cartCount, user, product, realtedProducts })
+//   })
+
+// })
+
 router.get('/product/:id', async (req, res) => {
   let id = req.params.id
   let cartCount = null
@@ -588,7 +606,7 @@ router.get('/product/:id', async (req, res) => {
   let user = req.session.user
   let product = await productHelper.getProductDetails(id).then((product) => {
 
-    res.render('user/single-product', { userPage: true, brand, homePro, cartCount, user, product, realtedProducts })
+    res.render('user/newSingle', { product, realtedProducts })
   })
 
 })
@@ -721,7 +739,7 @@ router.get('/wishlist', verifyUserLogin, async (req, res) => {
     cartCount = await userHelper.getCartCount(Id)
   }
 
-  userHelper.getWishlistProducts(req.session.user._id).then(async(wishlistProducts) => {
+  userHelper.getWishlistProducts(req.session.user._id).then(async (wishlistProducts) => {
     let len = wishlistProducts.length
     console.log(len);
     if (len > 0) {
@@ -729,7 +747,7 @@ router.get('/wishlist', verifyUserLogin, async (req, res) => {
     } else {
       let brand = await userHelper.getBrands()
       let homePro = await userHelper.getHomeProducts()
-      res.render('user/empty-wishlist', { userPage: true, brand, homePro, user }) 
+      res.render('user/empty-wishlist', { userPage: true, brand, homePro, user })
     }
 
   })
