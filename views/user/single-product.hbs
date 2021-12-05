@@ -2,8 +2,8 @@
 
 <style>
     .glass {
-        width: 175px;
-        height: 175px;
+        width: 235px;
+        height: 235px;
         position: absolute;
         border-radius: 50%;
         cursor: crosshair;
@@ -18,40 +18,39 @@
         display: none;
     }
 
-    .carousel-control-prev-icon {
-        background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23000' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E") !important;
+
+
+
+    .carousel-inner img {
+        width: 100%;
+        height: 100%
     }
 
-    .carousel-control-next-icon {
-        background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23000' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E") !important;
+    #custCarousel .carousel-indicators {
+        position: static;
+        margin-top: 20px
     }
 
-    .carousel-control-prev-icon,
-    .carousel-control-next-icon {
-        height: 50px;
-        width: 50px;
-        align-items: center;
-
-
-
+    #custCarousel .carousel-indicators>li {
+        width: 100px
     }
 
-    #wrap {
-        max-width: 700px;
-        margin: 20px auto;
+    #custCarousel .carousel-indicators li img {
+        display: block;
+        opacity: 0.5
     }
 
-    .product {
-        margin: 20px auto;
-        text-align: center;
-        padding: 20px;
+    #custCarousel .carousel-indicators li.active img {
+        opacity: 1
     }
 
-    .carousel {
-        width: 400px;
-        height: 500px;
+    #custCarousel .carousel-indicators li:hover img {
+        opacity: 0.75
     }
-  
+
+    .carousel-item img {
+        width: 80%
+    }
 </style>
 <div class="breadcrumb-area ptb-170"
     style="background-size: cover;background-image: url(/images/watchImages/Banner1.jpg)">
@@ -85,53 +84,48 @@
 <div class="product-details neha_pr_dt">
     <div class="container p-0">
         <div class="row">
-            <div class="col-md-6 col-lg-6 col-12">
-                <div class="product-details-img-content">
-                    <div class="product-details-tab mr-70 pr_style_1">
-                        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-                            <ol class="carousel-indicators">
-                                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                                <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                                <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-                                <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
-                            </ol>
-                            <div class="carousel-inner">
-                                <div class="carousel-item active product">
-                                    <img src="/productImages/{{product._id}}a.jpg" class="d-block  magniflier"
-                                        alt="...">
-                                </div>
-                                <div class="carousel-item product">
-                                    <img src="/productImages/{{product._id}}b.jpg" class="d-block  magniflier"
-                                        alt="...">
-                                </div>
-                                <div class="carousel-item product">
-                                    <img src="/productImages/{{product._id}}c.jpg" class="d-block  magniflier"
-                                        alt="...">
-                                </div>
-                                <div class="carousel-item product">
-                                    <img src="/productImages/{{product._id}}d.jpg" class="d-block  magniflier"
-                                        alt="...">
-                                </div>
-                            </div>
-                            <a class="carousel-control-prev" style="color: black;" href="#carouselExampleIndicators"
-                                role="button" data-slide="prev">
-                                <span class="carousel-control-prev-icon" style="color: black;"
-                                    aria-hidden="true"></span>
-                                <span class="sr-only">Previous</span>
-                            </a>
-                            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button"
-                                data-slide="next">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span class="sr-only">Next</span>
-                            </a>
+
+            <div class="col-md-6">
+                <div id="custCarousel" class="carousel slide" data-ride="carousel" align="center">
+                    <!-- slides -->
+                    <div class="carousel-inner">
+                        <div class="carousel-item active"> <img src="/productImages/{{product._id}}a.jpg"
+                                class="d-block  magniflier" alt="Hills">
                         </div>
-
-
-                    </div>
+                        <div class="carousel-item"> <img src="/productImages/{{product._id}}b.jpg"
+                                class="d-block  magniflier" alt="Hills"> </div>
+                        <div class="carousel-item"> <img src="/productImages/{{product._id}}c.jpg"
+                                class="d-block  magniflier" alt="Hills"> </div>
+                        <div class="carousel-item"> <img src="/productImages/{{product._id}}d.jpg"
+                                class="d-block  magniflier" alt="Hills"> </div>
+                    </div> <!-- Left right --> <a class="carousel-control-prev" href="#custCarousel" data-slide="prev">
+                        <span class="carousel-control-prev-icon"></span> </a> <a class="carousel-control-next"
+                        href="#custCarousel" data-slide="next"> <span class="carousel-control-next-icon"></span>
+                    </a>
+                    <!-- Thumbnails -->
+                    <ol class="carousel-indicators list-inline">
+                        <li class="list-inline-item active"> <a id="carousel-selector-0" class="selected"
+                                data-slide-to="0" data-target="#custCarousel"> <img
+                                    src="/productImages/{{product._id}}a.jpg" class=" img-fluid">
+                            </a> </li>
+                        <li class="list-inline-item"> <a id="carousel-selector-1" data-slide-to="1"
+                                data-target="#custCarousel"> <img src="/productImages/{{product._id}}b.jpg"
+                                    class="img-fluid">
+                            </a> </li>
+                        <li class="list-inline-item"> <a id="carousel-selector-2" data-slide-to="2"
+                                data-target="#custCarousel"> <img src="/productImages/{{product._id}}c.jpg"
+                                    class="img-fluid">
+                            </a> </li>
+                        <li class="list-inline-item"> <a id="carousel-selector-2" data-slide-to="3"
+                                data-target="#custCarousel"> <img src="/productImages/{{product._id}}d.jpg"
+                                    class="img-fluid">
+                            </a> </li>
+                    </ol>
                 </div>
             </div>
 
-            <div class="col-md-12 col-lg-5 col-12">
+
+            <div class="col-md-6 mt-5 col-lg-5 col-12">
                 <div class="product-details-content ">
                     <div class="inner-wrapper-sticky">
                         <h3>{{product.name}}</h3>
@@ -143,12 +137,22 @@
                         </div>
 
 
+                        {{#if product.proOffer}}
                         <div class="details-price">
-                            <span id="ProductPrice"><span class=money>₹{{product.cost}}</span></span>
+                            <span id="ProductPrice"><span class=money>₹{{product.price}}</span></span>
 
-                            <del><span id="ComparePrice"><span class=money>₹{{product.price}}</span></span></del>
+                            <del><span id="ComparePrice"><span class=money>₹{{product.actualPrice}}</span></span></del>
 
                         </div>
+                        {{else}}
+                        <div class="details-price">
+                            <span id="ProductPrice"><span class=money>₹{{product.price}}</span></span>
+
+                            {{!-- <del><span id="ComparePrice"><span class=money>₹{{product.price}}</span></span></del> --}}
+
+                        </div>
+
+                        {{/if}}
                         <div>
 
                             {{#if product.proOffer}}
@@ -162,7 +166,7 @@
 
 
 
-
+                        <br>
                         <p>A watch is a portable timepiece intended to be carried or worn by a person. ... During most
                             of its history the watch was a mechanical device, driven by clockwork, powered by winding a
                             mainspring, and keeping time with an oscillating balance wheel. These are called mechanical
@@ -174,15 +178,6 @@
 
 
                         <form action="" method="post" enctype="multipart/form-data" id="add-item-form">
-
-
-
-
-
-
-
-
-
 
                             <div class="quickview-plus-minus">
                                 {{!-- <div class="cart-plus-minus">
@@ -229,7 +224,7 @@
 
 
                                     <a class="btn-hover list-btn-wishlist animate-left" href=""
-                                        onclick="addToWishlist('{{this._id}}')" title="Wishlist">
+                                        onclick="addToWishlist('{{product._id}}')" title="Wishlist">
                                         <i class="ion-ios-heart-outline"></i>
                                     </a>
 
@@ -244,9 +239,9 @@
 
                             <ul>
                                 <li class="categories-title">Category :</li>
-                                <li><a href="">{{product.category}}</a></li> <br>
-                                <li><a href="">100% Original Products</a></li> <br>
-                                <li><a href="">Cash on delivery might be available</a></li>
+                                <li><a >{{product.category}}</a></li> <br>
+                                <li>100% Original Products</li> <br>
+                                <li>Cash on delivery might be available</li>
                             </ul>
                         </div>
 
@@ -257,23 +252,16 @@
                             <ul>
 
                                 <li class="categories-title text-dark">Product details:</li> <br>
-                                <li><a href="">Pack Contains: single watch</a></li> <br>
-                                <li><a href="">Movement: quartz</a></li> <br>
-                                <li><a href="">Power Source: battery</a></li> <br>
-                                <li><a href="">Water resistance: 100 m</a></li> <br>
-                                <li><a href="">Comes in a signature {{product.brand}} case</a></li> <br>
-                                <li><a href="">Warranty: 2 years</a></li> <br>
-                                <li><a href="">Warranty provided by Brand Owner / Manufacturer</a></li> <br>
-
-
+                                <li><a >Pack Contains: single watch</li> <br>
+                                <li><a>Movement: quartz</a></li> <br>
+                                <li><a >Power Source: battery</a></li> <br>
+                                <li><a >Water resistance: 100 m</a></li> <br>
+                                <li><a >Comes in a signature {{product.brand}} case</a></li> <br>
+                                <li><a >Warranty: 2 years</a></li> <br>
+                                <li><a >Warranty provided by Brand Owner / Manufacturer</a></li> <br>
 
                             </ul>
                         </div>
-
-
-
-
-
 
                     </div>
                 </div>
@@ -289,31 +277,6 @@
         margin-bottom: 0px;
     }
 </style>
-
-
-<div class="show" href="/productImages/{{product._id}}a.jpg">
-    <img src="/productImages/{{product._id}}a.jpg" id="show-img">
-</div>
-
-<!-- Secondary carousel image thumbnail gallery -->
-
-<div class="small-img">
-    <img src="images/next-icon.png" class="icon-left" alt="" id="prev-img">
-    <div class="small-container">
-        <div id="small-img-roll">
-            <img src="/productImages/{{product._id}}a.jpg" class="show-small-img" alt="">
-            <img src="/productImages/{{product._id}}b.jpg" class="show-small-img" alt="">
-            <img src="/productImages/{{product._id}}c.jpg" class="show-small-img" alt="">
-            <img src="/productImages/{{product._id}}d.jpg" class="show-small-img" alt="">
-        </div>
-    </div>
-    <img src="images/next-icon.png" class="icon-right" alt="" id="next-img">
-</div>
-
-
-
-
-
 
 <div class="mt-3 mb-5">
     <center>
@@ -340,7 +303,7 @@
 
                         <div class="product-action">
 
-                            <a class="animate-left" href="#" title="Wishlist">
+                            <a class="animate-left" href="" onclick="addToWishlist('{{this._id}}')" title="Wishlist">
                                 <i class="ion-ios-heart-outline"></i>
                             </a>
 
@@ -363,9 +326,6 @@
                             <div class="product-cart">
                                 <span>{{this.category}}</span>
                             </div>
-
-
-
 
                             <div class="product-price">
 
@@ -407,190 +367,5 @@
             {{/each}}
 
         </div>
-
-
-
     </div>
 </div>
-
-
-<script>
-    /**
-* by MonsterDuang
-*/
-    ; (function ($) {
-        /**
-         * 1, 缩略图大小和父容器大小一致
-         * 2, 父容器 href 属性为高清图片路径
-         */
-        $.fn.zoomImage = function (paras) {
-            /**
-             * 默认参数
-             */
-            var defaultParas = {
-                layerW: 100, // 遮罩宽度
-                layerH: 100, // 遮罩高度
-                layerOpacity: 0.2, // 遮罩透明度
-                layerBgc: '#000', // 遮罩背景颜色
-                showPanelW: 500, // 显示放大区域宽
-                showPanelH: 500, // 显示放大区域高
-                marginL: 5, // 放大区域离缩略图右侧距离
-                marginT: 0 // 放大区域离缩略图上侧距离
-            };
-
-            paras = $.extend({}, defaultParas, paras);
-
-            $(this).each(function () {
-                var self = $(this).css({ position: 'relative' });
-                var selfOffset = self.offset();
-                var imageW = self.width(); // 图片高度
-                var imageH = self.height();
-
-                self.find('img').css({
-                    width: '100%',
-                    height: '100%'
-                });
-
-                // 宽放大倍数
-                var wTimes = paras.showPanelW / paras.layerW;
-                // 高放大倍数
-                var hTimes = paras.showPanelH / paras.layerH;
-
-                // 放大图片
-                var img = $('<img>').attr('src', self.attr("href")).css({
-                    position: 'absolute',
-                    left: '0',
-                    top: '0',
-                    width: imageW * wTimes,
-                    height: imageH * hTimes
-                }).attr('id', 'big-img');
-
-                // 遮罩
-                var layer = $('<div>').css({
-                    display: 'none',
-                    position: 'absolute',
-                    left: '0',
-                    top: '0',
-                    backgroundColor: paras.layerBgc,
-                    width: paras.layerW,
-                    height: paras.layerH,
-                    opacity: paras.layerOpacity,
-                    border: '1px solid #ccc',
-                    cursor: 'crosshair'
-                });
-
-                // 放大区域
-                var showPanel = $('<div>').css({
-                    display: 'none',
-                    position: 'absolute',
-                    overflow: 'hidden',
-                    left: imageW + paras.marginL,
-                    top: paras.marginT,
-                    width: paras.showPanelW,
-                    height: paras.showPanelH
-                }).append(img);
-
-                self.append(layer).append(showPanel);
-
-                self.on('mousemove', function (e) {
-                    // 鼠标相对于缩略图容器的坐标
-                    var x = e.pageX - selfOffset.left;
-                    var y = e.pageY - selfOffset.top;
-
-                    if (x <= paras.layerW / 2) {
-                        x = 0;
-                    } else if (x >= imageW - paras.layerW / 2) {
-                        x = imageW - paras.layerW;
-                    } else {
-                        x = x - paras.layerW / 2;
-                    }
-
-                    if (y < paras.layerH / 2) {
-                        y = 0;
-                    } else if (y >= imageH - paras.layerH / 2) {
-                        y = imageH - paras.layerH;
-                    } else {
-                        y = y - paras.layerH / 2;
-                    }
-
-                    layer.css({
-                        left: x,
-                        top: y
-                    });
-
-                    img.css({
-                        left: -x * wTimes,
-                        top: -y * hTimes
-                    });
-                }).on('mouseenter', function () {
-                    layer.show();
-                    showPanel.show();
-                }).on('mouseleave', function () {
-                    layer.hide();
-                    showPanel.hide();
-                });
-            });
-        }
-    })(jQuery);
-
-</script>
-<script>
-    //Initialize product gallery
-
-    $('.show').zoomImage();
-
-    $('.show-small-img:first-of-type').css({ 'border': 'solid 1px #951b25', 'padding': '2px' })
-    $('.show-small-img:first-of-type').attr('alt', 'now').siblings().removeAttr('alt')
-    $('.show-small-img').click(function () {
-        $('#show-img').attr('src', $(this).attr('src'))
-        $('#big-img').attr('src', $(this).attr('src'))
-        $(this).attr('alt', 'now').siblings().removeAttr('alt')
-        $(this).css({ 'border': 'solid 1px #951b25', 'padding': '2px' }).siblings().css({ 'border': 'none', 'padding': '0' })
-        if ($('#small-img-roll').children().length > 4) {
-            if ($(this).index() >= 3 && $(this).index() < $('#small-img-roll').children().length - 1) {
-                $('#small-img-roll').css('left', -($(this).index() - 2) * 76 + 'px')
-            } else if ($(this).index() == $('#small-img-roll').children().length - 1) {
-                $('#small-img-roll').css('left', -($('#small-img-roll').children().length - 4) * 76 + 'px')
-            } else {
-                $('#small-img-roll').css('left', '0')
-            }
-        }
-    })
-
-    //Enable the next button
-
-    $('#next-img').click(function () {
-        $('#show-img').attr('src', $(".show-small-img[alt='now']").next().attr('src'))
-        $('#big-img').attr('src', $(".show-small-img[alt='now']").next().attr('src'))
-        $(".show-small-img[alt='now']").next().css({ 'border': 'solid 1px #951b25', 'padding': '2px' }).siblings().css({ 'border': 'none', 'padding': '0' })
-        $(".show-small-img[alt='now']").next().attr('alt', 'now').siblings().removeAttr('alt')
-        if ($('#small-img-roll').children().length > 4) {
-            if ($(".show-small-img[alt='now']").index() >= 3 && $(".show-small-img[alt='now']").index() < $('#small-img-roll').children().length - 1) {
-                $('#small-img-roll').css('left', -($(".show-small-img[alt='now']").index() - 2) * 76 + 'px')
-            } else if ($(".show-small-img[alt='now']").index() == $('#small-img-roll').children().length - 1) {
-                $('#small-img-roll').css('left', -($('#small-img-roll').children().length - 4) * 76 + 'px')
-            } else {
-                $('#small-img-roll').css('left', '0')
-            }
-        }
-    })
-
-    //Enable the previous button
-
-    $('#prev-img').click(function () {
-        $('#show-img').attr('src', $(".show-small-img[alt='now']").prev().attr('src'))
-        $('#big-img').attr('src', $(".show-small-img[alt='now']").prev().attr('src'))
-        $(".show-small-img[alt='now']").prev().css({ 'border': 'solid 1px #951b25', 'padding': '2px' }).siblings().css({ 'border': 'none', 'padding': '0' })
-        $(".show-small-img[alt='now']").prev().attr('alt', 'now').siblings().removeAttr('alt')
-        if ($('#small-img-roll').children().length > 4) {
-            if ($(".show-small-img[alt='now']").index() >= 3 && $(".show-small-img[alt='now']").index() < $('#small-img-roll').children().length - 1) {
-                $('#small-img-roll').css('left', -($(".show-small-img[alt='now']").index() - 2) * 76 + 'px')
-            } else if ($(".show-small-img[alt='now']").index() == $('#small-img-roll').children().length - 1) {
-                $('#small-img-roll').css('left', -($('#small-img-roll').children().length - 4) * 76 + 'px')
-            } else {
-                $('#small-img-roll').css('left', '0')
-            }
-        }
-    })
-
-</script>

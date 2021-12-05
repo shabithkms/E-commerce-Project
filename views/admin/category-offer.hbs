@@ -13,7 +13,7 @@
         <thead>
             <tr>
                 <th scope="col">No</th>
-                <th scope="col">Category Name</th> 
+                <th scope="col">Category Name</th>
                 <th scope="col">Start Date</th>
                 {{!-- <th scope="col">Description</th> --}}
                 <th scope="col">End Date</th>
@@ -26,12 +26,12 @@
             <tr>
                 <td scope="row"></td>
                 <td>{{this.Category}}</td>
-                
+
                 <td>{{this.Starting}}</td>
                 <td>{{this.Expiry}}</td>
                 <td>{{this.Offer}}</td>
                 <td><a href="/admin/edit-catOffer/{{this._id}}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
-                   
+
 
                     <a class="btn btn-danger" href="/admin/delete-catOffer/{{this._id}}" name="{{this.Category}}"
                         onclick="deleteBrand(event)"><i class="fas fa-trash-alt"></i></a>
@@ -62,19 +62,22 @@
                                 <form action="/admin/category-offers" id="categoryPage" method="post">
                                     <div class="form-group first">
                                         <label for="category">Category</label>
-
-                                        <select name="Category" class="custom-select p-2" required>
-                                            <option value="empty" selected>Choose a Category</option>
+                                        <input list="categories" type="text" name="Category" class="form-control" autocomplete="off" id="category">
+                                        
+                                        <datalist  id="categories"  >
+                                            
                                             {{#each category}}
-                                            <option value="{{this.category}}">{{this.category}}</option>
+                                            <option value="{{this.category}}">
                                             {{/each}}
-                                        </select>
+                                        </datalist>
+
                                         <label class="pt-4">Starting Date</label>
                                         <input type="Date" class="form-control" required name="Starting" id="str">
                                         <label class="pt-4">Expiry Date</label>
                                         <input type="Date" class="form-control" required name="Expiry" id="exp">
                                         <label class="pt-4">Offer Percentage</label>
-                                        <input type="number" class="form-control" onkeydown="return event.keyCode !== 69" required name="Offer" max="100">
+                                        <input type="number" class="form-control"
+                                            onkeydown="return event.keyCode !== 69" required name="Offer" max="100">
 
 
                                     </div>

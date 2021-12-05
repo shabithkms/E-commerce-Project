@@ -281,7 +281,7 @@ module.exports = {
                         Status: stat
                     }
                 }).then(() => {
-                    resolve() 
+                    resolve()
                 })
             }
 
@@ -417,22 +417,26 @@ module.exports = {
             let categoryOffer = await db.get().collection(collection.CATEGORY_OFFERS).findOne({ _id: objectId(id) })
             let cname = categoryOffer.Category
             let product = await db.get().collection(collection.PRODUCT_COLLECTION).findOne({ category: cname })
-            db.get().collection(collection.CATEGORY_OFFERS).deleteOne({ _id: objectId(id) }).then(() => {
-                db.get().collection(collection.PRODUCT_COLLECTION).updateOne({ category: cname },
-                    {
-                        $set: {
-                            price: product.actualPrice
-                        },
-                        $unset: {
-                            catOffer: "",
-                            catPercentage: "",
+            if (product) {
+                db.get().collection(collection.CATEGORY_OFFERS).deleteOne({ _id: objectId(id) }).then(() => {
+                    db.get().collection(collection.PRODUCT_COLLECTION).updateOne({ category: cname },
+                        {
+                            $set: {
+                                price: product.actualPrice
+                            },
+                            $unset: {
+                                catOffer: "",
+                                catPercentage: "",
 
-                            actualPrice: ""
-                        }
-                    }).then(() => {
-                        resolve()
-                    })
-            })
+                                actualPrice: ""
+                            }
+                        }).then(() => {
+                            resolve()
+                        })
+                })
+            } else {
+                resolve()
+            }
         })
     },
     addProductOffer: (data) => {

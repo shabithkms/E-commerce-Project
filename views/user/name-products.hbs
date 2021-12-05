@@ -207,7 +207,7 @@
                                     <p class="text-danger text-center">Out of Stock</p>
                                     {{else}}
                                     <a class="btn-hover-black addtocart cart-item"
-                                        onclick="addToCart('{{product._id}}')" data-toggle="tooltip"
+                                        onclick="addToCart('{{product._id}}','{{product.stock}}')" data-toggle="tooltip"
                                         title="add to cart">
                                         <i class="ion-ios-loop-strong animated rotateIn infinite"></i>
                                         <i class="ion-android-done"></i> add to cart

@@ -532,35 +532,42 @@
         }
     </script>
     <script>
-        function changeQuantity(cartId, proId, userId, count) {
+        function changeQuantity(cartId, proId, stock, userId, count) {
             let quantity = parseInt(document.getElementById(proId).innerHTML)
             count = parseInt(count)
             console.log(userId)
-            $.ajax({
-                url: '/change-product-quantity',
-                data: {
-                    user: userId,
-                    cart: cartId,
-                    product: proId,
-                    count: count,
-                    quantity: quantity
-                },
-                method: 'post',
-                success: (response) => {
-                    if (response.lastProduct) {
+            console.log(stock)
+            if (quantity >= stock && count == 1) {
+                swal.fire('Maximum stock limit')
+            } else {
 
-                        document.getElementById(proId + "a").disabled = true
 
-                    } else {
-                        document.getElementById(proId).innerHTML = quantity + count
-                        document.getElementById(proId + "a").disabled = false
-                        console.log(response)
-                        document.getElementById('total1').innerHTML = response.total
-                        document.getElementById('total2').innerHTML = response.total
-                        document.getElementById('subTotal' + proId).innerHTML = response.subTotal
+                $.ajax({
+                    url: '/change-product-quantity',
+                    data: {
+                        user: userId,
+                        cart: cartId,
+                        product: proId,
+                        count: count,
+                        quantity: quantity
+                    },
+                    method: 'post',
+                    success: (response) => {
+                        if (response.lastProduct) {
+
+                            document.getElementById(proId + "a").disabled = true
+
+                        } else {
+                            document.getElementById(proId).innerHTML = quantity + count
+                            document.getElementById(proId + "a").disabled = false
+                            console.log(response)
+                            document.getElementById('total1').innerHTML = response.total
+                            document.getElementById('total2').innerHTML = response.total
+                            document.getElementById('subTotal' + proId).innerHTML = response.subTotal
+                        }
                     }
-                }
-            })
+                })
+            }
         }
     </script>
     {{/if}}
@@ -616,7 +623,7 @@
     <script>
         const Toast = Swal.mixin({
             toast: true,
-            position: 'top-end',
+            position: 'top',
             showConfirmButton: false,
             timer: 2000,
             timerProgressBar: true,
@@ -627,7 +634,8 @@
         })
 
 
-        function addToCart(proId) {
+        function addToCart(proId, stock) {
+            console.log(stock)
 
             $.ajax({
                 url: '/add-to-cart/' + proId,
@@ -660,6 +668,8 @@
 
                 }
             })
+
+
         }
 
         function addToWishlist(proId) {
@@ -679,7 +689,7 @@
                         console.log(response)
                         location.replace('/login')
                     } else {
-                        
+
                         Toast.fire({
                             icon: 'success',
                             title: 'item added to Wishlist'

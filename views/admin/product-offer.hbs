@@ -60,13 +60,15 @@
                                 <form action="/admin/product-offers" id="productPage" method="post">
                                     <div class="form-group first">
                                         <label for="proList">Product List</label>
-                                        <select name="Product" class="custom-select p-2" id="proSelect" required>
-                                            <option value="empty" selected>Choose a Product</option>
+                                        <input list="products"  name="Product" class="form-control" autocomplete="off" id="product">
+                                        
+                                        <datalist  id="products"  >
+                                            
                                             {{#each products}}
-                                            <option value="{{this.name}}">{{this.name}} (Rs.{{this.price}})
-                                            </option>
+                                            <option value="{{this.name}}">
                                             {{/each}}
-                                        </select>
+                                        </datalist>
+                                        
                                         {{#if proErr}}
                                         <p class="text-center text-danger">{{proErr}}</p>
                                         {{/if}}

@@ -293,6 +293,7 @@ module.exports = {
         }
         return new Promise(async (resolve, reject) => {
             let userCart = await db.get().collection(collection.CART_COLLECTION).findOne({ user: objectId(userId) })
+            console.log("in add to cart",userCart); 
 
             if (userCart) {
                 let proExist = userCart.products.findIndex(product => product.item == proId)
@@ -305,7 +306,7 @@ module.exports = {
                     ).then(() => {
                         resolve()
                     })
-                } else {
+                } else {  
 
                     db.get().collection(collection.CART_COLLECTION).updateOne({ user: objectId(userId) },
                         {
@@ -578,8 +579,10 @@ module.exports = {
         })
     },
     getTotalAmount: (userId) => {
+        console.log("in total amount");
         return new Promise(async (resolve, reject) => {
             let cart = await db.get().collection(collection.CART_COLLECTION).findOne({ user: objectId(userId) })
+            console.log(cart);
             if (cart) {
                 if (cart.products.length > 0) {
                     let total = await db.get().collection(collection.CART_COLLECTION).aggregate([
@@ -592,7 +595,7 @@ module.exports = {
                         {
                             $project: {
                                 item: '$products.item',
-                                quantity: '$products.quantity'
+                                quantity: '$products.quantity'  
                             }
                         },
                         {
@@ -913,6 +916,15 @@ module.exports = {
     getProductsByBrand: (name) => {
         return new Promise(async (resolve, reject) => {
             let products = await db.get().collection(collection.PRODUCT_COLLECTION).find({ brand: name }).toArray()
+            resolve(products)
+        })
+    },
+
+    //By category
+
+    getProductsByCateogry: (cat) => {
+        return new Promise(async (resolve, reject) => {
+            let products = await db.get().collection(collection.PRODUCT_COLLECTION).find({ category: cat }).toArray()
             resolve(products)
         })
     },

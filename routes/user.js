@@ -572,27 +572,9 @@ router.post('/signup/otp', async (req, res) => {
 
 
 
-//Product secction starting
+//Product secction starting--------------------------------------
 
 //By Id
-// router.get('/product/:id', async (req, res) => {
-//   let id = req.params.id
-//   let cartCount = null
-//   if (req.session.user) {
-//     let Id = req.session.user._id
-//     cartCount = await userHelper.getCartCount(Id)
-//   }
-//   let realtedProducts = await productHelper.getRelatedProducts()
-//   let brand = await userHelper.getBrands()
-//   let homePro = await userHelper.getHomeProducts()
-//   let user = req.session.user
-//   let product = await productHelper.getProductDetails(id).then((product) => {
-
-//     res.render('user/newSingle', { userPage: true, brand, homePro, cartCount, user, product, realtedProducts })
-//   })
-
-// })
-
 router.get('/product/:id', async (req, res) => {
   let id = req.params.id
   let cartCount = null
@@ -606,10 +588,12 @@ router.get('/product/:id', async (req, res) => {
   let user = req.session.user
   let product = await productHelper.getProductDetails(id).then((product) => {
 
-    res.render('user/newSingle', { product, realtedProducts })
+    res.render('user/single-product', { userPage: true, brand, homePro, cartCount, user, product, realtedProducts })
   })
 
 })
+
+
 //All products
 router.get('/products', async (req, res) => {
   let user = req.session.user
@@ -661,25 +645,51 @@ router.get('/brandProducts/:brand', async (req, res) => {
 })
 
 
+//By category
+router.get('/categoryProducts/:category', async (req, res) => {
+  let category = req.params.category
+  let brandName = name.toUpperCase()
+  let user = req.session.user
+  let brand = await userHelper.getBrands()
+  let homePro = await userHelper.getHomeProducts()
+  let product = await userHelper.getProductsByCateogry(category)
+  console.log(product);
+  let cartCount = null
+  if (req.session.user) {
+    let Id = req.session.user._id
+    cartCount = await userHelper.getCartCount(Id)
+  }
+  res.render('user/category-products', { userPage: true, brand, user, brandName, cartCount, homePro, product })
+})
+
+
 
 
 //Cart section starting
 
 router.get('/cart', verifyUserLogin, async (req, res, next) => {
+  
   let id = req.session.user._id
+  console.log("cart starting");
   let products = await userHelper.getCartProducts(id)
+  console.log("//got products");
   let user = req.session.user
   let totals = 0
+  console.log("-----------------------------------1"); 
   if (products.length > 0) {
     totals = await userHelper.getTotalAmount(id)
   }
+  console.log("// ------------------------------------2");
   let brand = await userHelper.getBrands()
+  // ------------------------------------3
   let homePro = await userHelper.getHomeProducts()
   if (req.session.user) {
     let Id = req.session.user._id
+    // ------------------------------------4
     cartCount = await userHelper.getCartCount(Id)
   }
   if (cartCount > 0) {
+    // console.log(products);
     res.render('user/newCart', { cart: true, userPage: true, brand, homePro, user, 'noCart': req.session.noCartPro, cartCount, products, totals })
     req.session.noCartPro = false
   } else {
@@ -1235,13 +1245,28 @@ router.get('/order-success', verifyUserLogin, async (req, res) => {
 
 //Cancelled
 
-router.get('/buyNowCancelled', verifyUserLogin, (req, res) => {
+router.get('/buyNowCancelled', verifyUserLogin, async (req, res) => {
   let user = req.session.user
-  res.render('user/cancel', { user })
+  let cartCount = null
+  let brand = await userHelper.getBrands()
+  let homePro = await userHelper.getHomeProducts()
+  if (req.session.user) {
+    let Id = req.session.user._id
+    cartCount = await userHelper.getCartCount(Id)
+  }
+  res.render('user/cancel', { user, brand, homePro, cartCount })
 })
-router.get('/cancelled', verifyUserLogin, (req, res) => {
+
+router.get('/cancelled', verifyUserLogin, async (req, res) => {
   let user = req.session.user
-  res.render('user/cancel', { user })
+  let cartCount = null
+  let brand = await userHelper.getBrands()
+  let homePro = await userHelper.getHomeProducts()
+  if (req.session.user) {
+    let Id = req.session.user._id
+    cartCount = await userHelper.getCartCount(Id)
+  }
+  res.render('user/cancel', { user, brand, homePro, cartCount })
 })
 
 

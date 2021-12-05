@@ -25,7 +25,7 @@ module.exports = {
     },
     getAllProducts: () => {
         return new Promise(async (resolve, reject) => {
-            let products = db.get().collection(collection.PRODUCT_COLLECTION).find().toArray()
+            let products = db.get().collection(collection.PRODUCT_COLLECTION).find().sort({$natural:-1}).toArray()
             resolve(products)
         })
     },

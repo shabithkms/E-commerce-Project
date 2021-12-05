@@ -43,7 +43,13 @@
                         <img src="/product-images/{{this._id}}c.jpg" class="img-fluid" style="width: 25px;height:25px">
                         --}}
                     </td>
-                    <td>{{this.stock}}</td>
+                    <td>
+                        {{#if this.stockout}}
+                        <span class="text-danger">Out of stock</span>
+                        {{else}}
+                        {{this.stock}}
+                        {{/if}}
+                    </td>
                     <td><a href="/admin/edit-product/{{this._id}}" class="btn btn-primary"><i
                                 class="fas fa-edit"></i></a>
 
