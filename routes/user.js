@@ -12,7 +12,7 @@ const { render } = require('../app');
 var fs = require('fs')
 const objectId = require('mongodb').ObjectID
 const paypal = require('paypal-rest-sdk');
-const voucher=require('voucher-code-generator')
+const voucher = require('voucher-code-generator')
 
 let coupons = voucher.generate({
   length: 8,
@@ -677,14 +677,14 @@ router.get('/categoryProducts/:category', async (req, res) => {
 //Cart section starting
 
 router.get('/cart', verifyUserLogin, async (req, res, next) => {
-  
+
   let id = req.session.user._id
   console.log("cart starting");
   let products = await userHelper.getCartProducts(id)
   console.log("//got products");
   let user = req.session.user
   let totals = 0
-  console.log("-----------------------------------1"); 
+  console.log("-----------------------------------1");
   if (products.length > 0) {
     totals = await userHelper.getTotalAmount(id)
   }
@@ -829,12 +829,12 @@ router.get('/checkout', verifyUserLogin, async (req, res) => {
   if (status.address) {
     console.log(status.address, "st a");
     let addr = await userHelper.getUserAddress(req.session.user._id)
-    console.log(addr, "addr");
+    // console.log(addr, "addr");
     let len = addr.length
     address = addr.slice(len - 2, len)
   }
 
-  console.log(address, "address");
+  // console.log(address, "address");
 
   if (cartCount > 0) {
     res.render('user/checkout', { total, cart: true, brand, homePro, cartCount, products, address, user })
@@ -937,6 +937,26 @@ router.post('/place-order', async (req, res) => {
   }
 
 
+})
+
+//Coupon------------------------------------
+
+router.post('/couponApply', (req, res) => {
+  console.log(req.body);
+  userHelper.couponValidate(req.body).then((response) => {
+    if (response.success) {
+      res.json({ couponSuccess: true, total: response.total })
+    } else if (response.couponUsed) {
+      res.json({ couponUsed: true })
+    }
+    else if (response.couponExpired) {
+      res.json({ couponExpired: true })
+    }
+    else {
+      res.json({ invalidCoupon: true })
+    }
+    console.log(response);
+  })
 })
 
 //Buynow section--------------------------------------------------

@@ -569,7 +569,7 @@ router.get('/coupons', verifyAdminLogin, async (req, res) => {
 
 
 router.post('/add-coupon', verifyAdminLogin, (req, res) => {
-  console.log(req.body);
+  
   adminHelpers.addCoupon(req.body).then(() => {
     res.redirect('/admin/coupons')
   }).catch((err) => {

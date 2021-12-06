@@ -128,6 +128,9 @@
             if (date < today) {
                 $('#prosub').hide()
                 Swal.fire('Choose a valid Date')
+            } else if (strDate > date) {
+                $('#prosub').hide()
+                Swal.fire('Choose a valid Date')
             } else {
                 $('#prosub').show()
             }

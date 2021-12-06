@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt')
 const objectId = require('mongodb').ObjectID
 const userHelper = require('./user-helper')
 const { Db } = require('mongodb')
+var moment=require('moment')
 
 module.exports = {
     doAdminLogin: (adminData) => {
@@ -530,8 +531,18 @@ module.exports = {
         })
     },
     addCoupon: (data) => {
-        return new Promise((resolve, reject) => {
-            db.get().collection(collection.COUPON_COLLECTION).insertOne(data).then(() => {
+        return new Promise(async(resolve, reject) => {
+            let expiry =await moment(data.Expiry).format('DD/MM/YYYY')
+            let starting=await moment(data.Starting).format('DD/MM/YYYY')
+            let dataobj=await {
+                Coupon:data.Coupon,
+                Offer:parseInt(data.Offer),
+                Status:1,
+                Starting:starting,
+                Expiry:expiry
+
+            }
+            db.get().collection(collection.COUPON_COLLECTION).insertOne(dataobj).then(() => {
                 resolve()
             }).catch((err) => {
                 reject(err)
@@ -563,8 +574,8 @@ module.exports = {
     },
     deleteCoupon: (id) => {
         return new Promise((resolve, reject) => {
-            db.get().collection(collection.COUPON_COLLECTION).deleteOne({ _id: objectId(id) }).then(() => {
-                resolve()
+            db.get().collection(collection.COUPON_COLLECTION).deleteOne({ _id: objectId(id) }).then(() => { 
+                resolve() 
             })
         })
     }

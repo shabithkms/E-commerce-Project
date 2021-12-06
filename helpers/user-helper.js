@@ -293,7 +293,7 @@ module.exports = {
         }
         return new Promise(async (resolve, reject) => {
             let userCart = await db.get().collection(collection.CART_COLLECTION).findOne({ user: objectId(userId) })
-            console.log("in add to cart",userCart); 
+            console.log("in add to cart", userCart);
 
             if (userCart) {
                 let proExist = userCart.products.findIndex(product => product.item == proId)
@@ -306,7 +306,7 @@ module.exports = {
                     ).then(() => {
                         resolve()
                     })
-                } else {  
+                } else {
 
                     db.get().collection(collection.CART_COLLECTION).updateOne({ user: objectId(userId) },
                         {
@@ -595,7 +595,7 @@ module.exports = {
                         {
                             $project: {
                                 item: '$products.item',
-                                quantity: '$products.quantity'  
+                                quantity: '$products.quantity'
                             }
                         },
                         {
@@ -644,6 +644,45 @@ module.exports = {
             let cart = await db.get().collection(collection.CART_COLLECTION).findOne({ user: objectId(userId) })
             resolve(cart.products)
         })
+    },
+
+    couponValidate: (data) => {
+        return new Promise(async(resolve, reject) => {
+            obj = {}
+            let date=new Date()
+            date = moment(date).format('DD/MM/YYYY')
+            let coupon=await db.get().collection(collection.COUPON_COLLECTION).findOne({Coupon:data.Coupon})
+            if(coupon){
+                if(date<=coupon.Expiry){
+                    if(coupon.Status==1){
+                        let total=parseInt(data.Total)
+                        let percentage=parseInt(coupon.Offer)
+                        let discountVal=((total*percentage)/100).toFixed()
+                        console.log(discountVal);
+                        obj.total=total-discountVal
+                        obj.success=true
+                        resolve(obj)
+
+                    }else{
+                        obj.couponUsed=true 
+                        console.log("Already used");
+                        resolve(obj)
+                    }
+                }else{
+                    obj.couponExpired=true
+                    console.log("Expired");
+                    resolve(obj)
+                }
+            }else{
+                obj.invalidCoupon=true 
+                console.log("invalid");
+                resolve(obj) 
+            }
+            
+
+        })
+
+
     },
 
     //Cart ends...
