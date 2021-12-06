@@ -12,6 +12,15 @@ const { render } = require('../app');
 var fs = require('fs')
 const objectId = require('mongodb').ObjectID
 const paypal = require('paypal-rest-sdk');
+const voucher=require('voucher-code-generator')
+
+let coupons = voucher.generate({
+  length: 8,
+  count: 1
+});
+
+
+
 //Twilio
 const accountSID = process.env.accountSID
 const authToken = process.env.authToken

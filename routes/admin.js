@@ -539,9 +539,56 @@ router.post('/edit-proOffer/:id', verifyAdminLogin, async (req, res) => {
 
 router.get('/delete-proOffer/:id', verifyAdminLogin, (req, res) => {
   let id = req.params.id
-  adminHelpers.deleteProOffer(id).then((response) => {
+  adminHelpers.deleteCoupons(id).then((response) => {
 
     res.redirect('/admin/product-offers')
+  })
+})
+
+//Coupon-------------------------------
+
+router.get('/coupons',verifyAdminLogin,async(req,res)=>{
+let coupons=await adminHelpers.getAllCoupons()
+  res.render('admin/coupons',{admin:true,coupons})
+})
+
+
+router.post('/add-coupon', verifyAdminLogin, (req, res) => {
+  console.log(req.body);
+  adminHelpers.addCoupon(req.body).then(() => {
+    res.redirect('/admin/coupons')
+  })
+})
+
+
+router.get('/edit-coupon/:id', verifyAdminLogin, async function (req, res, next) { 
+  let id = req.params.id
+  let products = await userHelper.getAllProducts()
+  adminHelpers.getCouponDetails(id).then((coupon) => {
+    res.render('admin/edit-coupons', { admin: true, coupon, products, "bannerExist": req.session.couponExist });
+  })
+});
+
+
+router.post('/edit-coupon/:id', verifyAdminLogin, async (req, res) => {
+  let id = req.params.id
+  adminHelpers.updtaeCoupon(id, req.body).then((response) => {
+    res.redirect('/admin/coupons')
+
+  })
+  // .catch((err)=>{
+  //   if(err.code==11000){
+  //     req.session.brandExist=true
+  //     res.redirect('/admin/edit-brand/id')
+  //   }
+  // })
+
+})
+
+router.get('/delete-coupon/:id', verifyAdminLogin, (req, res) => {
+  let id = req.params.id
+  adminHelpers.deleteCoupon(id).then(() => {
+    res.redirect('/admin/coupons')
   })
 })
 

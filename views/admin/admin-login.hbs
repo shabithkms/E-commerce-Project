@@ -12,30 +12,15 @@
                         <div class="text-center">
                             <h3 class=" pb-4">Admin Login</h3>
                         </div>
-
-                        <div class="note form-success" id="ResetSuccess" style="display:none;">
-                            We&#39;ve sent you an email with a link to update your password.
-                        </div>
-
-
-
-
-
                         <div id="CustomerLoginForm" class="login-form">
                             <form method="post" action="/admin/login" id="adminLogin">
-
-
                                 <label for="email" id="error" class="error"></label>
                                 <input type="email" name="email" id="email" class="input-full"
                                     placeholder="Enter your email" autocorrect="off" autocapitalize="off" autofocus>
                                 <label for="password" id="error" class="error"></label>
                                 <input type="password" value="" name="password" id="password" class="input-full"
                                     placeholder="Password">
-
-
                                 <div class="button-box justify-content-cnte">
-
-
 
                                     {{#if loginErr}}
                                     <h6 class="font pb-3" style="color: red;">invalid Password</h6>
@@ -55,20 +40,6 @@
                                 </div>
                             </form>
                         </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                     </div>
                 </div>
             </div>

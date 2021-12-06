@@ -175,15 +175,33 @@
 <script>
     $(document).ready(function () {
 
-
         $('#Price').blur(function () {
+
             let cost = document.getElementById('landCost').value
             let price = document.getElementById('Price').value
-            if (price <= cost) {
+            {{!-- cost=parseInt(cost)+500 --}}
+            if (price < cost) {
+
                 $('#confirm-btn1').hide()
-                Swal.fire('Choose a valid Date')
+                Swal.fire('Price must be greater than landing cost')
+            } else {
+                $('#confirm-btn1').show()
             }
         })
-    }
+
+        $('#landCost').blur(function () {
+
+            let cost = document.getElementById('landCost').value
+            let price = document.getElementById('Price').value
+            {{!-- cost=parseInt(cost)+500 --}}
+            if (price < cost) {
+
+                $('#confirm-btn1').hide()
+                Swal.fire('Landing cost must be less than price')
+            } else {
+                $('#confirm-btn1').show()
+            }
+        })
+    })
 
 </script>

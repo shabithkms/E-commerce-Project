@@ -1,3 +1,4 @@
+
 <section id="add">
     <div class="half">
         <div class="bg order-1 order-md-2" style="background-image: url('/adminLogin/images/bg_1.jpg');"></div>
@@ -9,34 +10,23 @@
                         <div class="col-md-6">
                             <div class="form-block" id="cat">
                                 <div class="text-center mb-5">
-                                    <h3>Category <strong>Offer</strong></h3>
+                                    <h3> <strong>Coupons</strong></h3>
                                     {{#if catErr}}
                                     <p class="text-center text-danger">{{catErr}}</p>
                                     {{/if}}
                                 </div>
-                                <form action="/admin/edit-catOffer/{{catOffer._id}}" id="categoryPage" method="post">
+                                <form action="/admin/edit-coupon/{{coupon._id}}" id="categoryPage" method="post">
                                     <div class="form-group first">
-                                        <label for="category">Category</label>
+                                        <label for="category">Coupon code</label>
+                                       <input type="text" class="form-control" value="{{coupon.Coupon}}" name="Coupon">
 
-                                        <input list="categories" type="text" value="{{catOffer.Category}}" name="Category" class="form-control"
-                                            autocomplete="off" id="category">
-
-                                        <datalist id="categories">
-
-                                            {{#each category}}
-                                            <option value="{{this.category}}">
-                                                {{/each}}
-                                        </datalist>
                                         <label class="pt-4">Starting Date</label>
-                                        <input type="Date" class="form-control" required value="{{catOffer.Starting}}"
-                                            name="Starting" id="str">
+                                        <input type="Date" class="form-control" required value="{{coupon.Starting}}" name="Starting" id="str">
                                         <label class="pt-4">Expiry Date</label>
-                                        <input type="Date" class="form-control" required value="{{catOffer.Expiry}}"
-                                            name="Expiry" id="exp">
-                                        <label class="pt-4">Offer Percentage</label>
+                                        <input type="Date" class="form-control" required name="Expiry" value="{{coupon.Expiry}}" id="exp">
+                                        <label class="pt-4">Coupon Percentage</label>
                                         <input type="number" class="form-control"
-                                            onkeydown="return event.keyCode !== 69" required name="Offer"
-                                            value="{{catOffer.Offer}}" max="100">
+                                            onkeydown="return event.keyCode !== 69" required name="Offer" value="{{coupon.Offer}}" max="95">
 
 
                                     </div>

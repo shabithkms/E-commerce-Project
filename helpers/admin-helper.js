@@ -518,5 +518,52 @@ module.exports = {
             })
         })
     },
+    getAllCoupons: () => {
+        return new Promise(async (resolve, reject) => {
+
+            let coupons = await db.get().collection(collection.COUPON_COLLECTION).find().toArray()
+            resolve(coupons)
+        })
+    },
+    addCoupon: (data) => {
+        return new Promise((resolve, reject) => {
+            db.get().collection(collection.COUPON_COLLECTION).insertOne(data).then(() => {
+                resolve()
+            }).catch((err)=>{
+                console.log(err);
+            })
+        })
+    },
+    getCouponDetails: (cId) => {
+        return new Promise(async (resolve, reject) => {
+            let coupon = await db.get().collection(collection.COUPON_COLLECTION).findOne({ _id: objectId(cId) })
+            resolve(coupon)
+
+        })
+    },
+    updtaeCoupon: (id, newData) => {
+        return new Promise((resolve, reject) => {
+            console.log(newData);
+            db.get().collection(collection.COUPON_COLLECTION).updateOne({ _id: objectId(id) },
+                {
+                    $set: {
+                        Coupon: newData.Coupon,
+                        Starting: newData.Starting,
+                        Expiry: newData.Expiry,
+                        Offer: newData.Offer
+                    }
+                }).then(()=>{
+                    resolve()
+                })
+
+        })
+    },
+    deleteCoupon:(id)=>{
+        return new Promise((resolve,reject)=>{
+            db.get().collection(collection.COUPON_COLLECTION).deleteOne({_id:objectId(id)}).then(()=>{
+                resolve()
+            })
+        })
+    }
 
 }
