@@ -377,6 +377,8 @@ module.exports = {
                 })
 
                 resolve()
+            }).catch((err) => {
+                reject(err)
             })
         })
     },
@@ -461,6 +463,8 @@ module.exports = {
                     }).then(() => {
                         resolve()
                     })
+            }).catch((err) => {
+                reject(err)
             })
         })
     },
@@ -529,8 +533,8 @@ module.exports = {
         return new Promise((resolve, reject) => {
             db.get().collection(collection.COUPON_COLLECTION).insertOne(data).then(() => {
                 resolve()
-            }).catch((err)=>{
-                console.log(err);
+            }).catch((err) => {
+                reject(err)
             })
         })
     },
@@ -538,7 +542,6 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
             let coupon = await db.get().collection(collection.COUPON_COLLECTION).findOne({ _id: objectId(cId) })
             resolve(coupon)
-
         })
     },
     updtaeCoupon: (id, newData) => {
@@ -552,15 +555,15 @@ module.exports = {
                         Expiry: newData.Expiry,
                         Offer: newData.Offer
                     }
-                }).then(()=>{
+                }).then(() => {
                     resolve()
                 })
 
         })
     },
-    deleteCoupon:(id)=>{
-        return new Promise((resolve,reject)=>{
-            db.get().collection(collection.COUPON_COLLECTION).deleteOne({_id:objectId(id)}).then(()=>{
+    deleteCoupon: (id) => {
+        return new Promise((resolve, reject) => {
+            db.get().collection(collection.COUPON_COLLECTION).deleteOne({ _id: objectId(id) }).then(() => {
                 resolve()
             })
         })

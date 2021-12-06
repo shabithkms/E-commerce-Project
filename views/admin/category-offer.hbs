@@ -60,15 +60,21 @@
                                     {{/if}}
                                 </div>
                                 <form action="/admin/category-offers" id="categoryPage" method="post">
+                                    {{#if catOfferExist}}
+                                    <div class="alert alert-danger" role="alert">
+                                        A offer for this Category already Exist!!
+                                    </div>
+                                    {{/if}}
                                     <div class="form-group first">
                                         <label for="category">Category</label>
-                                        <input list="categories" type="text" name="Category" class="form-control" autocomplete="off" id="category">
-                                        
-                                        <datalist  id="categories"  >
-                                            
+                                        <input list="categories" type="text" name="Category" class="form-control"
+                                            autocomplete="off" id="category">
+
+                                        <datalist id="categories">
+
                                             {{#each category}}
                                             <option value="{{this.category}}">
-                                            {{/each}}
+                                                {{/each}}
                                         </datalist>
 
                                         <label class="pt-4">Starting Date</label>

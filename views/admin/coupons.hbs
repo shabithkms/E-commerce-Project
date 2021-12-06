@@ -60,9 +60,14 @@
                                     {{/if}}
                                 </div>
                                 <form action="/admin/add-coupon" id="categoryPage" method="post">
+                                    {{#if couponExist}}
+                                    <div class="alert alert-danger" role="alert">
+                                        This Coupon is already exist!
+                                    </div>
+                                    {{/if}}
                                     <div class="form-group first">
                                         <label for="category">Coupon code</label>
-                                       <input type="text" class="form-control" name="Coupon">
+                                        <input type="text" class="form-control" name="Coupon">
 
                                         <label class="pt-4">Starting Date</label>
                                         <input type="Date" class="form-control" required name="Starting" id="str">
@@ -71,10 +76,8 @@
                                         <label class="pt-4">Coupon Percentage</label>
                                         <input type="number" class="form-control"
                                             onkeydown="return event.keyCode !== 69" required name="Offer" max="95">
-
-
                                     </div>
-                                    <input type="submit" value="Add" id="catsub" class="btn btn-block btn-primary">
+                                    <input type="submit" value="Add" id="prosub" class="btn btn-block btn-primary">
 
                                 </form>
 
@@ -123,10 +126,10 @@
             today = yyyy + '-' + mm + '-' + dd;
             console.log(today)
             if (date < today) {
-                $('#catsub').hide()
+                $('#prosub').hide()
                 Swal.fire('Choose a valid Date')
             } else {
-                $('#catsub').show()
+                $('#prosub').show()
             }
         })
         $('#exp').blur(function () {
@@ -155,7 +158,7 @@
                 Swal.fire('Choose a valid Date')
             }
             else {
-                $('#catsub').show()
+                $('#prosub').show()
             }
         })
     })

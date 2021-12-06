@@ -56,7 +56,7 @@ router.post('/login', (req, res) => {
       }
       // req.session.loginErr=true
       // res.redirect('/admin/login')
-    } 
+    }
   })
 })
 
@@ -454,13 +454,20 @@ router.get('/delete-banner/:id', verifyAdminLogin, (req, res) => {
 router.get('/category-offers', verifyAdminLogin, async (req, res) => {
   let category = await adminHelpers.getAllCategory()
   let catOffers = await adminHelpers.getAllCatOffers()
-  res.render('admin/category-offer', { admin: true, category, catOffers })
+  res.render('admin/category-offer', { admin: true, category, catOffers,"catOfferExist":req.session.catOfferExist })
+  req.session.catOfferExist = false
 })
 
 router.post('/category-offers', verifyAdminLogin, (req, res) => {
   console.log(req.body);
   adminHelpers.addCategoryOffer(req.body).then(() => {
     res.redirect('/admin/category-offers')
+  }).catch((err) => {
+    if (err.code == 11000) {
+      req.session.catOfferExist = true
+      res.redirect('/admin/category-offers')
+
+    }
   })
 })
 
@@ -501,13 +508,20 @@ router.get('/delete-catOffer/:id', verifyAdminLogin, (req, res) => {
 router.get('/product-offers', verifyAdminLogin, async (req, res) => {
   let products = await userHelper.getAllProducts()
   let proOffers = await adminHelpers.getAllProOffers()
-  res.render('admin/product-offer', { admin: true, products, proOffers })
+  res.render('admin/product-offer', { admin: true, products, proOffers,"proOfferExist":req.session.proOfferExist })
+  req.session.proOfferExist = false
 })
 
 router.post('/product-offers', verifyAdminLogin, (req, res) => {
   console.log(req.body);
   adminHelpers.addProductOffer(req.body).then(() => {
     res.redirect('/admin/product-offers')
+  }).catch((err) => {
+    if (err.code == 11000) {
+      req.session.proOfferExist = true
+      res.redirect('/admin/product-offers')
+
+    }
   })
 })
 
@@ -547,9 +561,10 @@ router.get('/delete-proOffer/:id', verifyAdminLogin, (req, res) => {
 
 //Coupon-------------------------------
 
-router.get('/coupons',verifyAdminLogin,async(req,res)=>{
-let coupons=await adminHelpers.getAllCoupons()
-  res.render('admin/coupons',{admin:true,coupons})
+router.get('/coupons', verifyAdminLogin, async (req, res) => {
+  let coupons = await adminHelpers.getAllCoupons()
+  res.render('admin/coupons', { admin: true, coupons, "couponExist": req.session.couponExist })
+  req.session.couponExist = false
 })
 
 
@@ -557,11 +572,17 @@ router.post('/add-coupon', verifyAdminLogin, (req, res) => {
   console.log(req.body);
   adminHelpers.addCoupon(req.body).then(() => {
     res.redirect('/admin/coupons')
+  }).catch((err) => {
+    if (err.code == 11000) {
+      req.session.couponExist = true
+      res.redirect('/admin/coupons')
+
+    }
   })
 })
 
 
-router.get('/edit-coupon/:id', verifyAdminLogin, async function (req, res, next) { 
+router.get('/edit-coupon/:id', verifyAdminLogin, async function (req, res, next) {
   let id = req.params.id
   let products = await userHelper.getAllProducts()
   adminHelpers.getCouponDetails(id).then((coupon) => {
