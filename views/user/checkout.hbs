@@ -74,7 +74,7 @@
                                 <div class="form-row">
                                     <div class="form-group billing-info mb-4 col-md-12">
                                         <label for="house">House Name</label>
-                                        <input type="text" id="house" name="House" minlength="4" />
+                                        <input type="text" id="house" name="House" required minlength="4" />
                                     </div>
                                 </div>
 
@@ -185,12 +185,11 @@
                                                             <div class="mt-2">
                                                                 <div class="alert alert-danger" style="display: none;"
                                                                     id="couponUsed" role="alert">
-                                                                    This Coupon has
-                                                                    been Used
+                                                                    This Coupon was redeemed
                                                                 </div>
 
                                                                 <div class="alert alert-danger" style="display: none;"
-                                                                    id="couponUsed" role="alert">
+                                                                    id="couponInvalid" role="alert">
                                                                     This Coupon is
                                                                     invalid
                                                                 </div>
@@ -211,23 +210,31 @@
 
                                                             {{!-- Error ends --}}
                                                         </div>
+
                                                     </div>
 
                                                     <div class="your-order-total">
                                                         <table class="table borderless">
+
                                                             <tr>
                                                                 <th>Total</th>
-                                                                <td id="totalOriginal">{{total}}</td>
+                                                                <td id="total">{{total}}<span>.00</span></td>
                                                             </tr>
+
                                                             <tr>
                                                                 <th id="discountLabel" style="display: none;">Coupon
                                                                     discount</th>
                                                                 <td id="discount" style="display: none;"
                                                                     name="Discount"></td>
                                                             </tr>
-                                                            
+                                                            <tr>
+                                                                <th id="newTotal" style="display: none;">New Total</th>
+                                                                <td id="totalOriginal" style="display: none;">{{total}}
+                                                                </td>
+                                                            </tr>
+
                                                         </table>
-                                                        
+
                                                     </div>
                                                 </div>
                                                 <div class="payment-method">
@@ -310,6 +317,7 @@
     function couponApply() {
         let couponCode = document.getElementById('couponInput').value
         let couponTotal = document.getElementById('couponTotal').value
+        
         $.ajax({
             url: '/couponApply',
             data: {
@@ -326,6 +334,9 @@
                     document.getElementById('discount').innerHTML = discount
                     $('#discount').show()
                     $('#discountLabel').show()
+                    $('#newTotal').show()
+                    $('#totalOriginal').show()
+
                     document.getElementById('totalOriginal').innerHTML = response.total
                     $('#couponSuccess').show()
                     $('#couponUsed').hide()

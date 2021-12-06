@@ -539,7 +539,8 @@ module.exports = {
                 Offer:parseInt(data.Offer),
                 Status:1,
                 Starting:starting,
-                Expiry:expiry
+                Expiry:expiry,
+                Users:[]
 
             }
             db.get().collection(collection.COUPON_COLLECTION).insertOne(dataobj).then(() => {
@@ -577,6 +578,15 @@ module.exports = {
             db.get().collection(collection.COUPON_COLLECTION).deleteOne({ _id: objectId(id) }).then(() => { 
                 resolve() 
             })
+        })
+    },
+    topSellingProduct:()=>{
+        return new Promise((resolve,reject)=>{
+            db.get().collection(collection.ORDER_COLLECTION).aggregate([
+                {
+                    
+                }
+            ])
         })
     }
 

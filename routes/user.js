@@ -943,7 +943,10 @@ router.post('/place-order', async (req, res) => {
 
 router.post('/couponApply', (req, res) => {
   console.log(req.body);
-  userHelper.couponValidate(req.body).then((response) => {
+  let id = req.session.user._id
+
+  userHelper.couponValidate(req.body, id).then((response) => {
+    console.log(response);
     if (response.success) {
       res.json({ couponSuccess: true, total: response.total })
     } else if (response.couponUsed) {
@@ -953,9 +956,9 @@ router.post('/couponApply', (req, res) => {
       res.json({ couponExpired: true })
     }
     else {
-      res.json({ invalidCoupon: true })
+      res.json({ invalidCoupon: true }) 
     }
-    console.log(response);
+
   })
 })
 
@@ -1329,8 +1332,7 @@ router.get('/myOrders', verifyUserLogin, async (req, res) => {
   console.log(id);
   let cartCount = null
   if (req.session.user) {
-    let Id = req.session.user._id
-    cartCount = await userHelper.getCartCount(Id)
+    cartCount = await userHelper.getCartCount(id)
   }
   userHelper.getUserOrders(id).then((orders) => {
 

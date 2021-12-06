@@ -613,6 +613,10 @@ router.get('/delete-coupon/:id', verifyAdminLogin, (req, res) => {
   })
 })
 
+router.get('/report',verifyAdminLogin,(req,res)=>{
+  
+})
+
 
 
 //Logout

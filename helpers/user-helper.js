@@ -646,39 +646,50 @@ module.exports = {
         })
     },
 
-    couponValidate: (data) => {
-        return new Promise(async(resolve, reject) => {
+    couponValidate: (data, user) => {
+        return new Promise(async (resolve, reject) => {
+            
             obj = {}
-            let date=new Date()
+            let date = new Date()
             date = moment(date).format('DD/MM/YYYY')
-            let coupon=await db.get().collection(collection.COUPON_COLLECTION).findOne({Coupon:data.Coupon})
-            if(coupon){
-                if(date<=coupon.Expiry){
-                    if(coupon.Status==1){
-                        let total=parseInt(data.Total)
-                        let percentage=parseInt(coupon.Offer)
-                        let discountVal=((total*percentage)/100).toFixed()
+            let coupon = await db.get().collection(collection.COUPON_COLLECTION).findOne({ Coupon: data.Coupon })
+            if (coupon) {
+                let users=coupon.Users
+                let userChecker=users.includes(user)
+                console.log(userChecker);
+                if (userChecker) {
+                    obj.couponUsed = true
+                    console.log("Already used");
+                    resolve(obj)
+                } else {
+                    if (date <= coupon.Expiry) {
+                        let total = parseInt(data.Total)
+                        let percentage = parseInt(coupon.Offer)
+                        let discountVal = ((total * percentage) / 100).toFixed()
                         console.log(discountVal);
-                        obj.total=total-discountVal
-                        obj.success=true
-                        resolve(obj)
-
-                    }else{
-                        obj.couponUsed=true 
-                        console.log("Already used");
+                        obj.total = total - discountVal
+                        obj.success = true
+                        db.get().collection(collection.COUPON_COLLECTION).updateOne({ Coupon: data.Coupon },
+                            {
+                                $push: {
+                                    Users:user
+                                }
+                            }).then(() => {
+                                resolve(obj)
+                            })
+                    } else {
+                        obj.couponExpired = true
+                        console.log("Expired");
                         resolve(obj)
                     }
-                }else{
-                    obj.couponExpired=true
-                    console.log("Expired");
-                    resolve(obj)
                 }
-            }else{
-                obj.invalidCoupon=true 
+
+            } else {
+                obj.invalidCoupon = true
                 console.log("invalid");
-                resolve(obj) 
+                resolve(obj)
             }
-            
+
 
         })
 
@@ -837,9 +848,9 @@ module.exports = {
 
     getUserOrders: (Id) => {
         return new Promise(async (resolve, reject) => {
-            let orders = await db.get().collection(collection.ORDER_COLLECTION).find().sort({ $natural: -1 }).toArray()
+            let orders = await db.get().collection(collection.ORDER_COLLECTION).find({User:Id}).sort({ $natural: -1 }).toArray()
 
-            console.log("sortted");
+            console.log("sortted",orders);
             resolve(orders)
         })
     },
