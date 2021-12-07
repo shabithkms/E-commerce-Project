@@ -178,6 +178,7 @@
         $('#proTable tbody tr').each(function (idx) {
             $(this).children("td:eq(0)").html(idx + 1);
         });
+
         $(document).ready(function () {
             $('#example').DataTable({
                 dom: 'Bfrtip',
@@ -186,9 +187,19 @@
                 ]
             });
         });
+
+        $(document).ready(function () {
+            $('#example1').DataTable();
+        });
+
+        $('#example1 tbody tr').each(function (idx) {
+            $(this).children("td:eq(0)").html(idx + 1);
+        });
+
         $(document).ready(function () {
             $('#report').DataTable();
         });
+        
         $('#example tbody tr').each(function (idx) {
             $(this).children("td:eq(0)").html(idx + 1);
         });

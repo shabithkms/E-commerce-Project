@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt')
 const objectId = require('mongodb').ObjectID
 const userHelper = require('./user-helper')
 const adminHelpers = require('./admin-helper')
+const { response } = require('express')
 
 module.exports = {
 
@@ -157,7 +158,7 @@ module.exports = {
                     },
                 }
             ]).toArray()
-            
+
             if (total[0]) {
                 console.log(total[0]);
                 let newTotal = total[0].total
@@ -289,10 +290,90 @@ module.exports = {
             ]).toArray()
             let paypalLen = paypalProducts.length
             methods.push(paypalLen)
-            console.log(methods);
+            // console.log(methods);
             resolve(methods)
 
         })
     },
+    getTotalProfit: () => {
+        return new Promise(async (resolve, reject) => {
+            let profit = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+                {
+                    $unwind: '$Products'
+                },
+                {
+                    $project: {
+                        item: '$Products.item',
+                        quantity: '$Products.quantity',
+                        Date:1
+
+                    }
+                },
+                {
+                    $lookup: {
+                        from: collection.PRODUCT_COLLECTION,
+                        localField: 'item',
+                        foreignField: '_id',
+                        as: 'product'
+
+                    }
+                },
+                {
+                    $project: {
+                        item: 1,
+                        quantity: 1,
+                        Date:1,
+                        product: { $arrayElemAt: ['$product', 0] }
+                    }
+                },
+                {
+                    $project: {
+                        item: 1,
+                        Date:1,
+                        quantity: 1,
+                        price: '$product.price',
+                        cost: '$product.cost',
+                    }
+                },
+
+                {
+                    $group: {
+                        _id: '$item',
+                        revenue: { $sum: { $multiply: [{ '$toInt': '$quantity' }, { '$toInt': '$price' }] } },
+                        landCost:{$sum:{$multiply:[{ '$toInt': '$quantity' }, { '$toInt': '$cost' }]}},
+                    }
+                },
+                {
+                    $project: {
+                        _id:1,
+                        revenue: 1,
+                        landCost: 1,
+                        
+                    }
+                }
+
+
+            ]).toArray()
+            console.log(profit);
+            revenue=profit[0].revenue
+            landCost=profit[0].landCost
+            profit=revenue-landCost
+            console.log(profit);
+            resolve(profit)
+        })
+    },
+    getDayWiseSale:()=>{
+        return new Promise(async(resolve,reject)=>{
+            let sales=await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+                {
+                    $unwind:'$Products'
+                },
+                {
+
+                }
+            ]).toArray()
+            console.log(getDayWiseSale);
+        })
+    }
 
 }

@@ -613,7 +613,8 @@ router.get('/delete-coupon/:id', verifyAdminLogin, (req, res) => {
   })
 })
 
-router.get('/report', verifyAdminLogin, (req, res) => {
+router.get('/report', verifyAdminLogin,async (req, res) => {
+  let profit =await productHelper.getTotalProfit()
   adminHelpers.monthlyReport().then((data) => {
     res.render('admin/report', { admin: true, report: true, data })
   })
@@ -622,8 +623,11 @@ router.get('/report', verifyAdminLogin, (req, res) => {
 router.post('/report', (req, res) => {
   console.log(req.body);
   adminHelpers.salesReport(req.body).then((data) => {
-    res.render('admin/report', { admin: true, report: true, data })
+    console.log("data=",data);
+    
+    res.render('admin/report', { admin: true, report: true, data, })
   })
+  
 
 
 })

@@ -638,15 +638,18 @@ module.exports = {
             // console.log("cod : ",cod,"paypal : ",paypal,"online : ",online);
             // console.log("total order :",orderTotalLength,"success order :",orderSuccessLength,"fail order :",orderFailLength,);
             // console.log("Discount Amount : ",discountAmt,"discount count : ",discount);
-            console.log(data);
+            // console.log(data); 
             resolve(data)
 
         })
     },
     salesReport: (dates) => {
         return new Promise(async (resolve, reject) => {
+            console.log("dates", dates);
             let start = moment(dates.StartDate).format('YYYY/MM/DD')
-            let end = moment(dates.EndtDate).format('YYYY/MM/DD')
+            let end = moment(dates.EndDate).format('YYYY/MM/DD')
+            console.log(start, "start");
+            console.log(end, "end");
             let orderSuccess = await db.get().collection(collection.ORDER_COLLECTION).find({ Date: { $gte: start, $lte: end }, Status: { $nin: ['Cancelled', 'pending'] } }).sort({ Date: -1, Time: -1 }).toArray()
             let orderTotal = await db.get().collection(collection.ORDER_COLLECTION).find({ Date: { $gte: start, $lte: end } }).toArray()
             let orderSuccessLength = orderSuccess.length
@@ -658,6 +661,7 @@ module.exports = {
             let online = 0
             let cod = 0
             let paypal = 0
+            let noData = false
             for (let i = 0; i < orderSuccessLength; i++) {
                 total = total + orderSuccess[i].Total
                 if (orderSuccess[i].PaymentMethod == 'COD') {
@@ -673,6 +677,10 @@ module.exports = {
                 }
 
             }
+            if (orderSuccess.length == 0) {
+                noData = true
+            }
+            console.log(noData);
             var data = {
                 start: start,
                 end: end,
@@ -684,14 +692,15 @@ module.exports = {
                 paypal: paypal,
                 online: online,
                 discount: discountAmt,
-                currentOrders: orderSuccess
+                currentOrders: orderSuccess,
+                noData:noData
             }
 
             // console.log("total",total);
             // console.log("cod : ",cod,"paypal : ",paypal,"online : ",online);
             // console.log("total order :",orderTotalLength,"success order :",orderSuccessLength,"fail order :",orderFailLength,);
             // console.log("Discount Amount : ",discountAmt,"discount count : ",discount);
-            console.log(data);
+            // console.log(data);
             resolve(data)
 
         })

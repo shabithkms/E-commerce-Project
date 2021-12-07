@@ -79,42 +79,46 @@
                             <h1 class="text-center text-white rounded pt-1">All Transactions</h1>
                         </div>
                         <div class="col-md-12 card mt-4">
-                            <table class="table table-hover" id="example">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">No.</th>
-                                        <th scope="col">Date</th>
-                                        <th scope="col">User</th>
-                                        <th scope="col">Amount</th>
-                                        <th scope="col">Discount</th>
-                                        <th scope="col">Payment</th>
-                                        <th scope="col">Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {{#each data.currentOrders}}
-                                    <tr>
-                                        <td></td>
-                                        <td>{{this.Date}}</td>
+                            {{#if data.noData}}
+                            <table class="table table-hover" id="example1">
+                                {{else}}
+                                <table class="table table-hover" id="example">
+                                    {{/if}}
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">No.</th>
+                                            <th scope="col">Date</th>
+                                            <th scope="col">User</th>
+                                            <th scope="col">Amount</th>
+                                            <th scope="col">Discount</th>
+                                            <th scope="col">Payment</th>
+                                            <th scope="col">Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{#each data.currentOrders}}
+                                        <tr>
+                                            <td></td>
+                                            <td>{{this.Date}}</td>
 
-                                        <td>{{this.User}}</td>
-
-
-                                        <td>{{this.Total}}</td>
-                                        <td>
-                                            {{#if this.Discount}}
-                                            {{this.Discount}}
-                                            {{else}}
-                                            0{{/if}}
-                                        </td>
-                                        <td>{{this.PaymentMethod}}</td>
-                                        <td>{{this.Status}}</td>
+                                            <td>{{this.User}}</td>
 
 
-                                    </tr>
-                                    {{/each}}
-                                </tbody>
-                            </table>
+                                            <td>{{this.Total}}</td>
+                                            <td>
+                                                {{#if this.Discount}}
+                                                {{this.Discount}}
+                                                {{else}}
+                                                0{{/if}}
+                                            </td>
+                                            <td>{{this.PaymentMethod}}</td>
+                                            <td>{{this.Status}}</td>
+
+
+                                        </tr>
+                                        {{/each}}
+                                    </tbody>
+                                </table>
                         </div>
                     </div>
 
@@ -242,11 +246,23 @@
 
 <script>
     $(document).ready(function () {
-
-
+        let today = new Date()
+        var dd = today.getDate();
+        var mm = today.getMonth() + 1;
+        var yyyy = today.getFullYear();
+        if (dd < 10) {
+            dd = '0' + dd;
+        }
+        if (mm < 10) {
+            mm = '0' + mm;
+        }
+        today = yyyy + '-' + mm + '-' + dd;
+        $('#start').attr('max', today)
         $('#start').change(function () {
             let date = document.getElementById('start').value
             $('#end').attr('min', date)
+            $('#end').attr('max', today)
+
         })
 
     })
