@@ -86,6 +86,11 @@ router.get('/', async function (req, res, next) {
   let brand = await userHelper.getBrands()
   let homePro = await userHelper.getHomeProducts()
   let banners = await userHelper.getAllBanners()
+
+  // let result1 = await producthelpers.startCategoryOffers(todayDate);
+  // let result2 = await producthelpers.startProductOffers(todayDate);
+  // let result3 = await producthelpers.startCoupenOffers(todayDate); 
+
   res.render('user/home', { user, userPage: true, products, banners, brand, homePro, cartCount })
 });
 
@@ -625,13 +630,13 @@ router.get('/products/:name', async (req, res) => {
   let brand = await userHelper.getBrands()
   let homePro = await userHelper.getHomeProducts()
   let product = await userHelper.getProductsByName(name)
-  console.log(product);
+  let nameProducts = await productHelper.getRelatedProducts()
   let cartCount = null
   if (req.session.user) {
     let Id = req.session.user._id
     cartCount = await userHelper.getCartCount(Id)
   }
-  res.render('user/name-products', { userPage: true, brand, user, cartCount, homePro, product })
+  res.render('user/name-products', { userPage: true, brand, user, nameProducts, cartCount, homePro, product })
 })
 
 //By brand......................................................
@@ -956,7 +961,7 @@ router.post('/couponApply', (req, res) => {
       res.json({ couponExpired: true })
     }
     else {
-      res.json({ invalidCoupon: true }) 
+      res.json({ invalidCoupon: true })
     }
 
   })

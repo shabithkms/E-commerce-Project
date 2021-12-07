@@ -1,9 +1,9 @@
 <link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
 
 <style>
-    .glass {
-        width: 175px;
-        height: 175px;
+     .glass {
+        width: 235px;
+        height: 235px;
         position: absolute;
         border-radius: 50%;
         cursor: crosshair;
@@ -18,43 +18,38 @@
         display: none;
     }
 
-    .carousel-control-prev-icon {
-        background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23000' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E") !important;
+
+
+
+    .carousel-inner img {
+        width: 100%;
+        height: 100%
     }
 
-    .carousel-control-next-icon {
-        background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23000' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E") !important;
+    #custCarousel .carousel-indicators {
+        position: static;
+        margin-top: 20px
     }
 
-    .carousel-control-prev-icon,
-    .carousel-control-next-icon {
-        height: 50px;
-        width: 50px;
-        align-items: center;
-
-
-
+    #custCarousel .carousel-indicators>li {
+        width: 100px
     }
 
-
-    #wrap {
-        max-width: 700px;
-        margin: 20px auto;
+    #custCarousel .carousel-indicators li img {
+        display: block;
+        opacity: 0.5
     }
 
-    .product {
-        margin: 20px auto;
-        text-align: center;
-        padding: 20px;
+    #custCarousel .carousel-indicators li.active img {
+        opacity: 1
     }
 
-    .carousel {
-        width: 400px;
-        height: 500px;
+    #custCarousel .carousel-indicators li:hover img {
+        opacity: 0.75
     }
 
-    .indi {
-        color: black;
+    .carousel-item img {
+        width: 80%
     }
 </style>
 <div class="breadcrumb-area ptb-170"
@@ -89,60 +84,46 @@
 <div class="product-details neha_pr_dt">
     <div class="container p-0">
         <div class="row">
-            <div class="col-md-6 col-lg-6 col-12">
-                <div class="product-details-img-content">
-                    <div class="product-details-tab mr-70 pr_style_1">
-
-
-
-
-
-
-
-                        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-                            <ol class="carousel-indicators">
-                                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active indi"></li>
-                                <li data-target="#carouselExampleIndicators" data-slide-to="1" class="indi"></li>
-                                <li data-target="#carouselExampleIndicators" data-slide-to="2" class="indi"></li>
-                                <li data-target="#carouselExampleIndicators" data-slide-to="3" class="indi"></li>
-                            </ol>
-                            <div class="carousel-inner">
-                                <div class="carousel-item active product">
-                                    <img src="/productImages/{{product._id}}a.jpg" class="d-block  magniflier"
-                                        alt="...">
-                                </div>
-                                <div class="carousel-item product">
-                                    <img src="/productImages/{{product._id}}b.jpg" class="d-block  magniflier"
-                                        alt="...">
-                                </div>
-                                <div class="carousel-item product">
-                                    <img src="/productImages/{{product._id}}c.jpg" class="d-block  magniflier"
-                                        alt="...">
-                                </div>
-                                <div class="carousel-item product">
-                                    <img src="/productImages/{{product._id}}d.jpg" class="d-block  magniflier"
-                                        alt="...">
-                                </div>
-                            </div>
-                            <a class="carousel-control-prev" style="color: black;" href="#carouselExampleIndicators"
-                                role="button" data-slide="prev">
-                                <span class="carousel-control-prev-icon text-dark" style="color: black;"
-                                    aria-hidden="true"></span>
-                                <span class="sr-only" style="color: black;">Previous</span>
-                            </a>
-                            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button"
-                                data-slide="next">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span class="sr-only">Next</span>
-                            </a>
+            <div class="col-md-6">
+                <div id="custCarousel" class="carousel slide" data-ride="carousel" align="center">
+                    <!-- slides -->
+                    <div class="carousel-inner">
+                        <div class="carousel-item active"> <img src="/productImages/{{product._id}}a.jpg"
+                                class="d-block  magniflier" alt="Hills">
                         </div>
-
-
-                    </div>
+                        <div class="carousel-item"> <img src="/productImages/{{product._id}}b.jpg"
+                                class="d-block  magniflier" alt="Hills"> </div>
+                        <div class="carousel-item"> <img src="/productImages/{{product._id}}c.jpg"
+                                class="d-block  magniflier" alt="Hills"> </div>
+                        <div class="carousel-item"> <img src="/productImages/{{product._id}}d.jpg"
+                                class="d-block  magniflier" alt="Hills"> </div>
+                    </div> <!-- Left right --> <a class="carousel-control-prev" href="#custCarousel" data-slide="prev">
+                        <span class="carousel-control-prev-icon"></span> </a> <a class="carousel-control-next"
+                        href="#custCarousel" data-slide="next"> <span class="carousel-control-next-icon"></span>
+                    </a>
+                    <!-- Thumbnails -->
+                    <ol class="carousel-indicators list-inline">
+                        <li class="list-inline-item active"> <a id="carousel-selector-0" class="selected"
+                                data-slide-to="0" data-target="#custCarousel"> <img
+                                    src="/productImages/{{product._id}}a.jpg" class=" img-fluid">
+                            </a> </li>
+                        <li class="list-inline-item"> <a id="carousel-selector-1" data-slide-to="1"
+                                data-target="#custCarousel"> <img src="/productImages/{{product._id}}b.jpg"
+                                    class="img-fluid">
+                            </a> </li>
+                        <li class="list-inline-item"> <a id="carousel-selector-2" data-slide-to="2"
+                                data-target="#custCarousel"> <img src="/productImages/{{product._id}}c.jpg"
+                                    class="img-fluid">
+                            </a> </li>
+                        <li class="list-inline-item"> <a id="carousel-selector-2" data-slide-to="3"
+                                data-target="#custCarousel"> <img src="/productImages/{{product._id}}d.jpg"
+                                    class="img-fluid">
+                            </a> </li>
+                    </ol>
                 </div>
             </div>
 
-            <div class="col-md-12 col-lg-5 col-12">
+            <div class="col-md-6 col-lg-6 col-12">
                 <div class="product-details-content ">
                     <div class="inner-wrapper-sticky">
                         <h3>{{product.name}}</h3>
@@ -154,11 +135,31 @@
                         </div>
 
 
+                        {{#if product.proOffer}}
                         <div class="details-price">
-                            <span id="ProductPrice"><span class=money>₹{{product.cost}}</span></span>
+                            <span id="ProductPrice"><span class=money>₹{{product.price}}</span></span>
 
-                            <del><span id="ComparePrice"><span class=money>₹{{product.price}}</span></span></del>
+                            <del><span id="ComparePrice"><span class=money>₹{{product.actualPrice}}</span></span></del>
 
+                        </div>
+                        {{else}}
+                        <div class="details-price">
+                            <span id="ProductPrice"><span class=money>₹{{product.price}}</span></span>
+
+                            {{!-- <del><span id="ComparePrice"><span class=money>₹{{product.price}}</span></span></del>
+                            --}}
+
+                        </div>
+
+                        {{/if}}
+                        <div>
+
+                            {{#if product.proOffer}}
+                            <div>
+                                <strong><span class="sale mb-3">{{product.proPercentage}}% OFF</strong> for this
+                                Product</span>
+                            </div>
+                            {{/if}}
                         </div>
 
 
@@ -238,81 +239,32 @@
 
 
                         <div class="product-categories product-cat-tag">
+
                             <ul>
-
                                 <li class="categories-title">Category :</li>
-
-
-
-
-                                <li><a href="">{{product.category}}</a></li>
-
-                                {{!-- <li><a href="../collections/featured.html">Featured</a></li>
-
-                                <li><a href="../collections/new-arrival.html">New Arrival</a></li>
-
-                                <li><a href="../collections/on-sale.html">On Sale</a></li> --}}
-
+                                <li><a >{{product.category}}</a></li> <br>
+                                <li>100% Original Products</li> <br>
+                                <li>Cash on delivery might be available</li>
                             </ul>
                         </div>
 
 
 
 
-                        {{!-- <div class="product-tags product-cat-tag">
+                        <div class="product-tags product-cat-tag">
                             <ul>
 
-                                <li class="categories-title">Tags :</li>
-
-
-
-
-                                <li><a href="../collections/all/black.html">black,</a></li>
-
-                                <li><a href="../collections/all/brown.html">brown,</a></li>
-
-                                <li><a href="../collections/all/cotton.html">Cotton</a></li>
-
+                                <li class="categories-title text-dark">Product details:</li> <br>
+                                <li><a >Pack Contains: single watch</li> <br>
+                                <li><a>Movement: quartz</a></li> <br>
+                                <li><a >Power Source: battery</a></li> <br>
+                                <li><a >Water resistance: 100 m</a></li> <br>
+                                <li><a >Comes in a signature {{product.brand}} case</a></li> <br>
+                                <li><a >Warranty: 2 years</a></li> <br>
+                                <li><a >Warranty provided by Brand Owner / Manufacturer</a></li> <br>
 
                             </ul>
-                        </div> --}}
-
-
-
-
-                        {{!-- <div class="product-share">
-
-
-                            <ul>
-
-                                <li class="categories-title">Share:</li>
-
-
-                                <li><a target="_blank"
-                                        href="http://www.facebook.com/sharer.php?u=https://watchin-1.myshopify.com/products/adquiera-mas"
-                                        title="Share on Facebook" tabindex="0">
-                                        <i class="ion-social-facebook"></i>
-                                    </a></li>
-                                <li><a target="_blank"
-                                        href="http://twitter.com/share?text=Adquiera%20Mas&amp;url=https://watchin-1.myshopify.com/products/adquiera-mas;source=webclient"
-                                        title="Share on Twitter" tabindex="0">
-                                        <i class="ion-social-twitter"></i>
-                                    </a></li>
-                                <li><a target="_blank"
-                                        href="http://plus.google.com/share?url=https://watchin-1.myshopify.com/products/adquiera-mas"
-                                        title="Share on Google+" tabindex="0">
-                                        <i class="ion-social-instagram-outline"></i>
-                                    </a></li>
-
-                                <li><a target="_blank"
-                                        href="../../pinterest.com/pin/create/button/index1576.html?url=https://watchin-1.myshopify.com/products/adquiera-mas&amp;media=http://cdn.shopify.com/s/files/1/0012/9266/4921/products/1_1024x1024.jpg?v=1531545383&amp;description=Adquiera%20Mas"
-                                        title="Share on Pinterest" tabindex="0">
-                                        <i class="ion-social-pinterest-outline"></i>
-                                    </a></li>
-
-                            </ul>
-
-                        </div> --}}
+                        </div>
 
                     </div>
                 </div>
