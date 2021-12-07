@@ -648,14 +648,14 @@ module.exports = {
 
     couponValidate: (data, user) => {
         return new Promise(async (resolve, reject) => {
-            
+
             obj = {}
             let date = new Date()
             date = moment(date).format('DD/MM/YYYY')
             let coupon = await db.get().collection(collection.COUPON_COLLECTION).findOne({ Coupon: data.Coupon })
             if (coupon) {
-                let users=coupon.Users
-                let userChecker=users.includes(user)
+                let users = coupon.Users
+                let userChecker = users.includes(user)
                 console.log(userChecker);
                 if (userChecker) {
                     obj.couponUsed = true
@@ -669,14 +669,8 @@ module.exports = {
                         console.log(discountVal);
                         obj.total = total - discountVal
                         obj.success = true
-                        db.get().collection(collection.COUPON_COLLECTION).updateOne({ Coupon: data.Coupon },
-                            {
-                                $push: {
-                                    Users:user
-                                }
-                            }).then(() => {
-                                resolve(obj)
-                            })
+                        resolve(obj)
+
                     } else {
                         obj.couponExpired = true
                         console.log("Expired");
@@ -747,7 +741,7 @@ module.exports = {
     },
 
     deleteExpiredCategoryoffers: (date) => {
-        
+
         let endDateIso = new Date(date);
 
 
@@ -858,7 +852,7 @@ module.exports = {
         return new Promise((resolve, reject) => {
             //  total = parseInt(total)
             console.log("in placeorder", total);
-            let len = products.length
+            let coupon = order.Coupon
             // for (i = 0; i < len; i++) {
             //     products[i].proStatus = order.Payment == "Placed"
             // }
@@ -871,7 +865,7 @@ module.exports = {
             }
 
             let dateIso = new Date()
-            let date = moment(dateIso).format('DD/MM/YYYY')
+            let date = moment(dateIso).format('YYYY/MM/DD')
             let time = moment(dateIso).format('HH:mm:ss')
             let orderObj = {
                 deliveryDetails: {
@@ -888,19 +882,31 @@ module.exports = {
                 PaymentMethod: order.Payment,
                 Products: products,
                 Total: total,
+                Coupon: coupon,
                 Discount: order.Discount,
+                DateISO: dateIso,
                 Date: date,
                 Time: time,
                 buyNow: order.buyNow,
                 Status: "Placed"
 
             }
+            let user = order.User
+            // console.log("order", orderObj);
+            db.get().collection(collection.COUPON_COLLECTION).updateOne({ Coupon: coupon },
+                {
+                    $push: {
+                        Users: user
+                    }
+                }).then(() => {
+                    console.log("user pushed to coupon");
+                    db.get().collection(collection.ORDER_COLLECTION).insertOne(orderObj).then((response) => {
+                        console.log("order inserted");
+                        resolve(response)
+                    })
+                })
 
 
-            db.get().collection(collection.ORDER_COLLECTION).insertOne(orderObj).then((response) => {
-                console.log("order inserted");
-                resolve(response)
-            })
 
         })
 
@@ -974,9 +980,9 @@ module.exports = {
 
     getUserOrders: (Id) => {
         return new Promise(async (resolve, reject) => {
-            let orders = await db.get().collection(collection.ORDER_COLLECTION).find({User:Id}).sort({ $natural: -1 }).toArray()
+            let orders = await db.get().collection(collection.ORDER_COLLECTION).find({ User: Id }).sort({ $natural: -1 }).toArray()
 
-            console.log("sortted",orders);
+
             resolve(orders)
         })
     },

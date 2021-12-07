@@ -850,16 +850,27 @@ router.get('/checkout', verifyUserLogin, async (req, res) => {
 })
 
 router.post('/place-order', async (req, res) => {
+  console.log("req.body",req.body);
   req.session.placeOrderData = req.body
   let newId = new objectId()
   console.log(newId)
-  let total = await userHelper.getTotalAmount(req.session.user._id)
+  // let total = await userHelper.getTotalAmount(req.session.user._id)
+  if (req.session.couponTotal) {
+    var total = req.session.couponTotal
+  } else {
+    total = await userHelper.getTotalAmount(req.session.user._id)
+  }
+  console.log("in placeorder user",total);
   if (req.body['Payment'] == 'COD') {
     console.log("in cod");
     let id = req.session.user._id
     let products = await userHelper.getCartProductList(id)
     console.log(products, "cartt pro");
-    let total = await userHelper.getTotalAmount(id)
+    if (req.session.couponTotal) {
+      var total = req.session.couponTotal
+    } else {
+      total = await userHelper.getTotalAmount(req.session.user._id)
+    }
     userHelper.placeOrder(req.body, products, total).then((resp) => {
       req.session.orderId = resp.insertedId.toString()
       let orderId = req.session.orderId
@@ -881,7 +892,11 @@ router.post('/place-order', async (req, res) => {
     })
   } else if (req.body['Payment'] == 'Paypal') {
     console.log("in paypal");
-    req.session.total = req.body.Total
+    if (req.session.couponTotal) {
+      req.session.total= req.session.couponTotal
+    } else {
+      req.session.total = req.body.Total
+    }
     val = total / 74
     console.log(val)
     total = val.toFixed(2)
@@ -951,6 +966,8 @@ router.post('/couponApply', (req, res) => {
   let id = req.session.user._id
 
   userHelper.couponValidate(req.body, id).then((response) => {
+    req.session.couponTotal = response.total
+    console.log(req.session.couponTotal);
     console.log(response);
     if (response.success) {
       res.json({ couponSuccess: true, total: response.total })
@@ -1001,17 +1018,26 @@ router.get('/buyNow/:id', verifyUserLogin, async (req, res) => {
 
 
 router.post('/buyNow', async (req, res) => {
-  if (req.session.userLoggedIn) {
+  if (req.session.userLoggedIn) { 
     req.session.buyNowData = req.body
     console.log(req.session.buyNowData);
     let newId = new objectId()
     let product = await userHelper.getBuyNowProduct(req.body.ProId)
-    let total = await userHelper.getBuyNowTotal(req.body.ProId)
+    // let total = await userHelper.getBuyNowTotal(req.body.ProId)
+    if (req.session.couponTotal) {
+      var total = req.session.couponTotal
+    } else {
+      total = await userHelper.getBuyNowTotal(req.body.ProId)
+    }
     if (req.body['Payment'] == 'COD') {
       console.log("in cod");
       let id = req.session.user._id
       let product = await userHelper.getBuyNowProduct(req.body.ProId)
-      let total = await userHelper.getBuyNowTotal(req.body.ProId)
+      if (req.session.couponTotal) {
+        var total = req.session.couponTotal
+      } else {
+        total = await userHelper.getBuyNowTotal(req.body.ProId)
+      }
       console.log("in buy now userjs post=", total);
       userHelper.placeOrder(req.body, product, total).then((resp) => {
 
@@ -1034,7 +1060,11 @@ router.post('/buyNow', async (req, res) => {
       })
     } else if (req.body['Payment'] == 'Paypal') {
       console.log("in paypal");
-      req.session.total = req.body.Total
+      if (req.session.couponTotal) {
+        req.session.total= req.session.couponTotal
+      } else {
+        req.session.total = req.body.Total
+      }
       console.log(req.session.buyNowData);
       val = total / 74
       console.log(val)
@@ -1132,7 +1162,12 @@ router.get('/buyNowSuccess', verifyUserLogin, (req, res) => {
       let pId = req.session.proId
       console.log(req.session.proId, "proid");
       let product = await userHelper.getBuyNowProduct(pId)
-      let total = await userHelper.getBuyNowTotal(pId)
+      // let total = await userHelper.getBuyNowTotal(pId)
+      if (req.session.couponTotal) {
+        var total = req.session.couponTotal
+      } else {
+        total = await userHelper.getBuyNowTotal(pId)
+      }
       console.log(id, data, product, total);
       userHelper.placeOrder(data, product, total).then((resp) => {
         req.session.orderId = resp.insertedId.toString()
@@ -1169,7 +1204,7 @@ router.get('/success', verifyUserLogin, (req, res) => {
     "payer_id": payerId,
     "transactions": [{
       "amount": {
-        "currency": "USD",
+        "currency": "USD", 
         "total": total
       }
     }]
@@ -1183,7 +1218,12 @@ router.get('/success', verifyUserLogin, (req, res) => {
       let id = req.session.user._id
       let data = req.session.placeOrderData
       let products = await userHelper.getCartProductList(id)
-      let total = await userHelper.getTotalAmount(id)
+      // let total = await userHelper.getTotalAmount(id)
+      if (req.session.couponTotal) {
+        var total = req.session.couponTotal
+      } else {
+        total = await userHelper.getTotalAmount(id)
+      }
       userHelper.placeOrder(data, products, total).then((resp) => {
         req.session.orderId = resp.insertedId.toString()
         let orderId = req.session.orderId
@@ -1215,7 +1255,12 @@ router.post('/verify-buyNowPayment', (req, res) => {
 
     let ProId = data.ProId
     let product = await userHelper.getBuyNowProduct(ProId)
-    let total = await userHelper.getBuyNowTotal(ProId)
+    // let total = await userHelper.getBuyNowTotal(ProId)
+    if (req.session.couponTotal) {
+      var total = req.session.couponTotal
+    } else {
+      total = await userHelper.getBuyNowTotal(ProId)
+    }
 
     userHelper.placeOrder(data, product, total).then((resp) => {
       req.session.orderId = resp.insertedId.toString()
@@ -1224,7 +1269,7 @@ router.post('/verify-buyNowPayment', (req, res) => {
       userHelper.stockChanger(req.session.orderId).then(() => {
         req.session.ordered = true
         console.log("cart cleared");
-        req.session.buyNowData = null
+        req.session.buyNowData = null 
         res.json({ status: true })
       })
     })
@@ -1241,7 +1286,12 @@ router.post('/verify-payment', (req, res) => {
   userHelper.verifyPayment(req.body).then(async (response) => {
     let id = req.session.user._id
     let products = await userHelper.getCartProductList(id)
-    let total = await userHelper.getTotalAmount(id)
+    // let total = await userHelper.getTotalAmount(id)
+    if (req.session.couponTotal) {
+      var total = req.session.couponTotal
+    } else {
+      total = await userHelper.getTotalAmount(id)
+    }
     let data = req.session.placeOrderData
     userHelper.placeOrder(data, products, total).then((resp) => {
       let newId = new objectId()

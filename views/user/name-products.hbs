@@ -1,7 +1,7 @@
 <link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
 
 <style>
-     .glass {
+    .glass {
         width: 235px;
         height: 235px;
         position: absolute;
@@ -135,23 +135,40 @@
                         </div>
 
 
-                        {{#if product.proOffer}}
-                        <div class="details-price">
-                            <span id="ProductPrice"><span class=money>₹{{product.price}}</span></span>
 
-                            <del><span id="ComparePrice"><span class=money>₹{{product.actualPrice}}</span></span></del>
+                        <div class="details-price">
+                            {{#if product.proOffer}}
+                            <div class="details-price">
+                                <span id="ProductPrice"><span class=money>₹{{product.price}}</span></span>
+
+                                <del><span id="ComparePrice"><span
+                                            class=money>₹{{product.actualPrice}}</span></span></del>
+
+                            </div>
+                            {{else}}
+                            {{#if this.catOffer}}
+                            <div class="details-price">
+                                <span id="price--sale"><span class=money>₹{{this.price}}</span></span>
+
+                                <del><span id="ComparePrice"><span class=money>₹{{this.actualPrice}}</span></span></del>
+
+                            </div>
+                            {{else}}
+
+
+                            <div class="details-price">
+                                <span id="ProductPrice"><span class=money>₹{{this.price}}</span></span>
+
+
+                            </div>
+                            {{/if}}
+                            {{/if}}
 
                         </div>
-                        {{else}}
-                        <div class="details-price">
-                            <span id="ProductPrice"><span class=money>₹{{product.price}}</span></span>
 
-                            {{!-- <del><span id="ComparePrice"><span class=money>₹{{product.price}}</span></span></del>
-                            --}}
 
-                        </div>
 
-                        {{/if}}
+
                         <div>
 
                             {{#if product.proOffer}}
@@ -242,7 +259,7 @@
 
                             <ul>
                                 <li class="categories-title">Category :</li>
-                                <li><a >{{product.category}}</a></li> <br>
+                                <li><a>{{product.category}}</a></li> <br>
                                 <li>100% Original Products</li> <br>
                                 <li>Cash on delivery might be available</li>
                             </ul>
@@ -255,13 +272,13 @@
                             <ul>
 
                                 <li class="categories-title text-dark">Product details:</li> <br>
-                                <li><a >Pack Contains: single watch</li> <br>
+                                <li><a>Pack Contains: single watch</li> <br>
                                 <li><a>Movement: quartz</a></li> <br>
-                                <li><a >Power Source: battery</a></li> <br>
-                                <li><a >Water resistance: 100 m</a></li> <br>
-                                <li><a >Comes in a signature {{product.brand}} case</a></li> <br>
-                                <li><a >Warranty: 2 years</a></li> <br>
-                                <li><a >Warranty provided by Brand Owner / Manufacturer</a></li> <br>
+                                <li><a>Power Source: battery</a></li> <br>
+                                <li><a>Water resistance: 100 m</a></li> <br>
+                                <li><a>Comes in a signature {{product.brand}} case</a></li> <br>
+                                <li><a>Warranty: 2 years</a></li> <br>
+                                <li><a>Warranty provided by Brand Owner / Manufacturer</a></li> <br>
 
                             </ul>
                         </div>
@@ -335,9 +352,33 @@
 
                             <div class="product-price">
 
-                                <span><del><span class=money>₹{{this.price}}</span></del></span>
+                                {{#if product.proOffer}}
+                                <div class="details-price">
+                                    <span id="ProductPrice"><span class=money>₹{{product.price}}</span></span>
 
-                                <span class="price--sale"><span class=money>₹{{this.cost}}</span></span>
+                                    <del><span id="ComparePrice"><span
+                                                class=money>₹{{product.actualPrice}}</span></span></del>
+
+                                </div>
+                                {{else}}
+                                {{#if this.catOffer}}
+                                <div class="details-price">
+                                    <span id="price--sale"><span class=money>₹{{this.price}}</span></span>
+
+                                    <del><span id="ComparePrice"><span
+                                                class=money>₹{{this.actualPrice}}</span></span></del>
+
+                                </div>
+                                {{else}}
+
+
+                                <div class="details-price">
+                                    <span id="ProductPrice"><span class=money>₹{{this.price}}</span></span>
+
+
+                                </div>
+                                {{/if}}
+                                {{/if}}
                             </div>
 
 

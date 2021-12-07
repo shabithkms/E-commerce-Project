@@ -69,14 +69,14 @@
 
 
                                 <label for="inputCost">Landing cost</label>
-                                <input type="number" class="form-control" id="inputCost" value="{{product.cost}}"
+                                <input type="number" class="form-control" id="landCost" value="{{product.cost}}"
                                     name="cost">
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="inputPrice">Price</label>
-                                <input type="number" class="form-control" id="inputPrice" value="{{product.price}}"
+                                <input type="number" class="form-control" id="Price" value="{{product.price}}"
                                     name="price">
                             </div>
                             <div class="form-group col-md-6">
@@ -146,3 +146,23 @@
         </div>
     </div>
 </div>
+
+
+<script>
+    $(document).ready(function () {
+
+        
+
+        $('#landCost').change(function () {
+            let cost = document.getElementById('landCost').value
+            let price = document.getElementById('Price').value
+            let newPrice=parseInt(cost)+500
+            
+
+            $('#Price').attr('min',newPrice)
+        })
+
+
+    })
+
+</script>

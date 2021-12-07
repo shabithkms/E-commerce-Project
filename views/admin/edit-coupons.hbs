@@ -1,4 +1,3 @@
-
 <section id="add">
     <div class="half">
         <div class="bg order-1 order-md-2" style="background-image: url('/adminLogin/images/bg_1.jpg');"></div>
@@ -15,18 +14,22 @@
                                     <p class="text-center text-danger">{{catErr}}</p>
                                     {{/if}}
                                 </div>
-                                <form action="/admin/edit-coupon/{{coupon._id}}" id="categoryPage" method="post">
+                                <form action="/admin/edit-coupon/{{coupon._id}}" id="productPage" method="post">
                                     <div class="form-group first">
                                         <label for="category">Coupon code</label>
-                                       <input type="text" class="form-control" value="{{coupon.Coupon}}" name="Coupon">
+                                        <input type="text" class="form-control" value="{{coupon.Coupon}}" name="Coupon">
 
                                         <label class="pt-4">Starting Date</label>
-                                        <input type="Date" class="form-control" required value="{{coupon.Starting}}" name="Starting" id="str">
+                                        <input type="Date" class="form-control" required value="{{coupon.Starting}}"
+                                            name="Starting" id="str">
                                         <label class="pt-4">Expiry Date</label>
-                                        <input type="Date" class="form-control" required name="Expiry" value="{{coupon.Expiry}}" id="exp">
+                                        <input type="Date" class="form-control" required name="Expiry"
+                                            value="{{coupon.Expiry}}" id="exp">
                                         <label class="pt-4">Coupon Percentage</label>
-                                        <input type="number" class="form-control"
-                                            onkeydown="return event.keyCode !== 69" required name="Offer" value="{{coupon.Offer}}" max="95">
+                                        <input type="text" class="form-control"
+                                            onkeydown="return event.keyCode !== 69" required name="Offer"
+                                            onkeypress="return isNumber(event)" min="1" value="{{coupon.Offer}}"
+                                            max="95">
 
 
                                     </div>
@@ -53,66 +56,41 @@
 </section>
 
 
-<script>
-    $("#proSelect").select2({
-        placeholder: "Select A Product",
-        allowClear: true
-    });
-</script>
+
 <script>
     $(document).ready(function () {
 
-        $('#str').blur(function () {
+        let today = new Date()
+        var dd = today.getDate();
+        var mm = today.getMonth() + 1;
+
+        var yyyy = today.getFullYear();
+        if (dd < 10) {
+            dd = '0' + dd;
+        }
+        if (mm < 10) {
+            mm = '0' + mm;
+        }
+        today = yyyy + '-' + mm + '-' + dd;
+
+        $('#str').attr('min', today)
+
+
+        $('#str').change(function () {
             let date = document.getElementById('str').value
-            console.log(date)
-            let today = new Date()
-            var dd = today.getDate();
-            var mm = today.getMonth() + 1;
-
-            var yyyy = today.getFullYear();
-            if (dd < 10) {
-                dd = '0' + dd;
-            }
-            if (mm < 10) {
-                mm = '0' + mm;
-            }
-            today = yyyy + '-' + mm + '-' + dd;
-            console.log(today)
-            if (date < today) {
-                $('#catsub').hide()
-                Swal.fire('Choose a valid Date')
-            } else {
-                $('#catsub').show()
-            }
+            $('#exp').attr('min', date)
         })
-        $('#exp').blur(function () {
-            let date = document.getElementById('exp').value
-            let strDate = document.getElementById('str').value
 
-            console.log(date)
-            let today = new Date()
-            var dd = today.getDate();
-            var mm = today.getMonth() + 1;
-
-            var yyyy = today.getFullYear();
-            if (dd < 10) {
-                dd = '0' + dd;
-            }
-            if (mm < 10) {
-                mm = '0' + mm;
-            }
-            today = yyyy + '-' + mm + '-' + dd;
-            console.log(today)
-            if (date < today) {
-                $('#prosub').hide()
-                Swal.fire('Choose a valid Date')
-            } else if (strDate > date) {
-                $('#prosub').hide()
-                Swal.fire('Choose a valid Date')
-            }
-            else {
-                $('#catsub').show()
-            }
-        })
     })
+</script>
+
+<script>
+    function isNumber(evt) {
+        evt = (evt) ? evt : window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
+        }
+        return true;
+    }
 </script>

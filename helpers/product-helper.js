@@ -25,7 +25,7 @@ module.exports = {
     },
     getAllProducts: () => {
         return new Promise(async (resolve, reject) => {
-            let products = db.get().collection(collection.PRODUCT_COLLECTION).find().sort({$natural:-1}).toArray()
+            let products = db.get().collection(collection.PRODUCT_COLLECTION).find().sort({ $natural: -1 }).toArray()
             resolve(products)
         })
     },
@@ -157,9 +157,11 @@ module.exports = {
                     },
                 }
             ]).toArray()
-            console.log(total[0]);
-            let newTotal = total[0].total
-            if (newTotal > 0) {
+            
+            if (total[0]) {
+                console.log(total[0]);
+                let newTotal = total[0].total
+
                 console.log(total);
                 console.log(total[0].total);
                 resolve(total[0].total)

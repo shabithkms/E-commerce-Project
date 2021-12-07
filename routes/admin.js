@@ -454,7 +454,7 @@ router.get('/delete-banner/:id', verifyAdminLogin, (req, res) => {
 router.get('/category-offers', verifyAdminLogin, async (req, res) => {
   let category = await adminHelpers.getAllCategory()
   let catOffers = await adminHelpers.getAllCatOffers()
-  res.render('admin/category-offer', { admin: true, category, catOffers,"catOfferExist":req.session.catOfferExist })
+  res.render('admin/category-offer', { admin: true, category, catOffers, "catOfferExist": req.session.catOfferExist })
   req.session.catOfferExist = false
 })
 
@@ -508,7 +508,7 @@ router.get('/delete-catOffer/:id', verifyAdminLogin, (req, res) => {
 router.get('/product-offers', verifyAdminLogin, async (req, res) => {
   let products = await userHelper.getAllProducts()
   let proOffers = await adminHelpers.getAllProOffers()
-  res.render('admin/product-offer', { admin: true, products, proOffers,"proOfferExist":req.session.proOfferExist })
+  res.render('admin/product-offer', { admin: true, products, proOffers, "proOfferExist": req.session.proOfferExist })
   req.session.proOfferExist = false
 })
 
@@ -553,10 +553,10 @@ router.post('/edit-proOffer/:id', verifyAdminLogin, async (req, res) => {
 
 router.get('/delete-proOffer/:id', verifyAdminLogin, (req, res) => {
   let id = req.params.id
-  adminHelpers.deleteCoupons(id).then((response) => {
 
-    res.redirect('/admin/product-offers')
-  })
+
+  res.redirect('/admin/product-offers')
+
 })
 
 //Coupon-------------------------------
@@ -569,7 +569,7 @@ router.get('/coupons', verifyAdminLogin, async (req, res) => {
 
 
 router.post('/add-coupon', verifyAdminLogin, (req, res) => {
-  
+
   adminHelpers.addCoupon(req.body).then(() => {
     res.redirect('/admin/coupons')
   }).catch((err) => {
@@ -613,8 +613,19 @@ router.get('/delete-coupon/:id', verifyAdminLogin, (req, res) => {
   })
 })
 
-router.get('/report',verifyAdminLogin,(req,res)=>{
-  
+router.get('/report', verifyAdminLogin, (req, res) => {
+  adminHelpers.monthlyReport().then((data) => {
+    res.render('admin/report', { admin: true, report: true, data })
+  })
+
+})
+router.post('/report', (req, res) => {
+  console.log(req.body);
+  adminHelpers.salesReport(req.body).then((data) => {
+    res.render('admin/report', { admin: true, report: true, data })
+  })
+
+
 })
 
 

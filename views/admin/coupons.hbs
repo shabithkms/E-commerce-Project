@@ -59,7 +59,7 @@
                                     <p class="text-center text-danger">{{catErr}}</p>
                                     {{/if}}
                                 </div>
-                                <form action="/admin/add-coupon" id="categoryPage" method="post">
+                                <form action="/admin/add-coupon" id="productPage" method="post">
                                     {{#if couponExist}}
                                     <div class="alert alert-danger" role="alert">
                                         This Coupon is already exist!
@@ -74,8 +74,8 @@
                                         <label class="pt-4">Expiry Date</label>
                                         <input type="Date" class="form-control" required name="Expiry" id="exp">
                                         <label class="pt-4">Coupon Percentage</label>
-                                        <input type="number" class="form-control"
-                                            onkeydown="return event.keyCode !== 69" required name="Offer" max="95">
+                                        <input type="text" class="form-control" required min="1" name="Offer" max="95"
+                                            onkeypress="return isNumber(event)">
                                     </div>
                                     <input type="submit" value="Add" id="prosub" class="btn btn-block btn-primary">
 
@@ -127,4 +127,14 @@
             $('#exp').attr('min', date)
         })
     })
+</script>
+<script>
+    function isNumber(evt) {
+        evt = (evt) ? evt : window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
+        }
+        return true;
+    }
 </script>

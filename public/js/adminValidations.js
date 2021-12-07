@@ -336,3 +336,34 @@ $(document).ready(function () {
     })
 
 })
+
+
+//Offers
+$(document).ready(function () {
+    $('#productPage').validate({
+        rules: {
+            Coupon: {
+                required: true,
+                minlength: 5,
+                maxlength:20,
+            },
+            Starting:{
+                required:true,
+            },
+            Expiry:{
+                required:true,
+            },
+            Offer:{
+                required:true,
+            },
+            Category:{
+                required:true,
+            },
+            Product:{
+                required:true,
+            }
+
+        }
+    })
+})
+

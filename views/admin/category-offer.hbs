@@ -59,7 +59,7 @@
                                     <p class="text-center text-danger">{{catErr}}</p>
                                     {{/if}}
                                 </div>
-                                <form action="/admin/category-offers" id="categoryPage" method="post">
+                                <form action="/admin/category-offers" id="productPage" method="post">
                                     {{#if catOfferExist}}
                                     <div class="alert alert-danger" role="alert">
                                         A offer for this Category already Exist!!
@@ -82,8 +82,8 @@
                                         <label class="pt-4">Expiry Date</label>
                                         <input type="Date" class="form-control" required name="Expiry" id="exp">
                                         <label class="pt-4">Offer Percentage</label>
-                                        <input type="number" class="form-control"
-                                            onkeydown="return event.keyCode !== 69" required name="Offer" max="95">
+                                        <input type="text" class="form-control"
+                                            onkeypress="return isNumber(event)" required name="Offer" min="1" max="95">
 
 
                                     </div>
@@ -141,4 +141,14 @@
         })
         
     })
+</script>
+<script>
+    function isNumber(evt) {
+        evt = (evt) ? evt : window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
+        }
+        return true;
+    }
 </script>

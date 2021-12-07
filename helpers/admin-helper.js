@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt')
 const objectId = require('mongodb').ObjectID
 const userHelper = require('./user-helper')
 const { Db } = require('mongodb')
-var moment=require('moment')
+var moment = require('moment')
 
 module.exports = {
     doAdminLogin: (adminData) => {
@@ -531,16 +531,16 @@ module.exports = {
         })
     },
     addCoupon: (data) => {
-        return new Promise(async(resolve, reject) => {
-            let expiry =await moment(data.Expiry).format('DD/MM/YYYY')
-            let starting=await moment(data.Starting).format('DD/MM/YYYY')
-            let dataobj=await {
-                Coupon:data.Coupon,
-                Offer:parseInt(data.Offer),
-                Status:1,
-                Starting:starting,
-                Expiry:expiry,
-                Users:[]
+        return new Promise(async (resolve, reject) => {
+            let expiry = await moment(data.Expiry).format('DD/MM/YYYY')
+            let starting = await moment(data.Starting).format('DD/MM/YYYY')
+            let dataobj = await {
+                Coupon: data.Coupon,
+                Offer: parseInt(data.Offer),
+                Status: 1,
+                Starting: starting,
+                Expiry: expiry,
+                Users: []
 
             }
             db.get().collection(collection.COUPON_COLLECTION).insertOne(dataobj).then(() => {
@@ -575,19 +575,126 @@ module.exports = {
     },
     deleteCoupon: (id) => {
         return new Promise((resolve, reject) => {
-            db.get().collection(collection.COUPON_COLLECTION).deleteOne({ _id: objectId(id) }).then(() => { 
-                resolve() 
+            db.get().collection(collection.COUPON_COLLECTION).deleteOne({ _id: objectId(id) }).then(() => {
+                resolve()
             })
         })
     },
-    topSellingProduct:()=>{
-        return new Promise((resolve,reject)=>{
+    topSellingProduct: () => {
+        return new Promise((resolve, reject) => {
             db.get().collection(collection.ORDER_COLLECTION).aggregate([
                 {
-                    
+
                 }
             ])
         })
-    }
+    },
+    monthlyReport: () => {
+        return new Promise(async (resolve, reject) => {
+            let today = new Date()
+            let end = moment(today).format('YYYY/MM/DD')
+            let start = moment(end).subtract(30, 'days').format('YYYY/MM/DD')
+            let orderSuccess = await db.get().collection(collection.ORDER_COLLECTION).find({ Date: { $gte: start, $lte: end }, Status: { $nin: ['Cancelled'] } }).sort({ Date: -1, Time: -1 }).toArray()
+            let orderTotal = await db.get().collection(collection.ORDER_COLLECTION).find({ Date: { $gte: start, $lte: end } }).toArray()
+            let orderSuccessLength = orderSuccess.length
+            let orderTotalLength = orderTotal.length
+            let orderFailLength = orderTotalLength - orderSuccessLength
+            let total = 0
+            let discountAmt = 0
+            let discount = 0
+            let online = 0
+            let cod = 0
+            let paypal = 0
+            for (let i = 0; i < orderSuccessLength; i++) {
+                total = total + orderSuccess[i].Total
+                if (orderSuccess[i].PaymentMethod == 'COD') {
+                    cod++
+                } else if (orderSuccess[i].PaymentMethod == 'Paypal') {
+                    paypal++
+                } else {
+                    online++
+                }
+                if (orderSuccess[i].Discount) {
+                    discountAmt = discountAmt + parseInt(orderSuccess[i].Discount)
+                    discount++
+                }
+
+            }
+            var data = {
+                start: start,
+                end: end,
+                totalOrders: orderTotalLength,
+                successOrders: orderSuccessLength,
+                failOrders: orderFailLength,
+                totalSales: total,
+                cod: cod,
+                paypal: paypal,
+                online: online,
+                discount: discountAmt,
+                currentOrders: orderSuccess
+            }
+
+            // console.log("total",total);
+            // console.log("cod : ",cod,"paypal : ",paypal,"online : ",online);
+            // console.log("total order :",orderTotalLength,"success order :",orderSuccessLength,"fail order :",orderFailLength,);
+            // console.log("Discount Amount : ",discountAmt,"discount count : ",discount);
+            console.log(data);
+            resolve(data)
+
+        })
+    },
+    salesReport: (dates) => {
+        return new Promise(async (resolve, reject) => {
+            let start = moment(dates.StartDate).format('YYYY/MM/DD')
+            let end = moment(dates.EndtDate).format('YYYY/MM/DD')
+            let orderSuccess = await db.get().collection(collection.ORDER_COLLECTION).find({ Date: { $gte: start, $lte: end }, Status: { $nin: ['Cancelled', 'pending'] } }).sort({ Date: -1, Time: -1 }).toArray()
+            let orderTotal = await db.get().collection(collection.ORDER_COLLECTION).find({ Date: { $gte: start, $lte: end } }).toArray()
+            let orderSuccessLength = orderSuccess.length
+            let orderTotalLength = orderTotal.length
+            let orderFailLength = orderTotalLength - orderSuccessLength
+            let total = 0
+            let discountAmt = 0
+            let discount = 0
+            let online = 0
+            let cod = 0
+            let paypal = 0
+            for (let i = 0; i < orderSuccessLength; i++) {
+                total = total + orderSuccess[i].Total
+                if (orderSuccess[i].PaymentMethod == 'COD') {
+                    cod++
+                } else if (orderSuccess[i].PaymentMethod == 'Paypal') {
+                    paypal++
+                } else {
+                    online++
+                }
+                if (orderSuccess[i].Discount) {
+                    discountAmt = discountAmt + parseInt(orderSuccess[i].Discount)
+                    discount++
+                }
+
+            }
+            var data = {
+                start: start,
+                end: end,
+                totalOrders: orderTotalLength,
+                successOrders: orderSuccessLength,
+                failOrders: orderFailLength,
+                totalSales: total,
+                cod: cod,
+                paypal: paypal,
+                online: online,
+                discount: discountAmt,
+                currentOrders: orderSuccess
+            }
+
+            // console.log("total",total);
+            // console.log("cod : ",cod,"paypal : ",paypal,"online : ",online);
+            // console.log("total order :",orderTotalLength,"success order :",orderSuccessLength,"fail order :",orderFailLength,);
+            // console.log("Discount Amount : ",discountAmt,"discount count : ",discount);
+            console.log(data);
+            resolve(data)
+
+        })
+    },
 
 }

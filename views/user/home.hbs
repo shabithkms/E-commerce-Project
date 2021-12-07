@@ -200,10 +200,42 @@
 
                                                 <div class="product-price">
 
-                                                    <span><del><span class=money>₹{{this.price}}</span></del></span>
+                                                    {{#if product.proOffer}}
+                                                    <div class="product-price">
+                                                        <span id="ProductPrice"><span
+                                                                class=money>₹{{product.price}}</span></span>
 
-                                                    <span class="price--sale"><span
-                                                            class=money>₹{{this.cost}}</span></span>
+                                                        <del><span id="ComparePrice"><span
+                                                                    class=money>₹{{product.actualPrice}}</span></span></del>
+
+                                                    </div>
+                                                    {{else}}
+                                                    {{#if this.catOffer}}
+                                                    <div class="product-price">
+                                                        <span id="price--sale"><span
+                                                                class=money>₹{{this.price}}</span></span>
+
+                                                        <del><span id="ComparePrice"><span
+                                                                    class=money>₹{{this.actualPrice}}</span></span></del>
+
+                                                    </div>
+                                                    {{else}}
+
+
+                                                    <div class="product-price">
+                                                        <span id="ProductPrice"><span
+                                                                class=money>₹{{this.price}}</span></span>
+
+
+                                                    </div>
+                                                    {{/if}}
+                                                    {{/if}}
+
+                                                    {{!-- <span><del><span
+                                                                class=money>₹{{this.price}}</span></del></span> --}}
+
+                                                    {{!-- <span class="price--sale"><span
+                                                            class=money>₹{{this.price}}</span></span> --}}
                                                 </div>
 
 
@@ -214,7 +246,8 @@
                                                     {{else}}
                                                     <button class="add_cart btn btn-light cart-item "
                                                         style="width: 130px; border: 1px solid black !important;"
-                                                        onclick="addToCart('{{this._id}}','{{this.stock}}')" title="Add to cart">
+                                                        onclick="addToCart('{{this._id}}','{{this.stock}}')"
+                                                        title="Add to cart">
 
                                                         <i class="ion-bag"></i>
                                                         <i class="ion-ios-loop-strong animated rotateIn infinite"></i>
@@ -395,7 +428,8 @@
                                             {{else}}
                                             <button class="add_cart btn btn-light cart-item "
                                                 style="width: 130px; border: 1px solid black !important;"
-                                                onclick="addToCart('{{this._id}}','{{this.stock}}')" title="Add to cart">
+                                                onclick="addToCart('{{this._id}}','{{this.stock}}')"
+                                                title="Add to cart">
 
                                                 <i class="ion-bag"></i>
                                                 <i class="ion-ios-loop-strong animated rotateIn infinite"></i>
@@ -462,7 +496,7 @@
 
 
                             <div class="timer">
-                                <div data-countdown="2021/11/31"></div>
+                                <div data-countdown="2021/12/10"></div>
                             </div>
 
 

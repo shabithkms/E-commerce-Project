@@ -181,7 +181,7 @@
                                                         <a id="couponBtn" onclick="couponApply()"
                                                             class="btn bg-success text-white text-center  mt-2"
                                                             style="width: 100%;text-decoration: none;">Apply Coupon</a>
-                                                            
+
                                                         <div class="mt-2">
                                                             <div class="alert alert-danger" style="display: none;"
                                                                 id="couponUsed" role="alert">
@@ -220,7 +220,9 @@
                                                         <tr>
                                                             <th id="discountLabel" style="display: none;">Coupon
                                                                 discount</th>
-                                                            <td id="discount" style="display: none;" name="Discount">
+                                                            <td id="discounttd" style="display: none;">
+                                                                <input type="text" name="Discount"
+                                                                    style="display: none;" id="discount" readonly>
                                                             </td>
                                                         </tr>
                                                         <tr>
@@ -307,7 +309,6 @@
         document.getElementById('email').value = email
     }
 </script>
-
 <script>
     function couponApply() {
         let couponCode = document.getElementById('couponInput').value
@@ -326,9 +327,10 @@
                     let oldTotal = parseInt(document.getElementById('totalOriginal').innerHTML)
                     let discount = oldTotal - parseInt(response.total)
                     document.getElementById('couponInput').readOnly = true
-                    document.getElementById('discount').innerHTML = discount
+                    document.getElementById('discount').value = discount
                     $('#discount').show()
                     $('#discountLabel').show()
+                    $('#discounttd').show()
                     $('#newTotal').show()
                     $('#totalOriginal').show()
 
