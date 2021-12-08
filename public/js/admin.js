@@ -1,114 +1,46 @@
 
-function deleteproduct(event) {
-    event.preventDefault();
-    var link = event.currentTarget.href;
-    var name = event.currentTarget.name;
-    Swal.fire({
-        title: 'Are you sure?',
-        text: "Do you want to delete " + name,
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            Swal.fire(
-                'Deleted!',
-                'Brand has been deleted.',
-                'success'
-            )
-            window.location = link;
-        }
-        else {
-            return false;
-        }
-    })
-}
-function deleteBrand(event) {
-    event.preventDefault();
-    var link = event.currentTarget.href;
-    var name = event.currentTarget.name;
-    Swal.fire({
-        title: 'Are you sure?',
-        text: "Do you want to delete " + name,
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            Swal.fire(
-                'Deleted!',
-                'Brand has been deleted.',
-                'success'
-            )
-            window.location = link;
-        }
-        else {
-            return false;
-        }
-    })
-}
 
-function deleteCategory(event) {
-    event.preventDefault();
-    var link = event.currentTarget.href;
-    var name = event.currentTarget.name;
-    Swal.fire({
-        title: 'Are you sure?',
-        text: "Do you want to delete " + name,
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            Swal.fire(
-                'Deleted!',
-                'Brand has been deleted.',
-                'success'
-            )
-            window.location = link;
-        }
-        else {
-            return false;
-        }
-    })
-}
 
-function deleteCoupon(event) {
-    event.preventDefault();
-    var link = event.currentTarget.href;
-    
-    Swal.fire({
-        title: 'Are you sure?',
-        text: "Do you want to delete ",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            Swal.fire(
-                'Deleted!',
-                'Coupon  deleted.',
-                'success'
-            )
-            window.location = link;
+//Admin sidebar navigation
+
+jQuery(function ($) {
+
+    $(".sidebar-dropdown > a").click(function () {
+        $(".sidebar-submenu").slideUp(200);
+        if (
+            $(this)
+                .parent()
+                .hasClass("active")
+        ) {
+            $(".sidebar-dropdown").removeClass("active");
+            $(this)
+                .parent()
+                .removeClass("active");
+        } else {
+            $(".sidebar-dropdown").removeClass("active");
+            $(this)
+                .next(".sidebar-submenu")
+                .slideDown(200);
+            $(this)
+                .parent()
+                .addClass("active");
         }
-        else {
-            return false;
-        }
-    })
-}
+    });
+
+    $("#close-sidebar").click(function () {
+        $(".page-wrapper").removeClass("toggled");
+    });
+    $("#show-sidebar").click(function () {
+        $(".page-wrapper").addClass("toggled");
+    });
 
 
 
 
+});
+
+
+//Cropper js function
 
 function fileValidation() {
     const imagebox = document.getElementById('image-box')
@@ -388,65 +320,6 @@ function fileValidation4() {
 }
 
 
-// function viewMainImage(event) {
-//     document.getElementById('imgView').src = URL.createObjectURL(event.target.files[0])
-//     let file = event.target.files[0].name
-//     let extension = file.split('.').pop()
-//     if (extension == 'jpeg' || extension == 'png' || extension == 'jpg') {
-//         $('#imgView').show()
-//         $('#sub').show()
-//         $('#errMsg').hide()
-
-//     }
-//     else {
-//         $('#sub').hide()
-//         $('#errMsg').show()
-//     }
-// }
-
-// function viewImage1(event) {
-//     document.getElementById('imgView1').src = URL.createObjectURL(event.target.files[0])
-//     let file = event.target.files[0].name
-//     let extension = file.split('.').pop()
-//     if (extension == 'jpeg' || extension == 'png' || extension == 'jpg') {
-//         $('#imgView1').show()
-//         $('#sub').show()
-//         $('#errMsg').hide()
-
-//     }
-//     else {
-//         $('#sub').hide()
-//         $('#errMsg').show()
-//     }
-// }
-// function viewImage2(event) {
-//     document.getElementById('imgView2').src = URL.createObjectURL(event.target.files[0])
-//     let file = event.target.files[0].name
-//     let extension = file.split('.').pop()
-//     if (extension == 'jpeg' || extension == 'png' || extension == 'jpg') {
-//         $('#imgView2').show()
-//         $('#sub').show()
-//         $('#errMsg').hide()
-//     }
-//     else {
-//         $('#sub').hide()
-//         $('#errMsg').show()
-//     }
-// }
-// function viewImage3(event) {
-//     document.getElementById('imgView3').src = URL.createObjectURL(event.target.files[0])
-//     let file = event.target.files[0].name
-//     let extension = file.split('.').pop()
-//     if (extension == 'jpeg' || extension == 'png' || extension == 'jpg') {
-//         $('#imgView3').show()
-//         $('#sub').show()
-//         $('#errMsg').hide()
-//     }
-//     else {
-//         $('#sub').hide()
-//         $('#errMsg').show()
-//     }
-// }
 
 
 

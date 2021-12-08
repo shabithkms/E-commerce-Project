@@ -18,10 +18,7 @@
     {{#if report}}
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.1.0/css/buttons.dataTables.min.css">
-
     {{/if}}
-
-
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
         integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
@@ -29,23 +26,15 @@
     <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
     <link rel="stylesheet" href="/admin/css/custom-styles.css" type="text/css">
     <link rel="stylesheet" href="/stylesheets/style.css">
-    {{!--
-    <link rel="stylesheet" type="text/css"
-        href="https://cdn.datatables.net/v/bs4/dt-1.11.3/sc-2.0.5/datatables.min.css" /> --}}
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
-    {{!--
-    <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@7.12.15/dist/sweetalert2.min.css'> --}}
     </link>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.11/cropper.css">
     <link href="/css/cropper.min.css" rel="stylesheet" type="text/css" />
     {{#if dashboard}}
     <link rel="stylesheet" href="/admin/css/dashboard.css">
-
     {{/if}}
-
     {{else}}
     {{#if login}}
-
     {{/if}}
     {{#if otp}}
     <link rel="stylesheet" href="/css/otp.css" type="text/css">
@@ -73,26 +62,11 @@
     <link href="/stylesheets/skin-theme19f0.css" rel="stylesheet" type="text/css" media="all" />
     <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <link rel="stylesheet" href="/css/profile.css">
-    {{!-- {{#if cart}}
-    <style>
-        a {
-            text-decoration: none;
-        }
-    </style>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="/css/cart.css">
-    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
-    {{/if}} --}}
-
     {{/if}}
+    {{!-- Ajax cdn common --}}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-
     <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
-
     <title>Watchin E-Commerce</title>
-
 </head>
 
 <body>
@@ -102,9 +76,6 @@
         <main class="page-content ">
             <div class="container-fluid ">
                 <div class="">
-
-
-
                     {{{body}}}
                 </div>
 
@@ -113,31 +84,19 @@
     </div>
     {{else }}
     {{#if login}}
-    {{!-- {{>login-header}} --}}
     {{{body}}}
     {{else }}
     {{>user-header}}
     {{{body}}}
     {{/if}}
     {{/if}}
-    {{!-- {{#if cart}}
-    {{>cart-header}}
-    {{/if}} --}}
-
     {{#if userPage}}
     {{>user-footer}}
     {{/if}}
-
     {{!-- Java scripts --}}
     {{#if admin}}
-
-
-    {{!--
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> --}}
-
     <script src="https://code.jquery.com/jquery-3.6.0.js"
         integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
-
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
         integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
@@ -148,7 +107,6 @@
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.11.3/sc-2.0.5/datatables.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.11/cropper.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
     {{!-- file export --}}
     <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.1.0/js/dataTables.buttons.min.js"></script>
@@ -157,181 +115,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.1.0/js/buttons.html5.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.1.0/js/buttons.print.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            $('#adminTable').DataTable();
-        });
-
-        $('#adminTable tbody tr').each(function (idx) {
-            $(this).children("td:eq(0)").html(idx + 1);
-        });
-
-        $(document).ready(function () {
-            $('#orderTable').DataTable();
-        });
-        $('#orderTable tbody tr').each(function (idx) {
-            $(this).children("td:eq(0)").html(idx + 1);
-        });
-        $(document).ready(function () {
-            $('#proTable').DataTable();
-        });
-        $('#proTable tbody tr').each(function (idx) {
-            $(this).children("td:eq(0)").html(idx + 1);
-        });
-
-        $(document).ready(function () {
-            $('#example').DataTable({
-                dom: 'Bfrtip',
-                buttons: [
-                    'copy', 'csv', 'excel', 'pdf', 'print'
-                ]
-            });
-        });
-
-        $(document).ready(function () {
-            $('#example1').DataTable();
-        });
-
-        $('#example1 tbody tr').each(function (idx) {
-            $(this).children("td:eq(0)").html(idx + 1);
-        });
-
-        $(document).ready(function () {
-            $('#report').DataTable();
-        });
-        
-        $('#example tbody tr').each(function (idx) {
-            $(this).children("td:eq(0)").html(idx + 1);
-        });
-    </script>
-
-
+    {{!-- Admin javascript files in public/js --}}
     <script src="/js/adminValidations.js"></script>
     <script src="/js/admin.js"></script>
-
-    {{!-- Admin side alerts --}}
-    <script>
-        function blockUser(event) {
-            event.preventDefault();
-            var link = event.currentTarget.href;
-            var name = event.currentTarget.name;
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "Do you want to Block " + name,
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    Swal.fire(
-                        'Blocked!',
-                        'User has been blocked.',
-                        'success'
-                    )
-                    window.location = link;
-                }
-                else {
-                    return false;
-                }
-            })
-        }
-        function unblockUser(event) {
-            event.preventDefault();
-            var link = event.currentTarget.href;
-            var name = event.currentTarget.name;
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "Do you want to unblock " + name,
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    Swal.fire(
-                        'Unblocked!',
-                        'User has been Unblocked.',
-                        'success'
-                    )
-                    window.location = link;
-                }
-                else {
-                    return false;
-                }
-            })
-        }
-
-    </script>
-    <script>
-        function changeStatus(event) {
-            event.preventDefault();
-            var link = event.currentTarget.href;
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "Do you want to change the order status",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes,Change'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    Swal.fire(
-                        'Changed!',
-                        'Order status changed.',
-                        'success'
-                    )
-                    window.location = link;
-                }
-                else {
-                    return false;
-                }
-            })
-        }
-    </script>
-    <script>
-        jQuery(function ($) {
-
-            $(".sidebar-dropdown > a").click(function () {
-                $(".sidebar-submenu").slideUp(200);
-                if (
-                    $(this)
-                        .parent()
-                        .hasClass("active")
-                ) {
-                    $(".sidebar-dropdown").removeClass("active");
-                    $(this)
-                        .parent()
-                        .removeClass("active");
-                } else {
-                    $(".sidebar-dropdown").removeClass("active");
-                    $(this)
-                        .next(".sidebar-submenu")
-                        .slideDown(200);
-                    $(this)
-                        .parent()
-                        .addClass("active");
-                }
-            });
-
-            $("#close-sidebar").click(function () {
-                $(".page-wrapper").removeClass("toggled");
-            });
-            $("#show-sidebar").click(function () {
-                $(".page-wrapper").addClass("toggled");
-            });
-
-
-
-
-        });
-    </script>
-
+    <script src="/js/dataTablesAdmin.js"></script>
+    <script src="/js/adminSwal.js"></script>
     {{else}}
-
     {{#if otp}}
     <script src="/js/otp.js"></script>
     <script src="/js/timer.js"></script>
@@ -341,284 +130,12 @@
         integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
     <script src="https://code.jquery.com/jquery-3.5.1.js"
         integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.js"></script>
-
-
-    <script>
-        $('#checkout-form').submit((e) => {
-            e.preventDefault()
-            $.ajax({
-                url: '/place-order',
-                method: 'post',
-                data: $('#checkout-form').serialize(),
-                success: (response) => {
-                    if (response.codSuccess) {
-                        console.log("cod success")
-                        location.href = "/order-success"
-                    } else if (response.razorpay) {
-
-                        razorpayPayment(response.resp)
-                        console.log(response)
-                    } else {
-                        location.href = response.url
-                    }
-                }
-            })
-        })
-
-        function razorpayPayment(order) {
-            var options = {
-                "key": "rzp_test_uHpEhuefBwxSUI", // Enter the Key ID generated from the Dashboard
-                "amount": "response.amount", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
-                "currency": "INR",
-                "name": "Watchin",
-                "description": "Test Transaction",
-                "image": "https://example.com/your_logo",
-                "order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-                "handler": function (response) {
-
-
-                    verifyPayment(response, order)
-                },
-                "prefill": {
-                    "name": "Muhammed Shabith K",
-                    "email": "shabithkms2035@gmail.com",
-                    "contact": "7025259794"
-                },
-                "notes": {
-                    "address": "Razorpay Corporate Office"
-                },
-                "theme": {
-                    "color": "#3399cc"
-                }
-            };
-            var rzp1 = new Razorpay(options);
-            rzp1.open();
-        }
-
-        function verifyPayment(response, order) {
-
-            $.ajax({
-                url: '/verify-payment',
-                data: {
-                    response,
-                    order
-                },
-                method: 'post',
-                success: (response) => {
-                    if (response.status) {
-                        location.href = '/order-success'
-                    } else {
-                        location.href = '/cancelled'
-                    }
-                }
-            })
-        }
-
-    </script>
-
-    <script>
-        $('#buyNow-form').submit((e) => {
-            e.preventDefault()
-            $.ajax({
-                url: '/buyNow',
-                method: 'post',
-                data: $('#buyNow-form').serialize(),
-                success: (response) => {
-                    if (response.codSuccess) {
-                        console.log("cod success")
-                        location.href = "/order-success"
-                    } else if (response.razorpay) {
-
-                        razorpayBuyNowPayment(response.resp)
-                        console.log(response)
-                    } else {
-                        location.href = response.url
-                    }
-                }
-            })
-        })
-
-        function razorpayBuyNowPayment(order) {
-            var options = {
-                "key": "rzp_test_uHpEhuefBwxSUI", // Enter the Key ID generated from the Dashboard
-                "amount": "response.amount", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
-                "currency": "INR",
-                "name": "Watchin",
-                "description": "Test Transaction",
-                "image": "https://example.com/your_logo",
-                "order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-                "handler": function (response) {
-
-
-                    verifyBuyNowPayment(response, order)
-                },
-                "prefill": {
-                    "name": "Muhammed Shabith K",
-                    "email": "shabithkms2035@gmail.com",
-                    "contact": "7025259794"
-                },
-                "notes": {
-                    "address": "Razorpay Corporate Office"
-                },
-                "theme": {
-                    "color": "#3399cc"
-                }
-            };
-            var rzp1 = new Razorpay(options);
-            rzp1.open();
-        }
-
-        function verifyBuyNowPayment(response, order) {
-
-            $.ajax({
-                url: '/verify-buyNowPayment',
-                data: {
-                    response,
-                    order
-                },
-                method: 'post',
-                success: (response) => {
-                    if (response.status) {
-                        location.href = '/order-success'
-                    } else {
-                        location.href = '/cancelled'
-
-                    }
-                }
-            })
-        }
-
-    </script>
-
-    {{!-- Checkout validation --}}
-
-    <script>
-
-    </script>
-
-    <script>
-        function deleteCartPro(cartId, proId) {
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
-                        url: '/delete-cart-product',
-                        data: {
-                            cart: cartId,
-                            product: proId,
-
-                        },
-                        method: 'post',
-                        success: (response) => {
-                            if (response.removeProduct) {
-
-
-                            } else {
-                                alert("some error")
-                            }
-                        }
-                    })
-                    Swal.fire(
-                        'Deleted!',
-                        'Your file has been deleted.',
-                        'success'
-                    )
-                    location.reload()
-
-                }
-            })
-
-
-
-        }
-
-    </script>
-    <script>
-        function cancelOrder(event) {
-            event.preventDefault();
-            var link = event.currentTarget.href;
-            alert(link)
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-
-                    Swal.fire(
-                        'Deleted!',
-                        'Your file has been deleted.',
-                        'success'
-                    )
-                    window.location = link;
-
-                } else {
-                    return false
-                }
-            })
-
-
-
-        }
-    </script>
-    <script>
-        function changeQuantity(cartId, proId, stock, userId, count) {
-            let quantity = parseInt(document.getElementById(proId).innerHTML)
-            count = parseInt(count)
-            console.log(userId)
-            console.log(stock)
-            if (quantity >= stock && count == 1) {
-                swal.fire('Maximum stock limit')
-            } else {
-
-
-                $.ajax({
-                    url: '/change-product-quantity',
-                    data: {
-                        user: userId,
-                        cart: cartId,
-                        product: proId,
-                        count: count,
-                        quantity: quantity
-                    },
-                    method: 'post',
-                    success: (response) => {
-                        if (response.lastProduct) {
-
-                            document.getElementById(proId + "a").disabled = true
-
-                        } else {
-                            document.getElementById(proId).innerHTML = quantity + count
-                            document.getElementById(proId + "a").disabled = false
-                            console.log(response)
-                            document.getElementById('total1').innerHTML = response.total
-                            document.getElementById('total2').innerHTML = response.total
-                            document.getElementById('subTotal' + proId).innerHTML = response.subTotal
-                        }
-                    }
-                })
-            }
-        }
-    </script>
+    <script src="/js/userCart.js"></script>
     {{/if}}
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
         crossorigin="anonymous"></script>
@@ -629,10 +146,7 @@
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
     <script src="javascripts/modernizr-2.8.3.min3774.js?v=17472752542221191523"></script>
-
-
     <script src="/javascripts/jquery-1.12.0.min1853.js"></script>
     <script src="/javascripts/popper97a2.js"></script>
     <script src="/javascripts/bootstrap.min9c20.js"></script>
@@ -648,361 +162,17 @@
     <script src="/javascripts/jquery.elevatezoom2746.js"></script>
     <script src="/javascripts/jquery.parallax-1.1.3af8e.js"></script>
     <script src="/javascripts/jquery.matchHeightf621.js"></script>
-    <!-- Ajax Cart js -->
-
     <script src="/javascripts/api.jquery-e94e010e92e659b566dbc436fdfe5242764380e00398907a14955ba301a4749f.js"></script>
     <script src="/javascripts/cart.apibf35.js?v=17438701452047261962"></script>
     <script src="/javascripts/themed240.js?v=3952815461228766799"></script>
     <script
         src="/javascripts/shopify_common-8ea6ac3faf357236a97f5de749df4da6e8436ca107bc3a4ee805cbf08bc47392.js"></script>
-
-
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.js"></script>
-
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="/js/adminValidations.js"></script>
+    <script src="/js/userValidations.js"></script>
     <script src="/js/user.js"></script>
     <script src="/js/homeSlider.js"></script>
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-    {{!-- Cart --}}
-
-    <script>
-        const Toast = Swal.mixin({
-            toast: true,
-            position: 'top',
-            showConfirmButton: false,
-            timer: 2000,
-            timerProgressBar: true,
-            didOpen: (toast) => {
-                toast.addEventListener('mouseenter', Swal.stopTimer)
-                toast.addEventListener('mouseleave', Swal.resumeTimer)
-            }
-        })
-
-
-        function addToCart(proId, stock) {
-            console.log(stock)
-
-            $.ajax({
-                url: '/add-to-cart/' + proId,
-                method: 'get',
-                success: (response) => {
-                    if (response.status) {
-                        let count = $('#cartCount').html()
-                        count = parseInt(count)
-                        if (count > 0) {
-                            count = parseInt(count) + 1
-                            $('#cartCount').html(count)
-                            Toast.fire({
-                                icon: 'success',
-                                title: 'item added to Cart'
-                            })
-
-                        } else {
-                            count = parseInt(count) + 1
-                            $('#cartCount').html(count)
-
-                            location.reload()
-                        }
-
-
-
-                    } else {
-                        console.log(response)
-                        location.replace('/login')
-                    }
-
-                }
-            })
-
-
-        }
-
-        function addToWishlist(proId) {
-
-            $.ajax({
-                url: '/add-to-wishlist/' + proId,
-                method: 'get',
-                success: (response) => {
-                    console.log(response)
-                    if (response.pulled) {
-                        Toast.fire({
-                            icon: 'error',
-                            title: 'item removed from Wishlist'
-                        })
-
-                    } else if (response.status) {
-                        console.log(response)
-                        location.replace('/login')
-                    } else {
-
-                        Toast.fire({
-                            icon: 'success',
-                            title: 'item added to Wishlist'
-                        })
-                    }
-
-                }
-            })
-        }
-
-        function deleteWishlistPro(proId) {
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
-                        url: '/delete-wishlist-product',
-                        data: {
-
-                            product: proId,
-
-                        },
-                        method: 'post',
-                        success: (response) => {
-                            if (response.pulled) {
-                                Swal.fire(
-                                    'Deleted!',
-                                    'Your file has been deleted.',
-                                    'success'
-                                )
-                                location.reload()
-
-
-                            } else {
-                                alert("some error")
-                            }
-                        }
-                    })
-
-
-                }
-            })
-
-
-
-        }
-
-
-    </script>
-    <script>
-        function cancelOrder(event) {
-            event.preventDefault();
-            var link = event.currentTarget.href;
-            var name = event.currentTarget.name;
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "Do you want to Cancel this order ",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    Swal.fire(
-                        'Cancelled!',
-                        'Order has been Cancelled.',
-                        'success'
-                    )
-                    window.location = link;
-                }
-                else {
-                    return false;
-                }
-            })
-        }
-    </script>
-
-
-    {{!-- Zoom --}}
-    <script>
-        $(function () {
-
-            var native_width = 0;
-            var native_height = 0;
-            var mouse = { x: 0, y: 0 };
-            var magnify;
-            var cur_img;
-
-            var ui = {
-                magniflier: $('.magniflier')
-            };
-
-            // Add the magnifying glass
-            if (ui.magniflier.length) {
-                var div = document.createElement('div');
-                div.setAttribute('class', 'glass');
-                ui.glass = $(div);
-
-                $('body').append(div);
-            }
-
-
-            // All the magnifying will happen on "mousemove"
-
-            var mouseMove = function (e) {
-                var $el = $(this);
-
-                // Container offset relative to document
-                var magnify_offset = cur_img.offset();
-
-                // Mouse position relative to container
-                // pageX/pageY - container's offsetLeft/offetTop
-                mouse.x = e.pageX - magnify_offset.left;
-                mouse.y = e.pageY - magnify_offset.top;
-
-                // The Magnifying glass should only show up when the mouse is inside
-                // It is important to note that attaching mouseout and then hiding
-                // the glass wont work cuz mouse will never be out due to the glass
-                // being inside the parent and having a higher z-index (positioned above)
-                if (
-                    mouse.x < cur_img.width() &&
-                    mouse.y < cur_img.height() &&
-                    mouse.x > 0 &&
-                    mouse.y > 0
-                ) {
-
-                    magnify(e);
-                }
-                else {
-                    ui.glass.fadeOut(100);
-                }
-
-                return;
-            };
-
-            var magnify = function (e) {
-
-                // The background position of div.glass will be
-                // changed according to the position
-                // of the mouse over the img.magniflier
-                //
-                // So we will get the ratio of the pixel
-                // under the mouse with respect
-                // to the image and use that to position the
-                // large image inside the magnifying glass
-
-                var rx = Math.round(mouse.x / cur_img.width() * native_width - ui.glass.width() / 2) * -1;
-                var ry = Math.round(mouse.y / cur_img.height() * native_height - ui.glass.height() / 2) * -1;
-                var bg_pos = rx + "px " + ry + "px";
-
-                // Calculate pos for magnifying glass
-                //
-                // Easy Logic: Deduct half of width/height
-                // from mouse pos.
-
-                // var glass_left = mouse.x - ui.glass.width() / 2;
-                // var glass_top  = mouse.y - ui.glass.height() / 2;
-                var glass_left = e.pageX - ui.glass.width() / 2;
-                var glass_top = e.pageY - ui.glass.height() / 2;
-                //console.log(glass_left, glass_top, bg_pos)
-                // Now, if you hover on the image, you should
-                // see the magnifying glass in action
-                ui.glass.css({
-                    left: glass_left,
-                    top: glass_top,
-                    backgroundPosition: bg_pos
-                });
-
-                return;
-            };
-
-            $('.magniflier').on('mousemove', function () {
-                ui.glass.fadeIn(100);
-
-                cur_img = $(this);
-
-                var large_img_loaded = cur_img.data('large-img-loaded');
-                var src = cur_img.data('large') || cur_img.attr('src');
-
-                // Set large-img-loaded to true
-                // cur_img.data('large-img-loaded', true)
-
-                if (src) {
-                    ui.glass.css({
-                        'background-image': 'url(' + src + ')',
-                        'background-repeat': 'no-repeat'
-                    });
-                }
-
-                // When the user hovers on the image, the script will first calculate
-                // the native dimensions if they don't exist. Only after the native dimensions
-                // are available, the script will show the zoomed version.
-                //if(!native_width && !native_height) {
-
-                if (!cur_img.data('native_width')) {
-                    // This will create a new image object with the same image as that in .small
-                    // We cannot directly get the dimensions from .small because of the 
-                    // width specified to 200px in the html. To get the actual dimensions we have
-                    // created this image object.
-                    var image_object = new Image();
-
-                    image_object.onload = function () {
-                        // This code is wrapped in the .load function which is important.
-                        // width and height of the object would return 0 if accessed before 
-                        // the image gets loaded.
-                        native_width = image_object.width;
-                        native_height = image_object.height;
-
-                        cur_img.data('native_width', native_width);
-                        cur_img.data('native_height', native_height);
-
-                        //console.log(native_width, native_height);
-
-                        mouseMove.apply(this, arguments);
-
-                        ui.glass.on('mousemove', mouseMove);
-                    };
-
-
-                    image_object.src = src;
-
-                    return;
-                } else {
-
-                    native_width = cur_img.data('native_width');
-                    native_height = cur_img.data('native_height');
-                }
-                //}
-                //console.log(native_width, native_height);
-
-                mouseMove.apply(this, arguments);
-
-                ui.glass.on('mousemove', mouseMove);
-            });
-
-            ui.glass.on('mouseout', function () {
-                ui.glass.off('mousemove', mouseMove);
-            });
-
-        });
-    </script>
-
-
-    {{!-- slider starts --}}
-
-    <script>
-        // grab an element
-        var myElement = document.querySelector(".intelligent-header");
-        // construct an instance of Headroom, passing the element
-        var headroom = new Headroom(myElement);
-        // initialise
-        headroom.init();
-    </script>
-
-
-
-
-
-
-
     {{/if}}
 </body>
 

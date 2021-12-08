@@ -686,7 +686,7 @@ router.get('/cart', verifyUserLogin, async (req, res, next) => {
   let id = req.session.user._id
   console.log("cart starting");
   let products = await userHelper.getCartProducts(id)
-  console.log("//got products");
+  console.log( products);
   let user = req.session.user
   let totals = 0
   console.log("-----------------------------------1");
@@ -699,7 +699,7 @@ router.get('/cart', verifyUserLogin, async (req, res, next) => {
   let homePro = await userHelper.getHomeProducts()
   if (req.session.user) {
     let Id = req.session.user._id
-    // ------------------------------------4
+  
     cartCount = await userHelper.getCartCount(Id)
   }
   if (cartCount > 0) {
@@ -1581,6 +1581,17 @@ router.post('/change-password', verifyUserLogin, (req, res) => {
 
 })
 
+router.get('/contact',async(req,res)=>{
+  let user = req.session.user
+  let brand = await userHelper.getBrands()
+  let homePro = await userHelper.getHomeProducts()
+  let cartCount = null
+  if (req.session.user) {
+    let Id = req.session.user._id
+    cartCount = await userHelper.getCartCount(Id)
+  }
+  res.render('user/contact',{userPage:true,user,brand,homePro,cartCount})
+})
 
 router.get('/logout', (req, res) => {
   req.session.user = null
