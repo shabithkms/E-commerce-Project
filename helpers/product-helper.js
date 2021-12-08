@@ -369,7 +369,7 @@ module.exports = {
                     $unwind:'$Products'
                 },
                 {
-
+                    
                 }
             ]).toArray()
             console.log(getDayWiseSale);
