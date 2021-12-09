@@ -37,24 +37,17 @@ function addToCart(proId, stock) {
 
                     location.reload()
                 }
-
-
-
             } else if(response.exist) {
                 console.log(response)
                 Toast.fire({
                     icon: 'warning',
                     title: 'item already in cart'
-                })
-                
+                })                
             }else{
                 location.replace('/login')
             }
-
         }
     })
-
-
 }
 //Add to wishlist
 function addToWishlist(proId) {
@@ -84,7 +77,6 @@ function addToWishlist(proId) {
 
                 })
             }
-
         }
     })
 }
@@ -103,9 +95,7 @@ function deleteWishlistPro(proId) {
             $.ajax({
                 url: '/delete-wishlist-product',
                 data: {
-
                     product: proId,
-
                 },
                 method: 'post',
                 success: (response) => {
@@ -116,14 +106,11 @@ function deleteWishlistPro(proId) {
                             'success'
                         )
                         location.reload()
-
-
                     } else {
                         alert("some error")
                     }
                 }
             })
-
 
         }
     })

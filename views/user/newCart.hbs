@@ -178,8 +178,6 @@
                                 </td>
                                 <td class="text-center ">
                                     <div class="qty">
-
-
                                         <div class=" quantity" style="font-size: 18px;color: white;">
                                             <a class="btn btn-light" style="width: 40px;"
                                                 onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{this.product.stock}}','{{../user._id}}',1)"><i
@@ -195,15 +193,8 @@
                                                 onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{this.product.stock}}','{{../user._id}}',-1)"><i
                                                     class="fas fa-minus"></i></button>
                                         </div>
-
-
-
-
                                     </div>
                                 </td>
-
-
-
                                 <td class="product-subtotal  text-center">
                                     <div class="mt-4">
                                         <span class="" id="subTotal{{this.product._id}}">
@@ -211,34 +202,21 @@
                                         </span>
                                     </div>
                                 </td>
-
-
-
                                 <td class=" remove h-100  text-center">
-                                    {{!-- <button
-                                        onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{../user._id}}',-1)">
-                                        --}}
-
                                         <button onclick="deleteCartPro('{{this._id}}','{{this.product._id}}')">
                                             <i class="fas fa-trash-alt mt-4 " style="color: red;font-size: 20px;"></i>
                                         </button>
-
-
                                 </td>
                             </tr>
                             {{/each}}
-
                         </tbody>
                     </table>
                 </div>
             </div>
         </aside>
         <aside class="col-lg-3">
-
             <div class="card">
                 <div class="card-body">
-
-
                     <table class="table borderless">
                         <tr>
                             <td> Total price:</td>
@@ -253,7 +231,6 @@
                             <td><strong id="total2">{{totals}}</strong></td>
                         </tr>
                     </table>
-
                     <style>
                         .borderless td,
                         .borderless th {
@@ -265,12 +242,8 @@
                     <br>
                     <a href="/" class="btn w-100  btn-success   mt-2" style="" data-abc="true">Continue
                         Shopping</a>
-
                 </div>
             </div>
-
         </aside>
     </div>
-
-
 </div>

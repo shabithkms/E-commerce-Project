@@ -141,7 +141,6 @@
     }
 </style>
 
-
 <div class="container-fluid my-3 ">
     <div class="header text-center mb-2">
         <h4>
@@ -151,16 +150,7 @@
     <div class="card card-1 row ">
         {{#each orders}}
         <div class="card-body col-md-4">
-            {{!-- <div class="row justify-content-between mb-3">
-                <div class="col-auto">
-                    <h6 class="color-1 mb-0 change-color">Orders</h6>
-                </div>
-
-            </div> --}}
-
             <div class="">
-
-
                 <div class="col-auto "> <small>Order ID : {{this._id}}</small> </div>
                 <div class="row">
                     <div class="col">
@@ -181,7 +171,6 @@
                                                 <a class="btn text-center view" href="/singleOrder/{{this._id}}">View
                                                     products</a>
                                             </div>
-
                                         </div>
                                         <div class="d-flex mt-1 " style="justify-content: space-between;">
                                             <div class=""> <small style="color: black;"> Payment Method: <br>
@@ -200,12 +189,8 @@
                                             <div class=""> <small style="color: black;"> Order Status: <br>
                                                 </small><span style="color: black;" id="status"> {{this.Status}}</span>
                                             </div>
-
                                             {{/if}}
                                             {{/if}}
-
-
-
                                             {{#if this.Delivered}}
                                             <div class="ml-auto" style="display: none;"> <small
                                                     style="color: black;"><br>
@@ -233,83 +218,26 @@
                                             {{/if}}
 
                                         </div>
-
-
-
                                     </div>
                                     <div class="media-body my-auto text-right">
                                         <div class="row my-auto flex-column flex-md-row">
                                             <div class="col my-auto">
                                                 <h6 class="mb-0"> </h6>
                                             </div>
-
-                                            {{!-- <div class="col my-auto"> <small>Size : M</small></div> --}}
                                             <div class="col my-auto"> <small></small></div>
                                             <div class="col my-auto">
                                                 <h5>Total :</h5>
                                                 <h6 class="mb-0">&#8377;{{this.Total}}.00</h6>
                                             </div>
-
                                         </div>
                                     </div>
-                                </div>
-                                {{!--
-                                <hr class="my-3 "> --}}
-                                <div class="row flex-column">
-                                    {{!-- <div class="col-md-3 mb-3"> <small> Order Status <span><i
-                                                    class=" ml-2 fa fa-refresh" aria-hidden="true"></i></span></small>
-                                    </div>
-                                    <div class="col-md-3 mb-3">
-                                        <h5>{{this.Status}}</h5><i class=" ml-2 fa fa-refresh"
-                                            aria-hidden="true"></i></span></small>
-                                    </div>
-                                    <div class="col mt-auto">
-                                        <div class="progress my-auto">
-                                            <div class="progress-bar progress-bar rounded" style="width: 10%"
-                                                role="progressbar" aria-valuenow="25" aria-valuemin="0"
-                                                aria-valuemax="100">
-                                            </div>
-                                        </div>
-
-
-                                        <div class="media row justify-content-between ">
-                                            <div class="col-auto text-right"><span> <small
-                                                        class="text-right mr-sm-2">Placed</small> <i
-                                                        class="fa fa-circle active"></i> </span></div>
-                                            <div class="flex-col"> <span> <small
-                                                        class="text-right mr-sm-2">Shipped</small><i
-                                                        class="fa fa-circle "></i></span></div>
-                                            <div class="col-auto flex-col-auto"><small
-                                                    class="text-right mr-sm-2">Delivered</small><span> <i
-                                                        class="fa fa-circle"></i></span></div>
-                                        </div>
-                                    </div> --}}
-
-
-                                </div>
+                                </div>                                
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-
-
         </div>
         {{/each}}
     </div>
-
 </div>
-
-<script>
-
-
-    let status = document.getElementById('status').innerHTML
-    console.log('ja', status)
-    if (status === 'Cancelled') {
-        console.log("cancel")
-        document.getElementById('status').style.color = "red";
-
-    }
-
-</script>

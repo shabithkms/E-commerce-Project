@@ -3,38 +3,10 @@
         <form action="/login/otp" method="post">
             <div class="card p-2 text-center" style="height: fit-content;">
                 <h6>Please enter the one time password <br> to verify your account</h6>
-
-                {{!-- <div> <span>A code has been sent to</span> <small>*******9897</small> </div> --}}
-
                 <div id="otp" class="inputs d-flex flex-row justify-content-center mt-2">
-
                     <input type="number" style="display: none;" value="" name="mobiileNo">
-
-                    {{!-- <input class="m-2 text-center form-control rounded" name="otp" type="number" id="first"
-                        maxlength="1" />
-
-                    <input class="m-2 text-center form-control rounded" name="otp" type="number" id="second"
-                        maxlength="1" />
-
-                    <input class="m-2 text-center form-control rounded" name="otp" type="number" id="third"
-                        maxlength="1" />
-
-                    <input class="m-2 text-center form-control rounded" name="otp" type="number" id="fourth"
-                        maxlength="1" />
-
-                    <input class="m-2 text-center form-control rounded" name="otp" type="number" id="fifth"
-                        maxlength="1" />
-
-                    <input class="m-2 text-center form-control rounded" name="otp" type="number" id="sixth"
-                        maxlength="1" pattern="\d*" /> --}}
-
                     <input type="text" name="otp"  class="input-full"
                         placeholder="Enter your otp"   onkeypress="return isNumber(event)" maxlength="6" >
-
-
-
-
-
                 </div>
                 <div class="text-center mt-3">
                     <span class="d-block mobile-text" id="countdown"></span>
@@ -43,7 +15,6 @@
                     <a href="/login/resend-otp">
                         <span class="d-block mobile-text" id="resend"></span>
                     </a>
-
                 </div>
                 <div class="mt-4">
                     {{#if otpErr}}
@@ -61,6 +32,7 @@
         </form>
     </div>
 </div>
+
 <script>
     function isNumber(evt) {
         evt = (evt) ? evt : window.event;

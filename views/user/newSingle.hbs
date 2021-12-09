@@ -18,9 +18,6 @@
         display: none;
     }
 
-
-
-
     .carousel-inner img {
         width: 100%;
         height: 100%
@@ -63,28 +60,15 @@
                     <a href="/" title="Back to the home page">Home</a>
                 </li>
                 <li>
-
-
-
-
                     <span>{{product.name}}</span>
-
-
                 </li>
             </ul>
-
-
         </div>
     </div>
 </div>
-
-
-
-
 <div class="product-details neha_pr_dt">
     <div class="container p-0">
         <div class="row">
-
             <div class="col-md-6">
                 <div id="custCarousel" class="carousel slide" data-ride="carousel" align="center">
                     <!-- slides -->
@@ -123,8 +107,6 @@
                     </ol>
                 </div>
             </div>
-
-
             <div class="col-md-6 mt-5 col-lg-5 col-12">
                 <div class="product-details-content ">
                     <div class="inner-wrapper-sticky">
@@ -135,8 +117,6 @@
                                 <span class="shopify-product-reviews-badge" data-id="1310201413721"></span>
                             </div>
                         </div>
-
-
                         {{#if product.proOffer}}
                         <div class="details-price">
                             <span id="ProductPrice"><span class=money>₹{{product.price}}</span></span>
@@ -147,14 +127,10 @@
                         {{else}}
                         <div class="details-price">
                             <span id="ProductPrice"><span class=money>₹{{product.price}}</span></span>
-
-                            {{!-- <del><span id="ComparePrice"><span class=money>₹{{product.price}}</span></span></del> --}}
-
                         </div>
 
                         {{/if}}
                         <div>
-
                             {{#if product.proOffer}}
                             <div>
                                 <strong><span class="sale mb-3">{{product.proPercentage}}% OFF</strong> for this
@@ -162,42 +138,16 @@
                             </div>
                             {{/if}}
                         </div>
-
-
-
-
                         <br>
                         <p>A watch is a portable timepiece intended to be carried or worn by a person. ... During most
                             of its history the watch was a mechanical device, driven by clockwork, powered by winding a
                             mainspring, and keeping time with an oscillating balance wheel. These are called mechanical
                             watches.</p>
 
-
-
-
-
-
                         <form action="" method="post" enctype="multipart/form-data" id="add-item-form">
 
                             <div class="quickview-plus-minus">
-                                {{!-- <div class="cart-plus-minus">
-                                    <input type="text" value="01" name="quantity" class="cart-plus-minus-box">
-                                </div> --}}
-
-                                {{!-- <div class="" style="font-size: 24px; ">
-                                    <button
-                                        onclick="changeQuantity('{{this._id}}','{{this.product._id}}',-1)">-</button>
-                                </div>
-                                <div class=" quantity" style="font-size: 18px;">
-                                    <span id="{{this.product._id}}" class=""> {{this.quantity}}0</span>
-                                </div>
-                                <div class=" quantity" style="font-size: 18px;">
-                                    <button class=""
-                                        onclick="changeQuantity('{{this._id}}','{{this.product._id}}',1)">+</button>
-                                </div> --}}
-
                                 <div class="quickview-btn-cart">
-
                                     {{#if product.stockout}}
                                     <p class="text-danger text-center">Out of Stock</p>
                                     {{else}}
@@ -213,56 +163,37 @@
                                         <i class="ion-android-done"></i>Buy Now
                                     </a>
                                     {{/if}}
-
-
-
-
                                 </div>
-
-
                                 <div class="quickview-btn-wishlist">
-
-
                                     <a class="btn-hover list-btn-wishlist animate-left" href=""
                                         onclick="addToWishlist('{{this._id}}')" title="Wishlist">
                                         <i class="ion-ios-heart-outline"></i>
                                     </a>
-
-
                                 </div>
-
                             </div>
                         </form>
-
-
                         <div class="product-categories product-cat-tag">
-
                             <ul>
                                 <li class="categories-title">Category :</li>
-                                <li><a >{{product.category}}</a></li> <br>
+                                <li><a>{{product.category}}</a></li> <br>
                                 <li>100% Original Products</li> <br>
                                 <li>Cash on delivery might be available</li>
                             </ul>
                         </div>
-
-
-
-
                         <div class="product-tags product-cat-tag">
                             <ul>
 
                                 <li class="categories-title text-dark">Product details:</li> <br>
-                                <li><a >Pack Contains: single watch</li> <br>
+                                <li><a>Pack Contains: single watch</li> <br>
                                 <li><a>Movement: quartz</a></li> <br>
-                                <li><a >Power Source: battery</a></li> <br>
-                                <li><a >Water resistance: 100 m</a></li> <br>
-                                <li><a >Comes in a signature {{product.brand}} case</a></li> <br>
-                                <li><a >Warranty: 2 years</a></li> <br>
-                                <li><a >Warranty provided by Brand Owner / Manufacturer</a></li> <br>
+                                <li><a>Power Source: battery</a></li> <br>
+                                <li><a>Water resistance: 100 m</a></li> <br>
+                                <li><a>Comes in a signature {{product.brand}} case</a></li> <br>
+                                <li><a>Warranty: 2 years</a></li> <br>
+                                <li><a>Warranty provided by Brand Owner / Manufacturer</a></li> <br>
 
                             </ul>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -277,7 +208,6 @@
         margin-bottom: 0px;
     }
 </style>
-
 <div class="mt-3 mb-5">
     <center>
         <h3>
@@ -288,28 +218,17 @@
 <div class="container tab-content jump mb-4">
     <div class="row">
         <div class="rhs_product_tab rhs_match_height">
-
             {{#each realtedProducts}}
             <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-xs-12">
-
-
                 <div class="single-product mb-35">
                     <div class="product-img">
                         <a href="/product/{{this._id}}">
                             <img src="/productImages/{{this._id}}a.jpg" alt="">
                         </a>
-
-
-
                         <div class="product-action">
-
                             <a class="animate-left" href="" onclick="addToWishlist('{{this._id}}')" title="Wishlist">
                                 <i class="ion-ios-heart-outline"></i>
                             </a>
-
-                            {{!-- <a title="Quick View" data-toggle="modal" data-target="#exampleModal"
-                                class="animate-right" href="javascript:void(0);"
-                                onclick="quiqview('predefinidos-cuando')"><i class="ion-ios-eye-outline"></i></a> --}}
                         </div>
                     </div>
 

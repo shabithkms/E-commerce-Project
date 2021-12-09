@@ -119,22 +119,13 @@
 <div class="container mt-3">
     <div class="row">
         <div class="col-md-3 ">
-
-
-
             <div class="profile-sidebar">
-
-
-
                 <div class="list-group ">
                     <a href="#" class="list-group-item list-group-item-action actived">PROFILE</a>
                     <a href="/myOrders" class="list-group-item list-group-item-action">My Orders</a>
-                    {{!-- <a href="/addNewAddressProfile" class="list-group-item list-group-item-action">Add New
-                        address</a> --}}
                     <a href="/change-password" class="list-group-item list-group-item-action">Change Password</a>
                 </div>
             </div>
-
         </div>
         <div class="col-md-9">
             <div class="card">
@@ -147,25 +138,6 @@
                     </div>
                     <div class="row">
                         <div class="mb-3">
-                            {{!-- <div class="profile-userpic m">
-                                <img src="/userImages/{{user._id}}.jpg" class="img-responsive" alt="Upload">
-                            </div>
-
-                            <div class="profile-usertitle">
-                                <div class="profile-usertitle-name">
-                                    {{user.firstname}} {{user.lastname}}
-                                </div>
-
-                            </div> --}}
-
-                            <div class="profile-userbuttons">
-
-                                <!-- Button trigger modal -->
-                                {{!-- <a class="btn kms" href="/addProfile" data-toggle="modal"
-                                    data-target="#exampleModalLong">
-                                    Change
-                                </a> --}}
-
                                 <!-- Modal -->
                                 <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog"
                                     aria-labelledby="exampleModalLongTitle" aria-hidden="true">
@@ -180,13 +152,8 @@
                                                 </button>
                                             </div>
                                             <div class="modal-body">
-
                                                 <form action="/addProfile" method="post" enctype="multipart/form-data">
                                                     <div class="profile-pic">
-                                                        {{!-- <label class="-label" for="file">
-                                                            <span class="glyphicon glyphicon-camera"></span>
-                                                            <span>Change Image</span>
-                                                        </label> --}}
                                                         <input type="text" name="user" id="" value="{{user._id}}"
                                                             hidden>
                                                         <input id="file" type="file" name="image3"
@@ -197,16 +164,13 @@
                                                     <button type="submit" class="btn kms mt-2">Upload</button>
                                                 </form>
                                             </div>
-
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                         <div class="col-md-12">
                             <form method="post" action="/edit-profile" id="profile">
-
                                 <div class="form-group row">
                                     <label for="name" class="col-4 col-form-label">First Name</label>
                                     <div class="col-8">
@@ -228,8 +192,6 @@
                                             class="form-control here" required="required" type="text" disabled>
                                     </div>
                                 </div>
-
-
                                 <div class="form-group row">
                                     <label for="email" class="col-4 col-form-label">Email</label>
                                     <div class="col-8">
@@ -237,9 +199,6 @@
                                             class="form-control here" required="required" type="text" disabled>
                                     </div>
                                 </div>
-
-
-
                                 <div class="form-group row">
                                     <div class="offset-4 col-8">
                                         <a onclick="editProfile('{{user._id}}')"
@@ -260,7 +219,6 @@
                             New</a>
                     </div>
                     <div class="row">
-
                         {{#each address}}
                         <div class="col-md-3 mt-5 alert border-warning mr-2 card" style="cursor: pointer;">
 
@@ -281,14 +239,8 @@
                                 </div>
 
                             </div>
-
-
                         </div>
                         {{/each}}
-
-
-
-
                         <div class="modal fade" id="exampleModalAdd" tabindex="-1" role="dialog"
                             aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
@@ -326,7 +278,6 @@
                                                                     minlength="4" />
                                                             </div>
                                                         </div>
-
                                                         <div class="form-row ">
                                                             <div class="form-group billing-info mb-4 col-md-12">
                                                                 <label for="street">Street Address</label>
@@ -342,9 +293,6 @@
                                                                 <input type="text" id="city" name="Town" minlength="4"
                                                                     required />
                                                             </div>
-
-
-
                                                             <div class="form-group billing-info mb-4 col-md-6">
                                                                 <label for="pin">Postcode / ZIP</label>
                                                                 <input type="text" id="pin" name="PIN" pattern=".{6,6}"
@@ -357,9 +305,6 @@
                                                                 <input type="text" id="phone" name="Mobile"
                                                                     pattern=".{10,10}" required />
                                                             </div>
-
-
-
                                                             <div class="form-group billing-info mb-4 col-md-6">
                                                                 <label for="email">Email Address</label>
                                                                 <input type="email" required id="email" name="Email" />
@@ -376,39 +321,25 @@
                                             </form>
                                         </div>
                                     </div>
-                                    {{!-- <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary"
-                                            data-dismiss="modal">Close</button>
-                                        <button type="button" class="btn btn-primary">Send message</button>
-                                    </div> --}}
                                 </div>
                             </div>
                         </div>
-
-
-
                     </div>
-
                 </div>
             </div>
         </div>
     </div>
 </div>
-
+{{!-- Script for edit profile --}}
 <script>
     function editProfile(userId) {
-
         document.getElementById('name').disabled = false
         document.getElementById('lastname').disabled = false
         document.getElementById('mobile').disabled = false
         document.getElementById('email').disabled = false
         document.getElementById('submit').style.display = "none"
         document.getElementById('btn').style.display = "block"
-
-
-
     }
-
     var loadFile = function (event) {
         var image = document.getElementById("output");
         image.src = URL.createObjectURL(event.target.files[0]);

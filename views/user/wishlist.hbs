@@ -4,7 +4,6 @@
         background-size: cover;
         font-family: 'Lato', sans-serif;
         color: rgba(116, 116, 116, 0.667);
-
     }
 
     .container-fluid {
@@ -98,7 +97,7 @@
 
     @media (max-width: 700px) {
         h2 {
-            
+
             font-size: 17px
         }
 
@@ -137,14 +136,12 @@
 </style>
 
 <div class="container-fluid my-5  pb-5">
-    <div class="text-center"><h3>WISHLIST</h3></div>
+    <div class="text-center">
+        <h3>WISHLIST</h3>
+    </div>
     <div class="card card-1 col-md-12 row">
-
-
-
         {{#each wishlistProducts}}
         <div class="card-body col-md-6">
-
             <div class="row">
                 <div class="col">
                     <div class="card card-2">
@@ -161,8 +158,6 @@
 
                                             <h6 class="mb-0"><span>Price :</span> &#8377;{{this.product.price}}</h6>
                                         </div>
-
-
                                     </div>
                                     <div class="d-flex mt-4 col-md-6">
                                         <div class="ml-auto ">
@@ -183,16 +178,11 @@
                                     </button>
                                 </div>
                             </div>
-
-
                         </div>
                     </div>
                 </div>
             </div>
-
-
         </div>
         {{/each}}
-
     </div>
 </div>

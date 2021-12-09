@@ -8,16 +8,12 @@
               <h2>Create Account</h2>
             </div>
             <div class="login-form">
-
               <form method="post" action="/signup" id="signup">
-
-
                 {{#if mobileNoExist}}
                 <div class="alert alert-danger " role="alert">
                   This mobile number has already an Account
                 </div>
                 {{/if}}
-
                 <input type="text" name="firstName" id="FirstName" class="input-full" placeholder="First Name"
                   autocapitalize="words" autofocus>
                 <input type="text" name="lastName" id="lastName" class="input-full" placeholder="Last Name"
@@ -29,16 +25,10 @@
                 <input type="password" name="password" id="CreatePassword" class="input-full" placeholder="Password">
 
                 <div class="button-box">
-
-
-
                   <div class="row">
                     <div class="login-toggle-btn ml-3">
-
                       <a href="/login">Already have an account?</a>
-
                     </div>
-
                   </div>
                   <button type="submit" class="default-btn floatright">Register</button>
                 </div>

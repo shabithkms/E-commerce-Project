@@ -1,53 +1,40 @@
 <div class="container height-100 d-flex justify-content-center align-items-center">
     <div class="position-relative">
         <form action="/loginOtp" method="post">
+            {{#if loginErr}}
+            <div class="alert alert-danger" role="alert">
+                Invalid password
+            </div>
+            {{/if}}
+            {{#if blockErr}}
+            <div class="alert alert-danger" role="alert">
+                You are temporarily blocked by admin
+            </div>
+            {{/if}}
+            {{#if otpErr}}
+            <div class="alert alert-danger" role="alert">
+                Server is Busy
+            </div>
+            {{/if}}
+            {{#if noUser}}
+            <div class="alert alert-danger" role="alert">
+                Invalid mobile number
+            </div>
+            {{/if}}
             <div class="card p-2 text-center">
-
-
-                {{#if noUser}}
-                <p class="font pb-3" style="color: red;">invalid User</p>
-                {{/if}}
                 <div id="CustomerLoginForm" class="login-form">
-
-
-
-
-                    <input type="number" name="mobileNo" id="CustomerNo" class="input-full" placeholder="Enter your number"
-                        autocorrect="off" autocapitalize="off" maxlength="10" autofocus>
-
-
-
-
+                    <input type="number" name="mobileNo" id="CustomerNo" class="input-full"
+                        placeholder="Enter your number" autocorrect="off" autocapitalize="off" maxlength="10" autofocus>
                     <div class="button-box">
-                        {{#if loginErr}}
-                        <h6 class="font pb-3" style="color: red;">invalid Password</h6>
-                        {{/if}}
-
-                        {{#if blockErr}}
-                        <h6 class="font pb-3" style="color: red;">You are Blocked By admin</h6>
-                        {{/if}}
-                        {{#if otpErr}}
-                        <h6 class="font pb-3" style="color: red;">Server is Busy</h6>
-                        {{/if}}
-
-
-
-
 
                         <button type="submit" class="default-btn floatright">Send OTP</button>
                     </div>
-
                     <div class="content d-flex justify-content-center align-items-center">
-
                         <a href="/login" class="text-decoration-none ms-3 mt-3" style="font-size: 12px;">Back to
                             login</a>
                     </div>
                 </div>
-
-
             </div>
-
-
         </form>
     </div>
 </div>

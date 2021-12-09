@@ -81,33 +81,17 @@
     style="background-size: cover;background-image: url(/images/watchImages/Banner1.jpg)">
     <div class="container">
         <div class="breadcrumb-content text-center">
-
             <ul class="breadcrumb-list mr-5">
-
                 <li>
                     <a href="/" title="Back to the home page">Home</a>
                 </li>
                 <li>
-
-
-
-
                     <span>All Products</span>
-
-
                 </li>
             </ul>
-
-
         </div>
     </div>
 </div>
-
-
-
-
-
-
 <div class="mt-3 mb-5">
     <center>
         <h3>
@@ -118,31 +102,19 @@
 <div class="container tab-content jump mb-4">
     <div class="row">
         <div class="rhs_product_tab rhs_match_height">
-
             {{#each product}}
             <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-xs-12 mt-3 mb-2">
-
-
                 <div class="single-product mb-35">
                     <div class="product-img">
                         <a href="/product/{{this._id}}">
                             <img src="/productImages/{{this._id}}a.jpg" alt="">
                         </a>
-
-
-
                         <div class="product-action">
-
                             <a class="animate-left" href="#" title="Wishlist">
                                 <i class="ion-ios-heart-outline"></i>
                             </a>
-
-                            {{!-- <a title="Quick View" data-toggle="modal" data-target="#exampleModal"
-                                class="animate-right" href="javascript:void(0);"
-                                onclick="quiqview('predefinidos-cuando')"><i class="ion-ios-eye-outline"></i></a> --}}
-                        </div>
+                            </div>
                     </div>
-
                     <div class="product-content">
                         <div class="product-title-price">
                             <div class="product-title">
@@ -150,24 +122,14 @@
                                 </h4>
                             </div>
                         </div>
-
                         <div class="product-cart-categori">
-
                             <div class="product-cart">
                                 <span>{{this.category}}</span>
                             </div>
-
-
-
-
                             <div class="product-price">
-
                                 <span><del><span class=money>₹{{this.price}}</span></del></span>
-
                                 <span class="price--sale"><span class=money>₹{{this.cost}}</span></span>
                             </div>
-
-
                             <div class="product-categori">
                                 {{#if this.stockout}}
                                 <span class="text-danger">Out of stock</span>
@@ -175,7 +137,6 @@
                                 <button class="add_cart btn btn-light cart-item "
                                     style="width: 130px; border: 1px solid black !important;"
                                     onclick="addToCart('{{this._id}}','{{this.stock}}')" title="Add to cart">
-
                                     <i class="ion-bag"></i>
                                     <i class="ion-ios-loop-strong animated rotateIn infinite"></i>
                                     <i class="ion-android-done"></i> Add to Cart
@@ -183,65 +144,17 @@
                                 <br>
                                 <a class="add_cart btn btn-light cart-item mt-1" href="/buyNow/{{this._id}}"
                                     style="width: 130px; border: 1px solid black !important;">
-
                                     <i class="ion-bag"></i>
                                     <i class="ion-ios-loop-strong animated rotateIn infinite"></i>
                                     <i class="ion-android-done"></i> Buy Now
                                 </a>
                                 {{/if}}
-
                             </div>
-
                         </div>
                     </div>
                 </div>
             </div>
             {{/each}}
-
         </div>
-
-
-
     </div>
 </div>
-
-<script>
-    // product Gallery and Zoom
-
-    // activation carousel plugin
-    var galleryThumbs = new Swiper('.gallery-thumbs', {
-        spaceBetween: 5,
-        freeMode: true,
-        watchSlidesVisibility: true,
-        watchSlidesProgress: true,
-        breakpoints: {
-            0: {
-                slidesPerView: 3,
-            },
-            992: {
-                slidesPerView: 4,
-            },
-        }
-    });
-    var galleryTop = new Swiper('.gallery-top', {
-        spaceBetween: 10,
-        navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
-        },
-        thumbs: {
-            swiper: galleryThumbs
-        },
-    });
-    // change carousel item height
-    // gallery-top
-    let productCarouselTopWidth = $('.gallery-top').outerWidth();
-    $('.gallery-top').css('height', productCarouselTopWidth);
-
-    // gallery-thumbs
-    let productCarouselThumbsItemWith = $('.gallery-thumbs .swiper-slide').outerWidth();
-    $('.gallery-thumbs').css('height', productCarouselThumbsItemWith);
-
-    // activation zoom plugin
-    var $easyzoom = $('.easyzoom').easyZoom();
-</script>

@@ -1,9 +1,5 @@
-<style>
-    
-</style>
 <div class="container">
     <div class="row p-5">
-
         <div class="billing-info-wrap">
             <h3 class="mb-3 mt-3">Add new Address</h3>
             <form action="/addNewAddress" id="address-form" method="POST">
@@ -14,7 +10,6 @@
                                 <label for="fname">First Name</label>
                                 <input type="text" id="fname" name="FirstName" minlength="4" required />
                             </div>
-
                             <div class="form-group billing-info mb-4 col-md-6">
                                 <label for="lname">Last Name</label>
                                 <input type="text" id="lname" name="LastName" required />
@@ -26,51 +21,40 @@
                                 <input type="text" id="house" name="House" required minlength="4" />
                             </div>
                         </div>
-
                         <div class="form-row ">
                             <div class="form-group billing-info mb-4 col-md-12">
                                 <label for="street">Street Address</label>
                                 <input class="billing-address" placeholder="street name" id="street" name="Street"
                                     type="text" minlength="4" required />
-
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group billing-info mb-4 col-md-6">
                                 <label for="city">Town / City</label>
-                                <input type="text" id="city" name="Town"  minlength="4" required/>
+                                <input type="text" id="city" name="Town" minlength="4" required />
                             </div>
-
-
-
                             <div class="form-group billing-info mb-4 col-md-6">
                                 <label for="pin">Postcode / ZIP</label>
-                                <input type="text" id="pin" name="PIN" pattern=".{6,6}" required/>
+                                <input type="text" id="pin" name="PIN" pattern=".{6,6}" required />
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group billing-info mb-4 col-md-6">
                                 <label for="phone">Phone</label>
-                                <input type="text" id="phone" name="Mobile" pattern=".{10,10}" required/>
+                                <input type="text" id="phone" name="Mobile" pattern=".{10,10}" required />
                             </div>
-
-
-
                             <div class="form-group billing-info mb-4 col-md-6">
                                 <label for="email">Email Address</label>
                                 <input type="email" required id="email" name="Email" />
                             </div>
                             <input type="text" name="User" value="{{user._id}}" hidden>
                         </div>
-
                     </div>
                 </div>
-               <div class=" text-center pt-3">
+                <div class=" text-center pt-3">
                     <input type="submit" class="btn btn-primary " value="Add New Address">
-               </div>
+                </div>
             </form>
         </div>
     </div>
 </div>
-
-
