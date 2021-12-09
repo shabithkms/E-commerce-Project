@@ -11,27 +11,19 @@
                 <div class="col-md-12">
                     <div class="text-center mb-5">
                         <h3>Edit <strong>Product</strong></h3>
-
                     </div>
                     <form action="/admin/edit-product/{{product._id}}" onsubmit="return submitForm(this);
                     " method="POST" enctype="multipart/form-data" style="padding-top: 40px;" id="edit-prod">
-
-
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="inputName">Product Name</label>
                                 <input type="text" class="form-control" id="inputName" value="{{product.name}}"
                                     name="name">
                             </div>
-
-
                             <div class="form-group col-md-6">
-
                                 <label for="brand">Brand</label>
-
                                 <select name="brand" class="custom-select p-2">
                                     <option value="{{product.brand}}" selected>{{product.brand}}</option>
-
                                     {{#each brands}}
                                     <option value="{{this.brand}}">{{this.brand}}</option>
                                     {{/each}}
@@ -39,16 +31,9 @@
                                 {{#if catErrPro}}
                                 <p class="text-center text-danger">{{catErrPro}}</p>
                                 {{/if}}
-
-
                             </div>
                         </div>
                         <div class="form-row">
-                            {{!-- <div class="form-group col-md-5">
-                                <label for="inputDescription">Description</label>
-                                <input type="text" class="form-control" id="inputDescription" name="description">
-                            </div> --}}
-
                             <div class="form-group col-md-6">
 
                                 <label for="category">Category</label>
@@ -63,11 +48,8 @@
                                 {{#if catErrPro}}
                                 <p class="text-center text-danger">{{catErrPro}}</p>
                                 {{/if}}
-
                             </div>
                             <div class="form-group col-md-6">
-
-
                                 <label for="inputCost">Landing cost</label>
                                 <input type="number" class="form-control" id="landCost" value="{{product.cost}}"
                                     name="cost">
@@ -86,9 +68,6 @@
                             </div>
 
                         </div>
-
-
-
                         <div class="row">
                             <div class="col-12">
                                 <div id="image-box1" style="width: 500px; height: 500px; display: none;"></div>
@@ -99,7 +78,6 @@
                                 <label for="">IMAGE 1</label>
                                 <img src="/productImages/{{product._id}}a.jpg" alt="" style="width: 100px; height:auto"
                                     id="imgview1">
-                                {{!-- <div id="preview1"></div> --}}
                                 <input type="file" name="image1" id="file1" class="form-control"
                                     onchange="return fileValidation1()">
                             </div>
@@ -108,7 +86,6 @@
                                 <label for="">IMAGE 2</label>
                                 <img src="/productImages/{{product._id}}b.jpg" alt="" style="width: 100px; height:auto"
                                     id="imgview2">
-                                {{!-- <div id="preview1"></div> --}}
                                 <input type="file" name="image2" id="file2" class="form-control"
                                     onchange="return fileValidation2()">
                             </div>
@@ -116,7 +93,6 @@
                                 <label for="">IMAGE 3</label>
                                 <img src="/productImages/{{product._id}}c.jpg" alt="" style="width: 100px; height:auto"
                                     id="imgview3">
-                                {{!-- <div id="preview1"></div> --}}
                                 <input type="file" name="image3" id="file3" class="form-control"
                                     onchange="return fileValidation3()">
                             </div>
@@ -124,19 +100,14 @@
                                 <label for="">IMAGE 4</label>
                                 <img src="/productImages/{{product._id}}d.jpg" alt="" style="width: 100px; height:auto"
                                     id="imgview4">
-                                {{!-- <div id="preview1"></div> --}}
                                 <input type="file" name="image4" id="file4" class="form-control"
                                     onchange="return fileValidation4()">
-                            </div>
-                            
+                            </div>                            
                         </div>
                         <center>
                             <button id="confirm-btn1" type="submit" class="btn btn-primary mt-5">Edit
                                 Product</button><br>
                         </center>
-
-
-
                         <p class="text-warning text-center" style="display: none;" id="errMsg">Only Image is
                             Accepted</p>
 
@@ -147,22 +118,13 @@
     </div>
 </div>
 
-
 <script>
     $(document).ready(function () {
-
-        
-
         $('#landCost').change(function () {
             let cost = document.getElementById('landCost').value
             let price = document.getElementById('Price').value
             let newPrice=parseInt(cost)+500
-            
-
             $('#Price').attr('min',newPrice)
         })
-
-
     })
-
 </script>

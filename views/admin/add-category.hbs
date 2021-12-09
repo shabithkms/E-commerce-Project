@@ -11,10 +11,8 @@
                 <div class="col-md-12">
                     <div class="text-center mb-5">
                         <h3>Add <strong>New Category</strong></h3>
-
                     </div>
                     <form action="/admin/add-category" method="POST" id="add-cat" >
-
                         {{#if categoryExist}}
                         <div class="alert alert-danger col-md-6" role="alert">
                             This Category is already exist!
@@ -25,16 +23,7 @@
                                 <label for="inputName">Category Name</label>
                                 <input type="text" class="form-control" id="inputName" name="category">
                             </div>
-
-
-
                         </div>
-
-
-
-                        
-
-
                         <input type="submit" value="ADD" id='sub' class="btn  btn-primary mt-4">
                     </form>
                 </div>

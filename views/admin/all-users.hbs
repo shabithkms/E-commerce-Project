@@ -4,12 +4,6 @@
         <li class="active">All Usres</li>
     </ol>
     <div class="container">
-        {{!-- <div class="row">
-            <div class="col-md-6">
-                <a href="/admin/add-products" class="btn btn-primary " style="margin-top: 20px;">Add New
-                    Product</a>
-            </div>
-        </div> --}}
         <table class="table table-striped mt-5" style="margin-top:30px;" id="adminTable">
             <thead>
                 <tr>
@@ -24,7 +18,6 @@
             <tbody>
                 {{#each users}}
                 <tr>
-
                     <td></td>
                     <td>{{this.firstname}} {{this.lastname}}</td>
                     <td>{{this.email}}</td>
@@ -34,23 +27,15 @@
                     {{else}}
                     <td>Blocked</td>
                     {{/if}}
-
-
-
                     {{#if this.status}}
                     <td><a href="/admin/block-user/{{this._id}}" name="{{this.firstname}} {{this.lastname}}" style="width: 80px;" class="btn btn-danger"
                             onclick="blockUser(event)">Block</a> </td>
-
-                            {{!-- <a class="btn btn-danger" href="/admin/delete-product/{{this._id}}" name="{{this.name}}"
-                            onclick="deleteproduct(event)"><i class="fas fa-trash-alt"></i></a> --}}
                     {{else}}
                     <td><a href="/admin/unblock-user/{{this._id}}" name="{{this.firstname}} {{this.lastname}}" style="width: 80px;" class="btn btn-success"
                             onclick="unblockUser(event)">Unblock</a> </td>
                     {{/if}}
-
                 </tr>
                 {{/each}}
-
             </tbody>
         </table>
     </div>

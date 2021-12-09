@@ -13,16 +13,16 @@
                             <tr>
                                 <th scope="col">No.</th>
                                 <th scope="col">Date</th>
-                                
+
                                 <th scope="col">User</th>
                                 <th scope="col">Address</th>
 
                                 <th scope="col">Amount</th>
-                                
-                               
+
+
 
                                 <th scope="col">Status</th>
-                               
+
                                 <th scope="col">Items</th>
                             </tr>
                         </thead>
@@ -31,35 +31,34 @@
                             <tr>
                                 <td></td>
                                 <td>{{this.Date}} <br>
-                                {{this.Time}}</td>
-                                
+                                    {{this.Time}}</td>
+
                                 <td>{{this.User}}</td>
                                 <td>{{this.deliveryDetails.FirstName}},{{this.deliveryDetails.House}}<br>{{this.deliveryDetails.Town}},PIN:{{this.deliveryDetails.PIN}}<br>PH:{{this.deliveryDetails.Mobile}}
                                 </td>
-
                                 <td>₹{{this.Total}} <br>
-                                {{this.PaymentMethod}}</td>
-                                
-                                
-                                {{!-- <td id="{{thisd}}" style="display: none;">{{this.Status}}</td> --}}
+                                    {{this.PaymentMethod}}</td>
                                 <td>
                                     <div class="dropdown">
-                                        <button class="btn btn-dark dropdown-toggle p-1" type="button" 
-                                            id="{{this._id}}" data-toggle="dropdown" aria-haspopup="true"
-                                            aria-expanded="false" style="height: 2em;width:7em" value="{{this.Status}}"
+                                        <button class="btn btn-dark dropdown-toggle p-1" type="button" id="{{this._id}}"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                                            style="height: 2em;width:7em" value="{{this.Status}}"
                                             onclick="statusChecker('{{this._id}}')">
                                             {{this.Status}}
                                         </button>
-
                                         <div class="dropdown-menu " aria-labelledby="dropdownMenuButton">
-                                            <a class="dropdown-item" href="/admin/placed/{{this._id}}" onclick="changeStatus(event)"
-                                                style="text-decoration: none;" id="{{this._id}}placed">Placed</a>
-                                            <a class="dropdown-item" href="/admin/shipped/{{this._id}}" onclick="changeStatus(event)"
-                                                style="text-decoration: none;" id="{{this._id}}ship">Shipped</a>
-                                            <a class="dropdown-item" href="/admin/delivered/{{this._id}}" onclick="changeStatus(event)"
-                                                style="text-decoration: none;" id="{{this._id}}deliver">Delivered</a>
-                                            <a class="dropdown-item" href="/admin/cancelled/{{this._id}}" onclick="changeStatus(event)"
-                                                style="text-decoration: none;" id="{{this._id}}cancel">Cancelled</a>
+                                            <a class="dropdown-item" href="/admin/placed/{{this._id}}"
+                                                onclick="changeStatus(event)" style="text-decoration: none;"
+                                                id="{{this._id}}placed">Placed</a>
+                                            <a class="dropdown-item" href="/admin/shipped/{{this._id}}"
+                                                onclick="changeStatus(event)" style="text-decoration: none;"
+                                                id="{{this._id}}ship">Shipped</a>
+                                            <a class="dropdown-item" href="/admin/delivered/{{this._id}}"
+                                                onclick="changeStatus(event)" style="text-decoration: none;"
+                                                id="{{this._id}}deliver">Delivered</a>
+                                            <a class="dropdown-item" href="/admin/cancelled/{{this._id}}"
+                                                onclick="changeStatus(event)" style="text-decoration: none;"
+                                                id="{{this._id}}cancel">Cancelled</a>
                                         </div>
                                     </div>
                                 </td>
@@ -71,7 +70,6 @@
                             {{/each}}
                         </tbody>
                     </table>
-
                 </div>
             </div>
         </div>
@@ -79,19 +77,20 @@
 </div>
 </div>
 
+{{!-- Scripts --}}
 <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
     crossorigin="anonymous"></script>
 <script>
     function statusChecker(orderId) {
         console.log("llog", orderId)
         let status = document.getElementById(orderId).value
-      
+
         console.log('ja', status)
         if (status === 'Placed') {
             console.log("Placed")
             document.getElementById(orderId + 'placed').style.display = "none";
 
-        }else if (status === 'Shipped') {
+        } else if (status === 'Shipped') {
             console.log("Shipped")
             document.getElementById(orderId + 'placed').style.display = "none";
             document.getElementById(orderId + 'ship').style.display = "none";
@@ -106,7 +105,7 @@
             document.getElementById(orderId + 'placed').style.display = "none";
             document.getElementById(orderId + 'ship').style.display = "none";
             document.getElementById(orderId + 'deliver').style.display = "none";
-             document.getElementById(orderId + 'cancel').style.display = "none";
+            document.getElementById(orderId + 'cancel').style.display = "none";
         }
     }
 </script>

@@ -11,12 +11,9 @@
                 <div class="col-md-12">
                     <div class="text-center mb-5">
                         <h3>Add <strong>New Product</strong></h3>
-
                     </div>
                     <form action="/admin/add-product" method="POST" enctype="multipart/form-data"
                         style="padding-top: 40px;" id="add-prod">
-
-
                         {{#if productExist}}
                         <div class="alert alert-danger" role="alert">
                             This product is already exist!
@@ -27,48 +24,25 @@
                                 <label for="inputName">Product Name</label>
                                 <input type="text" class="form-control" id="inputName" name="name">
                             </div>
-
-
-
                             <div class="form-group col-md-6">
-
                                 <label for="brand">Brand</label>
-
-
                                 <select name="brand" id="brand" class="custom-select p-2">
                                     <option value="" selected>Choose a Brand</option>
 
                                     {{#each brands}}
                                     <option value="{{this.brand}}">{{this.brand}}</option>
                                     {{/each}}
-
-
-
                                 </select>
 
                                 {{#if catErrPro}}
                                 <p class="text-center text-danger">{{catErrPro}}</p>
                                 {{/if}}
-
-
-
                             </div>
-                            {{!-- <div class="col-md-1">
-                                <a href="/admin/add-brands" style="margin-top: 42%;" class="btn btn-primary "><i
-                                        class="fas fa-plus"></i></a>
-                            </div> --}}
                         </div>
 
                         <div class="form-row">
-                            {{!-- <div class="form-group col-md-5">
-                                <label for="inputDescription">Description</label>
-                                <input type="text" class="form-control" id="inputDescription" name="description">
-                            </div> --}}
-
                             <div class="form-group col-md-6">
-
                                 <label for="category">Category</label>
-
                                 <select name="category" id="category" class="custom-select p-2">
                                     <option value="" selected>Choose a Category</option>
 
@@ -80,19 +54,10 @@
                                 {{#if catErrPro}}
                                 <p class="text-center text-danger">{{catErrPro}}</p>
                                 {{/if}}
-
                             </div>
-                            {{!-- <div class="col-md-1">
-                                <a href="/admin/add-category" style="margin-top: 42%;" class="btn btn-primary "><i
-                                        class="fas fa-plus"></i></a>
-                            </div> --}}
-
                             {{#if catErrPro}}
                             <p class="text-center text-danger">{{catErrPro}}</p>
                             {{/if}}
-
-
-
                             <div class="form-group col-md-6">
 
 
@@ -112,10 +77,7 @@
                                 <input type="number" class="form-control" onkeydown="return event.keyCode !== 69"
                                     id="inputStock" name="stock">
                             </div>
-
                         </div>
-
-
                         <div class="row">
                             <div class="col-12">
                                 <div id="image-box1" style="width: 500px; height: 500px; display: none;"></div>
@@ -125,28 +87,24 @@
                             <div class="mt-5 col-md-6">
                                 <label for="">IMAGE 1</label>
                                 <img src="" alt="" style="width: 100px; height:auto" id="imgview1">
-                                {{!-- <div id="preview1"></div> --}}
                                 <input type="file" name="image1" id="file1" class="form-control"
                                     onchange="return fileValidation1()">
                             </div>
                             <div class="mt-5 col-md-6">
                                 <label for="">IMAGE 2</label>
                                 <img src="" alt="" style="width: 100px; height:auto" id="imgview2">
-                                {{!-- <div id="preview1"></div> --}}
                                 <input type="file" name="image2" id="file2" class="form-control"
                                     onchange="return fileValidation2()">
                             </div>
                             <div class="mt-5 col-md-6">
                                 <label for="">IMAGE 3</label>
                                 <img src="" alt="" style="width: 100px; height:auto" id="imgview3">
-                                {{!-- <div id="preview1"></div> --}}
                                 <input type="file" name="image3" id="file3" class="form-control"
                                     onchange="return fileValidation3()">
                             </div>
                             <div class="mt-5 col-md-6">
                                 <label for="">IMAGE 4</label>
                                 <img src="" alt="" style="width: 100px; height:auto" id="imgview4">
-                                {{!-- <div id="preview1"></div> --}}
                                 <input type="file" name="image4" id="file4" class="form-control"
                                     onchange="return fileValidation4()">
                             </div>
@@ -159,12 +117,6 @@
 
                         <p class="text-danger text-center" style="display: none;" id="errMsg">Only Image is
                             Accepted</p>
-
-                        {{!-- <center>
-                            <input type="submit" value="ADD PRODUCT" id='sub' style="width: max-content;"
-                                class="btn  btn-primary mt-4">
-                        </center> --}}
-
                     </form>
                 </div>
             </div>
@@ -174,19 +126,11 @@
 
 <script>
     $(document).ready(function () {
-
-        
-
         $('#landCost').change(function () {
             let cost = document.getElementById('landCost').value
             let price = document.getElementById('Price').value
-            let newPrice=parseInt(cost)+500
-            
-
-            $('#Price').attr('min',newPrice)
+            let newPrice = parseInt(cost) + 500
+            $('#Price').attr('min', newPrice)
         })
-
-
     })
-
 </script>

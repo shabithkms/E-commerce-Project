@@ -1,16 +1,13 @@
-
 <div class="container">
     <div class="row">
         {{#each products}}
-
         <div class="card ml-1 mr-1 col-md-3" style="width: 18rem;">
             <img class="card-img-top" src="/productImages/{{this.product._id}}a.jpg" alt="Card image cap">
             <div class="card-body">
                 <h5 class="card-title">Name: {{this.product.name}}</h5>
                 <p class="card-text">Price :{{this.product.price}}</p>
                 <p class="card-text">Qty: {{this.quantity}}</p>
-                <p class="card-text">Total :{{this.subtotal}}</p>
-                
+                <p class="card-text">Total :{{this.subtotal}}</p>                
             </div>
         </div>
         {{/each}}

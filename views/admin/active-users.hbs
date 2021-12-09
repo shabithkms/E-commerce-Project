@@ -1,17 +1,11 @@
 <div id="page-wrapper">
     <ol class="breadcrumb">
         <li class="pr-3"><a href="/admin" style="text-decoration: none;">Home</a></li>
-        <li class="pr-3"> <a href="/admin/users"style="text-decoration: none;">Users</a></li>
+        <li class="pr-3"> <a href="/admin/users" style="text-decoration: none;">Users</a></li>
 
         <li class="active">Active users</li>
     </ol>
     <div class="container">
-        {{!-- <div class="row">
-            <div class="col-md-6">
-                <a href="/admin/add-products" class="btn btn-primary " style="margin-top: 20px;">Add New
-                    Product</a>
-            </div>
-        </div> --}}
         <table class="table table-striped mt-5" style="margin-top:30px;" id="adminTable">
             <thead>
                 <tr>
@@ -19,33 +13,16 @@
                     <th scope="col">Name</th>
                     <th scope="col">Email</th>
                     <th scope="col">mobile No</th>
-                    
+
                 </tr>
             </thead>
             <tbody>
                 {{#each activeUsers}}
                 <tr>
-
                     <td></td>
                     <td>{{this.firstname}} {{this.lastname}}</td>
                     <td>{{this.email}}</td>
                     <td>{{this.mobileNo}}</td>
-
-                    
-                    {{!-- {{else}}
-                    <td>Blocked</td>
-                    {{/if}} --}}
-
-
-
-                    {{!-- {{#if this.status}}
-                    <td><a href="/admin/deleteProduct?id={{this._id}}" style="width: 80px;" class="btn btn-danger"
-                            onclick="return confirm('Do you want to Block {{this.Name}}')">Block</a> </td>
-                    {{else}}
-                    <td><a href="/admin/deleteProduct?id={{this._id}}" class="btn btn-success" style="width: 80px;"
-                            onclick="return confirm('Do you want to Unblock {{this.Name}}')">Unblock</a> </td>
-                    {{/if}} --}}
-
                 </tr>
                 {{/each}}
 

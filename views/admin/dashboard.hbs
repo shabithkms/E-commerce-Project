@@ -86,8 +86,6 @@
 
                     </tr>
                     {{/each}}
-
-
                 </tbody>
             </table>
         </div>
@@ -141,25 +139,16 @@
                         <td>₹{{this.Total}}</td>
                         <td>{{this.PaymentMethod}}</td>
                         <td>{{this.Status}}</td>
-
-
                     </tr>
                     {{/each}}
-
-
                 </tbody>
             </table>
         </div>
     </div>
 </div>
 
-
-
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
-<!-- <script src="./my_chart.js"></script> -->
-
 <script type="text/javascript">
-
     var ctx = document.getElementById('myChart').getContext('2d');
     var myChart = new Chart(ctx, {
         type: 'doughnut',
