@@ -40,8 +40,14 @@ function addToCart(proId, stock) {
 
 
 
-            } else {
+            } else if(response.exist) {
                 console.log(response)
+                Toast.fire({
+                    icon: 'warning',
+                    title: 'item already in cart'
+                })
+                
+            }else{
                 location.replace('/login')
             }
 
