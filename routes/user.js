@@ -747,8 +747,8 @@ router.post('/place-order', async (req, res) => {
         "payment_method": "paypal"
       },
       "redirect_urls": {
-        "return_url": "http://localhost:3000/success",
-        "cancel_url": "http://localhost:3000/cancelled"
+        "return_url": "https://watchin.site/success",
+        "cancel_url": "https://watchin.site/cancelled"
       },
       "transactions": [{
         "item_list": {
@@ -884,8 +884,8 @@ router.post('/buyNow', async (req, res) => {
           "payment_method": "paypal"
         },
         "redirect_urls": {
-          "return_url": "http://localhost:3000/buyNowSuccess",
-          "cancel_url": "http://localhost:3000/buyNowCancelled"
+          "return_url": "https://watchin.site/buyNowSuccess",
+          "cancel_url": "https://watchin.site/buyNowCancelled"
         },
         "transactions": [{
           "item_list": {

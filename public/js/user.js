@@ -28,11 +28,9 @@ function addToCart(proId, stock) {
                         icon: 'success',
                         title: 'item added to Cart'
                     })
-
                 } else {
                     count = parseInt(count) + 1
                     $('#cartCount').html(count)
-
                     location.reload()
                 }
             } else if (response.exist) {
@@ -146,7 +144,7 @@ function cancelOrder(oId) {
                         Swal.fire("some error")
                     }
                 }
-            })            
+            })
         }
         else {
             return false;

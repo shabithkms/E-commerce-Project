@@ -33,7 +33,8 @@
                                         <li class="megamenus"><a class="title" href="">Categories</a>
                                             <ul class="mega__item">
                                                 {{#each homeCategory}}
-                                                <li><a href="/categoryProducts/{{this.category}}">{{this.category}}</a></li>
+                                                <li><a href="/categoryProducts/{{this.category}}">{{this.category}}</a>
+                                                </li>
                                                 {{/each}}
                                             </ul>
                                         </li>
@@ -51,12 +52,16 @@
                             <div class="header-cart common-style">
                                 <button class="relative">
                                     <a href="/wishlist" class="text-dark">
-                                        <span class="far fa-heart"></ion-icon></i>
+                                        <span class="material-icons">
+                                            favorite_border
+                                        </span>
                                     </a></button>
                             </div>
                             <div class="header-cart common-style">
                                 <button class=" relative">
-                                    <a href="/cart"><span class="ion-bag"></span></a>
+                                    <a href="/cart"><span class="material-icons">
+                                            shopping_bag
+                                        </span></a>
                                     {{#if cartCount}}
                                     <span class="mini_cart_count bigcounter" id="cartCount">{{cartCount}}</span>
                                     {{else}}
@@ -66,14 +71,16 @@
                             </div>
                             <div class="header-sidebar common-style">
                                 <button class="header-navbar-active">
-                                    <span class="ion-profile"></span>
+                                    <span class="material-icons">
+                                        menu
+                                    </span>
                                 </button>
                             </div>
-                            <div class="header-sidebar common-style">
+                            {{!-- <div class="header-sidebar common-style">
                                 <button class="header-navbar-active">
                                     <span class="ion-navicon"></span>
                                 </button>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                     {{!-- MObile menu --}}
@@ -121,7 +128,12 @@
     <div class="cur-lang-acc-active">
         <div class="wrap-sidebar">
             <div class="sidebar-nav-icon">
-                <button class="op-sidebar-close"><span class="ion-android-close"></span></button>
+                <button class="op-sidebar-close">
+                    {{!-- <i class="fas fa-times"></i> --}}
+                    <span class="material-icons md-60">
+                        close
+                    </span>
+                </button>
             </div>
             <div class="cur-lang-acc-all">
                 <div class="single-currency-language-account">
