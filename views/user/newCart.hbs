@@ -123,16 +123,20 @@
         .pname {
             font-size: 10px;
             margin-top: 10px;
-        },
-        .product{
-            display: flex;
-            
-        },
-        .price{
-            font-size: 8px; 
         }
-        
-       
+
+        ,
+        .product {
+            display: flex;
+
+        }
+
+        ,
+        .price {
+            font-size: 8px;
+        }
+
+
     }
 </style>
 
@@ -196,16 +200,16 @@
                                     </div>
                                 </td>
                                 <td class="product-subtotal  text-center">
-                                    <div class="mt-4">
+                                    <div class="mt-4">₹
                                         <span class="" id="subTotal{{this.product._id}}">
                                             {{this.subtotal}}
-                                        </span>
+                                        </span><span>.00</span>
                                     </div>
                                 </td>
                                 <td class=" remove h-100  text-center">
-                                        <button onclick="deleteCartPro('{{this._id}}','{{this.product._id}}')">
-                                            <i class="fas fa-trash-alt mt-4 " style="color: red;font-size: 20px;"></i>
-                                        </button>
+                                    <button onclick="deleteCartPro('{{this._id}}','{{this.product._id}}')">
+                                        <i class="fas fa-trash-alt mt-4 " style="color: red;font-size: 20px;"></i>
+                                    </button>
                                 </td>
                             </tr>
                             {{/each}}
@@ -220,7 +224,7 @@
                     <table class="table borderless">
                         <tr>
                             <td> Total price:</td>
-                            <td id="total1">{{totals}}</td>
+                            <td >₹<span id="total1">{{totals}}</span>.00</td>
                         </tr>
                         <tr>
                             <td>Shipping :</td>
@@ -228,7 +232,7 @@
                         </tr>
                         <tr>
                             <td>Total:</td>
-                            <td><strong id="total2">{{totals}}</strong></td>
+                            <td><strong>₹</strong><strong id="total2">{{totals}}</strong><strong>.00</strong></td>
                         </tr>
                     </table>
                     <style>

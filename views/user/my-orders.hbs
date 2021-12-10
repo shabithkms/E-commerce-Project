@@ -321,10 +321,9 @@
                                                     {{#if this.Cancelled}}
                                                     {{else}}
                                                     <div class="ml-auto"> <small style="color: black;"><br> </small>
-                                                        <a href="/cancelOrder/{{this._id}}"
-                                                            class="btn  btn-danger ml-auto" onclick="cancelOrder(event)"
-                                                            style="
-                                                border-radius: 3px;">Cancel</a>
+                                                        <button
+                                                            class="btn  btn-danger ml-auto" onclick="cancelOrder('{{this._id}}')"
+                                                            style=" border-radius: 3px;">Cancel</button>
                                                     </div>
                                                     {{/if}}
                                                     {{/if}}
@@ -345,7 +344,7 @@
                                             </div>
                                         </div>
                                         <div class="row flex-column">
-                                           
+
                                         </div>
                                     </div>
                                 </div>

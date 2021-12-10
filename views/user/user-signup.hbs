@@ -8,7 +8,7 @@
               <h2>Create Account</h2>
             </div>
             <div class="login-form">
-              <form method="post" action="/signup" id="signup">
+              <form method="post" action="/signup" id="user-signup">
                 {{#if mobileNoExist}}
                 <div class="alert alert-danger " role="alert">
                   This mobile number has already an Account
@@ -18,10 +18,10 @@
                   autocapitalize="words" autofocus>
                 <input type="text" name="lastName" id="lastName" class="input-full" placeholder="Last Name"
                   autocapitalize="words">
-                <input type="email" name="email" id="Email" class="input-full" placeholder="Email" autocorrect="off"
-                  autocapitalize="off">
-                <input type="tel" name="mobileNo" id="mobileNo" class="input-full" placeholder="Mobile Number"
-                  autocorrect="off" autocapitalize="off">
+                <input type="email" name="email" id="Email" onkeypress="return isEmail(event)" class="input-full"
+                  placeholder="Email" >
+                <input type="tel" name="mobileNo" id="mobileNo" class="input-full" onkeypress="return isNumber(event)"
+                  maxlength="10" placeholder="Mobile Number" autocorrect="off" autocapitalize="off">
                 <input type="password" name="password" id="CreatePassword" class="input-full" placeholder="Password">
 
                 <div class="button-box">
@@ -40,3 +40,24 @@
     </div>
   </div>
 </div>
+
+<script>
+  function isNumber(evt) {
+    evt = (evt) ? evt : window.event;
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    return true;
+  }
+</script>
+<script>
+  function isEmail(evt) {
+    evt = (evt) ? evt : window.event;
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (charCode > 47 && (charCode < = 105 )) {
+      return true;
+    }
+    return false;
+  }
+</script>

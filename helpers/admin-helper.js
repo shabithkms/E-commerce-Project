@@ -311,6 +311,8 @@ module.exports = {
         let cname = data.Category
         data.Offer = parseInt(data.Offer)
         return new Promise(async (resolve, reject) => {
+            data.startDateIso= new Date(data.Starting)
+            data.endDateIso= new Date(data.Expiry)
             db.get().collection(collection.CATEGORY_OFFERS).insertOne(data).then(async () => {
                 let products = await db.get().collection(collection.PRODUCT_COLLECTION).find({ category: data.Category, catOffer: { $exists: false } }).toArray()
                 await products.map(async (product) => {
@@ -388,7 +390,7 @@ module.exports = {
             } else {
                 resolve()
             }
-        })
+        }) 
     },
     //Product offers
     addProductOffer: (data) => {
@@ -398,6 +400,8 @@ module.exports = {
             let actualPrice = product.price
             let newPrice = (((product.price) * (data.Offer)) / 100)
             newPrice = newPrice.toFixed()
+            data.startDateIso= new Date(data.Starting)
+            data.endDateIso= new Date(data.Expiry)
             db.get().collection(collection.PRODUCT_OFFERS).insertOne(data).then((response) => {
                 db.get().collection(collection.PRODUCT_COLLECTION).updateOne({ name: data.Product },
                     {

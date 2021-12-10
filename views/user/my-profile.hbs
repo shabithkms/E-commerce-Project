@@ -116,7 +116,7 @@
         min-height: 460px;
     }
 </style>
-<div class="container mt-3">
+<div class="container mt-3 mb-5">
     <div class="row">
         <div class="col-md-3 ">
             <div class="profile-sidebar">
@@ -138,87 +138,85 @@
                     </div>
                     <div class="row">
                         <div class="mb-3">
-                                <!-- Modal -->
-                                <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog"
-                                    aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLongTitle">Upload profile photo
-                                                </h5>
-                                                <button type="button" class="close" data-dismiss="modal"
-                                                    aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <form action="/addProfile" method="post" enctype="multipart/form-data">
-                                                    <div class="profile-pic">
-                                                        <input type="text" name="user" id="" value="{{user._id}}"
-                                                            hidden>
-                                                        <input id="file" type="file" name="image3"
-                                                            onchange="loadFile(event)" />
-                                                        <img src="/userImages/{{user._id}}.jpg" id="output"
-                                                            width="200" />
-                                                    </div>
-                                                    <button type="submit" class="btn kms mt-2">Upload</button>
-                                                </form>
-                                            </div>
+                            <!-- Modal -->
+                            <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog"
+                                aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLongTitle">Upload profile photo
+                                            </h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form action="/addProfile" method="post" enctype="multipart/form-data">
+                                                <div class="profile-pic">
+                                                    <input type="text" name="user" id="" value="{{user._id}}" hidden>
+                                                    <input id="file" type="file" name="image3"
+                                                        onchange="loadFile(event)" />
+                                                    <img src="/userImages/{{user._id}}.jpg" id="output" width="200" />
+                                                </div>
+                                                <button type="submit" class="btn kms mt-2">Upload</button>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-12">
-                            <form method="post" action="/edit-profile" id="profile">
-                                <div class="form-group row">
-                                    <label for="name" class="col-4 col-form-label">First Name</label>
-                                    <div class="col-8">
-                                        <input id="name" name="firstname" value="{{user.firstname}}"
-                                            placeholder="First Name" class="form-control here" type="text" disabled>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="lastname" class="col-4 col-form-label">Last Name</label>
-                                    <div class="col-8">
-                                        <input id="lastname" name="lastname" value="{{user.lastname}}"
-                                            placeholder="Last Name" class="form-control here" type="text" disabled>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="email" class="col-4 col-form-label">Mobile</label>
-                                    <div class="col-8">
-                                        <input id="mobile" name="mobile" value="{{user.mobileNo}}" placeholder="Mobile"
-                                            class="form-control here" required="required" type="text" disabled>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="email" class="col-4 col-form-label">Email</label>
-                                    <div class="col-8">
-                                        <input id="email" name="email" value="{{user.email}}" placeholder="Email"
-                                            class="form-control here" required="required" type="text" disabled>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <div class="offset-4 col-8">
-                                        <a onclick="editProfile('{{user._id}}')"
-                                            style="text-decoration: none; color: white;" type="" id="submit"
-                                            class="btn  kms">Edit
-                                            Profile</a>
-                                        <button type="submit" class="btn  kms" id="btn"
-                                            style="display: none;">Update</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
                     </div>
+                    <div class="col-md-12">
+                        <form method="post" action="/edit-profile" id="profile">
+                            <div class="form-group row">
+                                <label for="name" class="col-4 col-form-label">First Name</label>
+                                <div class="col-8">
+                                    <input id="name" name="firstname" value="{{user.firstname}}"
+                                        placeholder="First Name" class="form-control here" type="text" disabled>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="lastname" class="col-4 col-form-label">Last Name</label>
+                                <div class="col-8">
+                                    <input id="lastname" name="lastname" value="{{user.lastname}}"
+                                        placeholder="Last Name" class="form-control here" type="text" disabled>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="email" class="col-4 col-form-label">Mobile</label>
+                                <div class="col-8">
+                                    <input id="mobile" name="mobile" value="{{user.mobileNo}}" placeholder="Mobile"
+                                        class="form-control here" required="required" type="text" disabled>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="email" class="col-4 col-form-label">Email</label>
+                                <div class="col-8">
+                                    <input id="email" name="email" value="{{user.email}}" placeholder="Email"
+                                        class="form-control here" required="required" type="text" disabled>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="offset-4 col-8">
+                                    <a onclick="editProfile('{{user._id}}')"
+                                        style="text-decoration: none; color: white;" type="" id="submit"
+                                        class="btn  kms">Edit
+                                        Profile</a>
+                                    <button type="submit" class="btn  kms" id="btn"
+                                        style="display: none;">Update</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="container ml-2 mb-5">
                     <h3>Address</h3>
                     <div class="col-md-2 mt-auto ">
                         <button href="" class="btn kms " data-toggle="modal" data-target="#exampleModalAdd"
                             data-whatever="@mdo" style="text-decoration: none;width:fit-content;margin-top:30px;">Add
                             New</a>
                     </div>
-                    <div class="row">
+                    <div class="row ">
                         {{#each address}}
                         <div class="col-md-3 mt-5 alert border-warning mr-2 card" style="cursor: pointer;">
 
@@ -233,7 +231,7 @@
                                     </a>
                                     <a class="btn btn-danger mt-auto" href="/delete-address/{{this._id}}"
                                         style="width: fit-content; color: white;" name="{{this.brand}}"
-                                        onclick="deleteBrand(event)">
+                                        onclick="deleteAddress(event)">
                                         Delete
                                     </a>
                                 </div>
@@ -241,86 +239,84 @@
                             </div>
                         </div>
                         {{/each}}
-                        <div class="modal fade" id="exampleModalAdd" tabindex="-1" role="dialog"
-                            aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h3 class="mb-3 mt-3">Add new Address</h3>
-                                        {{!-- <button type="button" class="close ml-auto" data-dismiss="modal"
-                                            aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button> --}}
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="billing-info-wrap">
+                    </div>
+                </div>
+                <div class="modal fade" id="exampleModalAdd" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h3 class="mb-3 mt-3">Add new Address</h3>
+                                {{!-- <button type="button" class="close ml-auto" data-dismiss="modal"
+                                    aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button> --}}
+                            </div>
+                            <div class="modal-body">
+                                <div class="billing-info-wrap">
 
-                                            <form action="/addNewAddressProfile" id="checkout-form" method="POST">
-                                                <div class="row bg-light">
-                                                    <div class="col-md-12">
-                                                        <div class="form-row">
-                                                            <div class=" form-group billing-info mb-4 col-md-6">
-                                                                <label for="fname">First Name</label>
-                                                                <input type="text" id="fname" name="FirstName"
-                                                                    minlength="4" required />
-                                                            </div>
+                                    <form action="/addNewAddressProfile" id="checkout-form" method="POST">
+                                        <div class="row bg-light">
+                                            <div class="col-md-12">
+                                                <div class="form-row">
+                                                    <div class=" form-group billing-info mb-4 col-md-6">
+                                                        <label for="fname">First Name</label>
+                                                        <input type="text" id="fname" name="FirstName" minlength="4"
+                                                            required />
+                                                    </div>
 
-                                                            <div class="form-group billing-info mb-4 col-md-6">
-                                                                <label for="lname">Last Name</label>
-                                                                <input type="text" id="lname" name="LastName"
-                                                                    required />
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-row">
-                                                            <div class="form-group billing-info mb-4 col-md-12">
-                                                                <label for="house">House Name</label>
-                                                                <input type="text" id="house" name="House" required
-                                                                    minlength="4" />
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-row ">
-                                                            <div class="form-group billing-info mb-4 col-md-12">
-                                                                <label for="street">Street Address</label>
-                                                                <input class="billing-address" placeholder="street name"
-                                                                    id="street" name="Street" type="text" minlength="4"
-                                                                    required />
-
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-row">
-                                                            <div class="form-group billing-info mb-4 col-md-6">
-                                                                <label for="city">Town / City</label>
-                                                                <input type="text" id="city" name="Town" minlength="4"
-                                                                    required />
-                                                            </div>
-                                                            <div class="form-group billing-info mb-4 col-md-6">
-                                                                <label for="pin">Postcode / ZIP</label>
-                                                                <input type="text" id="pin" name="PIN" pattern=".{6,6}"
-                                                                    required />
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-row">
-                                                            <div class="form-group billing-info mb-4 col-md-6">
-                                                                <label for="phone">Phone</label>
-                                                                <input type="text" id="phone" name="Mobile"
-                                                                    pattern=".{10,10}" required />
-                                                            </div>
-                                                            <div class="form-group billing-info mb-4 col-md-6">
-                                                                <label for="email">Email Address</label>
-                                                                <input type="email" required id="email" name="Email" />
-                                                            </div>
-                                                            <input type="text" name="User" value="{{user._id}}" hidden>
-                                                        </div>
+                                                    <div class="form-group billing-info mb-4 col-md-6">
+                                                        <label for="lname">Last Name</label>
+                                                        <input type="text" id="lname" name="LastName" required />
+                                                    </div>
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="form-group billing-info mb-4 col-md-12">
+                                                        <label for="house">House Name</label>
+                                                        <input type="text" id="house" name="House" required
+                                                            minlength="4" />
+                                                    </div>
+                                                </div>
+                                                <div class="form-row ">
+                                                    <div class="form-group billing-info mb-4 col-md-12">
+                                                        <label for="street">Street Address</label>
+                                                        <input class="billing-address" placeholder="street name"
+                                                            id="street" name="Street" type="text" minlength="4"
+                                                            required />
 
                                                     </div>
                                                 </div>
-                                                <div class=" text-center pt-3">
-                                                    <input type="submit" class="btn btn-primary "
-                                                        value="Add New Address">
+                                                <div class="form-row">
+                                                    <div class="form-group billing-info mb-4 col-md-6">
+                                                        <label for="city">Town / City</label>
+                                                        <input type="text" id="city" name="Town" minlength="4"
+                                                            required />
+                                                    </div>
+                                                    <div class="form-group billing-info mb-4 col-md-6">
+                                                        <label for="pin">Postcode / ZIP</label>
+                                                        <input type="text" id="pin" name="PIN" pattern=".{6,6}"
+                                                            required />
+                                                    </div>
                                                 </div>
-                                            </form>
+                                                <div class="form-row">
+                                                    <div class="form-group billing-info mb-4 col-md-6">
+                                                        <label for="phone">Phone</label>
+                                                        <input type="text" id="phone" name="Mobile" pattern=".{10,10}"
+                                                            required />
+                                                    </div>
+                                                    <div class="form-group billing-info mb-4 col-md-6">
+                                                        <label for="email">Email Address</label>
+                                                        <input type="email" required id="email" name="Email" />
+                                                    </div>
+                                                    <input type="text" name="User" value="{{user._id}}" hidden>
+                                                </div>
+
+                                            </div>
                                         </div>
-                                    </div>
+                                        <div class=" text-center pt-3">
+                                            <input type="submit" class="btn btn-primary " value="Add New Address">
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -329,6 +325,8 @@
             </div>
         </div>
     </div>
+</div>
+</div>
 </div>
 {{!-- Script for edit profile --}}
 <script>

@@ -14,8 +14,6 @@ const Toast = Swal.mixin({
 
 //Add to cart
 function addToCart(proId, stock) {
-    console.log(stock)
-
     $.ajax({
         url: '/add-to-cart/' + proId,
         method: 'get',
@@ -37,13 +35,13 @@ function addToCart(proId, stock) {
 
                     location.reload()
                 }
-            } else if(response.exist) {
+            } else if (response.exist) {
                 console.log(response)
                 Toast.fire({
                     icon: 'warning',
                     title: 'item already in cart'
-                })                
-            }else{
+                })
+            } else {
                 location.replace('/login')
             }
         }
@@ -61,8 +59,8 @@ function addToWishlist(proId) {
                 Toast.fire({
                     icon: 'error',
                     title: 'item removed from Wishlist'
-                }).then(()=>{
-                    
+                }).then(() => {
+
                 })
 
             } else if (response.status) {
@@ -73,7 +71,7 @@ function addToWishlist(proId) {
                 Toast.fire({
                     icon: 'success',
                     title: 'item added to Wishlist'
-                }).then(()=>{
+                }).then(() => {
 
                 })
             }
@@ -107,7 +105,7 @@ function deleteWishlistPro(proId) {
                         )
                         location.reload()
                     } else {
-                        alert("some error")
+                        Swal.fire("some error")
                     }
                 }
             })
@@ -118,10 +116,7 @@ function deleteWishlistPro(proId) {
 
 //Order cancel in my order
 
-function cancelOrder(event) {
-    event.preventDefault();
-    var link = event.currentTarget.href;
-    var name = event.currentTarget.name;
+function cancelOrder(oId) {
     Swal.fire({
         title: 'Are you sure?',
         text: "Do you want to Cancel this order ",
@@ -131,10 +126,52 @@ function cancelOrder(event) {
         cancelButtonColor: '#d33',
         confirmButtonText: 'Yes'
     }).then((result) => {
+
+        if (result.isConfirmed) {
+            $.ajax({
+                url: '/cancelOrder',
+                data: {
+                    id: oId
+                },
+                method: 'post',
+                success: (response) => {
+                    if (response.status) {
+                        Swal.fire(
+                            'Cancelled!',
+                            'Order has been Cancelled.',
+                            'success'
+                        )
+                        location.reload()
+                    } else {
+                        Swal.fire("some error")
+                    }
+                }
+            })            
+        }
+        else {
+            return false;
+        }
+    })
+}
+
+//Delete address
+
+function deleteAddress(event) {
+    event.preventDefault();
+    var link = event.currentTarget.href;
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "Do you want to delete this address ",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes'
+    }).then((result) => {
         if (result.isConfirmed) {
             Swal.fire(
-                'Cancelled!',
-                'Order has been Cancelled.',
+                'Deleted!',
+                'Address deleted.',
                 'success'
             )
             window.location = link;

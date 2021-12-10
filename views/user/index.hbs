@@ -46,29 +46,24 @@
         <div class="product-area neha_prod_area">
             <div class="container">
                 <div class="product-style">
-                    <div class="product-tab-list mb-45 nav product-menu-mrg" role="tablist">
+                    {{!-- <div class="product-tab-list mb-45 nav product-menu-mrg" id="mens" role="tablist">
 
-                        <a class="active" href="#featured" data-toggle="tab" role="tab">
-                            <h4>Featured </h4>
+                        <a class="active" href="#mens" data-toggle="tab" role="tab">
+                            <h4>Men's Watches</h4>
                         </a>
 
-                        <a class="" href="#featured" data-toggle="tab" role="tab">
-                            <h4>Best Sale </h4>
-                        </a>
-
-
-                        <a class="" href="#featured" data-toggle="tab" role="tab">
-                            <h4>On Sale </h4>
+                        <a class="" href="#womens" data-toggle="tab" role="tab">
+                            <h4>Women's Watches </h4>
                         </a>
 
 
-                        <a class="" href="#featured" data-toggle="tab" role="tab">
-                            <h4>New Arrival </h4>
+                        <a class="" href="#unisex" data-toggle="tab" role="tab">
+                            <h4>Unisex Watches </h4>
                         </a>
 
-                    </div>
+                    </div> --}}
                     {{!-- Categories --}}
-                    <div class="tab-content jump">
+                    <div class="tab-content jump" id="mens">
                         <div class="row">
                             <div class="rhs_product_tab rhs_match_height">
                                 {{#each products}}
@@ -221,7 +216,8 @@
 
                 <div class="section-title mb-55 text-center">
                     <h2>SELECT YOUR WATCH</h2>
-                    <p>WATCHIN the world largest and old watch store, we can serve you<br>most special and signature
+                    <p>WATCHIN the world largest and old watch store, we can serve you<br>most special and
+                        signature
                         wine any
                         time any where in India</p>
                 </div>
@@ -253,7 +249,8 @@
                                             <span>{{this.category}}</span>
                                         </div>
                                         <div class="product-price">
-                                            <span class="price--sale"><span class=money>₹ {{this.cost}}</span></span>
+                                            <span class="price--sale"><span class=money>₹
+                                                    {{this.cost}}</span></span>
                                             <span><del><span class=money>₹ {{this.price}}</span></del></span>
 
                                         </div>
@@ -307,9 +304,11 @@
                             <span style="color: #fff; font-size: 24px;">HURRY UP!</span>
                             <h2 class="mb-10" style="color: #fff; font-size: 50px;">Hot Deal! Sale 20% Off</h2>
 
-                            <p style="color: #fff; font-size: 16px;">WATCHIN the most latgest watch store in the wold
+                            <p style="color: #fff; font-size: 16px;">WATCHIN the most latgest watch store in the
+                                wold
                                 can serve
-                                you latest<br> qulity of motorcycle also you can sell here your motorcycle it quo to</p>
+                                you latest<br> qulity of motorcycle also you can sell here your motorcycle it
+                                quo to</p>
                             <div class="timer">
                                 <div data-countdown="2021/12/10"></div>
                             </div>

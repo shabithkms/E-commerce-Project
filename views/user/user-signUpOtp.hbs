@@ -1,9 +1,23 @@
 <div class="container height-100 d-flex justify-content-center align-items-center">
     <div class="position-relative">
         <form action="/signup/otp" method="post">
+            {{#if otpErr}}
+            <div class="alert alert-danger" role="alert">
+                The server is busy
+            </div>
+            {{/if}}
+            {{#if maxOtp}}
+            <div class="alert alert-danger" role="alert">
+                The server is busy
+            </div>
+            {{/if}}
+            {{#if invalidOtp}}
+            <div class="alert alert-danger" role="alert">
+                Invalid OTP
+            </div>
+            {{/if}}
             <div class="card p-2 text-center" style="height: fit-content;">
                 <h6>Please enter the one time password <br> to verify your account</h6>
-
                 <div id="otp" class="inputs d-flex flex-row justify-content-center mt-2">
 
                     <input type="text" style="display: none;" value="" name="mobiileNo">
@@ -20,27 +34,11 @@
                     </a>
                 </div>
                 <div class="mt-4">
-                    {{#if otpErr}}
-                    <div class="alert alert-danger" role="alert">
-                        The server is busy
-                    </div>
-                    {{/if}}
-                    {{#if maxOtp}}
-                    <div class="alert alert-danger" role="alert">
-                        The server is busy
-                    </div>
-                    {{/if}}
-                    {{#if invalidOtp}}
-                    <div class="alert alert-danger" role="alert">
-                        Invalid OTP
-                    </div>
-                    {{/if}}
                     <button type="submit" class="btn mb-3   validate">Verify</button>
                 </div>
             </div>
             <div class="content d-flex justify-content-center align-items-center">
-
-                <a href="/login" class="text-decoration-none ms-3 mt-3" style="font-size: 12px;">Back to login</a>
+                <a href="/signup" class="text-decoration-none ms-3 mt-3" style="font-size: 12px;">Back to signup</a>
             </div>
         </form>
     </div>

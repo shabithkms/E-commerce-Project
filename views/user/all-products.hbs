@@ -49,12 +49,19 @@
                                 <span>{{this.category}}</span>
                             </div>
                             <div class="product-price">
-                                <span><del><span class=money>₹{{this.price}}</span></del></span>
+                                <span class="price--sale"><span class=money>₹ {{this.cost}}</span></span>
+                                <span><del><span class=money>₹ {{this.price}}</span></del></span>
+
                             </div>
                             <div class="product-categori">
+
+                                {{#if this.stockout}}
+                                <span class="text-danger">Out of stock</span>
+                                {{else}}
                                 <button class="add_cart btn btn-light cart-item "
                                     style="width: 130px; border: 1px solid black !important;"
                                     onclick="addToCart('{{this._id}}','{{this.stock}}')" title="Add to cart">
+
                                     <i class="ion-bag"></i>
                                     <i class="ion-ios-loop-strong animated rotateIn infinite"></i>
                                     <i class="ion-android-done"></i> Add to Cart
@@ -67,6 +74,7 @@
                                     <i class="ion-ios-loop-strong animated rotateIn infinite"></i>
                                     <i class="ion-android-done"></i> Buy Now
                                 </a>
+                                {{/if}}
                             </div>
                         </div>
                     </div>

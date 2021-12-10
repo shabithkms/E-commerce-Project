@@ -179,7 +179,7 @@
                                                         <table class="table borderless">
                                                             <tr>
                                                                 <th>Total</th>
-                                                                <td id="total">{{total}}<span>.00</span></td>
+                                                                <td id="">₹<span id="total">{{total}}</span><span>.00</span></td>
                                                             </tr>
                                                             <tr>
                                                                 <th id="discountLabel" style="display: none;">Coupon
@@ -191,7 +191,7 @@
                                                             </tr>
                                                             <tr>
                                                                 <th id="newTotal" style="display: none;">New Total</th>
-                                                                <td id="totalOriginal" style="display: none;">{{total}}
+                                                                <td id="tdTotal" style="display: none;">₹<span id="totalOriginal" style="display: none;">{{total}}</span>
                                                                 </td>
                                                             </tr>
                                                         </table>
@@ -284,6 +284,7 @@
                     $('#discountLabel').show()
                     $('#discounttd').show()
                     $('#newTotal').show()
+                    $('#tdTotal').show()
                     $('#totalOriginal').show()
 
                     document.getElementById('totalOriginal').innerHTML = response.total

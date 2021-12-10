@@ -1,17 +1,15 @@
 $(document).ready(function () {
-    $('#signup').validate({
+    $('#user-signup').validate({
         rules: {
             firstName: {
                 required: true,
                 minlength: 4,
                 maxlength: 20
-
             },
             lastName: {
                 required: true,
                 minlength: 4,
                 maxlength: 15
-
             },
             mobileNo: {
                 required: true,
@@ -24,13 +22,9 @@ $(document).ready(function () {
                 email: true
             },
             password: {
-                minlength: 4,
+                minlength: 5,
                 required: true,
-
             }
-
-
-
         },
         messages: {
             firstName: {
@@ -56,39 +50,30 @@ $(document).ready(function () {
             },
             password: {
                 required: "Enter a password",
-                minlength: "Password must be in 4-20 characters"
+                minlength: "Password must be in 5-20 characters"
             }
         }
     })
-
 })
-
 
 $(document).ready(function () {
     $('#setPassword').validate({
         rules: {
             password1: {
                 required: true,
-                minlength: 4,
+                minlength: 5,
                 maxlength: 20
 
             },
             password2: {
                 required: true,
-                minlength: 4,
-                maxlength: 20,
-                
-
+                minlength: 5,
+                maxlength: 20,        
 
             }
-
-
-
         }
-
     })
 })
-
 
 jQuery(function ($) {
 
@@ -120,10 +105,6 @@ jQuery(function ($) {
     $("#show-sidebar").click(function () {
         $(".page-wrapper").addClass("toggled");
     });
-
-
-
-
 });
 
 $(document).ready(function () {
@@ -170,14 +151,8 @@ $(document).ready(function () {
                 required: true,
                 email: true
             }
-
-
-
-
-        },
-        
+        },        
     })
-
 })
 
 $(document).ready(function () {
@@ -199,15 +174,9 @@ $(document).ready(function () {
                 minlength:5,
                 maxlength:20
             }
-
-
-
         }
-
     })
 })
-
-
 $(document).ready(function () {
     $('#profile').validate({
         rules: {
@@ -232,10 +201,6 @@ $(document).ready(function () {
                 email:true,
                 required:true
             },
-
-
-
         }
-
     })
 })

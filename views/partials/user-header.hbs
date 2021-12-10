@@ -29,8 +29,13 @@
                                                 <li><a href="/products/{{this.name}}">{{this.name}}</a></li>
                                                 {{/each}}
                                             </ul>
-                                        <li class="megamenuu image-menu">
-                                            <a href="/"><img src="images/watchImages/curren.jpg" alt="" /></a>
+                                        </li>
+                                        <li class="megamenus"><a class="title" href="">Categories</a>
+                                            <ul class="mega__item">
+                                                {{#each homeCategory}}
+                                                <li><a href="/categoryProducts/{{this.category}}">{{this.category}}</a></li>
+                                                {{/each}}
+                                            </ul>
                                         </li>
                                     </ul>
                                 </li>

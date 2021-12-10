@@ -586,7 +586,7 @@ module.exports = {
     },
     //Buy Now section
     getBuyNowProduct: (proId) => {
-        return new Promise(async (resolve, reject) => {
+        return new Promise(async (resolve, reject) => { 
             let proObj = {
                 item: objectId(proId),
                 quantity: 1
@@ -850,10 +850,10 @@ module.exports = {
     startCategoryOffers: (date) => {
         let startDateIso = new Date(date);
         return new Promise(async (resolve, reject) => {
-            let data = await db.get().collection(collections.CATEGORYOFFER_DETAILS_COLLECTION).find({ startDateIso: { $lte: startDateIso } }).toArray();
+            let data = await db.get().collection(collection.CATEGORY_OFFERS).find({ startDateIso: { $lte: startDateIso } }).toArray();
             if (data.length > 0) {
                 await data.map(async (onedata) => {
-                    let productsForoffer = await db.get().collection(collections.PRODUCTS_DETAILS_COLLECTION).find({ category: onedata.category, offer: { $exists: false } }).toArray();
+                    let productsForoffer = await db.get().collection(collection.PRODUCTS_DETAILS_COLLECTION).find({ category: onedata.category, offer: { $exists: false } }).toArray();
                     await productsForoffer.map(async (product) => {
                         let price = product.landingprice;
                         let offer = (price / 100) * onedata.discountpercentage;
@@ -945,6 +945,14 @@ module.exports = {
             let products = await db.get().collection(collection.PRODUCT_COLLECTION).find().sort({ $natural: -1 }).limit(6).toArray()
 
             resolve(products)
+        })
+    },
+    getHomeCategories: () => {
+        return new Promise(async (resolve, reject) => {
+            let category = await db.get().collection(collection.CATEGORY_COLLECTION).find().sort({ $natural: -1 }).limit(6).toArray()
+            console.log(category);
+
+            resolve(category)
         })
     },
     //All products
