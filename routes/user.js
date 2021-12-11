@@ -747,8 +747,8 @@ router.post('/place-order', async (req, res) => {
         "payment_method": "paypal"
       },
       "redirect_urls": {
-        "return_url": "https://watchin.site/success",
-        "cancel_url": "https://watchin.site/cancelled"
+        "return_url": "https://localhost:3000/success",
+        "cancel_url": "https://localhost:3000/cancelled"
       },
       "transactions": [{
         "item_list": {
@@ -884,8 +884,8 @@ router.post('/buyNow', async (req, res) => {
           "payment_method": "paypal"
         },
         "redirect_urls": {
-          "return_url": "https://watchin.site/buyNowSuccess",
-          "cancel_url": "https://watchin.site/buyNowCancelled"
+          "return_url": "http://localhost:3000/buyNowSuccess",
+          "cancel_url": "http://localhost:3000/buyNowCancelled"
         },
         "transactions": [{
           "item_list": {
@@ -1099,7 +1099,7 @@ router.get('/buyNowCancelled', verifyUserLogin, async (req, res) => {
     let Id = req.session.user._id
     cartCount = await userHelper.getCartCount(Id)
   }
-  res.render('user/cancel', { user, brand, homeCategory, homePro, cartCount })
+  res.render('user/buyNow-cancel', { user, brand, homeCategory, homePro, cartCount })
 })
 router.get('/cancelled', verifyUserLogin, async (req, res) => {
   let user = req.session.user
@@ -1128,6 +1128,30 @@ router.get('/addNewAddress', verifyUserLogin, async (req, res) => {
 router.post('/addNewAddress', (req, res) => {
   userHelper.addNewAddress(req.body).then((response) => {
     res.redirect('/checkout')
+  })
+})
+
+router.get('/addNewAddress-buyNow', verifyUserLogin, async (req, res) => {
+  console.log("session product",req.session.proId );
+  let pId=req.session.proId
+  let cartCount = null
+  let brand = await userHelper.getBrands()
+  let homePro = await userHelper.getHomeProducts() 
+  let homeCategory = await userHelper.getHomeCategories()
+  if (req.session.user) {
+    let Id = req.session.user._id
+    cartCount = await userHelper.getCartCount(Id)
+  }
+  let user = req.session.user
+  res.render('user/addNewAddress-BuyNow', { user, homeCategory, brand, homePro,pId, cartCount })
+})
+router.post('/addNewAddress-buyNow', (req, res) => {
+  console.log(req.body);
+  let pId=req.body.pId
+  console.log(pId);
+  let url=`buyNow/${pId}`
+  userHelper.addNewAddress(req.body).then((response) => {
+    res.redirect(url)
   })
 })
 

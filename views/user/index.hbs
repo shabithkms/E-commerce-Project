@@ -96,13 +96,13 @@
                                                 </div>
                                                 <div class="product-price">
 
-                                                    {{#if product.proOffer}}
+                                                    {{#if this.proOffer}}
                                                     <div class="product-price">
                                                         <span id="ProductPrice"><span
-                                                                class=money>₹{{product.price}}</span></span>
+                                                                class=money>₹{{this.price}}</span></span>
 
                                                         <del><span id="ComparePrice"><span
-                                                                    class=money>₹{{product.actualPrice}}</span></span></del>
+                                                                    class=money>₹{{this.actualPrice}}</span></span></del>
 
                                                     </div>
                                                     {{else}}
@@ -121,8 +121,6 @@
                                                     <div class="product-price">
                                                         <span id="ProductPrice"><span
                                                                 class=money>₹{{this.price}}</span></span>
-
-
                                                     </div>
                                                     {{/if}}
                                                     {{/if}}

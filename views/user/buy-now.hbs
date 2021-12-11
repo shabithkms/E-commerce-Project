@@ -25,7 +25,7 @@
 <div class="checkout-area pt-3 pb-5">
     <div class="container">
         <h3> Saved Address</h3>
-        <div class="row">
+        <div class="row p-4">
             {{#each address}}
             <div class="col-md-3 mt-5 alert border-warning mr-2 card" style="cursor: pointer;">
                 <div class="col-md-12" onclick="">
@@ -41,11 +41,11 @@
             </div>
             {{/each}}
             <div class="col-md-2 pt-5">
-                <a href="/addNewAddress" class="btn btn-warning "
+                <a href="/addNewAddress-buyNow" class="btn btn-warning "
                     style="text-decoration: none;width:100%;margin-top:30px;">Add New Address</a>
             </div>
         </div>
-        <div class="row">
+        <div class="row p-4">
             <div class="billing-info-wrap mt-3">
                 <h3>Billing Details</h3>
                 <form action="" id="buyNow-form" class="mt-3" method="POST">
@@ -104,13 +104,13 @@
                                 <div class="col-lg-12 mt-md-30px mt-lm-30px ">
                                     <div class="your-order-area">
                                         <h3>Your order</h3>
-                                        <div class="your-order-wrap gray-bg-4 pl-4 pr-4 pb-4"
+                                        <div class="your-order-wrap gray-bg-4 p-3"
                                             style="border: 1px solid black;">
                                             <div class="your-order-product-info">
                                                 <div class="your-order-top">
                                                     <ul>
                                                         <li>
-                                                            <h4 class="p-3"> Item</h4>
+                                                            <h4 class="p-3"> Items</h4>
                                                         </li>
                                                     </ul>
                                                 </div>
