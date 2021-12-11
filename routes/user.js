@@ -22,7 +22,7 @@ const client = require('twilio')(accountSID, authToken)
 
 //Paypal Configuration
 paypal.configure({
-  'mode': 'sandbox', //sandbox or live
+  'mode': 'sandbox', //sandbox or live 
   'client_id': process.env.CLIENT,
   'client_secret': process.env.SECRET
 });

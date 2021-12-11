@@ -8,7 +8,7 @@ $(document).ready(function () {
             },
             lastName: {
                 required: true,
-                minlength: 4,
+                minlength: 1,
                 maxlength: 15
             },
             mobileNo: {
@@ -35,7 +35,7 @@ $(document).ready(function () {
             },
             lastName: {
                 required: "Enter your lastname",
-                minlength: "Enter minimum 4 characters",
+                minlength: "Enter minimum a character",
                 maxlength: "Enter maximum 15 characters"
 
             },

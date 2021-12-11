@@ -34,7 +34,6 @@ function addToCart(proId, stock) {
                     location.reload()
                 }
             } else if (response.exist) {
-                console.log(response)
                 Toast.fire({
                     icon: 'warning',
                     title: 'item already in cart'
@@ -46,31 +45,24 @@ function addToCart(proId, stock) {
     })
 }
 //Add to wishlist
-function addToWishlist(proId) {
-
+function addToWishlist(proId,e) {
+    e.preventDefault()
     $.ajax({
         url: '/add-to-wishlist/' + proId,
         method: 'get',
         success: (response) => {
-            console.log(response)
             if (response.pulled) {
                 Toast.fire({
                     icon: 'error',
                     title: 'item removed from Wishlist'
-                }).then(() => {
-
                 })
 
             } else if (response.status) {
-                console.log(response)
                 location.replace('/login')
             } else {
-
                 Toast.fire({
                     icon: 'success',
                     title: 'item added to Wishlist'
-                }).then(() => {
-
                 })
             }
         }
