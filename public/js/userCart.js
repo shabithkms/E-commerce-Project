@@ -14,7 +14,7 @@ $('#checkout-form').submit((e) => {
                 razorpayPayment(response.resp)
                 console.log(response)
             } else {
-                location.href = response.url 
+                location.href = response.url
             }
         }
     })
@@ -222,7 +222,8 @@ function changeQuantity(cartId, proId, stock, userId, count) {
         swal.fire('Maximum stock limit')
     } else {
 
-
+        document.getElementById(proId + "a").disabled = true
+        document.getElementById(proId).disabled = true
         $.ajax({
             url: '/change-product-quantity',
             data: {
@@ -234,13 +235,15 @@ function changeQuantity(cartId, proId, stock, userId, count) {
             },
             method: 'post',
             success: (response) => {
-                if (response.lastProduct) {
 
+                if (response.lastProduct) {
+                    document.getElementById(proId).disabled = false 
                     document.getElementById(proId + "a").disabled = true
 
                 } else {
                     document.getElementById(proId).innerHTML = quantity + count
                     document.getElementById(proId + "a").disabled = false
+                    document.getElementById(proId).disabled = false 
                     console.log(response)
                     document.getElementById('total1').innerHTML = response.total
                     document.getElementById('total2').innerHTML = response.total

@@ -6,6 +6,9 @@
         font-size: 150%;
     }
 
+    .category_block li:hover {
+        background-color: #a8741a;
+    }
 
     .card-header {
         background-color: #a8741a;
@@ -72,29 +75,23 @@
 
 
 <div class="container mt-5">
-    <h3>{{brandName}}</h3>
-
     <div class="row">
         <div class="col-12 col-sm-3">
             <div class="card bg-light mb-3">
-                <div class="card-header  text-white text-uppercase"><i class="fa fa-list"></i>Brands
+                <div class="card-header  text-white text-uppercase"><i class="fa fa-list"></i> Categories
                 </div>
                 <ul class="list-group category_block">
-                    {{#each allBrands}}
-                    <a href="/brandProducts/{{this.brand}}">
-                        <li class="list-group-item">{{this.brand}}</li>
-                    </a>
+                    {{#each category}}
+                    <li class="list-group-item"><a href="/categoryProducts/{{this.category}}">{{this.category}}</a></li>
                     {{/each}}
                 </ul>
             </div>
-        </div>
-
-        <div class="col-12 col-sm-9">
-
+            
+        <div class="col">
             <div class="row">
                 <div class="rhs_product_tab rhs_match_height">
                     {{#each product}}
-                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-xs-12 mt-3 mb-2">
+                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-xs-12 mt-3 mb-2">
                         <div class="single-product mb-35">
                             <div class="product-img">
                                 <a href="/product/{{this._id}}">
@@ -119,31 +116,8 @@
                                         <span>{{this.category}}</span>
                                     </div>
                                     <div class="product-price">
-                                        {{#if this.proOffer}}
-                                        <div class="product-price">
-                                            <span id="ProductPrice"><span class=money>₹{{this.price}}</span></span>
-
-                                            <del><span id="ComparePrice"><span
-                                                        class=money>₹{{this.actualPrice}}</span></span></del>
-
-                                        </div>
-                                        {{else}}
-                                        {{#if this.catOffer}}
-                                        <div class="product-price">
-                                            <span id="price--sale"><span class=money>₹{{this.price}}</span></span>
-
-                                            <del><span id="ComparePrice"><span
-                                                        class=money>₹{{this.actualPrice}}</span></span></del>
-
-                                        </div>
-                                        {{else}}
-
-
-                                        <div class="product-price">
-                                            <span id="ProductPrice"><span class=money>₹{{this.price}}</span></span>
-                                        </div>
-                                        {{/if}}
-                                        {{/if}}
+                                        <span><del><span class=money>₹{{this.price}}</span></del></span>
+                                        <span class="price--sale"><span class=money>₹{{this.cost}}</span></span>
                                     </div>
                                     <div class="product-categori">
                                         {{#if this.stockout}}

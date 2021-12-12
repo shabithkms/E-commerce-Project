@@ -775,6 +775,13 @@ module.exports = {
                 })
         })
     },
+    getOrderDetails:(id)=>{
+        return new Promise(async(resolve,reject)=>{
+            let order=await db.get().collection(collection.ORDER_COLLECTION).findOne({_id:objectId(id)})
+            resolve(order)
+            console.log(order);
+        })
+    },
     //Get user order with user id for my order section
     getUserOrders: (Id) => {
         return new Promise(async (resolve, reject) => {
@@ -950,7 +957,7 @@ module.exports = {
     },
     getHomeCategories: () => {
         return new Promise(async (resolve, reject) => {
-            let category = await db.get().collection(collection.CATEGORY_COLLECTION).find().sort({ $natural: -1 }).limit(6).toArray()
+            let category = await db.get().collection(collection.CATEGORY_COLLECTION).find().limit(6).toArray()
             console.log(category);
 
             resolve(category)

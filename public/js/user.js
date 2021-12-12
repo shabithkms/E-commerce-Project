@@ -1,3 +1,7 @@
+//Invoice table
+$('#invoice tbody tr').each(function (idx) {
+    $(this).children("td:eq(0)").html(idx + 1);
+});
 //Swal toast main function
 
 const Toast = Swal.mixin({

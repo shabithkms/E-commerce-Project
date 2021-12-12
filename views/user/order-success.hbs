@@ -10,12 +10,13 @@
                     <div class="alert bg-light border-secondary mt-5">
                         <p class="display-4 text-center">Thankyou For Shopping With Us</p>
                         <p class="display-5 text-center">Your Order has been Successfully Placed</p>
-                        <h5 class="text-center"> {{orderId}}</h5>
+                        {{!-- <h5 class="text-center"> {{orderId}}</h5> --}}
                     </div>
                 </div>
                 <div class="col-md-12 text-center">
                     <a class="btn btn-secondary" style="" href="/myOrders">My Orders</a>
-                    <a class="btn btn-primary" style="" href="/">Go to Home</a>
+                    <a class="btn btn-primary" style="" href="/">Go to Home</a>                    
+                    <a class="btn btn-secondary" style="" href="/invoice/{{orderId}}">Get Invoice</a>
                 </div>
             </div>
         </div>
