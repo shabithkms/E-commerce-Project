@@ -23,6 +23,7 @@ $(document).ready(function () {
             },
             password: {
                 minlength: 5,
+                maxlength:20,
                 required: true,
             }
         },
@@ -218,4 +219,52 @@ $(document).ready(function () {
             return false;
         }
     })
+})
+
+//User Login
+
+$(document).ready(function () {
+    $('#userLogin').validate({
+        rules: {
+            mobileNo: {
+                required: true,
+                number: true,
+                minlength: 10,
+                maxlength: 10,
+            },
+            password: {
+                minlength: 5,
+                required: true,
+                maxlength: 20
+            },
+            otp: {
+
+                required: true,
+                number: true
+            }
+
+
+
+        },
+        messages: {
+            mobileNo: {
+                required: "Enter a mobile number",
+                number: "Enter a valid mobile number",
+                minlength: "Enter 10 numbers",
+                maxlength: "Enter without country code"
+            },
+            password: {
+
+                required: "Enter a password",
+                minlength: "Password must be in 4-20 characters",
+                maxlength: "Password must be in 4-20 characters"
+            },
+            otp: {
+                required: "Enter a OTP",
+                number: "Enter a valid OTP"
+
+            }
+        }
+    })
+
 })

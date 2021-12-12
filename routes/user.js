@@ -541,7 +541,7 @@ router.get('/brandProducts/:brand', async (req, res) => {
   res.render('user/brand-products', { homeCategory, userPage: true, brand, user, brandName, cartCount, homePro, product })
 })
 //Products by category
-router.get('/categoryProducts/:category', async (req, res) => {
+router.get('/category/:category', async (req, res) => {
   let category = req.params.category
 
   let user = req.session.user

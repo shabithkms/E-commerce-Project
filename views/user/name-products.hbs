@@ -135,7 +135,7 @@
                             </div>
                             {{else}}
                             <div class="details-price">
-                                <span id="ProductPrice"><span class=money>₹{{product.price}}</span></span>
+                                <span id="ProductPrice"><span class=money>₹{{product.price}}</span></span> 
 
 
                             </div>
@@ -150,6 +150,16 @@
                                 <strong><span class="sale mb-3">{{product.proPercentage}}% OFF</strong> for this
                                 Product</span>
                             </div>
+                            {{else}}
+                            {{#if product.catOffer}}
+                            <div>
+                                <strong><span class="sale mb-3">{{product.catPercentage}}% OFF</strong> for
+                                {{product.category}}
+                                Category</span>
+                            </div>
+                            {{else}}
+
+                            {{/if}}
                             {{/if}}
                         </div>
                         <p>A watch is a portable timepiece intended to be carried or worn by a person. ... During most

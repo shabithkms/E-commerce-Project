@@ -50,7 +50,7 @@
     }
 
     @media only screen and (max-width: 1000px) {
-        .glass{
+        .glass {
             display: none;
         }
     }
@@ -141,19 +141,22 @@
                         {{/if}}
                         {{/if}}
                         <div>
+                            
                             {{#if product.proOffer}}
                             <div>
                                 <strong><span class="sale mb-3">{{product.proPercentage}}% OFF</strong> for this
                                 Product</span>
                             </div>
-                            {{/if}}
-
+                            {{else}}
                             {{#if product.catOffer}}
                             <div>
                                 <strong><span class="sale mb-3">{{product.catPercentage}}% OFF</strong> for
                                 {{product.category}}
                                 Category</span>
                             </div>
+                            {{else}}
+                            
+                            {{/if}}
                             {{/if}}
                         </div>
                         <br>
@@ -193,8 +196,14 @@
                         </form>
                         <div class="product-categories product-cat-tag">
                             <ul>
+                                <li class="categories-title">Brand :</li>
+                                <a href="/brandProducts/{{product.brand}}">
+                                    <li>{{product.brand}}</li>
+                                </a> <br>
                                 <li class="categories-title">Category :</li>
-                                <li><a>{{product.category}}</a></li> <br>
+                                <a href="/category/{{product.category}}">
+                                    <li>{{product.category}}</li>
+                                </a> <br>
                                 <li>100% Original Products</li> <br>
                                 <li>Cash on delivery might be available</li>
                             </ul>
@@ -262,6 +271,7 @@
                         <div class="product-cart-categori">
 
                             <div class="product-cart">
+
                                 <span>{{this.category}}</span>
                             </div>
 

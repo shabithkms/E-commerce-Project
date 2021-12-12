@@ -50,11 +50,12 @@
                                 <span>{{this.category}}</span>
                             </div>
                             <div class="product-price">
-                                {{!-- {{#if this.proOffer}}
+                                {{#if this.proOffer}}
                                 <div class="product-price">
-                                    <span class="price--sale"><span class=money>₹ {{this.price}}</span></span>
+                                    <span id="ProductPrice"><span class=money>₹{{this.price}}</span></span>
 
-                                   <span class="price--sale"><span class=money>₹ {{this.actualPrice}}</span></span>
+                                    <del><span id="ComparePrice"><span
+                                                class=money>₹{{this.actualPrice}}</span></span></del>
 
                                 </div>
                                 {{else}}
@@ -73,9 +74,7 @@
                                     <span id="ProductPrice"><span class=money>₹{{this.price}}</span></span>
                                 </div>
                                 {{/if}}
-                                {{/if}} --}}
-                                <span class="price--sale"><span class=money>₹ {{this.cost}}</span></span>
-                                <span><del><span class=money>₹ {{this.price}}</span></del></span>
+                                {{/if}}
 
                             </div>
                             <div class="product-categori">
