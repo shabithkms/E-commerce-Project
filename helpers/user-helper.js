@@ -62,13 +62,14 @@ module.exports = {
     },
     //Edit profile of user
     updateProfile: (id, newData) => {
-        return new Promise((resolve, reject) => {
+        return new Promise(async(resolve, reject) => {
+            let user =await db.get().collection(collection.USER_COLLECTION).findOne({_id:objectId(id)})
+            console.log(user);
             let newf = newData.firstname
             let newl = newData.lastname
             let newm = newData.mobile
             let newe = newData.email
             let len = newm.length
-            console.log(len);
             if (len == 10) {
                 newm = `+91${newm}`
             }

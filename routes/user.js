@@ -1208,6 +1208,8 @@ router.get('/profile', verifyUserLogin, async (req, res) => {
   let homePro = await userHelper.getHomeProducts()
   let homeCategory = await userHelper.getHomeCategories()
   let user = await adminHelpers.getUserdetails(id)
+  let no=user.mobileNo
+  user.mobileNo=no.slice(3,13)
   let cartCount = null
   if (req.session.user) {
     let Id = req.session.user._id
@@ -1223,6 +1225,7 @@ router.get('/profile', verifyUserLogin, async (req, res) => {
   }
   res.render('user/my-profile', { homeCategory, user,userPage:true, brand, homePro, address, cartCount })
 })
+
 //Edit in my profile
 router.post('/edit-profile', (req, res) => {
   let id = req.session.user._id

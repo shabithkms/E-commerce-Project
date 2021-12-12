@@ -68,7 +68,7 @@ $(document).ready(function () {
             password2: {
                 required: true,
                 minlength: 5,
-                maxlength: 20,        
+                maxlength: 20,
 
             }
         }
@@ -122,24 +122,24 @@ $(document).ready(function () {
                 maxlength: 15
 
             },
-            House:{
-                required:true,
-                minlength:10,
-                maxlength:50
+            House: {
+                required: true,
+                minlength: 10,
+                maxlength: 50
             },
-            Street:{
-                required:true,
-                minlength:5
+            Street: {
+                required: true,
+                minlength: 5
             },
-            Town:{
-                required:true,
-                minlength:5
+            Town: {
+                required: true,
+                minlength: 5
             },
-            PIN:{
-                required:true,
-                number:true,
-                minlength:6,
-                maxlength:6
+            PIN: {
+                required: true,
+                number: true,
+                minlength: 6,
+                maxlength: 6
             },
             Mobile: {
                 required: true,
@@ -151,7 +151,7 @@ $(document).ready(function () {
                 required: true,
                 email: true
             }
-        },        
+        },
     })
 })
 
@@ -169,16 +169,16 @@ $(document).ready(function () {
                 minlength: 5,
                 maxlength: 20,
             },
-            current:{
-                required:true,
-                minlength:5,
-                maxlength:20
+            current: {
+                required: true,
+                minlength: 5,
+                maxlength: 20
             }
         }
     })
 })
 $(document).ready(function () {
-    $('#profile').validate({
+    $('#edit-profile').validate({
         rules: {
             firstname: {
                 required: true,
@@ -188,19 +188,34 @@ $(document).ready(function () {
             },
             lastname: {
                 required: true,
-                minlength: 5,
+                minlength: 1,
                 maxlength: 20,
             },
-            mobileNo:{
-                required:true,
-                number:true,
-                minlength:5,
-                maxlength:20
+            mobile: {
+                required: true,
+                number: true,
+                minlength: 10,
+                maxlength: 10
             },
-            email:{
-                email:true,
-                required:true
+            email: {
+                email: true,
+                required: true
             },
+        },
+        submitHandler: function submitFormProfile(form) {
+            console.log(form)
+            swal({
+                title: "Are you sure?",
+                text: "This form will be submitted",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            }).then((isOkay) => {
+                if (isOkay) {
+                    form.submit();
+                }
+            });
+            return false;
         }
     })
 })

@@ -190,6 +190,7 @@ $(function () {
     if (ui.magniflier.length) {
         var div = document.createElement('div');
         div.setAttribute('class', 'glass');
+        div.setAttribute('id', 'zoom');
         ui.glass = $(div);
 
         $('body').append(div);
