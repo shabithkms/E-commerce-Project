@@ -12,13 +12,13 @@ module.exports = {
     doAdminLogin: (adminData) => {
         return new Promise(async (resolve, reject) => {
             console.log(adminData);
+            let admin=adminData.email 
             let password = adminData.password
             let loginStatus = false
-            let response = {}
-            let admin = await db.get().collection(collection.ADMIN_COLLECTION).findOne({ email: adminData.email })
-            if (admin) {
+            let response = {} 
+            if (process.env.adminEmail===admin) {
                 response.adminStatus = true
-                if (admin.password === password) {
+                if (process.env.adminPwd === password) {
                     console.log("Login success");
                     response.admin = admin
                     response.status = true
