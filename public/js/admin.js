@@ -93,7 +93,7 @@ function fileValidation() {
                 document.getElementById('image-box').style.display = 'none'
                 document.getElementById('crop-btn').style.display = 'none'
                 document.getElementById('confirm-btn').style.display = 'block'
-            });
+            },'image/webp',0.5);
         });
     }
 }
@@ -149,7 +149,7 @@ function fileValidation1() {
                 document.getElementById('image-box1').style.display = 'none'
                 document.getElementById('crop-btn1').style.display = 'none'
                 document.getElementById('confirm-btn1').style.display = 'block'
-            });
+            },'image/webp',0.5);
         });
     }
 }
@@ -204,7 +204,7 @@ function fileValidation2() {
                 document.getElementById('image-box1').style.display = 'none'
                 document.getElementById('crop-btn1').style.display = 'none'
                 document.getElementById('confirm-btn1').style.display = 'block'
-            });
+            },'image/webp',0.5);
         });
     }
 }
@@ -259,7 +259,7 @@ function fileValidation3() {
                 document.getElementById('image-box1').style.display = 'none'
                 document.getElementById('crop-btn1').style.display = 'none'
                 document.getElementById('confirm-btn1').style.display = 'block'
-            });
+            },'image/webp',0.5);
         });
     }
 }
@@ -314,7 +314,7 @@ function fileValidation4() {
                 document.getElementById('image-box1').style.display = 'none'
                 document.getElementById('crop-btn1').style.display = 'none'
                 document.getElementById('confirm-btn1').style.display = 'block'
-            });
+            },'image/webp',0.5);
         });
     }
 }
