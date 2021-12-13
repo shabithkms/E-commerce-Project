@@ -20,7 +20,7 @@ module.exports = {
                 response.adminStatus = true
                 if (process.env.adminPwd === password) {
                     console.log("Login success");
-                    response.admin = admin
+                    response.admin = adminData
                     response.status = true
                     resolve(response)
                 } else {
