@@ -767,8 +767,8 @@ router.post('/place-order', async (req, res) => {
         "payment_method": "paypal"
       },
       "redirect_urls": {
-        "return_url": "https://watchin.site/success",
-        "cancel_url": "https://watchin.site/cancelled"
+        "return_url": "https://shabith.ml/success",
+        "cancel_url": "https://shabith.ml/cancelled"
       },
       "transactions": [{
         "item_list": {
@@ -904,8 +904,8 @@ router.post('/buyNow', async (req, res) => {
           "payment_method": "paypal"
         },
         "redirect_urls": {
-          "return_url": "https://watchin.site/buyNowSuccess",
-          "cancel_url": "https://watchin.site/buyNowCancelled"
+          "return_url": "https://shabith.ml/buyNowSuccess",
+          "cancel_url": "https://shabith.ml/buyNowCancelled"
         },
         "transactions": [{
           "item_list": {
