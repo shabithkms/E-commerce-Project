@@ -1,30 +1,32 @@
 <div class="container height-100 d-flex justify-content-center align-items-center">
     <div class="position-relative">
         <form action="/loginOtp" method="post">
-            {{#if loginErr}}
-            <div class="alert alert-danger" role="alert">
-                Invalid password
-            </div>
-            {{/if}}
-            {{#if blockErr}}
-            <div class="alert alert-danger" role="alert">
-                You are temporarily blocked by admin
-            </div>
-            {{/if}}
-            {{#if otpErr}}
-            <div class="alert alert-danger" role="alert">
-                Server is Busy
-            </div>
-            {{/if}}
-            {{#if noUser}}
-            <div class="alert alert-danger" role="alert">
-                Invalid mobile number
-            </div>
-            {{/if}}
+
             <div class="card p-2 text-center">
                 <div id="CustomerLoginForm" class="login-form">
-                    <input type="tel" name="mobileNo" id="CustomerNo" class="input-full"
-                        placeholder="Enter your number" autocorrect="off" autocapitalize="off" onkeypress="return isNumber(event)" maxlength="10" autofocus>
+                    {{#if loginErr}}
+                    <div class="alert alert-danger" role="alert">
+                        Invalid password
+                    </div>
+                    {{/if}}
+                    {{#if blockErr}}
+                    <div class="alert alert-danger" role="alert">
+                        You are temporarily blocked by admin
+                    </div>
+                    {{/if}}
+                    {{#if otpErr}}
+                    <div class="alert alert-danger" role="alert">
+                        Server is Busy
+                    </div>
+                    {{/if}}
+                    {{#if noUser}}
+                    <div class="alert alert-danger" role="alert">
+                        Invalid mobile number
+                    </div>
+                    {{/if}}
+                    <input type="tel" name="mobileNo" id="CustomerNo" class="input-full" placeholder="Enter your number"
+                        autocorrect="off" autocapitalize="off" onkeypress="return isNumber(event)" maxlength="10"
+                        autofocus>
                     <div class="button-box">
 
                         <button type="submit" class="default-btn floatright">Send OTP</button>
@@ -39,12 +41,12 @@
     </div>
 </div>
 <script>
-  function isNumber(evt) {
-    evt = (evt) ? evt : window.event;
-    var charCode = (evt.which) ? evt.which : evt.keyCode;
-    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-      return false;
+    function isNumber(evt) {
+        evt = (evt) ? evt : window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
+        }
+        return true;
     }
-    return true;
-  }
 </script>

@@ -12,11 +12,11 @@ module.exports = {
     doAdminLogin: (adminData) => {
         return new Promise(async (resolve, reject) => {
             console.log(adminData);
-            let admin=adminData.email 
+            let admin = adminData.email
             let password = adminData.password
             let loginStatus = false
-            let response = {} 
-            if (process.env.adminEmail===admin) {
+            let response = {}
+            if (process.env.adminEmail === admin) {
                 response.adminStatus = true
                 if (process.env.adminPwd === password) {
                     console.log("Login success");
@@ -311,8 +311,8 @@ module.exports = {
         let cname = data.Category
         data.Offer = parseInt(data.Offer)
         return new Promise(async (resolve, reject) => {
-            data.startDateIso= new Date(data.Starting)
-            data.endDateIso= new Date(data.Expiry)
+            data.startDateIso = new Date(data.Starting)
+            data.endDateIso = new Date(data.Expiry)
             db.get().collection(collection.CATEGORY_OFFERS).insertOne(data).then(async () => {
                 let products = await db.get().collection(collection.PRODUCT_COLLECTION).find({ category: data.Category, catOffer: { $exists: false } }).toArray()
                 await products.map(async (product) => {
@@ -390,7 +390,7 @@ module.exports = {
             } else {
                 resolve()
             }
-        }) 
+        })
     },
     //Product offers
     addProductOffer: (data) => {
@@ -400,8 +400,8 @@ module.exports = {
             let actualPrice = product.price
             let newPrice = (((product.price) * (data.Offer)) / 100)
             newPrice = newPrice.toFixed()
-            data.startDateIso= new Date(data.Starting)
-            data.endDateIso= new Date(data.Expiry)
+            data.startDateIso = new Date(data.Starting)
+            data.endDateIso = new Date(data.Expiry)
             db.get().collection(collection.PRODUCT_OFFERS).insertOne(data).then((response) => {
                 db.get().collection(collection.PRODUCT_COLLECTION).updateOne({ name: data.Product },
                     {
@@ -625,6 +625,45 @@ module.exports = {
                 noData: noData
             }
             resolve(data)
+        })
+    },
+    allProductDetails: () => { 
+        return new Promise(async (resolve, reject) => {
+            let result = await db.get().collection(collections.ORDER_COLLECTION).aggregate([
+                {
+                    $unwind: "$Products"
+                },
+                {
+                    $group: {
+                        _id: "$User",
+                        totalOrders: { "$sum": 1 },
+                        spend: { "$sum": "$Products.subtotal" },
+                        productsbuy: { "$sum": "$products.quantity" }
+                    }
+                },
+                {
+                    $lookup: {
+                        from: collections.USER_COLLECTION,
+                        localField: "_id",
+                        foreignField: "_id",
+                        as: "userData"
+                    }
+                },
+                {
+                    $project: {
+                        _id: 1, 
+                        totalOrders: 1,
+                        spend: 1,
+                        productsbuy: 1, 
+                        userdetails: { $arrayElemAt: ['$userData', 0] }
+                    }
+                }
+
+
+
+            ]).toArray();
+            console.log(result);
+            resolve(result);
         })
     },
 

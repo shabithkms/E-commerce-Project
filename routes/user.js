@@ -72,14 +72,14 @@ router.get('/', async function (req, res, next) {
   let homePro = await userHelper.getHomeProducts()
   let homeCategory = await userHelper.getHomeCategories()
   let banners = await userHelper.getAllBanners()
-  let firstBrand=await adminHelpers.getAllBrands()
-  let firstCategory=await adminHelpers.getAllCategory()
-  let firstC=firstCategory[0].category
-  let firstB=firstBrand[0].brand
+  let firstBrand = await adminHelpers.getAllBrands()
+  let firstCategory = await adminHelpers.getAllCategory()
+  let firstC = firstCategory[0].category
+  let firstB = firstBrand[0].brand
   // let result1 = await userHelper.startCategoryOffers(todayDate);
   // let result2 = await userHelper.startProductOffers(todayDate);
   // let result3 = await userHelper.startCoupenOffers(todayDate); 
-  res.render('user/index', { user, userPage: true, products, banners,firstB,firstC, brand, homePro, homeCategory, cartCount })
+  res.render('user/index', { user, userPage: true, products, banners, firstB, firstC, brand, homePro, homeCategory, cartCount })
 });
 
 //Login Page------------------------
@@ -136,8 +136,9 @@ router.get('/loginOtp', async (req, res) => {
     let brand = await userHelper.getBrands()
     let homePro = await userHelper.getHomeProducts()
     let homeCategory = await userHelper.getHomeCategories()
-    res.render('user/user-mobile', { homeCategory, otp: true, login: true, brand, homePro, "noUser": req.session.noUserMobile })
+    res.render('user/user-mobile', { homeCategory, otp: true, login: true, brand, homePro, "noUser": req.session.noUserMobile, "blockErr": req.session.blockErr })
     req.session.noUserMobile = false
+    req.session.blockErr = false
   }
 })
 
@@ -145,24 +146,32 @@ router.post('/loginOtp', (req, res) => {
   let No = req.body.mobileNo
   let no = `+91${No}`
   userHelper.getUserdetails(no).then((user) => {
-    if (user) {
-      client.verify
-        .services(serviceSID)
-        .verifications.create({
-          to: `+91${req.body.mobileNo}`,
-          channel: "sms"
-        }).then((resp) => {
-          req.session.number = resp.to
-          req.session.loginHalf = true
-          res.redirect('/login/otp')
-        }).catch((err) => {
-          req.session.otpErr = true
-          res.redirect('/login/otp')
-        })
+    if (user.status) {
+      if (user) {
+        client.verify
+          .services(serviceSID)
+          .verifications.create({
+            to: `+91${req.body.mobileNo}`,
+            channel: "sms"
+          }).then((resp) => {
+            req.session.number = resp.to
+            req.session.loginHalf = true
+            res.redirect('/login/otp')
+          }).catch((err) => {
+            req.session.otpErr = true
+            res.redirect('/login/otp')
+          })
+      } else {
+        req.session.noUserMobile = true
+        res.redirect('/loginOtp')
+      }
     } else {
-      req.session.noUserMobile = true
+      req.session.blockErr = true
+      req.session.user = null
+      req.session.userLoggedIn = false
       res.redirect('/loginOtp')
     }
+
   })
 })
 //OTP page
@@ -518,7 +527,7 @@ router.get('/products/:name', async (req, res) => {
   let product = await userHelper.getProductsByName(name)
   let homeCategory = await userHelper.getHomeCategories()
   let nameProducts = await productHelper.getRelatedProducts()
-  
+
   let cartCount = null
   if (req.session.user) {
     let Id = req.session.user._id
@@ -537,14 +546,14 @@ router.get('/brandProducts/:brand', async (req, res) => {
   let homePro = await userHelper.getHomeProducts()
   let homeCategory = await userHelper.getHomeCategories()
   let product = await userHelper.getProductsByBrand(name)
-  let allBrands=await adminHelpers.getAllBrands()
+  let allBrands = await adminHelpers.getAllBrands()
   console.log(product);
   let cartCount = null
   if (req.session.user) {
     let Id = req.session.user._id
     cartCount = await userHelper.getCartCount(Id)
   }
-  res.render('user/brand-products', { homeCategory, userPage: true, brand,allBrands, user, brandName, cartCount, homePro, product })
+  res.render('user/brand-products', { homeCategory, userPage: true, brand, allBrands, user, brandName, cartCount, homePro, product })
 })
 //Products by category
 router.get('/categoryProducts/:category', async (req, res) => {
@@ -561,7 +570,7 @@ router.get('/categoryProducts/:category', async (req, res) => {
     cartCount = await userHelper.getCartCount(Id)
   }
   category = category.toUpperCase()
-  res.render('user/category-products', { homeCategory, categories,userPage: true, brand, user, category, cartCount, homePro, product })
+  res.render('user/category-products', { homeCategory, categories, userPage: true, brand, user, category, cartCount, homePro, product })
 })
 
 router.get('/category', async (req, res) => {
@@ -580,6 +589,7 @@ router.get('/category', async (req, res) => {
 
 //Cart section starting
 router.get('/cart', verifyUserLogin, async (req, res, next) => {
+  req.session.buyNow = false 
   let id = req.session.user._id
   let products = await userHelper.getCartProducts(id)
   let user = req.session.user
@@ -826,31 +836,37 @@ router.post('/couponApply', (req, res) => {
 
 //Buynow section-------------
 router.get('/buyNow/:id', verifyUserLogin, async (req, res) => {
-  let pId = req.params.id
-  req.session.proId = pId
-  let userId = req.session.user._id
-  let user = req.session.user
-  let productDetails = await userHelper.getBuyNowProductDetails(pId)
-  let total = await userHelper.getBuyNowTotal(pId)
-  let brand = await userHelper.getBrands()
-  let homePro = await userHelper.getHomeProducts()
-  let homeCategory = await userHelper.getHomeCategories()
-  req.session.pId = pId
-  //cart count
-  let cartCount = null
-  if (req.session.user) {
-    let Id = req.session.user._id
-    cartCount = await userHelper.getCartCount(Id)
+  if (req.session.buyNow) {
+    res.redirect('/cart')
+  } else {
+    let pId = req.params.id
+    req.session.proId = pId
+    let userId = req.session.user._id
+    let user = req.session.user
+    let productDetails = await userHelper.getBuyNowProductDetails(pId)
+    let total = await userHelper.getBuyNowTotal(pId)
+    let brand = await userHelper.getBrands()
+    let homePro = await userHelper.getHomeProducts()
+    let homeCategory = await userHelper.getHomeCategories()
+    req.session.pId = pId
+    //cart count
+    let cartCount = null
+    if (req.session.user) {
+      let Id = req.session.user._id
+      cartCount = await userHelper.getCartCount(Id)
+    }
+    //get Address
+    var address = null
+    let status = await userHelper.addressChecker(req.session.user._id)
+    if (status.address) {
+      let addr = await userHelper.getUserAddress(req.session.user._id)
+      let len = addr.length
+      address = addr.slice(len - 2, len)
+    }
+
+    res.render('user/buy-now', { homeCategory, total, cart: true, pId, brand, homePro, cartCount, productDetails, address, user })
   }
-  //get Address
-  var address = null
-  let status = await userHelper.addressChecker(req.session.user._id)
-  if (status.address) {
-    let addr = await userHelper.getUserAddress(req.session.user._id)
-    let len = addr.length
-    address = addr.slice(len - 2, len)
-  }
-  res.render('user/buy-now', { homeCategory, total, cart: true, pId, brand, homePro, cartCount, productDetails, address, user })
+
 })
 
 
@@ -877,6 +893,7 @@ router.post('/buyNow', async (req, res) => {
         let orderId = req.session.orderId
         userHelper.stockChanger(req.session.orderId).then(() => {
           req.session.ordered = true
+          req.session.buyNow = true
           res.json({ codSuccess: true })
         })
       })
@@ -986,6 +1003,7 @@ router.get('/buyNowSuccess', verifyUserLogin, (req, res) => {
           let user = req.session.user
           console.log("cart cleared");
           res.render('user/order-success', { user })
+          req.session.buyNow = true
           req.session.buyNowData = null
         })
       })
@@ -1031,6 +1049,7 @@ router.get('/success', verifyUserLogin, (req, res) => {
             let user = req.session.user
             console.log("cart cleared");
             res.render('user/order-success', { user })
+            req.session.buyNow = true
             req.session.placeOrderData = null
           })
         })
@@ -1059,6 +1078,7 @@ router.post('/verify-buyNowPayment', (req, res) => {
         console.log("cart cleared");
         req.session.buyNowData = null
         res.json({ status: true })
+        req.session.buyNow = true
       })
     })
   }).catch((err) => {
@@ -1087,6 +1107,7 @@ router.post('/verify-payment', (req, res) => {
           console.log("cart cleared");
           res.json({ status: true })
           req.session.placeOrderData = null
+          req.session.buyNow = true
         })
       }).catch((err) => {
         console.log("failed");
@@ -1124,7 +1145,7 @@ router.get('/invoice/:oId', verifyUserLogin, async (req, res) => {
     let Id = req.session.user._id
     cartCount = await userHelper.getCartCount(Id)
   }
-  res.render('user/invoice', { order, orderProducts ,user,cartCount,brand,homePro,homeCategory})
+  res.render('user/invoice', { order, orderProducts, user, cartCount, brand, homePro, homeCategory })
 })
 //Buy now cancel section
 router.get('/buyNowCancelled', verifyUserLogin, async (req, res) => {

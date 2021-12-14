@@ -81,7 +81,7 @@
                                 <input type="file" name="image1" id="file1" class="form-control"
                                     onchange="return fileValidation1()">
                             </div>
-                            
+
                             <div class="mt-5 col-md-6">
                                 <label for="">IMAGE 2</label>
                                 <img src="/productImages/{{product._id}}b.jpg" alt="" style="width: 100px; height:auto"
@@ -102,7 +102,7 @@
                                     id="imgview4">
                                 <input type="file" name="image4" id="file4" class="form-control"
                                     onchange="return fileValidation4()">
-                            </div>                            
+                            </div>
                         </div>
                         <center>
                             <button id="confirm-btn1" type="submit" class="btn btn-primary mt-5">Edit
@@ -123,8 +123,10 @@
         $('#landCost').change(function () {
             let cost = document.getElementById('landCost').value
             let price = document.getElementById('Price').value
-            let newPrice=parseInt(cost)+500
-            $('#Price').attr('min',newPrice)
+            alert(cost)
+            alert(price)
+            let newPrice = parseInt(cost) + 500
+            $('#Price').attr('min', newPrice)
         })
     })
 </script>

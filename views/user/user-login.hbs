@@ -24,7 +24,9 @@
                                 </div>
                                 {{/if}}
                                 {{#if blockErr}}
-
+                                <div class="alert alert-danger" role="alert">
+                                    You are temporarily blocked by admin 
+                                </div>
                                 {{/if}}
                                 {{#if otpErr}}
                                 <div class="alert alert-danger" role="alert">
@@ -32,8 +34,8 @@
                                 </div>
                                 {{/if}}
                                 <input type="tel" name="mobileNo" id="CustomerNo" class="input-full"
-                                    placeholder="Enter your number" onkeypress="return isNumber(event)" autocorrect="off" autocapitalize="off"
-                                    maxlength="10" autofocus>
+                                    placeholder="Enter your number" onkeypress="return isNumber(event)"
+                                    autocorrect="off" autocapitalize="off" maxlength="10" autofocus>
 
                                 <input type="password" value="" name="password" maxlength="20" id="CustomerPassword"
                                     class="input-full" placeholder="Password">
@@ -66,12 +68,12 @@
     </div>
 </div>
 <script>
-  function isNumber(evt) {
-    evt = (evt) ? evt : window.event;
-    var charCode = (evt.which) ? evt.which : evt.keyCode;
-    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-      return false;
+    function isNumber(evt) {
+        evt = (evt) ? evt : window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
+        }
+        return true;
     }
-    return true;
-  }
 </script>
