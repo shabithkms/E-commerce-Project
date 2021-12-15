@@ -43,7 +43,6 @@ router.post('/login', (req, res) => {
       let todayDate = new Date().toISOString().slice(0, 10);
       let result1 = await adminHelpers.startCategoryOffer(todayDate);
       let result2 = await adminHelpers.startProductOffer(todayDate);
-      // let result2 = await producthelpers.startProductOffers(todayDate);
     } else {
       if (!adminStatus) {
         req.session.noAdmin = true
@@ -407,14 +406,13 @@ router.get('/product-offers', verifyAdminLogin, async (req, res) => {
 
 router.post('/product-offers', verifyAdminLogin, (req, res) => {
   console.log(req.body);
-  adminHelpers.addProductOffer(req.body).then(() => {
+  adminHelpers.addProductOffer(req.body).then((response) => { 
     if (response.exist) {
       req.session.proOfferExist = true
       res.redirect('/admin/product-offers')
     } else {
       res.redirect('/admin/product-offers')
     }
-
   }).catch((err) => {
     if (err.code == 11000) {
       req.session.proOfferExist = true

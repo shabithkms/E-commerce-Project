@@ -101,7 +101,7 @@ router.get('/login', async (req, res) => {
 
 router.post('/login', (req, res) => {
   console.log("login");
-  userHelper.doLogin(req.body).then((response) => {
+  userHelper.doLogin(req.body).then(async (response) => {
     let userStatus = response.userStatus
     if (response.status) {
       let status = response.user.status
@@ -110,6 +110,9 @@ router.post('/login', (req, res) => {
         req.session.user = response.user
         req.session.userLoggedIn = true
         res.redirect('/')
+        let todayDate = new Date().toISOString().slice(0, 10);
+        let result1 = await adminHelpers.startCategoryOffer(todayDate);
+        let result2 = await adminHelpers.startProductOffer(todayDate);
       } else {
         req.session.blockErr = true
         req.session.user = null
@@ -203,11 +206,14 @@ router.post('/login/otp', (req, res) => {
       code: b
     }).then((response) => {
       if (response.valid) {
-        userHelper.getUserdetails(number).then((user) => {
+        userHelper.getUserdetails(number).then(async (user) => {
           req.session.loginHalf = false
           req.session.user = user
           req.session.userLoggedIn = true
           res.redirect('/')
+          let todayDate = new Date().toISOString().slice(0, 10);
+          let result1 = await adminHelpers.startCategoryOffer(todayDate);
+          let result2 = await adminHelpers.startProductOffer(todayDate);
         })
       } else {
         console.log("error");
@@ -589,7 +595,7 @@ router.get('/category', async (req, res) => {
 
 //Cart section starting
 router.get('/cart', verifyUserLogin, async (req, res, next) => {
-  req.session.buyNow = false 
+  req.session.buyNow = false
   let id = req.session.user._id
   let products = await userHelper.getCartProducts(id)
   let user = req.session.user
@@ -1204,10 +1210,10 @@ router.get('/addNewAddress-buyNow', verifyUserLogin, async (req, res) => {
   let user = req.session.user
   res.render('user/addNewAddress-BuyNow', { user, homeCategory, brand, homePro, pId, cartCount })
 })
+
 router.post('/addNewAddress-buyNow', (req, res) => {
   console.log(req.body);
-  let pId = req.body.pId
-  console.log(pId);
+  let pId = req.body.pId 
   let url = `buyNow/${pId}`
   userHelper.addNewAddress(req.body).then((response) => {
     res.redirect(url)

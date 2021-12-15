@@ -438,13 +438,14 @@ module.exports = {
     //Product offers
     addProductOffer: (data) => {
         return new Promise(async (resolve, reject) => {
-            let product = await db.get().collection(collection.PRODUCT_COLLECTION).findOne({ name: data.Product })
+            // let product = await db.get().collection(collection.PRODUCT_COLLECTION).findOne({ name: data.Product })
             data.startDateIso = new Date(data.Starting)
             data.endDateIso = new Date(data.Expiry)
             let response = {};
             let exist = await db.get().collection(collection.PRODUCT_COLLECTION).findOne({ name: data.Product, offer: { $exists: true } });
             if (exist) {
                 response.exist = true
+                console.log("exist");
                 resolve(response)
             } else {
                 db.get().collection(collection.PRODUCT_OFFERS).insertOne(data).then(async (response) => {
@@ -472,13 +473,12 @@ module.exports = {
         })
     },
     startProductOffer: (date) => {
-        let prostartDateIso = new Date(date);
-
+        let proStartDateIso = new Date(date);
         return new Promise(async (resolve, reject) => {
-            let data = await db.get().collection(collection.PRODUCT_OFFERS).find({ startDateIso: { $lte: prostartDateIso } }).toArray();
+            let data = await db.get().collection(collection.PRODUCT_OFFERS).find({ startDateIso: { $lte: proStartDateIso } }).toArray();
             if (data) {
                 await data.map(async (onedata) => {
-                    let product = await db.get().collection(collections.PRODUCT_COLLECTION).findOne({ name: onedata.Product });
+                    let product = await db.get().collection(collection.PRODUCT_COLLECTION).findOne({ name: onedata.Product });
                     let actualPrice = product.price
                     let newPrice = (((product.price) * (onedata.proOfferPercentage)) / 100)
                     newPrice = newPrice.toFixed()
@@ -492,11 +492,9 @@ module.exports = {
                                 proOfferPercentage: onedata.proOfferPercentage
                             }
                         })
-
-                    db.get().collection(collections.PRODUCTS_DETAILS_COLLECTION).updateOne({ productname: onedata.productname }, { $set: { price: offerprice, offer: true, offerpercentage: onedata.discount } });
+                    resolve();
                 })
 
-                resolve();
             } else {
                 resolve();
             }

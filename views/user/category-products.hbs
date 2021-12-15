@@ -72,8 +72,8 @@
 
 
 <div class="container mt-5">
-        <h3>{{category}}</h3>
-    
+    <h3>{{category}}</h3>
+
     <div class="row">
         <div class="col-12 col-sm-3">
             <div class="card bg-light mb-3">
@@ -119,30 +119,19 @@
                                         <span>{{this.category}}</span>
                                     </div>
                                     <div class="product-price">
-                                        {{#if this.proOffer}}
+                                        {{#if this.offer}}
                                         <div class="product-price">
-                                            <span id="ProductPrice"><span class=money>₹{{this.price}}</span></span>
-
-                                            <del><span id="ComparePrice"><span
-                                                        class=money>₹{{this.actualPrice}}</span></span></del>
+                                            <span class="price--sale"><span class=money>₹
+                                                    {{this.price}}</span></span>
+                                            <span><del><span class=money>₹
+                                                        {{this.actualPrice}}</span></del></span>
 
                                         </div>
                                         {{else}}
-                                        {{#if this.catOffer}}
                                         <div class="product-price">
-                                            <span id="price--sale"><span class=money>₹{{this.price}}</span></span>
-
-                                            <del><span id="ComparePrice"><span
-                                                        class=money>₹{{this.actualPrice}}</span></span></del>
-
+                                            <span class="price--sale"><span class=money>₹
+                                                    {{this.price}}</span></span>
                                         </div>
-                                        {{else}}
-
-
-                                        <div class="product-price">
-                                            <span id="ProductPrice"><span class=money>₹{{this.price}}</span></span>
-                                        </div>
-                                        {{/if}}
                                         {{/if}}
                                     </div>
                                     <div class="product-categori">

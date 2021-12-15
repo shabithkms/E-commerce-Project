@@ -116,7 +116,7 @@
                             </div>
                         </div>
                         <div class="details-price">
-                            {{#if product.proOffer}}
+                            {{#if product.offer}}
                             <div class="details-price">
                                 <span id="ProductPrice"><span class=money>₹{{product.price}}</span></span>
 
@@ -125,41 +125,26 @@
 
                             </div>
                             {{else}}
-                            {{#if product.catOffer}}
                             <div class="details-price">
-                                <span id="price--sale"><span class=money>₹{{product.price}}</span></span>
-
-                                <del><span id="ComparePrice"><span
-                                            class=money>₹{{product.actualPrice}}</span></span></del>
-
-                            </div>
-                            {{else}}
-                            <div class="details-price">
-                                <span id="ProductPrice"><span class=money>₹{{product.price}}</span></span> 
+                                <span id="ProductPrice"><span class=money>₹{{product.price}}</span></span>
 
 
                             </div>
-                            {{/if}}
                             {{/if}}
 
                         </div>
                         <div>
-
-                            {{#if product.proOffer}}
+                            {{#if product.offer}}
                             <div>
-                                <strong><span class="sale mb-3">{{product.proPercentage}}% OFF</strong> for this
+                                {{#if product.proOfferPercentage}}
+                                <strong><span class="sale mb-3">{{product.proOfferPercentage}}% OFF</strong> for this
                                 Product</span>
-                            </div>
-                            {{else}}
-                            {{#if product.catOffer}}
-                            <div>
-                                <strong><span class="sale mb-3">{{product.catPercentage}}% OFF</strong> for
-                                {{product.category}}
+                                {{else}}
+                                <strong><span class="sale mb-3">{{product.catOfferercentage}}% OFF</strong> for this
                                 Category</span>
+                                {{/if}}
                             </div>
                             {{else}}
-
-                            {{/if}}
                             {{/if}}
                         </div>
                         <p>A watch is a portable timepiece intended to be carried or worn by a person. ... During most
@@ -269,48 +254,43 @@
                             </div>
                             <div class="product-price">
 
-                                {{#if product.proOffer}}
-                                <div class="details-price">
-                                    <span id="ProductPrice"><span class=money>₹{{product.price}}</span></span>
-
-                                    <del><span id="ComparePrice"><span
-                                                class=money>₹{{product.actualPrice}}</span></span></del>
-
-                                </div>
-                                {{else}}
-                                {{#if this.catOffer}}
-                                <div class="details-price">
-                                    <span id="price--sale"><span class=money>₹{{this.price}}</span></span>
-
-                                    <del><span id="ComparePrice"><span
-                                                class=money>₹{{this.actualPrice}}</span></span></del>
+                                {{#if this.offer}}
+                                <div class="product-price">
+                                    <span class="price--sale"><span class=money>₹
+                                            {{this.price}}</span></span>
+                                    <span><del><span class=money>₹
+                                                {{this.actualPrice}}</span></del></span>
 
                                 </div>
                                 {{else}}
-
-
-                                <div class="details-price">
-                                    <span id="ProductPrice"><span class=money>₹{{this.price}}</span></span>
-
-
+                                <div class="product-price">
+                                    <span class="price--sale"><span class=money>₹
+                                            {{this.price}}</span></span>
                                 </div>
-                                {{/if}}
                                 {{/if}}
                             </div>
                             <div class="product-categori">
 
-                                <button class="add_cart cart-item" onclick="addToCart('{{this._id}}')">
+                                {{#if this.stockout}}
+                                <span class="text-danger">Out of stock</span>
+                                {{else}}
+                                <button class="add_cart btn btn-light cart-item "
+                                    style="width: 130px; border: 1px solid black !important;"
+                                    onclick="addToCart('{{this._id}}','{{this.stock}}')" title="Add to cart">
 
                                     <i class="ion-bag"></i>
                                     <i class="ion-ios-loop-strong animated rotateIn infinite"></i>
                                     <i class="ion-android-done"></i> Add to Cart
                                 </button>
                                 <br>
-                                <a href="" class="add_cart cart-item mt-1" title="Add to Cart">
+                                <a class="add_cart btn btn-light cart-item mt-1" href="/buyNow/{{this._id}}"
+                                    style="width: 130px; border: 1px solid black !important;">
+
                                     <i class="ion-bag"></i>
                                     <i class="ion-ios-loop-strong animated rotateIn infinite"></i>
-                                    <i class="ion-android-done"></i> Buy now
+                                    <i class="ion-android-done"></i> Buy Now
                                 </a>
+                                {{/if}}
 
                             </div>
 

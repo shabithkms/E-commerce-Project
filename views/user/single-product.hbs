@@ -122,41 +122,29 @@
                                 <span class="shopify-product-reviews-badge" data-id="1310201413721"></span>
                             </div>
                         </div>
-                        {{#if product.proOffer}}
+                        {{#if product.offer}}
                         <div class="details-price">
                             <span id="ProductPrice"><span class=money>₹{{product.price}}</span></span>
 
                             <del><span id="ComparePrice"><span class=money>₹{{product.actualPrice}}</span></span></del>
                         </div>
                         {{else}}
-                        {{#if product.catOffer}}
-                        <div class="details-price">
-                            <span id="ProductPrice"><span class=money>₹{{product.price}}</span></span>
-                            <del><span id="ComparePrice"><span class=money>₹{{product.actualPrice}}</span></span></del>
-                        </div>
-                        {{else}}
                         <div class="details-price">
                             <span id="ProductPrice"><span class=money>₹{{product.price}}</span></span>
                         </div>
-                        {{/if}}
                         {{/if}}
                         <div>
-
-                            {{#if product.proOffer}}
+                            {{#if product.offer}}
                             <div>
-                                <strong><span class="sale mb-3">{{product.proPercentage}}% OFF</strong> for this
+                                {{#if product.proOfferPercentage}}
+                                <strong><span class="sale mb-3">{{product.proOfferPercentage}}% OFF</strong> for this
                                 Product</span>
-                            </div>
-                            {{else}}
-                            {{#if product.catOffer}}
-                            <div>
-                                <strong><span class="sale mb-3">{{product.catPercentage}}% OFF</strong> for
-                                {{product.category}}
+                                {{else}}
+                                <strong><span class="sale mb-3">{{product.catOfferercentage}}% OFF</strong> for this
                                 Category</span>
+                                {{/if}}
                             </div>
                             {{else}}
-
-                            {{/if}}
                             {{/if}}
                         </div>
                         <br>
@@ -276,32 +264,19 @@
                             </div>
 
                             <div class="details-price">
-                                {{#if product.proOffer}}
+                                {{#if this.offer}}
                                 <div class="product-price">
-                                    <span id="ProductPrice"><span class=money>₹{{product.price}}</span></span>
-
-                                    <del><span id="price--sale"><span
-                                                class=money>₹{{product.actualPrice}}</span></span></del>
+                                    <span class="price--sale"><span class=money>₹
+                                            {{this.price}}</span></span>
+                                    <span><del><span class=money>₹
+                                                {{this.actualPrice}}</span></del></span>
 
                                 </div>
                                 {{else}}
-                                {{#if this.catOffer}}
                                 <div class="product-price">
-                                    <span id=""><span class=money>₹{{this.price}}</span></span>
-
-                                    <del><span id="price--sale"><span
-                                                class=money>₹{{this.actualPrice}}</span></span></del>
-
+                                    <span class="price--sale"><span class=money>₹
+                                            {{this.price}}</span></span>
                                 </div>
-                                {{else}}
-
-
-                                <div class="product-price">
-                                    <span id="ProductPrice"><span class=money>₹{{this.price}}</span></span>
-
-
-                                </div>
-                                {{/if}}
                                 {{/if}}
                             </div>
 

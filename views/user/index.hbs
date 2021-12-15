@@ -48,11 +48,11 @@
                 <div class="product-style">
                     <div class="product-tab-list mb-45 nav product-menu-mrg" id="mens" role="tablist">
 
-                        <a class="" href="/categoryProducts/{{firstC}}" >
+                        <a class="" href="/categoryProducts/{{firstC}}">
                             <h4>SHOP BY CATEGORY</h4>
                         </a>
 
-                        <a class="" href="/brandProducts/{{firstB}}" >
+                        <a class="" href="/brandProducts/{{firstB}}">
                             <h4>SHOP BY BRANDS</h4>
                         </a>
 
@@ -71,8 +71,8 @@
                                                 <img src="/productImages/{{this._id}}a.jpg" alt="">
                                             </a>
                                             <div class="product-action">
-                                                <a class="animate-left" href="" onclick="addToWishlist('{{this._id}}',event)"
-                                                    title="Wishlist">
+                                                <a class="animate-left" href=""
+                                                    onclick="addToWishlist('{{this._id}}',event)" title="Wishlist">
                                                     <i class="ion-ios-heart-outline"></i>
                                                 </a>
                                             </div>
@@ -92,34 +92,21 @@
                                                 </div>
                                                 <div class="product-price">
 
-                                                    {{#if this.proOffer}}
+                                                    {{#if this.offer}}
                                                     <div class="product-price">
-                                                        <span id="ProductPrice"><span
-                                                                class=money>₹{{this.price}}</span></span>
-
-                                                        <del><span id="ComparePrice"><span
-                                                                    class=money>₹{{this.actualPrice}}</span></span></del>
+                                                        <span class="price--sale"><span class=money>₹
+                                                                {{this.price}}</span></span>
+                                                        <span><del><span class=money>₹
+                                                                    {{this.actualPrice}}</span></del></span>
 
                                                     </div>
                                                     {{else}}
-                                                    {{#if this.catOffer}}
                                                     <div class="product-price">
-                                                        <span id="price--sale"><span
-                                                                class=money>₹{{this.price}}</span></span>
-
-                                                        <del><span id="ComparePrice"><span
-                                                                    class=money>₹{{this.actualPrice}}</span></span></del>
-
-                                                    </div>
-                                                    {{else}}
-
-
-                                                    <div class="product-price">
-                                                        <span id="ProductPrice"><span
-                                                                class=money>₹{{this.price}}</span></span>
+                                                        <span class="price--sale"><span class=money>₹
+                                                                {{this.price}}</span></span>
                                                     </div>
                                                     {{/if}}
-                                                    {{/if}}
+
                                                 </div>
 
                                                 <div class="product-categori ">
@@ -243,9 +230,20 @@
                                             <span>{{this.category}}</span>
                                         </div>
                                         <div class="product-price">
-                                            <span class="price--sale"><span class=money>₹
-                                                    {{this.cost}}</span></span>
-                                            <span><del><span class=money>₹ {{this.price}}</span></del></span>
+                                            {{#if this.offer}}
+                                            <div class="product-price">
+                                                <span class="price--sale"><span class=money>₹
+                                                        {{this.price}}</span></span>
+                                                <span><del><span class=money>₹
+                                                            {{this.actualPrice}}</span></del></span>
+
+                                            </div>
+                                            {{else}}
+                                            <div class="product-price">
+                                                <span class="price--sale"><span class=money>₹
+                                                        {{this.price}}</span></span>
+                                            </div>
+                                            {{/if}}
 
                                         </div>
                                         <div class="product-categori">
