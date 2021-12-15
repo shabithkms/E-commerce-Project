@@ -19,9 +19,11 @@ $('#orderTable tbody tr').each(function (idx) {
 $(document).ready(function () {
     $('#proTable').DataTable();
 });
-$('#proTable tbody tr').each(function (idx) {
-    $(this).children("td:eq(0)").html(idx + 1);
+
+$('#proTable tbody tr').each(function (idx) { 
+    $(this).children("td:eq(0)").html(idx + 1); 
 });
+
 //Data export table
 $(document).ready(function () {
     $('#example').DataTable({

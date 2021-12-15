@@ -5,11 +5,13 @@ const adminHelpers = require('../helpers/admin-helper');
 const productHelpers = require('../helpers/product-helper');
 var db = require('../config/connection')
 var collection = require('../config/collection');
+var s3 = require('../config/s3')
 var fs = require('fs')
 var swal = require('sweetalert');
 const userHelper = require('../helpers/user-helper');
 const productHelper = require('../helpers/product-helper');
-
+const { uploadFile } = require('../config/s3');
+const { response } = require('express');
 //Middleware for checking admin login
 const verifyAdminLogin = (req, res, next) => {
   res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
@@ -19,6 +21,7 @@ const verifyAdminLogin = (req, res, next) => {
     res.redirect('/admin/login')
   }
 }
+
 //Admin login
 router.get('/login', function (req, res, next) {
   if (req.session.adminLoggedIn) {
@@ -30,13 +33,17 @@ router.get('/login', function (req, res, next) {
   }
 });
 router.post('/login', (req, res) => {
-  adminHelpers.doAdminLogin(req.body).then((response) => {
+  adminHelpers.doAdminLogin(req.body).then(async (response) => {
     let status = response.status
     let adminStatus = response.adminStatus
     if (status) {
       req.session.admin = response.admin
       req.session.adminLoggedIn = true
       res.redirect('/admin')
+      let todayDate = new Date().toISOString().slice(0, 10);
+      let result1 = await adminHelpers.startCategoryOffer(todayDate);
+      let result2 = await adminHelpers.startProductOffer(todayDate);
+      // let result2 = await producthelpers.startProductOffers(todayDate);
     } else {
       if (!adminStatus) {
         req.session.noAdmin = true
@@ -120,6 +127,7 @@ router.post('/add-product', verifyAdminLogin, async function (req, res, next) {
     let image2 = req.files.image2
     let image3 = req.files.image3
     let image4 = req.files.image4
+
     image1.mv('public/productImages/' + id + 'a.jpg')
     image2.mv('public/productImages/' + id + 'b.jpg')
     image3.mv('public/productImages/' + id + 'c.jpg')
@@ -131,6 +139,7 @@ router.post('/add-product', verifyAdminLogin, async function (req, res, next) {
       res.redirect('/admin/add-product')
     }
   })
+  uploadFile(req.files.image1)
 });
 router.get('/edit-product/:id', verifyAdminLogin, async (req, res) => {
   let id = req.params.id
@@ -350,8 +359,14 @@ router.get('/category-offers', verifyAdminLogin, async (req, res) => {
 })
 
 router.post('/category-offers', verifyAdminLogin, (req, res) => {
-  adminHelpers.addCategoryOffer(req.body).then(() => {
-    res.redirect('/admin/category-offers')
+  adminHelpers.addCategoryOffer(req.body).then((response) => {
+    if (response.exist) {
+      req.session.catOfferExist = true
+      res.redirect('/admin/category-offers')
+    } else {
+      res.redirect('/admin/category-offers')
+    }
+
   }).catch((err) => {
     if (err.code == 11000) {
       req.session.catOfferExist = true
@@ -393,7 +408,13 @@ router.get('/product-offers', verifyAdminLogin, async (req, res) => {
 router.post('/product-offers', verifyAdminLogin, (req, res) => {
   console.log(req.body);
   adminHelpers.addProductOffer(req.body).then(() => {
-    res.redirect('/admin/product-offers')
+    if (response.exist) {
+      req.session.proOfferExist = true
+      res.redirect('/admin/product-offers')
+    } else {
+      res.redirect('/admin/product-offers')
+    }
+
   }).catch((err) => {
     if (err.code == 11000) {
       req.session.proOfferExist = true
@@ -476,5 +497,17 @@ router.get('/logout', (req, res) => {
   req.session.adminLoggedIn = false
   res.redirect('/admin/login')
 })
+
+
+//S3
+// const multer  = require('multer')
+// const upload = multer({ dest: 'uploads/' })
+// router.get('/images',upload.single('image'),(req,res)=>{
+//   res.render('user/s3')
+// })
+// router.post('/images',(req,res)=>{
+//   upload.single(req.files)
+//   console.log(req.files);
+// })
 
 module.exports = router;

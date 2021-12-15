@@ -25,7 +25,7 @@ module.exports = {
             resolve(products)
         })
     },
-    getProductDetails: (id) => {
+    getProductDetails: (id) => { 
         return new Promise((resolve, reject) => {
             db.get().collection(collection.PRODUCT_COLLECTION).findOne({ _id: objectId(id) }).then((product) => {
                 resolve(product)
@@ -117,7 +117,7 @@ module.exports = {
     },
     //To get recent users
     getNewUsers: () => {
-        return new Promise(async (resolve, reject) => {
+        return new Promise(async (resolve, reject) => { 
             let newUsers = await db.get().collection(collection.USER_COLLECTION).find().sort({ $natural: -1 }).limit(5).toArray()
             resolve(newUsers)
         })

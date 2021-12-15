@@ -943,14 +943,14 @@ module.exports = {
     },
     //Get brands and products for user header
     getBrands: () => {
-        return new Promise(async (resolve, reject) => {
+        return new Promise(async (resolve, reject) => { 
             let brands = await db.get().collection(collection.BRAND_COLLECTION).find().sort({ $natural: -1 }).limit(6).toArray()
             resolve(brands)
         })
     },
     getHomeProducts: () => {
         return new Promise(async (resolve, reject) => {
-            let products = await db.get().collection(collection.PRODUCT_COLLECTION).find().sort({ $natural: -1 }).limit(6).toArray()
+            let products = await db.get().collection(collection.PRODUCT_COLLECTION).find().sort({ $natural: -1 }).limit(4).toArray()
 
             resolve(products)
         })
@@ -958,8 +958,6 @@ module.exports = {
     getHomeCategories: () => {
         return new Promise(async (resolve, reject) => {
             let category = await db.get().collection(collection.CATEGORY_COLLECTION).find().limit(6).toArray()
-            console.log(category);
-
             resolve(category)
         })
     },
