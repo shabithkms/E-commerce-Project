@@ -478,21 +478,26 @@ module.exports = {
             let data = await db.get().collection(collection.PRODUCT_OFFERS).find({ startDateIso: { $lte: proStartDateIso } }).toArray();
             if (data) {
                 await data.map(async (onedata) => {
-                    let product = await db.get().collection(collection.PRODUCT_COLLECTION).findOne({ name: onedata.Product });
-                    let actualPrice = product.price
-                    let newPrice = (((product.price) * (onedata.proOfferPercentage)) / 100)
-                    newPrice = newPrice.toFixed()
-                    console.log(actualPrice, newPrice, onedata.proOfferPercentage);
-                    db.get().collection(collection.PRODUCT_COLLECTION).updateOne({ _id: objectId(product._id) },
-                        {
-                            $set: {
-                                actualPrice: actualPrice,
-                                price: (actualPrice - newPrice),
-                                offer: true,
-                                proOfferPercentage: onedata.proOfferPercentage
-                            }
-                        })
-                    resolve();
+                    let product = await db.get().collection(collection.PRODUCT_COLLECTION).findOne({ name: onedata.Product, offer: { $exists: false } });
+                    if (product) {
+                        let actualPrice = product.price
+                        let newPrice = (((product.price) * (onedata.proOfferPercentage)) / 100)
+                        newPrice = newPrice.toFixed()
+                        console.log(actualPrice, newPrice, onedata.proOfferPercentage);
+                        db.get().collection(collection.PRODUCT_COLLECTION).updateOne({ _id: objectId(product._id) },
+                            {
+                                $set: {
+                                    actualPrice: actualPrice,
+                                    price: (actualPrice - newPrice),
+                                    offer: true,
+                                    proOfferPercentage: onedata.proOfferPercentage
+                                }
+                            })
+                        resolve();
+                    }else{
+                        resolve()
+                    }
+
                 })
 
             } else {
@@ -564,6 +569,8 @@ module.exports = {
     //Coupons secction
     addCoupon: (data) => {
         return new Promise(async (resolve, reject) => {
+            let startDateIso = new Date(data.Starting)
+            let endDateIso = new Date(data.Expiry)
             let expiry = await moment(data.Expiry).format('DD/MM/YYYY')
             let starting = await moment(data.Starting).format('DD/MM/YYYY')
             let dataobj = await {
@@ -572,6 +579,8 @@ module.exports = {
                 Status: 1,
                 Starting: starting,
                 Expiry: expiry,
+                startDateIso: startDateIso,
+                endDateIso: endDateIso,
                 Users: []
             }
             db.get().collection(collection.COUPON_COLLECTION).insertOne(dataobj).then(() => {
@@ -579,6 +588,28 @@ module.exports = {
             }).catch((err) => {
                 reject(err)
             })
+        })
+    },
+    startCouponOffers: (date) => {
+        let couponStartDate = new Date(date);
+        return new Promise(async (resolve, reject) => {
+            let data = await db.get().collection(collection.COUPON_COLLECTION).find({ startDateIso: { $lte: couponStartDate } }).toArray();
+            console.log(data);
+            if (data) {
+                await data.map(async (oneData) => {
+                    db.get().collection(collection.COUPON_COLLECTION).updateOne({ _id: objectId(oneData._id) },
+                        {
+                            $set: {
+                                Available: true 
+                            }
+                        }).then(() => {
+                            resolve();
+                        })
+
+                })
+            } else {
+                resolve()
+            }
         })
     },
     getCouponDetails: (cId) => {

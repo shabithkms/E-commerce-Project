@@ -41,8 +41,9 @@ router.post('/login', (req, res) => {
       req.session.adminLoggedIn = true
       res.redirect('/admin')
       let todayDate = new Date().toISOString().slice(0, 10);
-      let result1 = await adminHelpers.startCategoryOffer(todayDate);
-      let result2 = await adminHelpers.startProductOffer(todayDate);
+      let startCatOffer = await adminHelpers.startCategoryOffer(todayDate);
+      let startProOffer = await adminHelpers.startProductOffer(todayDate);
+      let startCoupon = await adminHelpers.startCouponOffers(todayDate)
     } else {
       if (!adminStatus) {
         req.session.noAdmin = true
@@ -305,7 +306,8 @@ router.get('/cancelled/:id', (req, res) => {
 //Banner management section----
 router.get('/banners', verifyAdminLogin, async (req, res) => {
   let banners = await userHelper.getAllBanners()
-  res.render('admin/banners', { admin: true, banners })
+  let categories = await adminHelpers.getAllCategory()
+  res.render('admin/banners', { admin: true, categories, banners })
 })
 router.post('/add-banner', (req, res) => {
   adminHelpers.addBanner(req.body).then((id) => {
@@ -406,7 +408,7 @@ router.get('/product-offers', verifyAdminLogin, async (req, res) => {
 
 router.post('/product-offers', verifyAdminLogin, (req, res) => {
   console.log(req.body);
-  adminHelpers.addProductOffer(req.body).then((response) => { 
+  adminHelpers.addProductOffer(req.body).then((response) => {
     if (response.exist) {
       req.session.proOfferExist = true
       res.redirect('/admin/product-offers')

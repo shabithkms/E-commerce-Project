@@ -55,7 +55,7 @@
 
                         </div>
                         <form action="/admin/add-banner" method="POST" enctype="multipart/form-data"
-                            style="padding-top: 40px;" id="add-brand">
+                            style="padding-top: 40px;" id="add-banner">
 
                             {{#if bannerExist}}
                             <div class="alert alert-danger col-md-6" role="alert">
@@ -76,23 +76,26 @@
                             </div>
                             <div class="row ">
                                 <div class="form-group mt-2 col-md-6">
-                                    <label for="inputDescription">Offer details</label>
-                                    <input type="text" class="form-control" id="inputDescription" name="offer">
+                                    <label for="inputOffer">Offer details</label>
+                                    <input type="text" class="form-control" id="inputOffer" name="offer">
                                 </div>
                                 <div class="form-group mt-2 col-md-6">
-                                    <label for="inputDescription">Button link</label>
-                                    <input type="text" class="form-control" id="inputDescription" name="link">
+                                    <label for="category">Button link</label>
+                                    <select name="link" id="category" class="custom-select p-2">
+                                        <option value="" selected>Choose a Link</option>
+                                        {{#each categories}}
+                                        <option value="{{this.category}}">{{this.category}}</option>
+                                        {{/each}}
+                                    </select>
                                 </div>
                             </div>
                             <div class="mt-5 col-md-6">
-
                                 <div class="form-group mt-2 col-md-4">
                                     <label for="exampleFormControlFile3">Banner Image</label>
                                     <img src="" style="width:auto;height:50px;display:none" id="imgView3"><br><br>
                                     <input type="file" class="form-control" name="Image3" id="exampleFormControlFile3"
                                         style="width: 250px;" accept="image/*" required onchange="viewImage3(event)">
                                 </div>
-
                             </div>
                     </div>
                     <p class="text-warning text-center" style="display: none;" id="errMsg">Only Image is

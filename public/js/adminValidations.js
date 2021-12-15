@@ -192,6 +192,34 @@ $(document).ready(function () {
     })
 })
 
+
+$(document).ready(function () {
+    $('#add-banner').validate({
+        rules: {
+
+            bannerName: {
+                required: true
+            },
+            description: {
+                required: true
+            },
+            offer: {
+                required: true
+            },
+            link: {
+                required: true
+            },
+            Image3: {
+                required: true
+            }
+
+
+
+        }
+    })
+
+})
+
 //Admin login
 
 $(document).ready(function () {
@@ -229,22 +257,22 @@ $(document).ready(function () {
             Coupon: {
                 required: true,
                 minlength: 5,
-                maxlength:20,
+                maxlength: 20,
             },
-            Starting:{
-                required:true,
+            Starting: {
+                required: true,
             },
-            Expiry:{
-                required:true,
+            Expiry: {
+                required: true,
             },
-            Offer:{
-                required:true,
+            Offer: {
+                required: true,
             },
-            Category:{
-                required:true,
+            Category: {
+                required: true,
             },
-            Product:{
-                required:true,
+            Product: {
+                required: true,
             }
 
         }

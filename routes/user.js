@@ -67,6 +67,9 @@ router.get('/', async function (req, res, next) {
     cartCount = await userHelper.getCartCount(Id)
   }
   let todayDate = new Date().toISOString().slice(0, 10);
+  let startCatOffer = await adminHelpers.startCategoryOffer(todayDate);
+  let startProOffer = await adminHelpers.startProductOffer(todayDate);
+  let startCoupon = await adminHelpers.startCouponOffers(todayDate)
   let products = await productHelper.getAllProducts()
   let brand = await userHelper.getBrands()
   let homePro = await userHelper.getHomeProducts()
@@ -76,9 +79,6 @@ router.get('/', async function (req, res, next) {
   let firstCategory = await adminHelpers.getAllCategory()
   let firstC = firstCategory[0].category
   let firstB = firstBrand[0].brand
-  // let result1 = await userHelper.startCategoryOffers(todayDate);
-  // let result2 = await userHelper.startProductOffers(todayDate);
-  // let result3 = await userHelper.startCoupenOffers(todayDate); 
   res.render('user/index', { user, userPage: true, products, banners, firstB, firstC, brand, homePro, homeCategory, cartCount })
 });
 
@@ -1213,7 +1213,7 @@ router.get('/addNewAddress-buyNow', verifyUserLogin, async (req, res) => {
 
 router.post('/addNewAddress-buyNow', (req, res) => {
   console.log(req.body);
-  let pId = req.body.pId 
+  let pId = req.body.pId
   let url = `buyNow/${pId}`
   userHelper.addNewAddress(req.body).then((response) => {
     res.redirect(url)
