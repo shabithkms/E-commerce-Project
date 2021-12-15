@@ -302,3 +302,21 @@
         </div>
     </div>
 </div>
+
+<script>
+    jQuery(document).ready(function ($) {
+        var alterClass = function () {
+            var ww = document.body.clientWidth;
+            if (ww < 1000) {
+                $('#zoom').removeClass('glass');
+            } else if (ww >= 1001) {
+                $('#zoom').addClass('glass');
+            };
+        };
+        $(window).resize(function () {
+            alterClass();
+        });
+        //Fire it when the page first loads:
+        alterClass();
+    });
+</script>
