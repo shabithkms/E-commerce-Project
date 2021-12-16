@@ -148,21 +148,21 @@
                                     {{#if product.stockout}}
                                     <p class="text-danger text-center">Out of Stock</p>
                                     {{else}}
-                                    <a class="btn-hover-black addtocart cart-item"
+                                    <a class="btn-hover-black addtocart cart-item mt-1"
                                         onclick="addToCart('{{product._id}}')" data-toggle="tooltip"
                                         title="add to cart">
                                         <i class="ion-ios-loop-strong animated rotateIn infinite"></i>
                                         <i class="ion-android-done"></i> add to cart
                                     </a>
-                                    <a class="btn-hover-black addtocart cart-item" href="/buyNow/{{product._id}}"
+                                    <a class="btn-hover-black addtocart cart-item mt-1" href="/buyNow/{{product._id}}"
                                         data-toggle="tooltip" title="add to cart">
                                         <i class="ion-ios-loop-strong animated rotateIn infinite"></i>
                                         <i class="ion-android-done"></i>Buy Now
                                     </a>
                                     {{/if}}
                                 </div>
-                                <div class="quickview-btn-wishlist">
-                                    <a class="btn-hover list-btn-wishlist animate-left" href=""
+                                <div class="quickview-btn-wishlist ">
+                                    <a class="btn-hover list-btn-wishlist animate-left mt-1" href=""
                                         onclick="addToWishlist('{{product._id}}',event)" title="Wishlist">
                                         <i class="ion-ios-heart-outline"></i>
                                     </a>
@@ -227,7 +227,7 @@
                 <div class="single-product mb-35">
                     <div class="product-img">
                         <a href="/product/{{this._id}}">
-                            <img src="/productImages/{{this._id}}a.jpg" alt="">
+                            <img src="https://shabith.ml/productImages/{{this._id}}a.jpg" alt="">
                         </a>
                         <div class="product-action">
                             <a class="animate-left" href="" onclick="addToWishlist('{{this._id}}',event)"
