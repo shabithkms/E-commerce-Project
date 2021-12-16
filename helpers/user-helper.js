@@ -62,8 +62,8 @@ module.exports = {
     },
     //Edit profile of user
     updateProfile: (id, newData) => {
-        return new Promise(async(resolve, reject) => {
-            let user =await db.get().collection(collection.USER_COLLECTION).findOne({_id:objectId(id)})
+        return new Promise(async (resolve, reject) => {
+            let user = await db.get().collection(collection.USER_COLLECTION).findOne({ _id: objectId(id) })
             console.log(user);
             let newf = newData.firstname
             let newl = newData.lastname
@@ -256,11 +256,27 @@ module.exports = {
 
     // Cart section Starting
     addToCart: (proId, userId) => {
-        let proObj = {
-            item: objectId(proId),
-            quantity: 1
-        }
+
         return new Promise(async (resolve, reject) => {
+            let price = await db.get().collection(collection.PRODUCT_COLLECTION).aggregate([
+                {
+                    $match: {
+                        _id: objectId(proId)
+                    }
+                },
+                {
+                    $project: {
+                        _id: 0,
+                        price: 1
+                    }
+                }
+
+            ]).toArray()
+            let proObj = {
+                item: objectId(proId),
+                quantity: 1,
+                subtotal: price[0].price
+            }
             let userCart = await db.get().collection(collection.CART_COLLECTION).findOne({ user: objectId(userId) })
             if (userCart) {
                 let proExist = userCart.products.findIndex(product => product.item == proId)
@@ -345,17 +361,20 @@ module.exports = {
         let quantity = details.quantity
         count = parseInt(count)
         quantity = parseInt(quantity)
-        return new Promise((resolve, reject) => {
+        return new Promise(async (resolve, reject) => {
             if (count == -1 && quantity == 1) {
                 resolve({ lastProduct: true })
             } else {
                 db.get().collection(collection.CART_COLLECTION).updateOne({ _id: objectId(cartId), 'products.item': objectId(proId) }, {
                     $inc: {
-                        'products.$.quantity': count
+                        'products.$.quantity': count,
                     }
-                }).then((response) => {
+                }).then(async (response) => {
+
                     resolve({ status: true })
+
                 })
+
             }
         })
     },
@@ -376,6 +395,7 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
             let cart = await db.get().collection(collection.CART_COLLECTION).findOne({ user: objectId(userId) })
             resolve(cart.products)
+            console.log("cart products", cart.products);
         })
     },
     //Get sub totals of a single product in cart    
@@ -430,7 +450,15 @@ module.exports = {
                 }
             ]).toArray()
             if (subtotal.length > 0) {
-                resolve(subtotal[0].subtotal)
+                db.get().collection(collection.CART_COLLECTION).updateOne({user:objectId(userId),"products.item": objectId(proId) },
+                {
+                    $set:{
+                        'products.$.subtotal':subtotal[0].subtotal
+                    }
+                }).then((response)=>{
+                    console.log(response);
+                    resolve(subtotal[0].subtotal)
+                })                
             }
             else {
                 subtotal = 0
@@ -587,7 +615,7 @@ module.exports = {
     },
     //Buy Now section
     getBuyNowProduct: (proId) => {
-        return new Promise(async (resolve, reject) => { 
+        return new Promise(async (resolve, reject) => {
             let proObj = {
                 item: objectId(proId),
                 quantity: 1
@@ -670,7 +698,7 @@ module.exports = {
         })
     },
     //Decrese stock after order
-    
+
     stockChanger: (orderId) => {
         return new Promise(async (resolve, reject) => {
             let prod = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
@@ -775,9 +803,9 @@ module.exports = {
                 })
         })
     },
-    getOrderDetails:(id)=>{
-        return new Promise(async(resolve,reject)=>{
-            let order=await db.get().collection(collection.ORDER_COLLECTION).findOne({_id:objectId(id)})
+    getOrderDetails: (id) => {
+        return new Promise(async (resolve, reject) => {
+            let order = await db.get().collection(collection.ORDER_COLLECTION).findOne({ _id: objectId(id) })
             resolve(order)
             console.log(order);
         })
@@ -810,7 +838,7 @@ module.exports = {
             obj = {}
             let date = new Date()
             date = moment(date).format('DD/MM/YYYY')
-            let coupon = await db.get().collection(collection.COUPON_COLLECTION).findOne({ Coupon: data.Coupon,Available:true })
+            let coupon = await db.get().collection(collection.COUPON_COLLECTION).findOne({ Coupon: data.Coupon, Available: true })
             if (coupon) {
                 let users = coupon.Users
                 let userChecker = users.includes(user)
@@ -841,14 +869,14 @@ module.exports = {
     },
     //Get brands and products for user header
     getBrands: () => {
-        return new Promise(async (resolve, reject) => { 
+        return new Promise(async (resolve, reject) => {
             let brands = await db.get().collection(collection.BRAND_COLLECTION).find().sort({ $natural: -1 }).limit(6).toArray()
             resolve(brands)
         })
     },
     getHomeProducts: () => {
         return new Promise(async (resolve, reject) => {
-            let products = await db.get().collection(collection.PRODUCT_COLLECTION).find().sort({ $natural: -1 }).limit(4).toArray() 
+            let products = await db.get().collection(collection.PRODUCT_COLLECTION).find().sort({ $natural: -1 }).limit(4).toArray()
 
             resolve(products)
         })
@@ -863,7 +891,7 @@ module.exports = {
     getAllProducts: () => {
         return new Promise(async (resolve, reject) => {
             let products = db.get().collection(collection.PRODUCT_COLLECTION).find().toArray()
-            resolve(products) 
+            resolve(products)
         })
     },
     //Get products by product Name

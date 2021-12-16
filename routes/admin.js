@@ -139,7 +139,6 @@ router.post('/add-product', verifyAdminLogin, async function (req, res, next) {
       res.redirect('/admin/add-product')
     }
   })
-  uploadFile(req.files.image1)
 });
 router.get('/edit-product/:id', verifyAdminLogin, async (req, res) => {
   let id = req.params.id
@@ -492,6 +491,17 @@ router.post('/report', (req, res) => {
     res.render('admin/report', { admin: true, report: true, data, })
   })
 })
+router.get('/user-report',verifyAdminLogin,(req,res)=>{
+  res.render('admin/user-report')
+
+})
+router.post('/user-report',verifyAdminLogin,(req,res)=>{
+  adminHelpers.getUserReport(req.body).then((report)=>{
+    
+  })
+
+})
+
 
 //Logout
 router.get('/logout', (req, res) => {

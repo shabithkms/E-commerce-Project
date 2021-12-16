@@ -103,7 +103,7 @@ function deleteproduct(event) {
         if (result.isConfirmed) {
             Swal.fire(
                 'Deleted!',
-                'Brand has been deleted.',
+                'product has been deleted.',
                 'success'
             )
             window.location = link;

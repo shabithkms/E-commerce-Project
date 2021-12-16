@@ -1154,7 +1154,7 @@ router.get('/invoice/:oId', verifyUserLogin, async (req, res) => {
   res.render('user/invoice', { order, orderProducts, user, cartCount, brand, homePro, homeCategory })
 })
 //Buy now cancel section
-router.get('/buyNowCancelled', verifyUserLogin, async (req, res) => {
+router.get('/buyNowCancelled', verifyUserLogin, async (req, res) => { 
   let user = req.session.user
   let cartCount = null
   let brand = await userHelper.getBrands()

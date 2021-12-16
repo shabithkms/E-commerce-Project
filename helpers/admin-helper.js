@@ -321,22 +321,6 @@ module.exports = {
                 resolve(response)
             } else {
                 db.get().collection(collection.CATEGORY_OFFERS).insertOne(data).then(async (response) => {
-                    // let products = await db.get().collection(collection.PRODUCT_COLLECTION).find({ category: data.Category, offer: { $exists: false } }).toArray()
-                    // console.log(products);
-                    // await products.map(async (product) => {
-                    //     let actualPrice = product.price
-                    //     let newPrice = (((product.price) * (data.offerPercentage)) / 100)
-                    //     newPrice = newPrice.toFixed()
-                    //     db.get().collection(collection.PRODUCT_COLLECTION).updateOne({ _id: objectId(product._id) },
-                    //         {
-                    //             $set: {
-                    //                 actualPrice: actualPrice,
-                    //                 price: (actualPrice - newPrice),
-                    //                 offer: true,
-                    //                 catOfferPercentage: data.offerPercentage
-                    //             }
-                    //         })
-                    // })
                     resolve(response)
                 }).catch((err) => {
                     reject(err)
@@ -349,7 +333,7 @@ module.exports = {
         let startDateIso = new Date(date);
         return new Promise(async (resolve, reject) => {
             let data = await db.get().collection(collection.CATEGORY_OFFERS).find({ startDateIso: { $lte: startDateIso } }).toArray();
-            if (data.length>0) {
+            if (data.length > 0) {
                 await data.map(async (onedata) => {
 
                     let products = await db.get().collection(collection.PRODUCT_COLLECTION).find({ category: onedata.Category, offer: { $exists: false } }).toArray();
@@ -438,7 +422,6 @@ module.exports = {
     //Product offers
     addProductOffer: (data) => {
         return new Promise(async (resolve, reject) => {
-            // let product = await db.get().collection(collection.PRODUCT_COLLECTION).findOne({ name: data.Product })
             data.startDateIso = new Date(data.Starting)
             data.endDateIso = new Date(data.Expiry)
             let response = {};
@@ -449,22 +432,6 @@ module.exports = {
                 resolve(response)
             } else {
                 db.get().collection(collection.PRODUCT_OFFERS).insertOne(data).then(async (response) => {
-                    // let products = await db.get().collection(collection.PRODUCT_COLLECTION).find({ category: data.Category, offer: { $exists: false } }).toArray()
-                    // console.log(products);
-                    // await products.map(async (product) => {
-                    //     let actualPrice = product.price
-                    //     let newPrice = (((product.price) * (data.offerPercentage)) / 100)
-                    //     newPrice = newPrice.toFixed()
-                    //     db.get().collection(collection.PRODUCT_COLLECTION).updateOne({ _id: objectId(product._id) },
-                    //         {
-                    //             $set: {
-                    //                 actualPrice: actualPrice,
-                    //                 price: (actualPrice - newPrice),
-                    //                 offer: true,
-                    //                 catOfferPercentage: data.offerPercentage
-                    //             }
-                    //         })
-                    // })
                     resolve(response)
                 }).catch((err) => {
                     reject(err)
@@ -494,7 +461,7 @@ module.exports = {
                                 }
                             })
                         resolve();
-                    }else{
+                    } else {
                         resolve()
                     }
 
@@ -503,10 +470,7 @@ module.exports = {
             } else {
                 resolve();
             }
-
         })
-
-
     },
     getAllProOffers: () => {
         return new Promise(async (resolve, reject) => {
@@ -594,18 +558,16 @@ module.exports = {
         let couponStartDate = new Date(date);
         return new Promise(async (resolve, reject) => {
             let data = await db.get().collection(collection.COUPON_COLLECTION).find({ startDateIso: { $lte: couponStartDate } }).toArray();
-            console.log(data);
             if (data) {
                 await data.map(async (oneData) => {
                     db.get().collection(collection.COUPON_COLLECTION).updateOne({ _id: objectId(oneData._id) },
                         {
                             $set: {
-                                Available: true 
+                                Available: true
                             }
                         }).then(() => {
                             resolve();
                         })
-
                 })
             } else {
                 resolve()
@@ -632,7 +594,6 @@ module.exports = {
                 }).then(() => {
                     resolve()
                 })
-
         })
     },
     deleteCoupon: (id) => {
@@ -742,9 +703,20 @@ module.exports = {
             resolve(data)
         })
     },
+    getUserReport: (body) => {
+        console.log(body);
+        return new Promise(async (resolve, reejct) => {
+            let startDate = body.StartDate
+            let endDate = body.EndDate
+            console.log(startDate, endDate);
+
+            console.log(data);
+
+        })
+    },
     allProductDetails: () => {
         return new Promise(async (resolve, reject) => {
-            let result = await db.get().collection(collections.ORDER_COLLECTION).aggregate([
+            let data = await db.get().collection(collections.ORDER_COLLECTION).aggregate([
                 {
                     $unwind: "$Products"
                 },
@@ -758,7 +730,7 @@ module.exports = {
                 },
                 {
                     $lookup: {
-                        from: collections.USER_COLLECTION,
+                        from: collection.USER_COLLECTION,
                         localField: "_id",
                         foreignField: "_id",
                         as: "userData"
@@ -773,13 +745,9 @@ module.exports = {
                         userdetails: { $arrayElemAt: ['$userData', 0] }
                     }
                 }
-
-
-
             ]).toArray();
             console.log(result);
             resolve(result);
         })
     },
-
 }
