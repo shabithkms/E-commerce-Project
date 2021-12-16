@@ -174,11 +174,13 @@ router.post('/edit-product/:id', verifyAdminLogin, async (req, res) => {
 router.get('/delete-product/:id', verifyAdminLogin, (req, res) => {
   let id = req.params.id
   productHelpers.deleteProduct(id).then((response) => {
-    console.log(id, "Id in deelete");
-    fs.unlinkSync('public/productImages/' + id + 'b.jpg')
-    fs.unlinkSync('public/productImages/' + id + 'c.jpg')
-    fs.unlinkSync('public/productImages/' + id + 'd.jpg')
     res.redirect('/admin/products')
+    if ('public/productImages/' + id + 'b.jpg') {
+      fs.unlinkSync('public/productImages/' + id + 'b.jpg')
+      fs.unlinkSync('public/productImages/' + id + 'c.jpg')
+      fs.unlinkSync('public/productImages/' + id + 'd.jpg')
+    }
+
   })
 })
 

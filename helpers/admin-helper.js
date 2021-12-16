@@ -349,7 +349,7 @@ module.exports = {
         let startDateIso = new Date(date);
         return new Promise(async (resolve, reject) => {
             let data = await db.get().collection(collection.CATEGORY_OFFERS).find({ startDateIso: { $lte: startDateIso } }).toArray();
-            if (data) {
+            if (data.length>0) {
                 await data.map(async (onedata) => {
 
                     let products = await db.get().collection(collection.PRODUCT_COLLECTION).find({ category: onedata.Category, offer: { $exists: false } }).toArray();
