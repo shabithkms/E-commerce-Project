@@ -848,7 +848,7 @@ module.exports = {
     },
     getHomeProducts: () => {
         return new Promise(async (resolve, reject) => {
-            let products = await db.get().collection(collection.PRODUCT_COLLECTION).find().sort({ $natural: -1 }).limit(5).toArray()
+            let products = await db.get().collection(collection.PRODUCT_COLLECTION).find().sort({ $natural: -1 }).limit(4).toArray() 
 
             resolve(products)
         })
