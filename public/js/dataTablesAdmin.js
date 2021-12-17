@@ -20,8 +20,8 @@ $(document).ready(function () {
     $('#proTable').DataTable();
 });
 
-$('#proTable tbody tr').each(function (idx) { 
-    $(this).children("td:eq(0)").html(idx + 1); 
+$('#proTable tbody tr').each(function (idx) {
+    $(this).children("td:eq(0)").html(idx + 1);
 });
 
 //Data export table
@@ -48,5 +48,26 @@ $('#example1 tbody tr').each(function (idx) {
 
 $(document).ready(function () {
     $('#report').DataTable();
+});
+
+$(document).ready(function () {
+    $('#user-report').DataTable({
+        dom: 'Bfrtip',
+        buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+        ]
+    });
+});
+
+$('#user-report tbody tr').each(function (idx) {
+    $(this).children("td:eq(0)").html(idx + 1);
+});
+
+$(document).ready(function () {
+    $('#user-report1').DataTable();
+});
+
+$('#user-report1 tbody tr').each(function (idx) {
+    $(this).children("td:eq(0)").html(idx + 1);
 });
 

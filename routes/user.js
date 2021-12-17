@@ -1224,6 +1224,7 @@ router.post('/addNewAddress-buyNow', (req, res) => {
 router.get('/myOrders', verifyUserLogin, async (req, res) => {
   let user = req.session.user
   let id = req.session.user._id
+  console.log("id",id);
   let brand = await userHelper.getBrands()
   let homePro = await userHelper.getHomeProducts()
   let homeCategory = await userHelper.getHomeCategories()
@@ -1232,6 +1233,7 @@ router.get('/myOrders', verifyUserLogin, async (req, res) => {
     cartCount = await userHelper.getCartCount(id)
   }
   userHelper.getUserOrders(id).then(async (orders) => {
+    console.log(orders);
     let len = orders.length
     if (len > 0) {
       res.render('user/my-orders', { orders, brand, homeCategory, homePro, cartCount, userPage: true, user })

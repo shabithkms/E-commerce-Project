@@ -119,7 +119,7 @@ $(document).ready(function () {
             },
             LastName: {
                 required: true,
-                minlength: 4,
+                minlength: 1,
                 maxlength: 15
 
             },

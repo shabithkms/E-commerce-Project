@@ -736,7 +736,9 @@ module.exports = {
                     }
                 }
             ]).toArray();
-            console.log(report);
+            if (report.length == 0) {
+               report.noData=true
+            }
             resolve(report);
         })
     },

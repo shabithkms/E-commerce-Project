@@ -52,7 +52,7 @@ app.use(session({
 })
 )
 app.use(fileUpload())
-
+//Route setting
 app.use('/', usersRouter);
 app.use('/admin', adminRouter);
 

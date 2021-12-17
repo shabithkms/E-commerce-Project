@@ -450,15 +450,15 @@ module.exports = {
                 }
             ]).toArray()
             if (subtotal.length > 0) {
-                db.get().collection(collection.CART_COLLECTION).updateOne({user:objectId(userId),"products.item": objectId(proId) },
-                {
-                    $set:{
-                        'products.$.subtotal':subtotal[0].subtotal
-                    }
-                }).then((response)=>{
-                    console.log(response);
-                    resolve(subtotal[0].subtotal)
-                })                
+                db.get().collection(collection.CART_COLLECTION).updateOne({ user: objectId(userId), "products.item": objectId(proId) },
+                    {
+                        $set: {
+                            'products.$.subtotal': subtotal[0].subtotal
+                        }
+                    }).then((response) => {
+                        console.log(response);
+                        resolve(subtotal[0].subtotal)
+                    })
             }
             else {
                 subtotal = 0
@@ -616,9 +616,11 @@ module.exports = {
     //Buy Now section
     getBuyNowProduct: (proId) => {
         return new Promise(async (resolve, reject) => {
+            let pro=await db.get().collection(collection.PRODUCT_COLLECTION).findOne({_id:objectId(proId)})
             let proObj = {
                 item: objectId(proId),
-                quantity: 1
+                quantity: 1,
+                subtotal:pro.price 
             }
             let product = [proObj]
             resolve(product)
@@ -647,6 +649,7 @@ module.exports = {
             } else {
                 order.buyNow = false
             }
+            order.User = objectId(order.User)
             //To get today date
             let dateIso = new Date()
             let date = moment(dateIso).format('YYYY/MM/DD')
@@ -662,7 +665,7 @@ module.exports = {
                     Mobile: order.Mobile
                 },
                 Email: order.Email,
-                User: objectId(order.User),
+                User: order.User,
                 PaymentMethod: order.Payment,
                 Products: products,
                 Total: total,
@@ -813,7 +816,7 @@ module.exports = {
     //Get user order with user id for my order section
     getUserOrders: (Id) => {
         return new Promise(async (resolve, reject) => {
-            let orders = await db.get().collection(collection.ORDER_COLLECTION).find({ User: Id }).sort({ $natural: -1 }).toArray()
+            let orders = await db.get().collection(collection.ORDER_COLLECTION).find({ User: objectId(Id) }).sort({ $natural: -1 }).toArray()
             resolve(orders)
         })
     },
