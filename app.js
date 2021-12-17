@@ -10,9 +10,11 @@ var fileUpload = require('express-fileupload')
 const accountSID = process.env.accountSID
 const authToken = process.env.authToken
 const serviceSID = process.env.serviceSID
+//Twilio connection
+const client = require('twilio')(accountSID, authToken)
 
-const client = require('twilio')(accountSID,authToken)
-
+//Mongo session
+const MongoStore = require('connect-mongo')
 
 var db = require('./config/connection')
 db.connect((err) => {
@@ -37,7 +39,18 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(session({ secret: "Key", cookie: { maxAge: 1000000 } }))
+//session
+app.use(session({
+  secret: "Key",
+  resave:false,
+  saveUninitialized:true,
+  store:MongoStore.create({
+    mongoUrl:process.env.URL ,
+    ttl:2*24*60*60,
+    autoRemove:'native'
+  })
+})
+)
 app.use(fileUpload())
 
 app.use('/', usersRouter);

@@ -101,7 +101,7 @@ router.get('/login', async (req, res) => {
 
 router.post('/login', (req, res) => {
   console.log("login");
-  userHelper.doLogin(req.body).then(async (response) => {
+  userHelper.doLogin(req.body).then(async (response) => { 
     let userStatus = response.userStatus
     if (response.status) {
       let status = response.user.status

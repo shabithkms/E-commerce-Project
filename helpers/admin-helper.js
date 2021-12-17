@@ -703,20 +703,10 @@ module.exports = {
             resolve(data)
         })
     },
-    getUserReport: (body) => {
-        console.log(body);
-        return new Promise(async (resolve, reejct) => {
-            let startDate = body.StartDate
-            let endDate = body.EndDate
-            console.log(startDate, endDate);
 
-            console.log(data);
-
-        })
-    },
-    allProductDetails: () => {
+    userReport: () => {
         return new Promise(async (resolve, reject) => {
-            let data = await db.get().collection(collections.ORDER_COLLECTION).aggregate([
+            let report = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
                 {
                     $unwind: "$Products"
                 },
@@ -725,7 +715,7 @@ module.exports = {
                         _id: "$User",
                         totalOrders: { "$sum": 1 },
                         spend: { "$sum": "$Products.subtotal" },
-                        productsbuy: { "$sum": "$products.quantity" }
+                        productsBuy: { "$sum": "$Products.quantity" }
                     }
                 },
                 {
@@ -741,13 +731,13 @@ module.exports = {
                         _id: 1,
                         totalOrders: 1,
                         spend: 1,
-                        productsbuy: 1,
-                        userdetails: { $arrayElemAt: ['$userData', 0] }
+                        productsBuy: 1,
+                        userData: { $arrayElemAt: ['$userData', 0] }
                     }
                 }
             ]).toArray();
-            console.log(result);
-            resolve(result);
+            console.log(report);
+            resolve(report);
         })
     },
 }

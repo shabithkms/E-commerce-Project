@@ -1,21 +1,53 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <form action="/admin/user-report" method="post">
-                <div class="form-row">
-                    <div class="form-group col-md-4">
-                        <label for="start">Starting Date</label>
-                        <input type="date" class="form-control" id="start" name="StartDate" required>
-                    </div>
-                    <div class="form-group col-md-4">
-                        <label for="end">Ending Date</label>
-                        <input type="date" class="form-control" id="end" name="EndDate" required>
-                    </div>
-                    <div class="form-group col-md-4 mt-4">
-                        <input type="submit" value="Submit" class="btn btn-block btn-primary">
-                    </div>
+            <div class="row mt-5">
+                <div class="col-md-12 bg-dark">
+                    <h1 class="text-center text-white rounded pt-1">User report</h1> 
                 </div>
-            </form>
+                <div class="col-md-12 card mt-4">
+                    {{#if data.noData}}
+                    <table class="table table-hover" id="example1">
+                        {{else}}
+                        <table class="table table-hover" id="example">
+                            {{/if}}
+                            <thead>
+                                <tr>
+                                    <th scope="col">No.</th>
+                                    <th scope="col">Date</th>
+                                    <th scope="col">User</th>
+                                    <th scope="col">Amount</th>
+                                    <th scope="col">Discount</th>
+                                    <th scope="col">Payment</th>
+                                    <th scope="col">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{#each data.currentOrders}}
+                                <tr>
+                                    <td></td>
+                                    <td>{{this.Date}}</td>
+
+                                    <td>{{this.User}}</td>
+
+
+                                    <td>{{this.Total}}</td>
+                                    <td>
+                                        {{#if this.Discount}}
+                                        {{this.Discount}}
+                                        {{else}}
+                                        0{{/if}}
+                                    </td>
+                                    <td>{{this.PaymentMethod}}</td>
+                                    <td>{{this.Status}}</td>
+
+
+                                </tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
+                </div>
+            </div>
         </div>
     </div>
 </div>

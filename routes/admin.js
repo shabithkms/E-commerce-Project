@@ -491,17 +491,11 @@ router.post('/report', (req, res) => {
     res.render('admin/report', { admin: true, report: true, data, })
   })
 })
-router.get('/user-report',verifyAdminLogin,(req,res)=>{
-  res.render('admin/user-report')
-
-})
-router.post('/user-report',verifyAdminLogin,(req,res)=>{
-  adminHelpers.getUserReport(req.body).then((report)=>{
-    
+router.get('/user-report', verifyAdminLogin, (req, res) => {
+  adminHelpers.userReport().then((reports) => {
+    res.render('admin/user-report',{reports,admin: true, report: true,})
   })
-
 })
-
 
 //Logout
 router.get('/logout', (req, res) => {

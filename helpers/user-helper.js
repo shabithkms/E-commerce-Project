@@ -662,7 +662,7 @@ module.exports = {
                     Mobile: order.Mobile
                 },
                 Email: order.Email,
-                User: order.User,
+                User: objectId(order.User),
                 PaymentMethod: order.Payment,
                 Products: products,
                 Total: total,
