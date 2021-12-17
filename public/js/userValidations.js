@@ -76,6 +76,18 @@ $(document).ready(function () {
     })
 })
 
+$(document).ready(function () {
+    $('#otp').validate({
+        rules: {
+            otp:{
+                required:true,
+                minlength:6,
+                maxlength:6
+            }
+        }
+    })
+})
+
 jQuery(function ($) {
 
     $(".sidebar-dropdown > a").click(function () {

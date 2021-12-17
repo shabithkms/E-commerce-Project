@@ -1,24 +1,24 @@
 //Checkout
-$('#checkout-form').submit((e) => {
-    e.preventDefault()
-    $.ajax({
-        url: '/place-order',
-        method: 'post',
-        data: $('#checkout-form').serialize(),
-        success: (response) => {
-            if (response.codSuccess) {
-                console.log("cod success")
-                location.href = "/order-success"
-            } else if (response.razorpay) {
+// $('#checkout-form').submit((e) => {
+//     e.preventDefault()
+//     $.ajax({
+//         url: '/place-order',
+//         method: 'post',
+//         data: $('#checkout-form').serialize(),
+//         success: (response) => {
+//             if (response.codSuccess) {
+//                 console.log("cod success")
+//                 location.href = "/order-success"
+//             } else if (response.razorpay) {
 
-                razorpayPayment(response.resp)
-                console.log(response)
-            } else {
-                location.href = response.url
-            }
-        }
-    })
-})
+//                 razorpayPayment(response.resp)
+//                 console.log(response)
+//             } else {
+//                 location.href = response.url
+//             }
+//         }
+//     })
+// })
 
 function razorpayPayment(order) {
     var options = {
@@ -223,7 +223,7 @@ function changeQuantity(cartId, proId, stock, userId, count) {
     } else {
 
         document.getElementById(proId + "a").disabled = true
-        document.getElementById(proId).disabled = true
+        document.getElementById(proId + "b").disabled = true
         $.ajax({
             url: '/change-product-quantity',
             data: {
@@ -237,13 +237,13 @@ function changeQuantity(cartId, proId, stock, userId, count) {
             success: (response) => {
 
                 if (response.lastProduct) {
-                    document.getElementById(proId).disabled = false 
-                    document.getElementById(proId + "a").disabled = true
+                    document.getElementById(proId + "a").disabled = false
+                    document.getElementById(proId + "b").disabled = true
 
                 } else {
                     document.getElementById(proId).innerHTML = quantity + count
                     document.getElementById(proId + "a").disabled = false
-                    document.getElementById(proId).disabled = false 
+                    document.getElementById(proId + "b").disabled = false
                     console.log(response)
                     document.getElementById('total1').innerHTML = response.total
                     document.getElementById('total2').innerHTML = response.total

@@ -101,7 +101,7 @@ router.get('/login', async (req, res) => {
 
 router.post('/login', (req, res) => {
   console.log("login");
-  userHelper.doLogin(req.body).then(async (response) => { 
+  userHelper.doLogin(req.body).then(async (response) => {
     let userStatus = response.userStatus
     if (response.status) {
       let status = response.user.status
@@ -1130,13 +1130,13 @@ router.get('/order-success', verifyUserLogin, async (req, res) => {
   let homeCategory = await userHelper.getHomeCategories()
   let orderId = req.session.orderId
   if (req.session.ordered) {
-    let orderId = req.session.orderId
     res.render('user/order-success', { user, orderId, homeCategory, brand, homePro })
   } else {
     res.redirect('/cart')
   }
   req.session.ordered = false
 })
+
 //invooice
 router.get('/invoice/:oId', verifyUserLogin, async (req, res) => {
   let orderId = req.params.oId
@@ -1153,8 +1153,9 @@ router.get('/invoice/:oId', verifyUserLogin, async (req, res) => {
   }
   res.render('user/invoice', { order, orderProducts, user, cartCount, brand, homePro, homeCategory })
 })
+
 //Buy now cancel section
-router.get('/buyNowCancelled', verifyUserLogin, async (req, res) => { 
+router.get('/buyNowCancelled', verifyUserLogin, async (req, res) => {
   let user = req.session.user
   let cartCount = null
   let brand = await userHelper.getBrands()
@@ -1224,7 +1225,7 @@ router.post('/addNewAddress-buyNow', (req, res) => {
 router.get('/myOrders', verifyUserLogin, async (req, res) => {
   let user = req.session.user
   let id = req.session.user._id
-  console.log("id",id);
+  console.log("id", id);
   let brand = await userHelper.getBrands()
   let homePro = await userHelper.getHomeProducts()
   let homeCategory = await userHelper.getHomeCategories()
@@ -1247,7 +1248,6 @@ router.post('/cancelOrder', (req, res) => {
   console.log("api call");
   let id = req.body.id
   userHelper.cancelOrder(id).then((response) => {
-    // res.redirect('/myOrders')
     res.json({ status: true })
   })
 })

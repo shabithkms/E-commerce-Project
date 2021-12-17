@@ -8,7 +8,7 @@ const Toast = Swal.mixin({
     toast: true,
     position: 'top',
     showConfirmButton: false,
-    timer: 2000,
+    timer: 1500,
     timerProgressBar: true,
     didOpen: (toast) => {
         toast.addEventListener('mouseenter', Swal.stopTimer)
@@ -49,8 +49,9 @@ function addToCart(proId, stock) {
     })
 }
 //Add to wishlist
-function addToWishlist(proId,e) {
+function addToWishlistA(proId, e) {
     e.preventDefault()
+    document.getElementById(proId+"A").disabled = true
     $.ajax({
         url: '/add-to-wishlist/' + proId,
         method: 'get',
@@ -60,10 +61,40 @@ function addToWishlist(proId,e) {
                     icon: 'error',
                     title: 'item removed from Wishlist'
                 })
+                document.getElementById(proId+"A").disabled = false
 
             } else if (response.status) {
+                document.getElementById(proId+"A").disabled = false
                 location.replace('/login')
             } else {
+                document.getElementById(proId+"A").disabled = false
+                Toast.fire({
+                    icon: 'success',
+                    title: 'item added to Wishlist'
+                })
+            }
+        }
+    })
+}
+function addToWishlistB(proId, e) {
+    e.preventDefault()
+    document.getElementById(proId+"B").disabled = true
+    $.ajax({
+        url: '/add-to-wishlist/' + proId,
+        method: 'get',
+        success: (response) => {
+            if (response.pulled) {
+                Toast.fire({
+                    icon: 'error',
+                    title: 'item removed from Wishlist'
+                })
+                document.getElementById(proId+"B").disabled = false
+
+            } else if (response.status) {
+                document.getElementById(proId+"B").disabled = false
+                location.replace('/login')
+            } else {
+                document.getElementById(proId+"B").disabled = false
                 Toast.fire({
                     icon: 'success',
                     title: 'item added to Wishlist'

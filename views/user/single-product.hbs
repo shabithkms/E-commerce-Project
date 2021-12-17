@@ -163,7 +163,8 @@
                                 </div>
                                 <div class="quickview-btn-wishlist ">
                                     <a class="btn-hover list-btn-wishlist animate-left mt-1" href=""
-                                        onclick="addToWishlist('{{product._id}}',event)" title="Wishlist">
+                                        id="{{product._id}}A" onclick="addToWishlistA('{{product._id}}',event)"
+                                        title="Wishlist">
                                         <i class="ion-ios-heart-outline"></i>
                                     </a>
                                 </div>
@@ -230,8 +231,8 @@
                             <img src="https://shabith.ml/productImages/{{this._id}}a.jpg" alt="">
                         </a>
                         <div class="product-action">
-                            <a class="animate-left" href="" onclick="addToWishlist('{{this._id}}',event)"
-                                title="Wishlist">
+                            <a class="animate-left" href="" onclick="addToWishlistB('{{this._id}}',event)"
+                                id="{{this._id}}B" title="Wishlist">
                                 <i class="ion-ios-heart-outline"></i>
                             </a>
                         </div>

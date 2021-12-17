@@ -1,12 +1,18 @@
 <div class="container height-100 d-flex justify-content-center align-items-center">
     <div class="position-relative">
-        <form action="/login/otp" method="post">
+        <form action="/login/otp" method="post" id="otp">
+            {{#if otpErr}}
+            <h6 class="font pb-3" style="color: red;">Server is Busy</h6>
+            {{/if}}
+            {{#if invalidOtp}}
+            <h6 class="font pb-3" style="color: red;">Invalid OTP</h6>
+            {{/if}}
             <div class="card p-2 text-center" style="height: fit-content;">
                 <h6>Please enter the one time password <br> to verify your account</h6>
                 <div id="otp" class="inputs d-flex flex-row justify-content-center mt-2">
                     <input type="number" style="display: none;" value="" name="mobiileNo">
-                    <input type="tel" name="otp"  class="input-full"
-                        placeholder="Enter your otp"    onkeypress="return isNumber(event)" maxlength="6" >
+                    <input type="text" name="otp" class="input-full" placeholder="Enter your otp"
+                        onkeypress="return isNumber(event)" maxlength="6" minlength="6">
                 </div>
                 <div class="text-center mt-3">
                     <span class="d-block mobile-text" id="countdown"></span>
@@ -17,12 +23,7 @@
                     </a>
                 </div>
                 <div class="mt-4">
-                    {{#if otpErr}}
-                    <h6 class="font pb-3" style="color: red;">Server is Busy</h6>
-                    {{/if}}
-                    {{#if invalidOtp}}
-                    <h6 class="font pb-3" style="color: red;">Invalid OTP</h6>
-                    {{/if}}
+
                     <button type="submit" class="btn mb-3   validate">Verify</button>
                 </div>
             </div>

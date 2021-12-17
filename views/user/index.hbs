@@ -71,8 +71,8 @@
                                                 <img src="https://shabith.ml/productImages/{{this._id}}a.jpg" alt="">
                                             </a>
                                             <div class="product-action">
-                                                <a class="animate-left" href=""
-                                                    onclick="addToWishlist('{{this._id}}',event)" title="Wishlist">
+                                                <a class="animate-left" href="" id="{{this._id}}A"
+                                                    onclick="addToWishlistA('{{this._id}}',event)" title="Wishlist">
                                                     <i class="ion-ios-heart-outline"></i>
                                                 </a>
                                             </div>
@@ -213,8 +213,8 @@
                                         <img src="https://shabith.ml/productImages/{{this._id}}a.jpg" alt="">
                                     </a>
                                     <div class="product-action">
-                                        <a class="animate-left" href="" onclick="addToWishlist('{{this._id}}')"
-                                            title="Wishlist">
+                                        <a class="animate-left" href="" onclick="addToWishlistB('{{this._id}}',event)"
+                                            id="{{this._id}}B" title="Wishlist">
                                             <i class="ion-ios-heart-outline"></i>
                                         </a>
                                     </div>
@@ -341,7 +341,8 @@
                 <div class="brand-logo-active owl-carousel">
                     {{#each brand}}
                     <div class="single-logo">
-                        <img src="https://shabith.ml/brandLogos/{{this._id}}.jpg" style="width: 150px;height: 150px;" alt="">
+                        <img src="https://shabith.ml/brandLogos/{{this._id}}.jpg" style="width: 150px;height: 150px;"
+                            alt="">
                     </div>
                     {{/each}}
                 </div>
