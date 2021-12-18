@@ -46,13 +46,15 @@ $(document).ready(function () {
             },
             PIN: {
                 required: true,
+                number: true,
                 minlength: 6,
                 maxlength: 6
             },
             Mobile: {
                 required: true,
+                number: true,
                 minlength: 10,
-                maxlength: 10
+                maxlength: 10,
             },
             Email: {
                 required: true,
@@ -110,13 +112,15 @@ $(document).ready(function () {
             },
             PIN: {
                 required: true,
+                number: true,
                 minlength: 6,
                 maxlength: 6
             },
             Mobile: {
                 required: true,
+                number: true,
                 minlength: 10,
-                maxlength: 10
+                maxlength: 10,
             },
             Email: {
                 required: true,
