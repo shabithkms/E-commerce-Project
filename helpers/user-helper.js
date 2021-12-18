@@ -678,6 +678,7 @@ module.exports = {
                 Status: "Placed"
             }
             let user = order.User
+            user=user.toString() 
             db.get().collection(collection.COUPON_COLLECTION).updateOne({ Coupon: coupon },
                 {
                     $push: {

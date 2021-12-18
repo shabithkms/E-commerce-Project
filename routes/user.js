@@ -757,6 +757,7 @@ router.post('/place-order', async (req, res) => {
         req.session.ordered = true
         res.json({ codSuccess: true })
         userHelper.clearCart(id).then(() => {
+          req.session.couponTotal=null
           console.log("cart cleared");
         })
       })
@@ -859,7 +860,7 @@ router.get('/buyNow/:id', verifyUserLogin, async (req, res) => {
     let cartCount = null
     if (req.session.user) {
       let Id = req.session.user._id
-      cartCount = await userHelper.getCartCount(Id)
+      cartCount = await userHelper.getCartCount(Id) 
     }
     //get Address
     var address = null
@@ -900,6 +901,7 @@ router.post('/buyNow', async (req, res) => {
         userHelper.stockChanger(req.session.orderId).then(() => {
           req.session.ordered = true
           req.session.buyNow = true
+          req.session.couponTotal=null
           res.json({ codSuccess: true })
         })
       })
@@ -1007,6 +1009,7 @@ router.get('/buyNowSuccess', verifyUserLogin, (req, res) => {
         userHelper.stockChanger(req.session.orderId).then(() => {
           req.session.ordered = true
           let user = req.session.user
+          req.session.couponTotal=null
           console.log("cart cleared");
           res.render('user/order-success', { user })
           req.session.buyNow = true
@@ -1053,6 +1056,7 @@ router.get('/success', verifyUserLogin, (req, res) => {
         userHelper.stockChanger(req.session.orderId).then(() => {
           userHelper.clearCart(id).then(() => {
             let user = req.session.user
+            req.session.couponTotal=null
             console.log("cart cleared");
             res.render('user/order-success', { user })
             req.session.buyNow = true
@@ -1080,6 +1084,7 @@ router.post('/verify-buyNowPayment', (req, res) => {
       let orderId = req.session.orderId
       console.log(req.session.orderId, "order id");
       userHelper.stockChanger(req.session.orderId).then(() => {
+        req.session.couponTotal=null
         req.session.ordered = true
         console.log("cart cleared");
         req.session.buyNowData = null
@@ -1110,6 +1115,7 @@ router.post('/verify-payment', (req, res) => {
       userHelper.stockChanger(req.session.orderId).then(() => {
         req.session.ordered = true
         userHelper.clearCart(id).then(() => {
+          req.session.couponTotal=null
           console.log("cart cleared");
           res.json({ status: true })
           req.session.placeOrderData = null
@@ -1129,6 +1135,7 @@ router.get('/order-success', verifyUserLogin, async (req, res) => {
   let homePro = await userHelper.getHomeProducts()
   let homeCategory = await userHelper.getHomeCategories()
   let orderId = req.session.orderId
+  req.session.couponTotal=null
   if (req.session.ordered) {
     res.render('user/order-success', { user, orderId, homeCategory, brand, homePro })
   } else {
@@ -1156,6 +1163,7 @@ router.get('/invoice/:oId', verifyUserLogin, async (req, res) => {
 
 //Buy now cancel section
 router.get('/buyNowCancelled', verifyUserLogin, async (req, res) => {
+  req.session.couponTotal=null
   let user = req.session.user
   let cartCount = null
   let brand = await userHelper.getBrands()
@@ -1168,6 +1176,7 @@ router.get('/buyNowCancelled', verifyUserLogin, async (req, res) => {
   res.render('user/buyNow-cancel', { user, brand, homeCategory, homePro, cartCount })
 })
 router.get('/cancelled', verifyUserLogin, async (req, res) => {
+  req.session.couponTotal=null
   let user = req.session.user
   let cartCount = null
   let brand = await userHelper.getBrands()

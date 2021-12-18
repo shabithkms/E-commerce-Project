@@ -657,7 +657,7 @@ module.exports = {
             console.log("dates", dates);
             let start = moment(dates.StartDate).format('YYYY/MM/DD')
             let end = moment(dates.EndDate).format('YYYY/MM/DD')
-            let orderSuccess = await db.get().collection(collection.ORDER_COLLECTION).find({ Date: { $gte: start, $lte: end }, Status: { $nin: ['Cancelled', 'pending'] } }).sort({ Date: -1, Time: -1 }).toArray()
+            let orderSuccess = await db.get().collection(collection.ORDER_COLLECTION).find({ Date: { $gte: start, $lte: end }, Status: { $nin: ['Cancelled'] } }).sort({ Date: -1, Time: -1 }).toArray()
             let orderTotal = await db.get().collection(collection.ORDER_COLLECTION).find({ Date: { $gte: start, $lte: end } }).toArray()
             let orderSuccessLength = orderSuccess.length
             let orderTotalLength = orderTotal.length
