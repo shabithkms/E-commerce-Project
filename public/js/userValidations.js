@@ -88,6 +88,18 @@ $(document).ready(function () {
     })
 })
 
+$(document).ready(function () {
+    $('#loginOtp').validate({
+        rules: {
+            mobileNo:{
+                required:true,
+                minlength:10,
+                maxlength:10
+            }
+        }
+    })
+})
+
 jQuery(function ($) {
 
     $(".sidebar-dropdown > a").click(function () {

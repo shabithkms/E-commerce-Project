@@ -20,6 +20,131 @@
 //     })
 // })
 
+$(document).ready(function () {
+
+    $("#checkout-form").validate({
+
+        rules: {
+            FirstName: {
+                required: true,
+                minlength: 5,
+                maxlength: 20
+            },
+            LastName: {
+                required: true,
+                minlength: 1,
+                maxlength: 15
+            },
+            House: {
+                required: true
+            },
+            Street: {
+                required: true
+            },
+            Town: {
+                required: true
+            },
+            PIN: {
+                required: true,
+                minlength: 6,
+                maxlength: 6
+            },
+            Mobile: {
+                required: true,
+                minlength: 10,
+                maxlength: 10
+            },
+            Email: {
+                required: true,
+                email: true
+            }
+
+
+
+        },
+        submitHandler: function (form) {
+
+            $.ajax({
+                url: '/place-order',
+                method: 'post',
+                data: $('#checkout-form').serialize(),
+                success: (response) => {
+                    if (response.codSuccess) {
+                        console.log("cod success")
+                        location.href = "/order-success"
+                    } else if (response.razorpay) {
+
+                        razorpayPayment(response.resp)
+                        console.log(response)
+                    } else {
+                        location.href = response.url
+                    }
+                }
+            })
+        }
+    })
+
+})
+
+$(document).ready(function () {
+    $("#buyNow-form").validate({
+        rules: {
+            FirstName: {
+                required: true,
+                minlength: 5,
+                maxlength: 20
+            },
+            LastName: {
+                required: true,
+                minlength: 1,
+                maxlength: 15
+            },
+            House: {
+                required: true
+            },
+            Street: {
+                required: true
+            },
+            Town: {
+                required: true
+            },
+            PIN: {
+                required: true,
+                minlength: 6,
+                maxlength: 6
+            },
+            Mobile: {
+                required: true,
+                minlength: 10,
+                maxlength: 10
+            },
+            Email: {
+                required: true,
+                email: true
+            }
+        },
+        submitHandler: function (form) {
+            $.ajax({
+                url: '/buyNow',
+                method: 'post',
+                data: $('#buyNow-form').serialize(),
+                success: (response) => {
+                    if (response.codSuccess) {
+                        console.log("cod success")
+                        location.href = "/order-success"
+                    } else if (response.razorpay) {
+
+                        razorpayBuyNowPayment(response.resp)
+                        console.log(response)
+                    } else {
+                        location.href = response.url
+                    }
+                }
+            })
+        }
+    })
+})
+
 function razorpayPayment(order) {
     var options = {
         "key": "rzp_test_uHpEhuefBwxSUI", // Enter the Key ID generated from the Dashboard
@@ -71,26 +196,26 @@ function verifyPayment(response, order) {
 
 //Buy now
 
-$('#buyNow-form').submit((e) => {
-    e.preventDefault()
-    $.ajax({
-        url: '/buyNow',
-        method: 'post',
-        data: $('#buyNow-form').serialize(),
-        success: (response) => {
-            if (response.codSuccess) {
-                console.log("cod success")
-                location.href = "/order-success"
-            } else if (response.razorpay) {
+// $('#buyNow-form').submit((e) => {
+//     e.preventDefault()
+//     $.ajax({
+//         url: '/buyNow',
+//         method: 'post',
+//         data: $('#buyNow-form').serialize(),
+//         success: (response) => {
+//             if (response.codSuccess) {
+//                 console.log("cod success")
+//                 location.href = "/order-success"
+//             } else if (response.razorpay) {
 
-                razorpayBuyNowPayment(response.resp)
-                console.log(response)
-            } else {
-                location.href = response.url
-            }
-        }
-    })
-})
+//                 razorpayBuyNowPayment(response.resp)
+//                 console.log(response)
+//             } else {
+//                 location.href = response.url
+//             }
+//         }
+//     })
+// })
 
 function razorpayBuyNowPayment(order) {
     var options = {
