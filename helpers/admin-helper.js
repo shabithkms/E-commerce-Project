@@ -535,12 +535,11 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
             let startDateIso = new Date(data.Starting)
             let endDateIso = new Date(data.Expiry)
-            let expiry = await moment(data.Expiry).format('DD/MM/YYYY')
-            let starting = await moment(data.Starting).format('DD/MM/YYYY')
+            let expiry = await moment(data.Expiry).format('YYYY-MM-DD')
+            let starting = await moment(data.Starting).format('YYYY-MM-DD')
             let dataobj = await {
                 Coupon: data.Coupon,
                 Offer: parseInt(data.Offer),
-                Status: 1,
                 Starting: starting,
                 Expiry: expiry,
                 startDateIso: startDateIso,
