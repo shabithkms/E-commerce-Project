@@ -1130,7 +1130,7 @@ router.post('/verify-payment', (req, res) => {
   })
 })
 
-router.get('/order-success', verifyUserLogin, async (req, res) => {
+router.get('/order-success', verifyUserLogin, async (req, res) => { 
   let user = req.session.user
   let brand = await userHelper.getBrands()
   let homePro = await userHelper.getHomeProducts()
@@ -1176,7 +1176,7 @@ router.get('/buyNowCancelled', verifyUserLogin, async (req, res) => {
     let Id = req.session.user._id
     cartCount = await userHelper.getCartCount(Id)
   }
-  res.render('user/buyNow-cancel', { user, brand, homeCategory, homePro, cartCount })
+  res.render('user/cancel', { user, brand, homeCategory, homePro, cartCount })
 })
 router.get('/cancelled', verifyUserLogin, async (req, res) => {
   req.session.couponTotal = null
