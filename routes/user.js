@@ -1024,7 +1024,7 @@ router.get('/buyNowSuccess', verifyUserLogin, (req, res) => {
           let user = req.session.user
           req.session.couponTotal = null
           console.log("cart cleared");
-          res.render('user/order-success', { user })
+          res.render('user/new-success', { user })
           req.session.buyNow = true
           req.session.buyNowData = null
         })
@@ -1071,7 +1071,7 @@ router.get('/success', verifyUserLogin, (req, res) => {
             let user = req.session.user
             req.session.couponTotal = null
             console.log("cart cleared");
-            res.render('user/order-success', { user })
+            res.render('user/new-success', { user })
             req.session.buyNow = true
             req.session.placeOrderData = null
           })
