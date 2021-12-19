@@ -56,6 +56,17 @@ const verifyUserLogin = (req, res, next) => {
     res.redirect('/login')
   }
 }
+//For shuffling products
+function shuffleArray(array) {
+  for (var i = array.length - 1; i > 0; i--) {
+    // Generate random number
+    var j = Math.floor(Math.random() * (i + 1));
+    var temp = array[i];
+    array[i] = array[j];
+    array[j] = temp;
+  }
+  return array;
+}
 
 //User home page
 router.get('/', async function (req, res, next) {
@@ -516,6 +527,7 @@ router.get('/products', async (req, res) => {
   let brand = await userHelper.getBrands()
   let homePro = await userHelper.getHomeProducts()
   let homeCategory = await userHelper.getHomeCategories()
+  await shuffleArray(products)
   let cartCount = null
   if (req.session.user) {
     let Id = req.session.user._id
@@ -1130,7 +1142,7 @@ router.post('/verify-payment', (req, res) => {
   })
 })
 
-router.get('/order-success', verifyUserLogin, async (req, res) => { 
+router.get('/order-success', verifyUserLogin, async (req, res) => {
   let user = req.session.user
   let brand = await userHelper.getBrands()
   let homePro = await userHelper.getHomeProducts()
