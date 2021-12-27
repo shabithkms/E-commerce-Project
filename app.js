@@ -24,7 +24,7 @@ db.connect((err) => {
     console.log("Database connected");
 })
 
-var adminRouter = require('./routes/admin');
+var adminRouter = require('./routes/admin'); 
 var usersRouter = require('./routes/user');
 
 var app = express();
