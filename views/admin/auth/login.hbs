@@ -2,9 +2,12 @@
     label.error {
         color: red !important;
     }
+    .register-area{
+        height: 100vh;
+    }
 </style>
-<div class="register-area ptb-100 shop-limited-area bg-img ml-35 mr-35 ">
-    <div class="container h-100">
+<div class="register-area ptb-100  shop-limited-area bg-img ml-35 mr-35 ">
+    <div class="container ">
         <div class="row">
             <div class="col-md-12 col-12 col-lg-6 col-xl-6 ml-auto mr-auto">
                 <div class="login">
@@ -13,11 +16,11 @@
                             <h3 class=" pb-4">Admin Login</h3>
                         </div>
                         <div id="CustomerLoginForm" class="login-form">
-                            <form method="post" action="/admin/login" id="adminLogin">
+                            <form method="post" action="/admin/auth/login" id="adminLogin">
 
-                                {{#if loginErr}}
+                                {{#if loginError}}
                                 <div class="alert alert-danger" role="alert">
-                                    Incorrect password
+                                    {{loginError}}
                                 </div>
                                 {{/if}}
                                 {{#if noAdmin}}

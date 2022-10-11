@@ -12,15 +12,7 @@ const userHelper = require('../helpers/user-helper');
 const productHelper = require('../helpers/product-helper');
 const { uploadFile } = require('../config/s3');
 const { response } = require('express');
-//Middleware for checking admin login
-const verifyAdminLogin = (req, res, next) => {
-  res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
-  if (req.session.adminLoggedIn) {
-    next()
-  } else {
-    res.redirect('/admin/login')
-  }
-}
+
 
 //Admin login
 router.get('/login', function (req, res, next) {
