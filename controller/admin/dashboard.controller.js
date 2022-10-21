@@ -1,12 +1,9 @@
 const Admin = require('../../model/Admin')
 const bcrypt = require('bcryptjs')
 
-const login = (req, res) => {
+const dashboard = (req, res) => {
     try {
-        return res.render('admin/login', {
-            login: true,
-            loginError: req.flash('loginError'),
-        })
+        return res.render('admin/dashboard', { dashboard: true,admin:true })
     } catch (error) {
         console.log(error)
         return res.render('error-404')
@@ -36,6 +33,6 @@ const loginSubmit = async (req, res) => {
 }
 
 module.exports = {
-    login,
+    dashboard,
     loginSubmit,
 }

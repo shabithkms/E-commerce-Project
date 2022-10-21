@@ -19,7 +19,11 @@
                         <div class='page-not-found text-center'>
                             <h4>Sorry For The Inconvenience.</h4>
                             <p>Search again what you are looking for</p>
-                            <a href='/'>Go To Home</a>
+                            {{#if adminErrorPage}}
+                                <a href='/admin'>Go To Dashboard</a>
+                            {{else}}
+                                <a href='/'>Go To Home</a>
+                            {{/if}}
                         </div>
                     </div>
                 </div>

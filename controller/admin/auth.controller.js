@@ -36,7 +36,14 @@ const loginSubmit = async (req, res) => {
     }
 }
 
+const logout = (req, res) => {
+    req.session.adminLoggedIn = false
+    req.session.admin = false
+    res.redirect('/admin/auth/login')
+}
+
 module.exports = {
     login,
     loginSubmit,
+    logout,
 }
