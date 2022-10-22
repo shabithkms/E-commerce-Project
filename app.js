@@ -11,7 +11,7 @@ const accountSID = process.env.accountSID
 const authToken = process.env.authToken
 const serviceSID = process.env.serviceSID
 //Twilio connection
-const client = require('twilio')(accountSID, authToken)
+// const client = require('twilio')(accountSID, authToken)
 //Mongo session
 const MongoStore = require('connect-mongo')
 const { default: mongoose } = require('mongoose')
