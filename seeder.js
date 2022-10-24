@@ -38,10 +38,10 @@ const runSeeder = async () => {
 }
 
 if (
-    process.env.NODE_ENV !== 'production' &&
-    process.env.NODE_ENV !== 'staging'
+    process.env.NODE_ENV !== 'Production' &&
+    process.env.NODE_ENV !== 'Staging'
 ) {
     runSeeder()
 } else {
-    console.log(`❗️ Seeder will not run on staging or Prodution enviornment`)
+    console.log(`❗️ Seeder will not run on Staging or Prodution enviornment`)
 }

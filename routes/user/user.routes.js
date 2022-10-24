@@ -2,9 +2,9 @@ const express = require('express')
 const router = express.Router()
 require('express-group-routes')
 
-const userController = require('../../controller/user/user.controller')
+const dashboardController = require('../../controller/user/dashboard.controller')
 
-router.get('/',userController.homePage)
+router.get('/',dashboardController.homePage)
 
 
 

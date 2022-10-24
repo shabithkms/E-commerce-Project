@@ -36,7 +36,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(express.static('public'))
-console.log(process.env);
+
 //session
 app.use(
     session({
@@ -95,7 +95,7 @@ const port = process.env.PORT || 3000
 app.listen(port, async () => {
     console.log(`App running in port ${port}`)
 }).on('error', (err) => {
-    console.log('Application error',err)
+    console.log('Application error', err)
 })
 
 module.exports = app
