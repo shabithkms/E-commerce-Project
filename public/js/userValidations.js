@@ -250,32 +250,20 @@ $(document).ready(function () {
 $(document).ready(function () {
     $('#userLogin').validate({
         rules: {
-            mobileNo: {
+            email: {
                 required: true,
-                number: true,
-                minlength: 10,
-                maxlength: 10,
+                email: true,
             },
             password: {
                 minlength: 5,
                 required: true,
                 maxlength: 20
-            },
-            otp: {
-
-                required: true,
-                number: true
             }
-
-
-
         },
         messages: {
-            mobileNo: {
-                required: "Enter a mobile number",
-                number: "Enter a valid mobile number",
-                minlength: "Enter 10 numbers",
-                maxlength: "Enter without country code"
+            email: {
+                required: "Enter a email",
+                email: "Enter a valid email",
             },
             password: {
 

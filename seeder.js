@@ -2,6 +2,7 @@ require('dotenv').config()
 const { default: mongoose } = require('mongoose')
 const bcrypt = require('bcryptjs')
 const Admin = require('./model/Admin')
+const User = require('./model/User')
 
 const runSeeder = async () => {
     // DB Connection
@@ -27,12 +28,34 @@ const runSeeder = async () => {
         await Admin.create({
             name: 'Muhammed Shabith K',
             email: 'admin@gmail.com',
-            password: bcrypt.hashSync('password',salt),
+            password: bcrypt.hashSync('password', salt),
         }).then(() => {
             console.log('✅ Admin Seeder')
         })
     } catch (error) {
         console.log(`❗️ Admin Seeder Error | ${error}`)
+    }
+
+    // User
+    try {
+        await User.collection.drop()
+        const saltRounds = 10
+        const salt = bcrypt.genSaltSync(saltRounds)
+
+        await User.create({
+            first_name: 'Muhammed',
+            last_name: 'Shabith K',
+            email: 'shabith@gmail.com',
+            mobile: '7025259794',
+            verified: {
+                mobile: true
+            },
+            password: bcrypt.hashSync('password', salt),
+        }).then(() => {
+            console.log('✅ User Seeder')
+        })
+    } catch (error) {
+        console.log(`❗️ User Seeder Error | ${error}`)
     }
     process.exit()
 }
