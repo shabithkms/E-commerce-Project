@@ -4,7 +4,7 @@ var path = require('path');
 require('dotenv').config()
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var hbs = require('express-handlebars')
+const { engine } = require('express-handlebars')
 var session = require('express-session')
 var fileUpload = require('express-fileupload')
 const accountSID = process.env.accountSID
@@ -32,7 +32,7 @@ var app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
-app.engine('hbs', hbs({ extname: 'hbs', defaultLayout: 'layout', layoutsDir: __dirname + '/views/layout/', partialsDir: __dirname + '/views/partials/' }))
+app.engine('hbs', engine({ extname: 'hbs', defaultLayout: 'layout', layoutsDir: __dirname + '/views/layout/', partialsDir: __dirname + '/views/partials/' }))
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -45,7 +45,7 @@ app.use(session({
   resave:false,
   saveUninitialized:true,
   store:MongoStore.create({
-    mongoUrl:process.env.URL ,
+    mongoUrl:process.env.DB_URL ,
     ttl:2*24*60*60,
     autoRemove:'native'
   })

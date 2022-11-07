@@ -3,7 +3,7 @@ const state = {
     db: null,
 };
 module.exports.connect = function (done) {
-    const url = process.env.URL;
+    const url = process.env.DB_URL;
     const dbname = process.env.DBNAME;
     console.log(url,);
     console.log(dbname);
