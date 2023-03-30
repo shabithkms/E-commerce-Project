@@ -4,8 +4,8 @@ const state = {
 };
 module.exports.connect = function (done) {
     const url = process.env.DB_URL;
-    const dbname = process.env.DBNAME;
-    console.log(url,);
+    const dbname = process.env.DB_NAME;
+    console.log(url);
     console.log(dbname);
 
     mongoClient.connect(url, (err, data) => {
