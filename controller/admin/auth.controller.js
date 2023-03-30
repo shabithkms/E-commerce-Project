@@ -1,13 +1,12 @@
 const Admin = require('../../model/Admin')
 const bcrypt = require('bcryptjs')
+const Joi = require('joi')
+
+const version = process.env.VERSION
 
 const login = (req, res) => {
     try {
-        return res.render('admin/auth/login', {
-            login: true,
-            layout: 'admin-login-layout',
-            loginError: req.flash('loginError'),
-        })
+        return res.render(`${version}/admin/auth/login`)
     } catch (error) {
         console.log(error)
         return res.render('error-404')
@@ -16,23 +15,33 @@ const login = (req, res) => {
 
 const loginSubmit = async (req, res) => {
     try {
+        const schema = Joi.object({
+            email: Joi.string().email().required().max(60),
+            password: Joi.string().required().min(4).max(15),
+        })
+
+        const validationResult = schema.validate(req.body, {
+            abortEarly: false,
+        })
+
+        if (validationResult.error) {
+            return res.status(422).json(validationResult.error)
+        }
+
         const admin = await Admin.findOne({ email: req.body.email })
         if (!admin) {
-            req.flash('loginError', 'Invalid Email or Password')
-            return res.redirect('back')
+            return res.status(401).json({ error: 'Invalid email or password' })
         }
         if (bcrypt.compareSync(req.body.password, admin.password)) {
             req.session.adminLoggedIn = true
             delete admin.password
-            req.session.admin = admin
+            req.session.authAdmin = admin
             res.redirect('/admin')
         } else {
-            req.flash('loginError', 'Invalid Email or Password')
-            return res.redirect('back')
+            return res.status(401).json({ error: 'Invalid email or password' })
         }
     } catch (error) {
-        req.flash('loginError', 'Invalid Email or Password')
-        return res.redirect('back')
+        return res.status(500).json({ error: 'Something went wrong' })
     }
 }
 

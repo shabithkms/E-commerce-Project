@@ -1,9 +1,11 @@
 const Admin = require('../../model/Admin')
 const bcrypt = require('bcryptjs')
 
+let version = process.env.VERSION
+
 const dashboard = (req, res) => {
     try {
-        return res.render('admin/dashboard', { dashboard: true,admin:true })
+        return res.render(`${version}/admin/dashboards/ecommerce`)
     } catch (error) {
         console.log(error)
         return res.render('error-404')

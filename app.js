@@ -18,18 +18,9 @@ const { default: mongoose } = require('mongoose')
 
 const app = express()
  
-// view engine setup
+// Template Engine
 app.set('views', path.join(__dirname, '/views'))
-app.set('view engine', 'hbs')
-app.engine(
-    'hbs',
-    engine({
-        extname: 'hbs',
-        defaultLayout: 'layout',
-        layoutsDir: __dirname + '/views/layout/',
-        partialsDir: __dirname + '/views/partials/',
-    })
-)
+app.set('view engine', 'pug')
 
 // app.use(logger('dev'))
 app.use(express.json())
