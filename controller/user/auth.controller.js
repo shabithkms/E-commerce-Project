@@ -2,11 +2,11 @@ const Admin = require('../../model/Admin')
 const bcrypt = require('bcryptjs')
 const User = require('../../model/User')
 
+let version = process.env.VERSION
+
 const login = (req, res) => {
     try {
-        return res.render('user/auth/login', {
-            loginError: req.flash('loginError')
-        })
+        return res.render(`${version}/user/auth/login`)
     } catch (error) {
         console.log(error)
         return res.render('error-404')
@@ -15,7 +15,7 @@ const login = (req, res) => {
 
 const loginSubmit = async (req, res) => {
     try {
-        console.log(req.body);
+        console.log(req.body)
         const user = await User.findOne({ email: req.body.email })
         if (!user) {
             req.flash('loginError', 'Invalid Email or Password')
@@ -39,7 +39,7 @@ const loginSubmit = async (req, res) => {
 const signup = (req, res) => {
     try {
         return res.render('user/auth/signup', {
-            signupError: req.flash('signupError')
+            signupError: req.flash('signupError'),
         })
     } catch (error) {
         console.log(error)
@@ -67,7 +67,7 @@ const signupSubmit = async (req, res) => {
             last_name: body.lastName,
             email: body.email,
             mobile: body.mobileNo,
-            password: bcrypt.hashSync(body.password, salt)
+            password: bcrypt.hashSync(body.password, salt),
         }
         const save = await User.create(obj)
         if (!save?._id) {

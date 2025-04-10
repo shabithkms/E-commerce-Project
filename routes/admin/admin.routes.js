@@ -1,5 +1,7 @@
 const express = require('express')
+const app = express()
 const router = express.Router()
+const path = require('path')
 require('express-group-routes')
 
 // BEGIN:: Route Groups
@@ -16,6 +18,13 @@ const { setAdminLayout } = require('../../services/admin/LayoutServiceProvider')
 const multer = require('multer')
 const upload = multer({ dest: 'uploads/' })
 
+// // Template Engine
+// router.set('views', path.join(__dirname, '/views')) 
+// router.set('view engine', 'pug')
+// Set the view engine and views directory for the admin router
+app.set('views', path.join(__dirname, 'views'));
+app.engine('pug', require('pug').__express);
+
 router.use('/auth', authRoutes)
 
 router.use(verifyAdminLogin)
@@ -29,7 +38,7 @@ router.group('/brands', (router) => {
 
 //The 404 Route (ALWAYS Keep this as the last route)
 router.get('*', function (req, res) {
-    res.render('error-404', { login: true, adminErrorPage: true })
+    res.render(`${process.env.VERSION}/admin/error-404`)
 })
 
 module.exports = router

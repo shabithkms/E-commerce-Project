@@ -1,0 +1,134 @@
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
+
+    .totals tr td {
+        font-size: 13px
+    }
+
+    .footer {
+        background-color: #eeeeeea8
+    }
+
+    .footer span {
+        font-size: 12px
+    }
+
+    .product-qty span {
+        font-size: 12px;
+        color: #605d5d
+    }
+    .btn{
+        background-color: #a8741a;
+    }
+</style>
+
+<div class="container mt-5 pb-5">
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-8">
+            <a href="/myOrders" class="btn m-2"> My orders</a>
+            <div class="card shadow rounded" >
+                <div class="text-left logo p-2 px-5">
+                    <h3>Watchin.</h3>
+                </div>
+                <div class="invoice p-3">
+                    <h5>Your order Confirmed!</h5> <span class="font-weight-bold d-block mt-4">Hello,
+                        {{order.deliveryDetails.FirstName}} {{order.deliveryDetails.LastName}}</span>
+                    <span>You order has been confirmed and will be shipped in next three days!</span>
+                    <div class="payment border-top mt-3 mb-3 border-bottom table-responsive">
+                        <table class="table table-borderless">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="py-2"> <span class="d-block text-muted">Order Date</span>
+                                            <span>{{order.Date}}</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="py-2"> <span class="d-block text-muted">Order No</span>
+                                            <span>{{orderId}}</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="py-2"> <span class="d-block text-muted">Payment</span>
+                                            {{order.PaymentMethod}}</div>
+                                    </td>
+                                    <td>
+                                        <div class="py-2"> <span class="d-block text-muted">Shiping Address</span>
+                                            <span>{{order.deliveryDetails.House}},{{order.deliveryDetails.Stret}}<br>
+                                                {{order.deliveryDetails.Town}},{{order.deliveryDetails.PIN}}</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="product border-bottom table-responsive">
+                        <table class="table table-borderless">
+                            <tbody>
+                                {{#each products}}
+                                <tr>
+                                    <td width="20%"> <img
+                                            src="https://shabith.ml/productImages/{{this.product._id}}a.jpg" width="90">
+                                    </td>
+                                    <td width="60%"> <span class="font-weight-bold">{{this.product.name}}</span>
+                                        <div class="product-qty"> <span>Quantity:{{this.quantity}}</span> <br>
+                                            <span>Price:{{this.product.price}}.00</span>
+
+                                        </div>
+                                    </td>
+                                    <td width="20%">
+                                        <div class="text-right"> <span class="font-weight-bold">₹
+                                                {{this.subtotal}}.00</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {{/each}}
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="row d-flex justify-content-end">
+                        <div class="col-md-5">
+                            <table class="table table-borderless">
+                                <tbody class="totals">
+
+                                    <tr>
+                                        <td>
+                                            <div class="text-left"> <span class="text-muted">Discount</span> </div>
+                                        </td>
+                                        <td>
+                                            {{#if order.Discount}}
+                                            <div class="text-right"> <span class="text-success">₹
+                                                    {{order.Discount}}</span> </div>
+                                            {{else}}
+                                            <div class="text-right"> <span class="text-success">₹ 0.00</span> </div>
+                                            {{/if}}
+                                        </td>
+                                    </tr>
+                                    <tr class="border-top border-bottom">
+                                        <td>
+                                            <div class="text-left"> <span class="font-weight-bold">Total</span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="text-right"> <span class="font-weight-bold">₹
+                                                    {{order.Total}}.00</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <p class="font-weight-bold mb-0">Thanks for shopping with us!</p> <span>Watchin Team</span>
+                </div>
+            </div>
+            
+            {{!-- <div class="ml-auto">
+                <button onclick="generatePDF()" class="btn btn-success mt-2 mb-2 ml-auto mr-2">Download Invoice</button>
+                <a href="/myOrders"  class="btn btn-success mt-2 mb-2  mr-2">My Orders</a>
+            </div> --}}
+        </div>
+    </div>
+</div>

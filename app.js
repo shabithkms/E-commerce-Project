@@ -17,10 +17,23 @@ const MongoStore = require('connect-mongo')
 const { default: mongoose } = require('mongoose')
 
 const app = express()
- 
-// Template Engine
+
+// // Template Engine
 app.set('views', path.join(__dirname, '/views'))
 app.set('view engine', 'pug')
+
+// view engine setup
+// app.set('views', path.join(__dirname, 'views'))
+// app.set('view engine', 'hbs')
+// app.engine(
+//     'hbs',
+//     engine({
+//         extname: 'hbs',
+//         defaultLayout: 'layout',
+//         layoutsDir: __dirname + `/views/${process.env.VERSION}/user/layout/`,
+//         partialsDir: __dirname + `/views/${process.env.VERSION}/user/partials/`,
+//     })
+// )
 
 // app.use(logger('dev'))
 app.use(express.json())

@@ -1,0 +1,47 @@
+<div class="container height-100 d-flex justify-content-center align-items-center">
+    <div class="position-relative">
+        <form action="/login/otp" method="post" id="otp">
+            {{#if otpErr}}
+            <h6 class="font pb-3" style="color: red;">Server is Busy</h6>
+            {{/if}}
+            {{#if invalidOtp}}
+            <h6 class="font pb-3" style="color: red;">Invalid OTP</h6>
+            {{/if}}
+            <div class="card p-2 text-center" style="height: fit-content;">
+                <h6>Please enter the one time password <br> to verify your account</h6>
+                <div id="otp" class="inputs d-flex flex-row justify-content-center mt-2">
+                    <input type="number" style="display: none;" value="" name="mobiileNo">
+                    <input type="text" name="otp" class="input-full" placeholder="Enter your otp"
+                        onkeypress="return isNumber(event)" maxlength="6" minlength="6"> <br>
+                        <label for="otp" class="error"></label>
+                </div>
+                <div class="text-center mt-3">
+                    <span class="d-block mobile-text" id="countdown"></span>
+                </div>
+                <div class="text-center mt-3">
+                    <a href="/login/resend-otp">
+                        <span class="d-block mobile-text" id="resend"></span>
+                    </a>
+                </div>
+                <div class="mt-4">
+
+                    <button type="submit" class="btn mb-3   validate">Verify</button>
+                </div>
+            </div>
+            <div class="content d-flex justify-content-center align-items-center">
+                <a href="/auth/login" class="text-decoration-none ms-3 mt-3" style="font-size: 12px;">Back to login</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function isNumber(evt) {
+        evt = (evt) ? evt : window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
+        }
+        return true;
+    }
+</script>

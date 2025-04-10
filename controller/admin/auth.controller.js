@@ -29,6 +29,7 @@ const loginSubmit = async (req, res) => {
         }
 
         const admin = await Admin.findOne({ email: req.body.email })
+        console.log('admin :>> ', admin)
         if (!admin) {
             return res.status(401).json({ error: 'Invalid email or password' })
         }
@@ -36,11 +37,14 @@ const loginSubmit = async (req, res) => {
             req.session.adminLoggedIn = true
             delete admin.password
             req.session.authAdmin = admin
-            res.redirect('/admin')
+            return res
+                .status(200)
+                .json({ message: 'Login success', redirect_to: '/admin' })
         } else {
             return res.status(401).json({ error: 'Invalid email or password' })
         }
     } catch (error) {
+        console.log(error)
         return res.status(500).json({ error: 'Something went wrong' })
     }
 }

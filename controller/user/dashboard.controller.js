@@ -1,7 +1,7 @@
+let version = process.env.VERSION
 const homePage = async (req, res) => {
     try {
-        
-        return res.render('user/index')
+        return res.render(`${version}/user/index`)
     } catch (error) {
         console.log(error)
         return res.render('error-404')
